@@ -1,17 +1,17 @@
 ## CHANGE this to the name of your plugin.
-name: SlimyEncounters
+name: SlimySpirits
 
 ## CHANGE this to your username.
 author: JustAHuman-xD
 
 ## CHANGE this to a meaninful but short description of your plugin.
-description: Slimy Encounters is a Slimefun Addon that introduces Ghosts and more to Slimefun4!
+description: Slimy Spirits is a Slimefun Addon that introduces Spirits and more to Slimefun4!
 
 ## CHANGE this to the path of the class that extends JavaPlugin.
-main: me.justahuman.slimyencounters.ExampleAddon
+main: me.justahuman.slimyspirits.SlimySpirits
 
 ## You can change this to link to your website or repository. You can also remove this line if you want to.
-website: https://github.com/JustAHuman-xD/Slimy-Encounters
+website: https://github.com/JustAHuman-xD/SlimySpirits
 
 ## This value is automatically replaced by the version specified in your pom.xml file.
 ## Do not change this.
