@@ -1,0 +1,802 @@
+SHEEP:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Breed
+        - SHEEP
+        - 2
+    Relations:
+        Afraid:
+            - WITHER
+            - WOLF
+COW:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Breed
+        - COW
+        - 2
+    Relations:
+        Afraid:
+            - WITHER
+CHICKEN:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Breed
+        - CHICKEN
+        - 2
+    Relations:
+        Afraid:
+            - WITHER
+            - FOX
+PIG:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Breed
+        - PIG
+        - 2
+    Relations:
+        Afraid:
+            - WITHER
+PARROT:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - COOKIE
+        - 1
+    Relations:
+        Afraid:
+            - WITHER
+COD:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - WATER_BUCKET
+        - 1
+    Relations:
+        Afraid:
+            - AXOLOTL
+            - POLAR_BEAR
+SALMON:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - WATER_BUCKET
+        - 1
+    Relations:
+        Afraid:
+            - AXOLOTL
+            - POLAR_BEAR
+TROPICAL_FISH:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - WATER_BUCKET
+        - 1
+    Relations:
+        Afraid:
+            - AXOLOTL
+SQUID:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Kill
+        - GLOW_SQUID
+        - 3
+    Relations:
+        Afraid:
+            - GLOW_SQUID
+OCELOT:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Kill
+        - Creeper
+        - 3
+    Relations:
+        Scare:
+            - CREEPER
+RABBIT:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - GOLDEN_CARROT
+        - 5
+    Relations:
+        Afraid:
+            - WITHER
+BEE:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+        - Aggressive
+    Pass On:
+        - Breed
+        - BEE
+        - 2
+    Relations:
+        Afraid:
+            - WITHER
+SPIDER:
+    Tier: 1
+    States:
+        - Gentle
+        - Passive
+        - Aggressive
+    Pass On:
+        - Item
+        - COBWEB
+        - 1
+    Relations:
+        Afraid:
+            - WITHER
+CREEPER:
+    Tier: 1
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - TNT
+        - 5
+    Relations:
+        Afraid:
+            - CAT
+            - OCELOT
+            - WITHER
+SKELETON:
+    Tier: 1
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - BOW
+        - 1
+    Relations:
+        Afraid:
+            - WITHER
+            - WOLF
+ZOMBIE:
+    Tier: 1
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - VILLAGER
+        - 2
+    Relations:
+        Afraid:
+            - WITHER
+            - IRON_GOLEM
+        Scare:
+            - TURTLE
+            - VILLAGER
+            - WANDERING_TRADER
+SLIME:
+    Tier: 1
+    States:
+        - Passive
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - SLIME_BLOCK
+        - 3
+    Relations:
+        Afraid:
+            - FROG
+            - WITHER
+ZOMBIFIED_PIGLIN:
+    Tier: 1
+    States:
+        - Passive
+        - Aggressive
+        - Hostile
+    Pass On:
+        - SlimefunItem
+        - MAGICAL_ZOMBIE_PILLS
+        - 1
+    Relations:
+        Afraid:
+            - WITHER
+        Scare:
+            - TURTLE
+SILVERFISH:
+    Tier: 1
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - CHISELED_STONE
+        - 1
+    Relations:
+        Afraid:
+            - WITHER
+            - ENDERMITE
+FOX:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Kill
+        - CHICKEN
+        - 2
+    Relations:
+        Scare:
+            - Chicken
+Bat:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - SCULK_SENSOR
+        - 5
+SNOW_GOLEM:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - CARVED_PUMPKIN
+        - 1
+MOOSHROOM:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Breed
+        - MOOSHROOM
+        - 4
+STRIDER:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - LAVA_BUCKET
+        - 5
+TURTLE:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Kill
+        - Zombie
+        - 10
+    Relations:
+        Afraid:
+            - ZOMBIE
+            - HUSK
+            - ZOMBIFIED_PIGLIN
+VILLAGER:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - EMERALD_BLOCK
+        - 64
+    Relations:
+        Afraid:
+            - ZOMBIE
+            - HUSK
+            - DROWNED
+            - ZOMBIFIED_PIGLIN
+            - ZOMBIE_VILLAGER
+            - PILLAGER
+            - VINDICATOR
+            - EVOKER
+            - RAVAGER
+            - WITCH
+WANDERING_TRADER:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - EMERALD_BLOCK
+        - 64
+    Relations:
+        Afraid:
+            - ZOMBIE
+            - HUSK
+            - DROWNED
+            - ZOMBIFIED_PIGLIN
+            - ZOMBIE_VILLAGER
+            - PILLAGER
+            - VINDICATOR
+            - EVOKER
+            - RAVAGER
+            - WITCH
+        Scare:
+            - LLAMA
+PUFFERFISH:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+        - Aggressive
+    Pass On:
+        - Item
+        - WATER_BUCKET
+        - 4
+    Relations:
+        Afraid:
+            - AXOLOTL
+AXOLOTL:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - TROPICAL_FISH
+        - 16
+    Relations:
+        Scare:
+            - PUFFERFISH
+            - TROPICAL_FISH
+            - COD
+            - SALMON
+GLOW_SQUID:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Kill
+        - SQUID
+        - 8
+    Relations:
+        Scare:
+            - SQUID
+FROG:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - FROG_SPAWN
+        - 5
+    Relations:
+        Scare:
+            - SLIME
+            - MAGMA_CUBE
+HORSE:
+    Tier: 2
+    States:
+        - Friendly
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - HAY_BLOCK
+        - 16
+DONKEY:
+    Tier: 2
+    States:
+        - Friendly
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - HAY_BLOCK
+        - 16
+MULE:
+    Tier: 2
+    States:
+        - Friendly
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - HAY_BLOCK
+        - 16
+CAT:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Breed
+        - CAT
+        - 4
+WOLF:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - BONE
+        - 32
+LLAMA:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+        - Aggressive
+    Pass On:
+        - Kill
+        - WANDERING_TRADER
+        - 1
+    Relations:
+        Afraid:
+            - WANDERING_TRADER
+DOLPHIN:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - SEA_GRASS
+        - 32
+POLAR_BEAR:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+        - Aggressive
+    Pass On:
+        - Breed
+        - POLAR_BEAR
+        - 4
+    Relations:
+        Scare:
+            - COD
+            - SALMON
+PANDA:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - BAMBOO
+        - 64
+GOAT:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+        - Aggressive
+    Pass On:
+        - Item
+        - GOAT_HORN
+        - 2
+CAVE_SPIDER:
+    Tier: 2
+    States:
+        - Passive
+        - Aggressive
+    Pass On:
+        - Item
+        - POISONOUS_POTATO
+        - 16
+PIGLIN:
+    Tier: 2
+    States:
+        - Passive
+        - Aggressive
+    Pass On:
+        - SlimefunItem
+        - GOLD_INGOT_24
+        - 16
+PILLAGER:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - VILLAGER
+        - 5
+    Relations:
+        Scare:
+            - VILLAGER
+            - WANDERING_TRADER
+VINDICATOR:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - WANDERING_TRADER
+        - 3
+    Relations:
+        Scare:
+            - VILLAGER
+            - WANDERING_TRADER
+ENDERMITE:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - ENDERMAN
+        - 8
+    Relations:
+        Scare:
+            - SILVERFISH
+GUARDIAN:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - COD
+        - 16
+HUSK:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - PLAYER
+        - 3
+    Relations:
+        Scare:
+            - VILLAGER
+            - WANDERING_TRADER
+STRAY:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - PLAYER
+        - 3
+    Relations:
+        Afraid:
+            - WOLF
+PHANTOM:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - RED_BED
+        - 2
+    Relations:
+        Afriad:
+            - CAT
+            - OCELOT
+BLAZE:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - FIRE_CHARGE
+        - 16
+MAGMA_CUBE:
+    Tier: 2
+    States:
+        - Passive
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - MAGMA_CREAM
+        - 64
+    Relations:
+        Afraid:
+            - Frog
+ZOMBIE_VILLAGER:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - SlimefunItem
+        - MAGICAL_ZOMBIE_PILLS
+        - 3
+    Relations:
+        Scare:
+            - VILLAGER
+            - WANDERING_TRADER
+DROWNED:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - TRIDENT
+        - 1
+    Relations:
+        Scare:
+            - VILLAGER
+            - WANDERING_TRADER
+WITCH:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - FERMENTED_SPIDER_EYE
+        - 64
+HOGLIN:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - PIGLIN
+        - 6
+    Relations:
+        Afraid:
+            - PIGLIN
+            - PIGLIN_BRUTE
+ZOGLIN:
+    Tier: 2
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - SlimefunItem
+        - MAGICAL_ZOMBIE_PILLS
+        - 3
+SKELETON_HORSE:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - LEATHER_HORSE_ARMOR
+        - 1
+ZOMBIE_HORSE:
+    Tier: 2
+    States:
+        - Gentle
+        - Passive
+    Pass On:
+        - Item
+        - LEATHER_HORSE_ARMOR
+        - 1
+IRON_GOLEM:
+    Tier: 3
+    States:
+        - Gentle
+        - Passive
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - POPPY
+        - 2
+    Relations:
+        Scare:
+            - PILLAGER
+            - VINDICATOR
+ENDERMAN:
+    Tier: 3
+    States:
+        - Gentle
+        - Passive
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - ENDERMITE
+        - 8
+EVOKER:
+    Tier: 3
+    States:
+        - Hostile
+    Pass On:
+        - Item
+        - TOTEM_OF_UNDYING
+        - 5
+RAVAGER:
+    Tier: 3
+    States:
+        - Hostile
+    Pass On:
+        - Kill
+        - Villager
+        - 20
+SHULKER:
+    Tier: 3
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Kill
+        - Player
+        - 5
+WITHER_SKELETON:
+    Tier: 3
+    States:
+        - Aggressive
+        - Hostile
+    Pass On:
+        - Item
+        - NETHERITE_SWORD
+        - 1
+ELDER_GUARDIAN:
+    Tier: 3
+    States:
+        - Hostile
+    Pass On:
+        - Item
+        - SPONGE
+        - 32
+WITHER:
+    Tier: 4
+    States:
+        - Hostile
+    Pass On:
+        - Kill
+        - SHEEP
+        - 100
+ENDER_DRAGON:
+    Tier: 4
+    States:
+        - Hostile
+    Pass On:
+        - Item
+        - DRAGON_EGG
+        - 1
+WARDEN:
+    Tier: 4
+    States:
+        - Hostile
+    Pass On:
+        - Kill
+        - BAT
+        - 50
