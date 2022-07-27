@@ -2,7 +2,10 @@ package me.justahuman.spiritsunchained.slimefun;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 
 import org.bukkit.Color;
@@ -110,6 +113,15 @@ public class ItemStacks {
             "A Book only Spirits can Write in"
     );
 
+    public static final SlimefunItemStack SUN_NEGATIVE_TRIDENT = new SlimefunItemStack(
+            "SUN_NEGATIVE_TRIDENT",
+            Material.TRIDENT,
+            "Negative Trident",
+            "",
+            "A Reversed Trident",
+            "Use it to Harvest Ectoplasm"
+    );
+
     public static final SlimefunItemStack SUN_SPIRIT_RUNE = new SlimefunItemStack(
             "SUN_SPIRIT_RUNE",
             new ColoredFireworkStar(Color.fromRGB(154,96,255),
@@ -119,6 +131,28 @@ public class ItemStacks {
                     "&egrant the ability to &dsee &ea different realm"
                     )
     );
+
+    // Machines
+
+    public static final SlimefunItemStack SUN_ELECTRIC_SPIRIT_CATCHER = new SlimefunItemStack(
+            "SUN_ELECTRIC_SPIRIT_CATCHER",
+            Material.SCULK_SHRIEKER,
+            "Electric Spirit Catcher",
+            "",
+            "Automatically catch Spirits",
+            "",
+            LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE),
+            LoreBuilder.speed(1), LoreBuilder.powerBuffer(1000) ,LoreBuilder.powerPerSecond(250));
+
+    public static final SlimefunItemStack SUN_ELECTRIC_SPIRIT_WRITER = new SlimefunItemStack(
+            "SUN_ELECTRIC_SPIRIT_WRITER",
+            Material.LECTERN,
+            "Electric Spirit WRITER",
+            "",
+            "Automatically let Spirits Write to A Spirit Book",
+            "",
+            LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE),
+            LoreBuilder.speed(1), LoreBuilder.powerBuffer(1000) ,LoreBuilder.powerPerSecond(125));
 
     // Altar Building Blocks
 
