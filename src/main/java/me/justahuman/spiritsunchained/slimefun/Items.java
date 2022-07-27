@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 
 import me.justahuman.spiritsunchained.implementation.multiblocks.*;
+import me.justahuman.spiritsunchained.implementation.tools.IdentifyingGlass;
 import me.justahuman.spiritsunchained.implementation.tools.SpiritRune;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
@@ -46,6 +47,13 @@ public class Items {
                 ItemStacks.SUN_SOUL_STAINED_GLASS, SlimefunItems.ENCHANTMENT_RUNE,ItemStacks.SUN_SOUL_STAINED_GLASS,
                 ItemStacks.SUN_INFUSED_MEMBRANE,SlimefunItems.ESSENCE_OF_AFTERLIFE,ItemStacks.SUN_ECTOPLASM
         }).register(instance);
+
+        new IdentifyingGlass(Groups.SUN_TOOLS,ItemStacks.SUN_IDENTIFYING_GLASS,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
+                null, null, ItemStacks.SUN_SOUL_STAINED_GLASS,
+                null, SlimefunItems.MAGNESIUM_INGOT, null,
+                SlimefunItems.MAGNESIUM_INGOT, null, null
+        }).register(instance);
+
 
         //Altar Blocks
         //Tier 1

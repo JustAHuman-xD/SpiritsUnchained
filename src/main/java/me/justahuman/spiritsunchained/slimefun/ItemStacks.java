@@ -116,7 +116,7 @@ public class ItemStacks {
                     "&7Ancient Rune &8&l[&d&lSpirit&8&l]",
                     "",
                     "&eDrop this rune onto a dropped item to",
-                    "grant the ability to &dsee &ea different realm"
+                    "&egrant the ability to &dsee &ea different realm"
                     )
     );
 

@@ -15,7 +15,7 @@ public class Groups {
             new NamespacedKey(SpiritsUnchained.getInstance(), "sun_main"),
             new CustomItemStack(PlayerHead.getItemStack(PlayerSkin.fromBase64(
                     "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZhMTMwMzJmYTkzOWYxODRkYWE2YTRlMTFlNmYzYTkxM2U0OGYyNTA0OTgxNjVjNTY2NWNjZjQ5YzcyYTE0MCJ9fX0=")),
-                    "&aSlimy Spirits"));
+                    "&aSpirits Unchained"));
 
     public static final SubItemGroup SUN_RESOURCES = new SubItemGroup(
             new NamespacedKey(SpiritsUnchained.getInstance(), "sun_resources"),

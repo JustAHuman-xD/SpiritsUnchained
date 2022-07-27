@@ -1,4 +1,18 @@
 package me.justahuman.spiritsunchained.implementation.tools;
 
-public class NegativeTrident {
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+public class NegativeTrident extends SlimefunItem {
+
+    @ParametersAreNonnullByDefault
+    public NegativeTrident(ItemGroup group, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(group,item,recipeType,recipe);
+    }
 }

@@ -1,6 +1,7 @@
 package me.justahuman.spiritsunchained.implementation.tools;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import lombok.extern.java.Log;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -28,8 +29,8 @@ import java.util.Optional;
 public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private static final double RANGE = 1.5;
-    private static final NamespacedKey SPIRIT_SEE_KEY = new NamespacedKey(SpiritsUnchained.getInstance(), "see_spirits");
-    private static final String SPIRIT_SEE_LORE = ChatColor.LIGHT_PURPLE + "Can See Spirits";
+    private static final NamespacedKey IMBUED_KEY = new NamespacedKey(SpiritsUnchained.getInstance(), "imbued");
+    private static final String IMBUED_LORE = ChatColor.LIGHT_PURPLE + "Imbued";
 
     public SpiritRune(ItemGroup category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
         super(category, item, type, recipe);
@@ -71,18 +72,19 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
         if (optional.isPresent()) {
             Item item = (Item) optional.get();
             ItemStack itemStack = item.getItemStack();
+            ItemStack runeStack = rune.getItemStack();
             if (!itemStack.getType().name().endsWith("HELMET")) {
                 p.sendMessage(ChatColor.LIGHT_PURPLE + "The thrown Item is not a Helmet!");
                 return;
             }
 
-            if (itemStack.getAmount() == 1) {
+            if (itemStack.getAmount() == 1 && runeStack.getAmount() == 1) {
                 // This lightning is just an effect, it deals no damage.
                 l.getWorld().strikeLightningEffect(l);
 
                 Slimefun.runSync(() -> {
                     // Being sure entities are still valid and not picked up or whatsoever.
-                    if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
+                    if (rune.isValid() && runeStack.getAmount() == 1 && item.isValid() && itemStack.getAmount() == 1 && !isImbued(itemStack)) {
 
                         l.getWorld().spawnParticle(Particle.CRIT_MAGIC, l, 1);
                         l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
@@ -90,44 +92,57 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
                         item.remove();
                         rune.remove();
 
-                        setSpirit(itemStack);
+                        setImbued(itemStack,p);
                         l.getWorld().dropItemNaturally(l, itemStack);
 
-                        p.sendMessage(ChatColor.LIGHT_PURPLE + "Your Helmet can now See Spirits!");
+                        p.sendMessage(ChatColor.LIGHT_PURPLE + "Your Helmet is now Imbued with the Ability to See Spirits!");
                     }
                 }, 10L);
-            } else {
+            } else if (itemStack.getAmount() != 1) {
                 p.sendMessage(ChatColor.LIGHT_PURPLE + "Your Helmet could not be Imbued!");
+            } else if (runeStack.getAmount() != 1) {
+                p.sendMessage(ChatColor.LIGHT_PURPLE + "Ony use 1 Rune!");
             }
         }
     }
 
-    public static void setSpirit(@Nullable ItemStack item) {
+    public static void setImbued(@Nullable ItemStack item, Player p) {
         if (item != null && item.getType() != Material.AIR) {
+            boolean imbuedCheck = isImbued(item);
             ItemMeta meta = item.getItemMeta();
-            boolean isSpirited = isSpiritSet(meta);
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            if (!isSpirited) {
-                container.set(SPIRIT_SEE_KEY, PersistentDataType.BYTE, (byte) 1);
+            if (!imbuedCheck) {
+                container.set(IMBUED_KEY, PersistentDataType.BYTE, (byte) 1);
                 List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
-                lore.add(SPIRIT_SEE_LORE);
+                lore.add(IMBUED_LORE);
                 meta.setLore(lore);
                 item.setItemMeta(meta);
             }
         }
     }
 
-    private static boolean isSpiritSet(@Nullable ItemMeta meta) {
+    public static boolean isImbued(@Nullable ItemStack item) {
+        if (item != null && item.getType() != Material.AIR) {
+            ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
+            return hasImbuedFlag(meta);
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean hasImbuedFlag(@Nullable ItemMeta meta) {
         if (meta != null) {
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            return container.has(SPIRIT_SEE_KEY, PersistentDataType.BYTE);
+            return container.has(IMBUED_KEY, PersistentDataType.BYTE);
         }
         return false;
     }
 
-    private boolean findCompatibleItem(@Nonnull Entity n) {
-        if (n instanceof Item item) {
-            return !isItem(item.getItemStack());
+    private boolean findCompatibleItem(Entity entity) {
+        if (entity instanceof Item) {
+            Item item = (Item) entity;
+
+            return !isImbued(item.getItemStack()) && !isItem(item.getItemStack());
         }
 
         return false;
