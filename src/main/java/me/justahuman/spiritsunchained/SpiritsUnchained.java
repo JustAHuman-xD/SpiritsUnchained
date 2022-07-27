@@ -2,6 +2,7 @@ package me.justahuman.spiritsunchained;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 
+import me.justahuman.spiritsunchained.slimefun.Setup;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -16,8 +17,10 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
 
 
         getLogger().info("========================================");
-        getLogger().info("         SpiritsUnchained - By JustAHuman    ");
+        getLogger().info("    SpiritsUnchained - By JustAHuman    ");
         getLogger().info("========================================");
+
+        Setup.INSTANCE.init();
 
         saveDefaultConfig();
 

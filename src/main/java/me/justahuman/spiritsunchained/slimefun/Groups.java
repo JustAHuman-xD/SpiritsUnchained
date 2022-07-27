@@ -31,4 +31,9 @@ public class Groups {
             new NamespacedKey(SpiritsUnchained.getInstance(), "sun_machines"),
             SUN_MAIN_GROUP,
             new CustomItemStack(Material.LECTERN, "&aMachines"));
+
+    public static final SubItemGroup SUN_ALTARS = new SubItemGroup(
+            new NamespacedKey(SpiritsUnchained.getInstance(), "sun_altars"),
+            SUN_MAIN_GROUP,
+            new CustomItemStack(Material.CHISELED_QUARTZ_BLOCK, "&aAltars"));
 }
