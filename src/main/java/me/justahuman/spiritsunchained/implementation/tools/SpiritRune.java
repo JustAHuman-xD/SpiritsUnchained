@@ -1,4 +1,135 @@
 package me.justahuman.spiritsunchained.implementation.tools;
 
-public class SpiritRune {
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import me.justahuman.spiritsunchained.SpiritsUnchained;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+
+import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
+
+    private static final double RANGE = 1.5;
+    private static final NamespacedKey SPIRIT_SEE_KEY = new NamespacedKey(SpiritsUnchained.getInstance(), "see_spirits");
+    private static final String SPIRIT_SEE_LORE = ChatColor.LIGHT_PURPLE + "Can See Spirits";
+
+    public SpiritRune(ItemGroup category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
+        super(category, item, type, recipe);
+    }
+
+    @Nonnull
+    @Override
+    public ItemDropHandler getItemHandler() {
+        return (e, p, item) -> {
+            if (isItem(item.getItemStack())) {
+                if (canUse(p, true)) {
+                    Slimefun.runSync(() -> {
+                        try {
+                            addSpiritTag(p, item);
+                        } catch (Exception x) {
+                            error("An Exception occurred while trying to apply an Spirit Rune", x);
+                        }
+                    }, 20L);
+                }
+
+                return true;
+            }
+
+            return false;
+        };
+    }
+
+
+    private void addSpiritTag(@Nonnull Player p, @Nonnull Item rune) {
+        // Being sure the entity is still valid and not picked up or whatsoever.
+        if (!rune.isValid()) {
+            return;
+        }
+
+        Location l = rune.getLocation();
+        Collection<Entity> entites = l.getWorld().getNearbyEntities(l, RANGE, RANGE, RANGE, this::findCompatibleItem);
+        Optional<Entity> optional = entites.stream().findFirst();
+
+        if (optional.isPresent()) {
+            Item item = (Item) optional.get();
+            ItemStack itemStack = item.getItemStack();
+            if (!itemStack.getType().name().endsWith("HELMET")) {
+                p.sendMessage(ChatColor.LIGHT_PURPLE + "The thrown Item is not a Helmet!");
+                return;
+            }
+
+            if (itemStack.getAmount() == 1) {
+                // This lightning is just an effect, it deals no damage.
+                l.getWorld().strikeLightningEffect(l);
+
+                Slimefun.runSync(() -> {
+                    // Being sure entities are still valid and not picked up or whatsoever.
+                    if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
+
+                        l.getWorld().spawnParticle(Particle.CRIT_MAGIC, l, 1);
+                        l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
+
+                        item.remove();
+                        rune.remove();
+
+                        setSpirit(itemStack);
+                        l.getWorld().dropItemNaturally(l, itemStack);
+
+                        p.sendMessage(ChatColor.LIGHT_PURPLE + "Your Helmet can now See Spirits!");
+                    }
+                }, 10L);
+            } else {
+                p.sendMessage(ChatColor.LIGHT_PURPLE + "Your Helmet could not be Imbued!");
+            }
+        }
+    }
+
+    public static void setSpirit(@Nullable ItemStack item) {
+        if (item != null && item.getType() != Material.AIR) {
+            ItemMeta meta = item.getItemMeta();
+            boolean isSpirited = isSpiritSet(meta);
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            if (!isSpirited) {
+                container.set(SPIRIT_SEE_KEY, PersistentDataType.BYTE, (byte) 1);
+                List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+                lore.add(SPIRIT_SEE_LORE);
+                meta.setLore(lore);
+                item.setItemMeta(meta);
+            }
+        }
+    }
+
+    private static boolean isSpiritSet(@Nullable ItemMeta meta) {
+        if (meta != null) {
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            return container.has(SPIRIT_SEE_KEY, PersistentDataType.BYTE);
+        }
+        return false;
+    }
+
+    private boolean findCompatibleItem(@Nonnull Entity n) {
+        if (n instanceof Item item) {
+            return !isItem(item.getItemStack());
+        }
+
+        return false;
+    }
 }

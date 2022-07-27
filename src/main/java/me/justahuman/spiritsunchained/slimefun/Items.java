@@ -1,12 +1,15 @@
 package me.justahuman.spiritsunchained.slimefun;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 
 import me.justahuman.spiritsunchained.implementation.multiblocks.*;
+import me.justahuman.spiritsunchained.implementation.tools.SpiritRune;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 public class Items {
@@ -37,15 +40,22 @@ public class Items {
                 null, null, null})
                 .register(instance);
 
+        //Tools
+        new SpiritRune(Groups.SUN_TOOLS,ItemStacks.SUN_SPIRIT_RUNE,RecipeType.ANCIENT_ALTAR,new ItemStack[]{
+                ItemStacks.SUN_ECTOPLASM, SlimefunItems.ESSENCE_OF_AFTERLIFE, ItemStacks.SUN_INFUSED_MEMBRANE,
+                ItemStacks.SUN_SOUL_STAINED_GLASS, SlimefunItems.ENCHANTMENT_RUNE,ItemStacks.SUN_SOUL_STAINED_GLASS,
+                ItemStacks.SUN_INFUSED_MEMBRANE,SlimefunItems.ESSENCE_OF_AFTERLIFE,ItemStacks.SUN_ECTOPLASM
+        }).register(instance);
+
         //Altar Blocks
         //Tier 1
-        new SpiritualAltarPiece1(ItemStacks.SUN_CHARGED_QUARTZ_I, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_1,ItemStacks.SUN_CHARGED_QUARTZ_I, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 ItemStacks.SUN_INFUSED_MEMBRANE, ItemStacks.SUN_ECTOPLASM, new ItemStack(Material.QUARTZ_BLOCK),
                 ItemStacks.SUN_ECTOPLASM, SlimefunItems.BLANK_RUNE, ItemStacks.SUN_ECTOPLASM,
                 new ItemStack(Material.QUARTZ_BLOCK), ItemStacks.SUN_ECTOPLASM, ItemStacks.SUN_INFUSED_MEMBRANE
         }, 8).register(instance);
 
-        new SpiritualAltarPiece1(ItemStacks.SUN_CHARGED_STAIRS_I, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_1,ItemStacks.SUN_CHARGED_STAIRS_I, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 null, null, null,
                 null, ItemStacks.SUN_CHARGED_QUARTZ_I, null,
                 ItemStacks.SUN_CHARGED_QUARTZ_I, ItemStacks.SUN_CHARGED_QUARTZ_I, ItemStacks.SUN_CHARGED_QUARTZ_I
@@ -54,19 +64,19 @@ public class Items {
         new Tier1Altar().register(instance);
 
         //Tier 2
-        new SpiritualAltarPiece2(ItemStacks.SUN_CHARGED_QUARTZ_II, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_2,ItemStacks.SUN_CHARGED_QUARTZ_II, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 ItemStacks.SUN_INFUSED_MEMBRANE, ItemStacks.SUN_ECTOPLASM, ItemStacks.SUN_CHARGED_QUARTZ_I,
                 ItemStacks.SUN_ECTOPLASM, SlimefunItems.BLANK_RUNE, ItemStacks.SUN_ECTOPLASM,
                 ItemStacks.SUN_CHARGED_QUARTZ_I, ItemStacks.SUN_ECTOPLASM, ItemStacks.SUN_INFUSED_MEMBRANE
         }, 8).register(instance);
 
-        new SpiritualAltarPiece2(ItemStacks.SUN_CHARGED_PILLAR_II, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_2,ItemStacks.SUN_CHARGED_PILLAR_II, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 ItemStacks.SUN_CHARGED_QUARTZ_II, null, null,
                 null, null, null,
                 null, null, null
         }, 1).register(instance);
 
-        new SpiritualAltarPiece2(ItemStacks.SUN_CHARGED_STAIRS_II, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_2,ItemStacks.SUN_CHARGED_STAIRS_II, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 null, null, null,
                 null, ItemStacks.SUN_CHARGED_QUARTZ_II, null,
                 ItemStacks.SUN_CHARGED_QUARTZ_II, ItemStacks.SUN_CHARGED_QUARTZ_II, ItemStacks.SUN_CHARGED_QUARTZ_II
@@ -75,31 +85,31 @@ public class Items {
         new Tier2Altar().register(instance);
 
         //Tier 3
-        new SpiritualAltarPiece3(ItemStacks.SUN_CHARGED_QUARTZ_III, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_3,ItemStacks.SUN_CHARGED_QUARTZ_III, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 ItemStacks.SUN_INFUSED_MEMBRANE, ItemStacks.SUN_ECTOPLASM, ItemStacks.SUN_CHARGED_QUARTZ_II,
                 ItemStacks.SUN_ECTOPLASM, SlimefunItems.BLANK_RUNE, ItemStacks.SUN_ECTOPLASM,
                 ItemStacks.SUN_CHARGED_QUARTZ_II, ItemStacks.SUN_ECTOPLASM, ItemStacks.SUN_INFUSED_MEMBRANE
         }, 8).register(instance);
 
-        new SpiritualAltarPiece3(ItemStacks.SUN_CHARGED_PILLAR_III, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_3,ItemStacks.SUN_CHARGED_PILLAR_III, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 ItemStacks.SUN_CHARGED_QUARTZ_III, null, null,
                 null, null, null,
                 null, null, null
         }, 1).register(instance);
 
-        new SpiritualAltarPiece3(ItemStacks.SUN_CHARGED_STAIRS_III, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_3,ItemStacks.SUN_CHARGED_STAIRS_III, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 null, null, null,
                 null, ItemStacks.SUN_CHARGED_QUARTZ_III, null,
                 ItemStacks.SUN_CHARGED_QUARTZ_III, ItemStacks.SUN_CHARGED_QUARTZ_III, ItemStacks.SUN_CHARGED_QUARTZ_III
         }, 4).register(instance);
 
-        new SpiritualAltarPiece3(ItemStacks.SUN_SMOOTH_CHARGED_QUARTZ_III, RecipeType.SMELTERY, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_3,ItemStacks.SUN_SMOOTH_CHARGED_QUARTZ_III, RecipeType.SMELTERY, new ItemStack[] {
                 ItemStacks.SUN_CHARGED_QUARTZ_III, null, null,
                 null, null, null,
                 null, null, null
         }, 1).register(instance);
 
-        new SpiritualAltarPiece3(ItemStacks.SUN_SMOOTH_CHARGED_STAIRS_III, RecipeType.SMELTERY, new ItemStack[] {
+        new SpiritualAltarPiece(Groups.SUN_ALTAR_3,ItemStacks.SUN_SMOOTH_CHARGED_STAIRS_III, RecipeType.SMELTERY, new ItemStack[] {
                 ItemStacks.SUN_CHARGED_STAIRS_III, null, null,
                 null, null, null,
                 null, null, null

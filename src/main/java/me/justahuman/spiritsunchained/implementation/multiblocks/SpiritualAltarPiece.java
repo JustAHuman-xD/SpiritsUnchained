@@ -1,10 +1,10 @@
 package me.justahuman.spiritsunchained.implementation.multiblocks;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import me.justahuman.spiritsunchained.slimefun.Groups;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -17,9 +17,9 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-public class SpiritualAltarPiece3 extends SlimefunItem {
-    public SpiritualAltarPiece3(@Nonnull SlimefunItemStack item, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe, int amount) {
-        super(Groups.SUN_ALTAR_3, item, recipeType, recipe, new SlimefunItemStack(item, amount));
+public class SpiritualAltarPiece extends SlimefunItem {
+    public SpiritualAltarPiece(ItemGroup category, @Nonnull SlimefunItemStack item, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe, int amount) {
+        super(category, item, recipeType, recipe, new SlimefunItemStack(item, amount));
     }
 
     @Override

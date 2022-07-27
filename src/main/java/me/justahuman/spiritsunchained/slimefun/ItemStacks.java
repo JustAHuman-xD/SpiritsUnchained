@@ -3,9 +3,11 @@ package me.justahuman.spiritsunchained.slimefun;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
+
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Phantom;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -60,7 +62,7 @@ public class ItemStacks {
     public static final SlimefunItemStack SUN_SOUL_STAINED_GLASS = new SlimefunItemStack(
             "SUN_SOUL_STAINED_GLASS",
             TINTED_GLASS,
-            "&bSoul Stained Glass",
+            "&5Soul Stained Glass",
             "",
             "Peer into Another Plane"
     );
@@ -71,6 +73,51 @@ public class ItemStacks {
       "&aEctoplasm",
       "",
       "Attained from those Impassable"
+    );
+
+    // Tools
+
+    public static final SlimefunItemStack SUN_IDENTIFYING_GLASS = new SlimefunItemStack(
+            "SUN_IDENTIFYING_GLASS",
+            Material.SPYGLASS,
+            "&dIdentifying Glass",
+            "",
+            "Indentifys Un-Identified Spirits"
+    );
+
+    public static final SlimefunItemStack SUN_SPIRIT_LENSES = new SlimefunItemStack(
+            "SUN_SPIRIT_LENSES",
+            Material.LEATHER_HELMET,
+            "&7Spirit Lenses",
+            "",
+            "Unlock the Ability to See Spirits",
+            "While Wearing these Lenses"
+    );
+
+    public static final SlimefunItemStack SUN_SPIRIT_CATCHER = new SlimefunItemStack(
+            "SUN_SPIRIT_CATCHER",
+            Material.COBWEB,
+            "Spirit Catcher",
+            "",
+            "Use this to catch a Spirit!"
+    );
+
+    public static final SlimefunItemStack SUN_SPIRIT_BOOK = new SlimefunItemStack(
+            "SUN_SPIRIT_BOOK",
+            Material.WRITABLE_BOOK,
+            "Spirit Book",
+            "",
+            "A Book only Spirits can Write in"
+    );
+
+    public static final SlimefunItemStack SUN_SPIRIT_RUNE = new SlimefunItemStack(
+            "SUN_SPIRIT_RUNE",
+            new ColoredFireworkStar(Color.fromRGB(154,96,255),
+                    "&7Ancient Rune &8&l[&d&lSpirit&8&l]",
+                    "",
+                    "&eDrop this rune onto a dropped item to",
+                    "grant the ability to &dsee &ea different realm"
+                    )
     );
 
     // Altar Building Blocks
