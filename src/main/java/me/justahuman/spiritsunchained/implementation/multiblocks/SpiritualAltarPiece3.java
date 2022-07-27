@@ -17,9 +17,9 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-public class SpiritualAltarPiece extends SlimefunItem {
-    public SpiritualAltarPiece(@Nonnull SlimefunItemStack item,@Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe, int amount) {
-        super(Groups.SUN_ALTARS, item, recipeType, recipe, new SlimefunItemStack(item, amount));
+public class SpiritualAltarPiece3 extends SlimefunItem {
+    public SpiritualAltarPiece3(@Nonnull SlimefunItemStack item, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe, int amount) {
+        super(Groups.SUN_ALTAR_3, item, recipeType, recipe, new SlimefunItemStack(item, amount));
     }
 
     @Override

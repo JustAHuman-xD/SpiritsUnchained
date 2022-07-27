@@ -22,7 +22,7 @@ import java.util.List;
 
 public class Tier2Altar extends SlimefunItem {
     public Tier2Altar() {
-        super(Groups.SUN_ALTARS, ItemStacks.SUN_CHARGED_CORE_II, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        super(Groups.SUN_ALTAR_2, ItemStacks.SUN_CHARGED_CORE_II, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 null, ItemStacks.SUN_CHARGED_QUARTZ_II, null,
                 ItemStacks.SUN_CHARGED_QUARTZ_II, null, ItemStacks.SUN_CHARGED_QUARTZ_II,
                 null, ItemStacks.SUN_CHARGED_QUARTZ_II, null

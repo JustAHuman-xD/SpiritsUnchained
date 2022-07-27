@@ -32,8 +32,18 @@ public class Groups {
             SUN_MAIN_GROUP,
             new CustomItemStack(Material.LECTERN, "&aMachines"));
 
-    public static final SubItemGroup SUN_ALTARS = new SubItemGroup(
-            new NamespacedKey(SpiritsUnchained.getInstance(), "sun_altars"),
+    public static final SubItemGroup SUN_ALTAR_1 = new SubItemGroup(
+            new NamespacedKey(SpiritsUnchained.getInstance(), "sun_altar_1"),
             SUN_MAIN_GROUP,
-            new CustomItemStack(Material.CHISELED_QUARTZ_BLOCK, "&aAltars"));
+            new CustomItemStack(Material.CHISELED_QUARTZ_BLOCK, "&aTier 1 Altar"));
+
+    public static final SubItemGroup SUN_ALTAR_2 = new SubItemGroup(
+            new NamespacedKey(SpiritsUnchained.getInstance(), "sun_altar_2"),
+            SUN_MAIN_GROUP,
+            new CustomItemStack(Material.QUARTZ_PILLAR, "&aTier 2 Altar"));
+
+    public static final SubItemGroup SUN_ALTAR_3 = new SubItemGroup(
+            new NamespacedKey(SpiritsUnchained.getInstance(), "sun_altar_3"),
+            SUN_MAIN_GROUP,
+            new CustomItemStack(Material.SMOOTH_QUARTZ, "&aTier 3 Altar"));
 }
