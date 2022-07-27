@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.justahuman</groupId>
-    <artifactId>SlimySpirits</artifactId>
+    <artifactId>SpiritsUnchained</artifactId>
     <version>1.0.0</version>
 
     <properties>
@@ -58,6 +58,17 @@
             <artifactId>Slimefun4</artifactId>
             <version>2c4f886</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
         </dependency>
     </dependencies>
 </project>
