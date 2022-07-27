@@ -109,10 +109,10 @@ public class Tier2Altar extends SlimefunItem {
             return false;
         }
 
-        if (b.getRelative(2, 2, 2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 2, 2)) ||
-                b.getRelative(-2, 2, 2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 2, 2)) ||
-                b.getRelative(2, 2, -2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 2, -2)) ||
-                b.getRelative(-2, 2, -2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 2, -2))) {
+        if (b.getRelative(2, 2, 2).getType() != Material.QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 2, 2)) ||
+                b.getRelative(-2, 2, 2).getType() != Material.QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 2, 2)) ||
+                b.getRelative(2, 2, -2).getType() != Material.QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 2, -2)) ||
+                b.getRelative(-2, 2, -2).getType() != Material.QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 2, -2))) {
             return false;
         }
 
@@ -125,7 +125,7 @@ public class Tier2Altar extends SlimefunItem {
         }
 
         return switch (BlockStorage.getLocationInfo(b.getLocation(), "id")) {
-            case "SUN_CHARGED_QUARTZ_II", "SUN_CHARGED_STAIRS_II", "SUN_CHARGED_PILLAR_II", "SUN_SMOOTH_CHARGED_STAIRS_II" -> true;
+            case "SUN_CHARGED_QUARTZ_II", "SUN_CHARGED_STAIRS_II", "SUN_CHARGED_PILLAR_II" -> true;
             default -> false;
         };
     }

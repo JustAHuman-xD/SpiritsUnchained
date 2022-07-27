@@ -130,14 +130,6 @@ public class ItemStacks {
             "Used to Build a Tier 2 Spiritual Altar"
     );
 
-    public static final SlimefunItemStack SUN_SMOOTH_CHARGED_STAIRS_II = new SlimefunItemStack(
-            "SUN_SMOOTH_CHARGED_STAIRS_II",
-            Material.SMOOTH_QUARTZ_STAIRS,
-            "&eSmooth Charged Stairs II",
-            "",
-            "Used to Build a Tier 2 Spiritual Altar"
-    );
-
     public static final SlimefunItemStack SUN_CHARGED_QUARTZ_III = new SlimefunItemStack(
             "SUN_CHARGED_QUARTZ_III",
             Material.QUARTZ_BLOCK,

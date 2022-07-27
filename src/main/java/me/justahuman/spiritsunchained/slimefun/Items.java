@@ -76,12 +76,6 @@ public class Items {
                 ItemStacks.SUN_CHARGED_QUARTZ_II, ItemStacks.SUN_CHARGED_QUARTZ_II, ItemStacks.SUN_CHARGED_QUARTZ_II
         }, 4).register(instance);
 
-        new SpiritualAltarPiece(ItemStacks.SUN_SMOOTH_CHARGED_STAIRS_II, RecipeType.SMELTERY, new ItemStack[] {
-                ItemStacks.SUN_CHARGED_STAIRS_II, null, null,
-                null, null, null,
-                null, null, null
-        }, 1).register(instance);
-
         new Tier2Altar().register(instance);
 
         //Tier 3
