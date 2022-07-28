@@ -14,15 +14,12 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 public class Tier1Altar extends SlimefunItem {
 
@@ -43,7 +40,7 @@ public class Tier1Altar extends SlimefunItem {
 
             @Override
             public void tick(Block block, SlimefunItem slimefunItem, Config config) {
-                Tier1Altar.this.tick(block);
+                ChargedCore.tick(block);
             }
         });
     }
@@ -53,35 +50,13 @@ public class Tier1Altar extends SlimefunItem {
         addItemHandler(onPlace(), onUse(), onBreak());
     }
 
-    private void tick(@Nonnull Block b) {
-        Location l = b.getLocation();
-        Collection<Player> players = b.getWorld().getNearbyEntitiesByType(
-                Player.class,
-                l,
-                2
-        );
-        if (!players.isEmpty() && isComplete(b)) {
-            l.getWorld().spawnParticle(Particle.END_ROD, radiusLocation(l), 1);
-            l.getWorld().spawnParticle(Particle.END_ROD, radiusLocation(l), 1);
-            l.getWorld().spawnParticle(Particle.END_ROD, radiusLocation(l), 1);
-            l.getWorld().spawnParticle(Particle.END_ROD, radiusLocation(l), 1);
-        }
-    }
-
-    private Location radiusLocation(Location start) {
-        Random random = new Random();
-        double X = start.getX() + random.nextDouble(1 + 1) - 1;
-        double Y = start.getY() + random.nextDouble(3);
-        double Z = start.getZ() + random.nextDouble(1 + 1) - 1;
-        return new Location(start.getWorld(),X,Y,Z);
-    }
-
     private BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
             public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
                 Block b = e.getBlockPlaced();
+                BlockStorage.addBlockInfo(b, "particle", "4");
                 if (isComplete(b)) {
                     BlockStorage.addBlockInfo(b, "complete", "true");
                     e.getPlayer().sendMessage(ChatColor.AQUA + "The Spiritual Altar (Tier 1) has been activated!");
