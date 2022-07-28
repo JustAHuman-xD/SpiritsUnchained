@@ -23,10 +23,10 @@ import java.util.List;
 
 public class Tier2Altar extends SlimefunItem {
     public Tier2Altar() {
-        super(Groups.SUN_ALTAR_2, ItemStacks.SUN_CHARGED_CORE_II, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
-                null, ItemStacks.SUN_CHARGED_QUARTZ_II, null,
-                ItemStacks.SUN_CHARGED_QUARTZ_II, null, ItemStacks.SUN_CHARGED_QUARTZ_II,
-                null, ItemStacks.SUN_CHARGED_QUARTZ_II, null
+        super(Groups.SU_ALTAR_2, ItemStacks.SU_CHARGED_CORE_II, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                null, ItemStacks.SU_CHARGED_QUARTZ_II, null,
+                ItemStacks.SU_CHARGED_QUARTZ_II, null, ItemStacks.SU_CHARGED_QUARTZ_II,
+                null, ItemStacks.SU_CHARGED_QUARTZ_II, null
         });
 
         addItemHandler(new BlockTicker() {
@@ -53,7 +53,7 @@ public class Tier2Altar extends SlimefunItem {
             @Override
             public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
                 Block b = e.getBlockPlaced();
-                BlockStorage.addBlockInfo(b, "particle", "6");
+                BlockStorage.addBlockInfo(b, "particle", "9");
                 if (isComplete(b)) {
                     BlockStorage.addBlockInfo(b, "complete", "true");
                     e.getPlayer().sendMessage(ChatColor.AQUA + "The Spiritual Altar (Tier 2) has been activated!");
@@ -139,7 +139,7 @@ public class Tier2Altar extends SlimefunItem {
         }
 
         return switch (BlockStorage.getLocationInfo(b.getLocation(), "id")) {
-            case "SUN_CHARGED_QUARTZ_II", "SUN_CHARGED_STAIRS_II", "SUN_CHARGED_PILLAR_II" -> true;
+            case "SU_CHARGED_QUARTZ_II", "SU_CHARGED_STAIRS_II", "SU_CHARGED_PILLAR_II" -> true;
             default -> false;
         };
     }

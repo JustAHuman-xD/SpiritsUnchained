@@ -26,10 +26,10 @@ public class Tier1Altar extends SlimefunItem {
     public static final String ITEM_PREFIX = ChatColors.color("&bSPIRITUAL ALTAR 1");
 
     public Tier1Altar() {
-        super(Groups.SUN_ALTAR_1, ItemStacks.SUN_CHARGED_CORE_I, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
-                null, ItemStacks.SUN_CHARGED_QUARTZ_I, null,
-                ItemStacks.SUN_CHARGED_QUARTZ_I, null, ItemStacks.SUN_CHARGED_QUARTZ_I,
-                null, ItemStacks.SUN_CHARGED_QUARTZ_I, null
+        super(Groups.SU_ALTAR_1, ItemStacks.SU_CHARGED_CORE_I, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+                null, ItemStacks.SU_CHARGED_QUARTZ_I, null,
+                ItemStacks.SU_CHARGED_QUARTZ_I, null, ItemStacks.SU_CHARGED_QUARTZ_I,
+                null, ItemStacks.SU_CHARGED_QUARTZ_I, null
         });
 
         addItemHandler(new BlockTicker() {
@@ -121,7 +121,7 @@ public class Tier1Altar extends SlimefunItem {
         }
 
         return switch (BlockStorage.getLocationInfo(b.getLocation(), "id")) {
-            case "SUN_CHARGED_QUARTZ_I", "SUN_CHARGED_STAIRS_I" -> true;
+            case "SU_CHARGED_QUARTZ_I", "SU_CHARGED_STAIRS_I" -> true;
             default -> false;
         };
     }
