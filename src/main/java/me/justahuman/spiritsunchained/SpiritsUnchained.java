@@ -3,6 +3,7 @@ package me.justahuman.spiritsunchained;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 
 import me.justahuman.spiritsunchained.slimefun.Setup;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -10,6 +11,10 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
 
     private static SpiritsUnchained instance;
+
+    public static PluginManager getPluginManager() {
+        return instance.getServer().getPluginManager();
+    }
 
     @Override
     public void onEnable() {

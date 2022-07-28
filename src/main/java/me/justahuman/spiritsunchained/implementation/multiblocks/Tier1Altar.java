@@ -5,33 +5,75 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import me.justahuman.spiritsunchained.slimefun.Groups;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 public class Tier1Altar extends SlimefunItem {
+
+    public static final String ITEM_PREFIX = ChatColors.color("&bSPIRITUAL ALTAR 1");
+
     public Tier1Altar() {
-        super(Groups.SUN_ALTAR_1, ItemStacks.SUN_CHARGED_CORE_I, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        super(Groups.SUN_ALTAR_1, ItemStacks.SUN_CHARGED_CORE_I, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
                 null, ItemStacks.SUN_CHARGED_QUARTZ_I, null,
                 ItemStacks.SUN_CHARGED_QUARTZ_I, null, ItemStacks.SUN_CHARGED_QUARTZ_I,
                 null, ItemStacks.SUN_CHARGED_QUARTZ_I, null
+        });
+
+        addItemHandler(new BlockTicker() {
+            @Override
+            public boolean isSynchronized() {
+                return true;
+            }
+
+            @Override
+            public void tick(Block block, SlimefunItem slimefunItem, Config config) {
+                Tier1Altar.this.tick(block);
+            }
         });
     }
 
     @Override
     public void preRegister() {
         addItemHandler(onPlace(), onUse(), onBreak());
+    }
+
+    private void tick(@Nonnull Block b) {
+        Location l = b.getLocation();
+        Collection<Player> players = b.getWorld().getNearbyEntitiesByType(
+                Player.class,
+                l,
+                2
+        );
+        if (!players.isEmpty() && isComplete(b)) {
+            l.getWorld().spawnParticle(Particle.END_ROD, radiusLocation(l), 1);
+            l.getWorld().spawnParticle(Particle.END_ROD, radiusLocation(l), 1);
+            l.getWorld().spawnParticle(Particle.END_ROD, radiusLocation(l), 1);
+            l.getWorld().spawnParticle(Particle.END_ROD, radiusLocation(l), 1);
+        }
+    }
+
+    private Location radiusLocation(Location start) {
+        Random random = new Random();
+        double X = start.getX() + random.nextDouble(1 + 1) - 1;
+        double Y = start.getY() + random.nextDouble(3);
+        double Z = start.getZ() + random.nextDouble(1 + 1) - 1;
+        return new Location(start.getWorld(),X,Y,Z);
     }
 
     private BlockPlaceHandler onPlace() {
