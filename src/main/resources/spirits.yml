@@ -257,8 +257,8 @@ FOX:
         - 2
     Relations:
         Scare:
-            - Chicken
-Bat:
+            - CHICKEN
+BAT:
     Tier: 2
     States:
         - Gentle
@@ -267,7 +267,10 @@ Bat:
         - Item
         - SCULK_SENSOR
         - 5
-SNOW_GOLEM:
+    Relations:
+        Afraid:
+            - WARDEN
+SNOWMAN:
     Tier: 2
     States:
         - Gentle
@@ -276,14 +279,17 @@ SNOW_GOLEM:
         - Item
         - CARVED_PUMPKIN
         - 1
-MOOSHROOM:
+    Relations:
+        Afraid:
+            - BLAZE
+MUSHROOM_COW:
     Tier: 2
     States:
         - Gentle
         - Passive
     Pass On:
         - Breed
-        - MOOSHROOM
+        - MUSHROOM_COW
         - 4
 STRIDER:
     Tier: 2
@@ -632,7 +638,7 @@ MAGMA_CUBE:
         - 64
     Relations:
         Afraid:
-            - Frog
+            - FROG
 ZOMBIE_VILLAGER:
     Tier: 2
     States:

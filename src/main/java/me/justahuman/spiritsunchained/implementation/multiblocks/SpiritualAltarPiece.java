@@ -59,7 +59,7 @@ public class SpiritualAltarPiece extends SlimefunItem {
                     Block block = b.getRelative(x, y, z);
 
                     if (block.getType() == Material.CHISELED_QUARTZ_BLOCK && BlockStorage.getLocationInfo(block.getLocation(), "id") != null) {
-                        if (BlockStorage.getLocationInfo(block.getLocation(), "id").equals("SUN_CHARGED_CORE_I") || BlockStorage.getLocationInfo(block.getLocation(), "id").equals("SUN_CHARGED_CORE_II") || BlockStorage.getLocationInfo(block.getLocation(), "id").equals("SUN_CHARGED_CORE_III")) {
+                        if (BlockStorage.getLocationInfo(block.getLocation(), "id").equals("SU_CHARGED_CORE_I") || BlockStorage.getLocationInfo(block.getLocation(), "id").equals("SU_CHARGED_CORE_II") || BlockStorage.getLocationInfo(block.getLocation(), "id").equals("SU_CHARGED_CORE_III")) {
                             return block;
                         }
                     }
