@@ -49,15 +49,15 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
     private static final int SPIRIT_SLOT = 22;
     private static final int GOAL_SLOT = 30;
-    private static final int RELATIONS_SLOT = 33;
-    private static final int TRAIT_SLOT = 41;
+    private static final int RELATIONS_SLOT = 32;
+    private static final int TRAIT_SLOT = 40;
 
     private static final ItemStack notEnoughKnowledge = new CustomItemStack(
             Material.WRITABLE_BOOK,
             "&cNot Enough Knowledge!",
-            "Get Knowledge by Either",
-            "   - Using a Spirit Book (Levels 1-2)",
-            "   - Getting the Spirit to the Friendly State! (Level 3)"
+            "&7Get &bKnowledge &7by:",
+            "&7   - Using a Spirit Book (Levels 1-2)",
+            "&7   - Getting the Spirit to the Friendly State! (Level 3)"
     );
 
     @ParametersAreNonnullByDefault
@@ -92,6 +92,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         final int start = (page - 1) * PAGE_SIZE;
         final int end = Math.min(start + PAGE_SIZE, spiritCount);
 
+        spiritList.sort(Comparator.comparing(definition -> definition.getType().getName()));
         spiritList.sort(Comparator.comparing(definition -> definition.getTier()));
         final List<SpiritDefinition> spiritSubList = spiritList.subList(start, end);
 
@@ -147,6 +148,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
     @ParametersAreNonnullByDefault
     private void displayDefinition(Player player, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int returnPage, SpiritDefinition definition) {
+        EntityType entityType = definition.getType();
+
         // Back Button
         menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, Slimefun.getLocalization().getMessage("guide.back.guide")));
         menu.addMenuClickHandler(GUIDE_BACK, (player1, slot, itemStack, clickAction) -> {
@@ -154,16 +157,20 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             return false;
         });
 
+        clearDisplay(menu);
+
         //Spirit Type
         menu.replaceExistingItem(SPIRIT_SLOT, getSpiritMenuItem(definition));
 
-        if (PlayerUtils.hasKnowledgeLevel(player, definition.getType(), 1)) {
+        //Pass On Task
+        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 1)) {
             menu.replaceExistingItem(GOAL_SLOT, definition.getGoal().getType());
         } else {
             menu.replaceExistingItem(GOAL_SLOT, notEnoughKnowledge);
         }
 
-        if (PlayerUtils.hasKnowledgeLevel(player, definition.getType(), 2)) {
+        //Relations
+        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 2)) {
             menu.replaceExistingItem(RELATIONS_SLOT, new CustomItemStack(
                     Material.OAK_SAPLING,
                     "&aRelations Tree",
@@ -174,7 +181,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             menu.replaceExistingItem(RELATIONS_SLOT, notEnoughKnowledge);
         }
 
-        if (PlayerUtils.hasKnowledgeLevel(player, definition.getType(), 3)) {
+        //Trait
+        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 3)) {
             menu.replaceExistingItem(TRAIT_SLOT, new CustomItemStack(
                     Material.BARRIER,
                     "&aTrait",
@@ -186,7 +194,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         }
 
 
-        clearDisplay(menu);
+
 
     }
 
@@ -225,7 +233,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         lore.add(ChatColors.color(ChatColor.WHITE + "Tier: " + chatColor + definition.getTier()));
         itemMeta.setLore(lore);
         PersistentDataAPI.setString(itemMeta, new NamespacedKey(SpiritsUnchained.getInstance(), "spirit_type"), spiritType);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
 
         itemStack.setItemMeta(itemMeta);
         return itemStack;

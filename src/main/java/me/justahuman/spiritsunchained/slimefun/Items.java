@@ -41,22 +41,16 @@ public class Items {
                 .register(instance);
 
         //Tools
-        new SpiritRune(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_RUNE,RecipeType.ANCIENT_ALTAR,new ItemStack[]{
-                ItemStacks.SU_ECTOPLASM, SlimefunItems.ESSENCE_OF_AFTERLIFE, ItemStacks.SU_INFUSED_MEMBRANE,
-                ItemStacks.SU_SOUL_STAINED_GLASS, SlimefunItems.ENCHANTMENT_RUNE,ItemStacks.SU_SOUL_STAINED_GLASS,
-                ItemStacks.SU_INFUSED_MEMBRANE,SlimefunItems.ESSENCE_OF_AFTERLIFE,ItemStacks.SU_ECTOPLASM
+        new SpiritLenses(Groups.SU_TOOLS, ItemStacks.SU_SPIRIT_LENSES, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
+                SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH,
+                ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_SOUL_STAINED_GLASS, ItemStacks.SU_INFUSED_MEMBRANE,
+                null, null, null
         }).register(instance);
 
         new IdentifyingGlass(Groups.SU_TOOLS,ItemStacks.SU_IDENTIFYING_GLASS,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
                 null, null, ItemStacks.SU_SOUL_STAINED_GLASS,
                 null, SlimefunItems.MAGNESIUM_INGOT, null,
                 SlimefunItems.MAGNESIUM_INGOT, null, null
-        }).register(instance);
-
-        new NegativeTrident(Groups.SU_TOOLS,ItemStacks.SU_NEGATIVE_TRIDENT,RecipeType.ANCIENT_ALTAR,new ItemStack[]{
-                SlimefunItems.INFUSED_MAGNET, SlimefunItems.BATTERY, ItemStacks.SU_INFUSED_MEMBRANE,
-                ItemStacks.SU_ECTOPLASM, new ItemStack(Material.TRIDENT), ItemStacks.SU_ECTOPLASM,
-                ItemStacks.SU_INFUSED_MEMBRANE, SlimefunItems.BATTERY, SlimefunItems.INFUSED_MAGNET
         }).register(instance);
 
         new SpiritBook(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_BOOK,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
@@ -71,6 +65,17 @@ public class Items {
                 new ItemStack(Material.STRING), ItemStacks.SU_ECTOPLASM, new ItemStack(Material.STRING)
         }).register(instance);
 
+        new SpiritRune(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_RUNE,RecipeType.ANCIENT_ALTAR,new ItemStack[]{
+                ItemStacks.SU_ECTOPLASM, SlimefunItems.ESSENCE_OF_AFTERLIFE, ItemStacks.SU_INFUSED_MEMBRANE,
+                ItemStacks.SU_SOUL_STAINED_GLASS, SlimefunItems.ENCHANTMENT_RUNE,ItemStacks.SU_SOUL_STAINED_GLASS,
+                ItemStacks.SU_INFUSED_MEMBRANE,SlimefunItems.ESSENCE_OF_AFTERLIFE,ItemStacks.SU_ECTOPLASM
+        }).register(instance);
+
+        new NegativeTrident(Groups.SU_TOOLS,ItemStacks.SU_NEGATIVE_TRIDENT,RecipeType.ANCIENT_ALTAR,new ItemStack[]{
+                SlimefunItems.INFUSED_MAGNET, SlimefunItems.BATTERY, ItemStacks.SU_INFUSED_MEMBRANE,
+                ItemStacks.SU_ECTOPLASM, new ItemStack(Material.TRIDENT), ItemStacks.SU_ECTOPLASM,
+                ItemStacks.SU_INFUSED_MEMBRANE, SlimefunItems.BATTERY, SlimefunItems.INFUSED_MAGNET
+        }).register(instance);
 
         //Altar Blocks
         //Tier 1

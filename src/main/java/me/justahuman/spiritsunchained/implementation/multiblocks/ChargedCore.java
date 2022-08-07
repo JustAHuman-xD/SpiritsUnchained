@@ -28,7 +28,7 @@ public class ChargedCore {
     }
 
     private static void particle(Integer times, Location start) {
-        ParticleUtils.displayParticleRandomly(start.clone().add(0, 1.5, 0), Particle.WAX_OFF, 2, times);
+        ParticleUtils.displayParticleRandomly(start.clone().add(0, 1.5, 0), Particle.SPELL_INSTANT, 2, times);
     }
 
     private static boolean isComplete(Block b) {

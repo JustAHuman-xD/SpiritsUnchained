@@ -50,7 +50,7 @@ public class ItemStacks {
             PHANTOM_MEMBRANE,
             "&5Infused Membrane",
             "",
-            "A Membrane infused with Magic"
+            "&7A Membrane infused with Magic"
     );
 
     public static final SlimefunItemStack SU_INFUSED_FEATHER = new SlimefunItemStack(
@@ -58,7 +58,7 @@ public class ItemStacks {
             FEATHER,
             "&5Infused Feather",
             "",
-            "A Feather infused with Magic"
+            "&7A Feather infused with Magic"
     );
 
     public static final SlimefunItemStack SU_SOUL_STAINED_GLASS = new SlimefunItemStack(
@@ -66,7 +66,7 @@ public class ItemStacks {
             TINTED_GLASS,
             "&5Soul Stained Glass",
             "",
-            "Peer into Another Plane"
+            "&7Peer into Another Plane"
     );
 
     public static final SlimefunItemStack SU_ECTOPLASM = new SlimefunItemStack(
@@ -74,7 +74,7 @@ public class ItemStacks {
       Material.SLIME_BALL,
       "&aEctoplasm",
       "",
-      "Attained from those Impassable"
+      "&7Attained from those Impassable"
     );
 
     // Tools
@@ -92,33 +92,33 @@ public class ItemStacks {
             Material.LEATHER_HELMET,
             "&7Spirit Lenses",
             "",
-            "Unlock the Ability to See Spirits",
-            "While Wearing these Lenses"
+            "&Unlock the Ability to See &dSpirits",
+            "&While Wearing these Lenses"
     );
 
     public static final SlimefunItemStack SU_SPIRIT_CATCHER = new SlimefunItemStack(
             "SU_SPIRIT_CATCHER",
             Material.COBWEB,
-            "Spirit Catcher",
+            "&aSpirit Catcher",
             "",
-            "Use this to catch a Spirit!"
+            "&7Use this to catch a Spirit!"
     );
 
     public static final SlimefunItemStack SU_SPIRIT_BOOK = new SlimefunItemStack(
             "SU_SPIRIT_BOOK",
             Material.WRITABLE_BOOK,
-            "Spirit Book",
+            "&aSpirit Book",
             "",
-            "A Book only Spirits can Write in"
+            "&7A Book only Spirits can Write in"
     );
 
     public static final SlimefunItemStack SU_NEGATIVE_TRIDENT = new SlimefunItemStack(
             "SU_NEGATIVE_TRIDENT",
             Material.TRIDENT,
-            "Negative Trident",
+            "&dNegative Trident",
             "",
-            "A Reversed Trident",
-            "Use it to Harvest Ectoplasm"
+            "&7A Reversed Trident",
+            "&7Use it to Harvest Ectoplasm"
     );
 
     public static final SlimefunItemStack SU_SPIRIT_RUNE = new SlimefunItemStack(
@@ -136,9 +136,9 @@ public class ItemStacks {
     public static final SlimefunItemStack SU_ELECTRIC_SPIRIT_CATCHER = new SlimefunItemStack(
             "SU_ELECTRIC_SPIRIT_CATCHER",
             Material.SCULK_SHRIEKER,
-            "Electric Spirit Catcher",
+            "&aElectric Spirit Catcher",
             "",
-            "Automatically catch Spirits",
+            "&7Automatically catch Spirits",
             "",
             LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE),
             LoreBuilder.speed(1), LoreBuilder.powerBuffer(1000) ,LoreBuilder.powerPerSecond(250));
@@ -146,9 +146,9 @@ public class ItemStacks {
     public static final SlimefunItemStack SU_ELECTRIC_SPIRIT_WRITER = new SlimefunItemStack(
             "SU_ELECTRIC_SPIRIT_WRITER",
             Material.LECTERN,
-            "Electric Spirit WRITER",
+            "&aElectric Spirit WRITER",
             "",
-            "Automatically let Spirits Write to A Spirit Book",
+            "&7Automatically let Spirits Write to A Spirit Book",
             "",
             LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE),
             LoreBuilder.speed(1), LoreBuilder.powerBuffer(1000) ,LoreBuilder.powerPerSecond(125));
@@ -160,7 +160,7 @@ public class ItemStacks {
             Material.QUARTZ_BLOCK,
             "&eCharged Quartz I",
             "",
-            "Used to Build a Tier 1 Spiritual Altar"
+            "&7Used to Build a Tier 1 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_CHARGED_STAIRS_I = new SlimefunItemStack(
@@ -168,7 +168,7 @@ public class ItemStacks {
             Material.QUARTZ_STAIRS,
             "&eCharged Stairs I",
             "",
-            "Used to Build a Tier 1 Spiritual Altar"
+            "&7Used to Build a Tier 1 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_CHARGED_CORE_I = new SlimefunItemStack(
@@ -176,7 +176,7 @@ public class ItemStacks {
             Material.CHISELED_QUARTZ_BLOCK,
             "&eCharged Core I",
             "",
-            "Used to Build a Tier 1 Spiritual Altar"
+            "&7Used to Build a Tier 1 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_CHARGED_QUARTZ_II = new SlimefunItemStack(
@@ -184,7 +184,7 @@ public class ItemStacks {
             Material.QUARTZ_BLOCK,
             "&eCharged Quartz II",
             "",
-            "Used to Build a Tier 2 Spiritual Altar"
+            "&7Used to Build a Tier 2 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_CHARGED_PILLAR_II = new SlimefunItemStack(
@@ -192,14 +192,14 @@ public class ItemStacks {
             Material.QUARTZ_PILLAR,
             "&eCharged Pillar II",
             "",
-            "Used to Build a Tier 2 Spiritual Altar"
+            "&7Used to Build a Tier 2 Spiritual Altar"
     );
     public static final SlimefunItemStack SU_CHARGED_STAIRS_II = new SlimefunItemStack(
             "SU_CHARGED_STAIRS_II",
             Material.QUARTZ_STAIRS,
             "&eCharged Stairs II",
             "",
-            "Used to Build a Tier 2 Spiritual Altar"
+            "&7Used to Build a Tier 2 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_CHARGED_CORE_II = new SlimefunItemStack(
@@ -207,7 +207,7 @@ public class ItemStacks {
             Material.CHISELED_QUARTZ_BLOCK,
             "&eCharged Core II",
             "",
-            "Used to Build a Tier 2 Spiritual Altar"
+            "&7Used to Build a Tier 2 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_CHARGED_QUARTZ_III = new SlimefunItemStack(
@@ -215,7 +215,7 @@ public class ItemStacks {
             Material.QUARTZ_BLOCK,
             "&eCharged Quartz III",
             "",
-            "Used to Build a Tier 3 Spiritual Altar"
+            "&7Used to Build a Tier 3 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_CHARGED_PILLAR_III = new SlimefunItemStack(
@@ -223,7 +223,7 @@ public class ItemStacks {
             Material.QUARTZ_PILLAR,
             "&eCharged Pillar III",
             "",
-            "Used to Build a Tier 3 Spiritual Altar"
+            "&7Used to Build a Tier 3 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_CHARGED_STAIRS_III = new SlimefunItemStack(
@@ -231,7 +231,7 @@ public class ItemStacks {
             Material.QUARTZ_STAIRS,
             "&eCharged Stairs III",
             "",
-            "Used to Build a Tier 3 Spiritual Altar"
+            "&7Used to Build a Tier 3 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_CHARGED_CORE_III = new SlimefunItemStack(
@@ -239,7 +239,7 @@ public class ItemStacks {
             Material.CHISELED_QUARTZ_BLOCK,
             "&eCharged Core III",
             "",
-            "Used to Build a Tier 3 Spiritual Altar"
+            "&7Used to Build a Tier 3 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_SMOOTH_CHARGED_QUARTZ_III = new SlimefunItemStack(
@@ -247,7 +247,7 @@ public class ItemStacks {
             Material.SMOOTH_QUARTZ,
             "&eSmooth Charged Quartz III",
             "",
-            "Used to Build a Tier 3 Spiritual Altar"
+            "&7Used to Build a Tier 3 Spiritual Altar"
     );
 
     public static final SlimefunItemStack SU_SMOOTH_CHARGED_STAIRS_III = new SlimefunItemStack(
@@ -255,7 +255,7 @@ public class ItemStacks {
             Material.SMOOTH_QUARTZ_STAIRS,
             "&eSmooth Charged Stairs III",
             "",
-            "Used to Build a Tier 3 Spiritual Altar"
+            "&7Used to Build a Tier 3 Spiritual Altar"
     );
 
 }

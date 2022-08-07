@@ -1,8 +1,11 @@
 package me.justahuman.spiritsunchained.spirits;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import lombok.Getter;
+import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.Utils.LogUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -33,12 +36,22 @@ public class Goal {
                 "",
                 "&7Give " + loreEnd
         );
-        ItemStack slimefunitem = new CustomItemStack(
+        if (type.equals("Item")) {
+            try {
+                item.setType(Material.valueOf(what));
+            } catch(IllegalArgumentException ignored) {}
+        }
+        ItemStack slimefunItem = new CustomItemStack(
                 Material.SLIME_BALL,
                 "&aGive Slimefun Item(s)",
                 "",
                 "&7Give " + loreEnd
         );
+        if (type.equals("SlimefunItem")) {
+            try {
+                item.setType(SpiritsUnchained.getSlimefunItem(what).getType());
+            } catch(IllegalArgumentException ignored) {}
+        }
         ItemStack breed = new CustomItemStack(
                 Material.WHEAT,
                 "&eBreed Mob(s)",
@@ -48,7 +61,7 @@ public class Goal {
         return switch (type) {
             default -> kill;
             case "Item" -> item;
-            case "SlimefunItem" -> slimefunitem;
+            case "SlimefunItem" -> slimefunItem;
             case "Breed" -> breed;
         };
     }

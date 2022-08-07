@@ -2,16 +2,21 @@ package me.justahuman.spiritsunchained;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.ListenerManager;
 import me.justahuman.spiritsunchained.managers.RunnableManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
+import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.slimefun.Setup;
 
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 
 public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
@@ -76,6 +81,16 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     }
     public static ConfigManager getConfigManager() {
         return instance.configManager;
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public static SlimefunItemStack getSlimefunItem(String id) {
+        try {
+            return (SlimefunItemStack) Slimefun.getRegistry().getSlimefunItemIds().get(id).getItem();
+        } catch(NullPointerException | ClassCastException e) {
+            return ItemStacks.SU_ECTOPLASM;
+        }
     }
 
     public void onDisable() {
