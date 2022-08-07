@@ -17,15 +17,14 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.Utils.PlayerUtils;
 import me.justahuman.spiritsunchained.slimefun.Groups;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.FireworkEffect;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -93,8 +92,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         final int start = (page - 1) * PAGE_SIZE;
         final int end = Math.min(start + PAGE_SIZE, spiritCount);
 
-        spiritList.sort(Comparator.comparing(definition -> definition.getType().getName()));
-        spiritList.sort(Comparator.comparing(definition -> definition.getTier()));
+        spiritList.sort(Comparator.comparing(definition -> definition.getType().name()));
+        spiritList.sort(Comparator.comparing(SpiritDefinition::getTier));
         final List<SpiritDefinition> spiritSubList = spiritList.subList(start, end);
 
         pageControls(player, profile, mode, menu, page, totalPages);
@@ -164,17 +163,17 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         menu.replaceExistingItem(SPIRIT_SLOT, getSpiritMenuItem(definition));
 
         //Pass On Task
-        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 1)) {
+        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 1) || mode == SlimefunGuideMode.CHEAT_MODE) {
             menu.replaceExistingItem(GOAL_SLOT, definition.getGoal().getType());
         } else {
             menu.replaceExistingItem(GOAL_SLOT, notEnoughKnowledge);
         }
 
         //Relations
-        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 2)) {
+        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 2) || mode == SlimefunGuideMode.CHEAT_MODE) {
             menu.replaceExistingItem(RELATIONS_SLOT, new CustomItemStack(
-                    Material.OAK_SAPLING,
-                    "&aRelations Tree",
+                    Material.WRITTEN_BOOK,
+                    "&aRelations",
                     "",
                     "&7Click to Open"
             ));
@@ -183,7 +182,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         }
 
         //Trait
-        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 3)) {
+        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 3) || mode == SlimefunGuideMode.CHEAT_MODE) {
             menu.replaceExistingItem(TRAIT_SLOT, new CustomItemStack(
                     Material.BARRIER,
                     "&aTrait",
@@ -193,10 +192,6 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         } else {
             menu.replaceExistingItem(TRAIT_SLOT, notEnoughKnowledge);
         }
-
-
-
-
     }
 
     @ParametersAreNonnullByDefault
@@ -224,15 +219,15 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         ItemStack itemStack = new ItemStack(Material.FIREWORK_STAR);
         ItemMeta itemMeta = itemStack.getItemMeta();
         ChatColor chatColor = SpiritUtils.tierColor(definition.getTier());
-        String spiritType  = ChatUtils.humanize(definition.getType().getName());
+        String spiritType  = ChatUtils.humanize(definition.getType().name());
 
-        itemMeta.setDisplayName(chatColor + spiritType + " Spirit" );
+        itemMeta.displayName(Component.text(chatColor + spiritType + " Spirit" ));
         ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
 
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColors.color(ChatColor.WHITE + "The Captured Spirit of a " + spiritType));
-        lore.add(ChatColors.color(ChatColor.WHITE + "Tier: " + chatColor + definition.getTier()));
-        itemMeta.setLore(lore);
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text(ChatColors.color(ChatColor.WHITE + "The Captured Spirit of a " + spiritType)));
+        lore.add(Component.text(ChatColors.color(ChatColor.WHITE + "Tier: " + chatColor + definition.getTier())));
+        itemMeta.lore(lore);
         PersistentDataAPI.setString(itemMeta, new NamespacedKey(SpiritsUnchained.getInstance(), "spirit_type"), spiritType);
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
 

@@ -530,7 +530,7 @@ PIGLIN:
         - Aggressive
     Pass On:
         - SlimefunItem
-        - GOLD_INGOT_24
+        - GOLD_24K
         - 16
 PILLAGER:
     Tier: 2

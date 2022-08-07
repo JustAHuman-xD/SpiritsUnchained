@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import me.justahuman.spiritsunchained.Utils.LogUtils;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.ListenerManager;
 import me.justahuman.spiritsunchained.managers.RunnableManager;
@@ -89,6 +90,8 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         try {
             return (SlimefunItemStack) Slimefun.getRegistry().getSlimefunItemIds().get(id).getItem();
         } catch(NullPointerException | ClassCastException e) {
+            e.printStackTrace();
+            LogUtils.LogInfo(id);
             return ItemStacks.SU_ECTOPLASM;
         }
     }

@@ -1,13 +1,17 @@
 package me.justahuman.spiritsunchained.spirits;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+
 import lombok.Getter;
+
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.Utils.LogUtils;
+
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 @Getter
 public class Goal {
@@ -56,8 +60,15 @@ public class Goal {
         );
         if (type.equals("SlimefunItem")) {
             try {
-                item.setType(SpiritsUnchained.getSlimefunItem(what).getType());
-            } catch(IllegalArgumentException ignored) {}
+                ItemStack properSlimefunItem = SpiritsUnchained.getSlimefunItem(what).clone();
+                List<Component> newLore = slimefunItem.lore();
+                newLore.set(3, Component.text("&bTask: &7Give " + properSlimefunItem.getItemMeta().displayName()));
+                properSlimefunItem.getItemMeta().displayName(slimefunItem.getItemMeta().displayName());
+                properSlimefunItem.lore(newLore);
+                slimefunItem = properSlimefunItem;
+            } catch(IllegalArgumentException e) {
+                e.printStackTrace();
+            }
         }
         ItemStack breed = new CustomItemStack(
                 Material.WHEAT,
