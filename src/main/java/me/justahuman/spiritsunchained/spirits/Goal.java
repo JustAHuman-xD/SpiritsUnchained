@@ -1,5 +1,6 @@
 package me.justahuman.spiritsunchained.spirits;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
@@ -8,8 +9,10 @@ import lombok.Getter;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
@@ -62,8 +65,10 @@ public class Goal {
             try {
                 ItemStack properSlimefunItem = SpiritsUnchained.getSlimefunItem(what).clone();
                 List<Component> newLore = slimefunItem.lore();
-                newLore.set(3, Component.text("&bTask: &7Give " + properSlimefunItem.getItemMeta().displayName()));
-                properSlimefunItem.getItemMeta().displayName(slimefunItem.getItemMeta().displayName());
+                ItemMeta newMeta = properSlimefunItem.getItemMeta();
+                newLore.set(2, Component.text(ChatColors.color(ChatColor.AQUA + "Task: " + ChatColor.GRAY + "Give " + properSlimefunItem.getItemMeta().getDisplayName())));
+                newMeta.displayName(Component.text(ChatColors.color(ChatColor.AQUA + "Pass On Task:")));
+                properSlimefunItem.setItemMeta(newMeta);
                 properSlimefunItem.lore(newLore);
                 slimefunItem = properSlimefunItem;
             } catch(IllegalArgumentException e) {
