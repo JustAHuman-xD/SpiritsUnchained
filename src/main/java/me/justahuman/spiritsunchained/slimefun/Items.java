@@ -1,7 +1,6 @@
 package me.justahuman.spiritsunchained.slimefun;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
@@ -9,7 +8,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Unplaceabl
 import me.justahuman.spiritsunchained.implementation.multiblocks.*;
 import me.justahuman.spiritsunchained.implementation.tools.*;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 public class Items {

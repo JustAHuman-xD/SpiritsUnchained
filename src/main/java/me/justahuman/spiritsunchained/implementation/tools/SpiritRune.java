@@ -1,16 +1,21 @@
 package me.justahuman.spiritsunchained.implementation.tools;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import lombok.extern.java.Log;
+
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
-import org.bukkit.*;
+
+import net.kyori.adventure.text.Component;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -18,6 +23,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.Sound;
+import org.bukkit.Material;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -66,8 +73,8 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
         }
 
         Location l = rune.getLocation();
-        Collection<Entity> entites = l.getWorld().getNearbyEntities(l, RANGE, RANGE, RANGE, this::findCompatibleItem);
-        Optional<Entity> optional = entites.stream().findFirst();
+        Collection<Entity> entities = l.getWorld().getNearbyEntities(l, RANGE, RANGE, RANGE, this::findCompatibleItem);
+        Optional<Entity> optional = entities.stream().findFirst();
 
         if (optional.isPresent()) {
             Item item = (Item) optional.get();
@@ -113,9 +120,9 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
             PersistentDataContainer container = meta.getPersistentDataContainer();
             if (!imbuedCheck) {
                 container.set(IMBUED_KEY, PersistentDataType.BYTE, (byte) 1);
-                List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
-                lore.add(IMBUED_LORE);
-                meta.setLore(lore);
+                List<Component> lore = meta.hasLore() ? meta.lore() : new ArrayList<>();
+                lore.add(Component.text(IMBUED_LORE));
+                meta.lore(lore);
                 item.setItemMeta(meta);
             }
         }
@@ -139,12 +146,9 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
     }
 
     private boolean findCompatibleItem(Entity entity) {
-        if (entity instanceof Item) {
-            Item item = (Item) entity;
-
+        if (entity instanceof Item item) {
             return !isImbued(item.getItemStack()) && !isItem(item.getItemStack());
         }
-
         return false;
     }
 }

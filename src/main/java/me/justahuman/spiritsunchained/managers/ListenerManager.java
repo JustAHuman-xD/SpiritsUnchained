@@ -4,7 +4,7 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.listeners.IdentifyingGlassListener;
 
 public class ListenerManager {
-    public void ListenersManager() {
+    public ListenerManager() {
         SpiritsUnchained.getPluginManager().registerEvents(new IdentifyingGlassListener(), SpiritsUnchained.getInstance());
     }
 }
