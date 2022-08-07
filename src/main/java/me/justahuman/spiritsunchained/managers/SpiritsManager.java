@@ -1,6 +1,8 @@
 package me.justahuman.spiritsunchained.managers;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.Utils.LogUtils;
+import me.justahuman.spiritsunchained.spirits.Goal;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -28,20 +30,21 @@ public class SpiritsManager {
             try {
                 type = EntityType.valueOf(key);
             } catch (IllegalArgumentException e) {
-                SpiritsUnchained.getInstance().getLogger().info("Not a Valid Entity Type: " + key);
+                LogUtils.LogInfo("Not a Valid Entity Type: " + key);
                 e.printStackTrace();
                 continue;
             }
             final ConfigurationSection spirit = spirits.getConfigurationSection(key);
 
             if (spirit == null) {
-                SpiritsUnchained.getInstance().getLogger().info("Missing Spirit's Section: " + key);
+                LogUtils.LogInfo("Missing Spirit's Section: " + key);
                 continue;
             }
 
             final int tier = spirit.getInt("Tier");
             final List<String> states = spirit.getStringList("States");
-            final List<String> goal = spirit.getStringList("Pass On");
+            final List<String> listGoal = spirit.getStringList("Pass On");
+            final Goal goal = new Goal(listGoal.get(0), listGoal.get(1), Integer.parseInt(listGoal.get(2)));
             final HashMap<String, EntityType> relations = new HashMap<>();
 
             final ConfigurationSection relationSection = spirit.getConfigurationSection("Relations");
@@ -67,6 +70,6 @@ public class SpiritsManager {
             );
             spiritMap.put(type, spiritDefinition);
         }
-        SpiritsUnchained.getInstance().getLogger().info("Loaded " + spiritMap.size() + " Spirits!");
+        LogUtils.LogInfo("Loaded " + spiritMap.size() + " Spirits!");
     }
 }

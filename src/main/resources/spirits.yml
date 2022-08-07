@@ -211,8 +211,8 @@ SLIME:
         - Aggressive
         - Hostile
     Pass On:
-        - Item
-        - SLIME_BLOCK
+        - Kill
+        - FROG
         - 3
     Relations:
         Afraid:

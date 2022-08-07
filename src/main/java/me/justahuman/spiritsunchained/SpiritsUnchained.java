@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.ListenerManager;
+import me.justahuman.spiritsunchained.managers.RunnableManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.slimefun.Setup;
 
@@ -20,6 +21,8 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     private SpiritsManager spiritsManager;
     private ConfigManager configManager;
 
+    private RunnableManager runnableManager;
+
     public static PluginManager getPluginManager() {
         return instance.getServer().getPluginManager();
     }
@@ -34,6 +37,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         getLogger().info("========================================");
 
         this.configManager = new ConfigManager();
+        this.runnableManager = new RunnableManager();
         this.listenerManager = new ListenerManager();
         this.spiritsManager = new SpiritsManager();
 
@@ -61,11 +65,20 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     public static SpiritsUnchained getInstance() {
         return instance;
     }
-    public static ListenerManager getListenerManager() {return instance.listenerManager;}
-    public static SpiritsManager getSpiritsManager() {return instance.spiritsManager;}
-    public static ConfigManager getConfigManager() {return instance.configManager;}
+    public static RunnableManager getRunnableManager() {
+        return instance.runnableManager;
+    }
+    public static ListenerManager getListenerManager() {
+        return instance.listenerManager;
+    }
+    public static SpiritsManager getSpiritsManager() {
+        return instance.spiritsManager;
+    }
+    public static ConfigManager getConfigManager() {
+        return instance.configManager;
+    }
 
     public void onDisable() {
-        // Logic for disabling the plugin...
+        configManager.save();
     }
 }

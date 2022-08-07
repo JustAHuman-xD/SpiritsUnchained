@@ -2,6 +2,7 @@ package me.justahuman.spiritsunchained.managers;
 
 import lombok.Getter;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.Utils.LogUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,9 +19,11 @@ import java.io.InputStreamReader;
 @Getter
 public class ConfigManager {
     private final FileConfiguration spirits;
+    private final FileConfiguration playerData;
 
     public ConfigManager() {
         this.spirits = loadConfig("spirits.yml", true);
+        this.playerData = loadConfig("player-data.yml", false);
     }
 
     @Nonnull
@@ -55,5 +58,15 @@ public class ConfigManager {
         config.addDefaults(defaults);
         config.options().copyDefaults(true);
         config.save(file);
+    }
+
+    public void save() {
+        LogUtils.LogInfo("Saving Player Data");
+        File file = new File(SpiritsUnchained.getInstance().getDataFolder(), "player-data.yml");
+        try {
+            playerData.save(file);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 }
