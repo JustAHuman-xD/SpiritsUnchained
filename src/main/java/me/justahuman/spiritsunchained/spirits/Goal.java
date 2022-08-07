@@ -23,18 +23,24 @@ public class Goal {
     }
 
     private ItemStack getTypeStack(String type, String what, int amount) {
-        String loreEnd = amount + " " + ChatUtils.humanize(what) + "(s)";
+        String addition = "";
+        if (amount > 1) {
+            addition = "s";
+        }
+        String loreEnd = amount + " " + ChatUtils.humanize(what);
         ItemStack kill = new CustomItemStack(
                 Material.DIAMOND_SWORD,
-                "&cKill Mob(s)",
+                "&bPass On Task:",
                 "",
-                "&7Kill " + loreEnd
+                "&bType: &7Kill Mob" + addition,
+                "&bTask: &7Kill " + loreEnd + addition
         );
         ItemStack item = new CustomItemStack(
                 Material.STICK,
-                "&aGive Item(s)",
+                "&bPass On Task:",
                 "",
-                "&7Give " + loreEnd
+                "&bType: &7Give Item" + addition,
+                "&bTask: &7Give " + loreEnd
         );
         if (type.equals("Item")) {
             try {
@@ -43,9 +49,10 @@ public class Goal {
         }
         ItemStack slimefunItem = new CustomItemStack(
                 Material.SLIME_BALL,
-                "&aGive Slimefun Item(s)",
+                "&bPass On Task:",
                 "",
-                "&7Give " + loreEnd
+                "&bType: &7Give Slimefun Item" + addition,
+                "&bTask: &7Give " + loreEnd
         );
         if (type.equals("SlimefunItem")) {
             try {
@@ -54,9 +61,9 @@ public class Goal {
         }
         ItemStack breed = new CustomItemStack(
                 Material.WHEAT,
-                "&eBreed Mob(s)",
+                "&eBreed Mobs",
                 "",
-                "&7Breed " + loreEnd
+                "&7Breed " + loreEnd + addition
         );
         return switch (type) {
             default -> kill;
