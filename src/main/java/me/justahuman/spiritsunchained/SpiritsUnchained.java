@@ -5,10 +5,11 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import me.justahuman.spiritsunchained.Utils.LogUtils;
+import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.ListenerManager;
 import me.justahuman.spiritsunchained.managers.RunnableManager;
+import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.slimefun.Setup;
@@ -25,6 +26,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     private static SpiritsUnchained instance;
     private ListenerManager listenerManager;
     private SpiritsManager spiritsManager;
+    private SpiritEntityManager spiritEntityManager;
     private ConfigManager configManager;
 
     private RunnableManager runnableManager;
@@ -46,6 +48,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         this.runnableManager = new RunnableManager();
         this.listenerManager = new ListenerManager();
         this.spiritsManager = new SpiritsManager();
+        this.spiritEntityManager = new SpiritEntityManager();
 
         Setup.INSTANCE.init();
 
@@ -55,6 +58,8 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
             //GitHubBuildsUpdater updater = new GitHubBuildsUpdater(this, this.getFile(), "JustAHuman-xD/SlimySpirits/master");
             //updater.start(); Disabled for Now
         }
+
+        //this.getCommand("spiritsunchained soul give").setExecutor(new GiveSoul());
     }
 
     @Nonnull
@@ -82,6 +87,9 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     }
     public static ConfigManager getConfigManager() {
         return instance.configManager;
+    }
+    public static SpiritEntityManager getSpiritEntityManager() {
+        return instance.spiritEntityManager;
     }
 
     @Nonnull

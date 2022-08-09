@@ -90,10 +90,10 @@ public class ItemStacks {
     public static final SlimefunItemStack SU_SPIRIT_LENSES = new SlimefunItemStack(
             "SU_SPIRIT_LENSES",
             Material.LEATHER_HELMET,
-            "&7Spirit Lenses",
+            "&dSpirit Lenses",
             "",
-            "&Unlock the Ability to See &dSpirits",
-            "&While Wearing these Lenses"
+            "&7Unlock the Ability to See &dSpirits",
+            "&7While Wearing these Lenses"
     );
 
     public static final SlimefunItemStack SU_SPIRIT_CATCHER = new SlimefunItemStack(

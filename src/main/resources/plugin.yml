@@ -23,3 +23,9 @@ api-version: 1.19
 ## This is required and marks Slimefun as a plugin dependency.
 depend:
 - Slimefun
+
+commands:
+  spiritsunchained:
+    description: /unchained
+    usage: /unchained <sub>
+    aliases: [ su, unchained ]

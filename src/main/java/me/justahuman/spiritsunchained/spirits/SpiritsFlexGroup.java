@@ -10,11 +10,11 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.bakedlibs.dough.items.CustomItemStack;
-import me.justahuman.spiritsunchained.Utils.SpiritUtils;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.Utils.PlayerUtils;
+import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.slimefun.Groups;
 
 import net.kyori.adventure.text.Component;
@@ -32,6 +32,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class SpiritsFlexGroup extends FlexItemGroup {
 
@@ -47,6 +48,32 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             45, 46, 47, 48, 49, 50, 51, 52, 53
     };
 
+    private static final int[] DIVIDER = new int[]{
+            13, 22, 31, 40, 49
+    };
+
+    private static final int[] AFRAID = new int[]{
+            9, 10, 11, 12
+    };
+
+    private static final int[] AFRAID_ENTRIES = new int[]{
+            18, 19, 20, 21,
+            27, 28, 29, 30,
+            36, 37, 38, 39,
+            45, 46, 47, 48
+    };
+
+    private static final int[] SCARE = new int[]{
+            14, 15, 16, 17
+    };
+
+    private static final int[] SCARE_ENTRIES = new int[]{
+            23, 24, 25, 26,
+            32, 33, 34, 35,
+            41, 42, 43, 44,
+            50, 51, 52, 53
+    };
+
     private static final int SPIRIT_SLOT = 22;
     private static final int GOAL_SLOT = 30;
     private static final int RELATIONS_SLOT = 32;
@@ -58,6 +85,18 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             "&7Get &bKnowledge &7by:",
             "&7   - Using a Spirit Book (Levels 1-2)",
             "&7   - Getting the Spirit to the Friendly State! (Level 3)"
+    );
+
+    private static final ItemStack afraid = new CustomItemStack(
+            Material.BLACK_STAINED_GLASS_PANE,
+            "&fAfraid Of",
+            "&7This Spirit is afraid of the Spirits Shown Below"
+    );
+
+    private static final ItemStack scare = new CustomItemStack(
+            Material.PURPLE_STAINED_GLASS_PANE,
+            "&5Scares",
+            "&7This Spirit Scares the Spirits Shown Below"
     );
 
     @ParametersAreNonnullByDefault
@@ -177,6 +216,10 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                     "",
                     "&7Click to Open"
             ));
+            menu.addMenuClickHandler(RELATIONS_SLOT, (player1, slot, itemStack, clickAction) -> {
+                displayRelationsTree(player1, profile, mode, menu, returnPage, definition);
+                return false;
+            });
         } else {
             menu.replaceExistingItem(RELATIONS_SLOT, notEnoughKnowledge);
         }
@@ -203,6 +246,24 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             return false;
         });
 
+        clearDisplay(menu);
+
+        for (int SLOT : DIVIDER) { menu.replaceExistingItem(SLOT, ChestMenuUtils.getBackground());}
+        for (int SLOT : AFRAID) { menu.replaceExistingItem(SLOT, afraid);}
+        for (int SLOT : SCARE) { menu.replaceExistingItem(SLOT, scare);}
+
+        int currentA = 0;
+        int currentS = 0;
+        for (Map.Entry<String, List<EntityType>> Entry : definition.getRelations().entrySet()) {
+            String relation = Entry.getKey();
+            for (EntityType mobType : Entry.getValue()) {
+                SpiritDefinition currentRelator = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(mobType);
+                int Slot = 0;
+                if (relation.equals("Afraid")) {Slot = AFRAID_ENTRIES[currentA]; currentA++;}
+                if (relation.equals("Scare")) {Slot = SCARE_ENTRIES[currentS]; currentS++;}
+                menu.replaceExistingItem(Slot, getSpiritMenuItem(currentRelator));
+            }
+        }
     }
 
     @ParametersAreNonnullByDefault

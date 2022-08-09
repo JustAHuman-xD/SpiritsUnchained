@@ -1,4 +1,4 @@
-package me.justahuman.spiritsunchained.Utils;
+package me.justahuman.spiritsunchained.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Color;

@@ -1,4 +1,4 @@
-package me.justahuman.spiritsunchained.Utils;
+package me.justahuman.spiritsunchained.utils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import org.bukkit.entity.EntityType;

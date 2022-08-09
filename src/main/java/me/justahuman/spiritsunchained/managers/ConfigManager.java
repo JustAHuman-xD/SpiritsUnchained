@@ -2,7 +2,7 @@ package me.justahuman.spiritsunchained.managers;
 
 import lombok.Getter;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.Utils.LogUtils;
+import me.justahuman.spiritsunchained.utils.LogUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
