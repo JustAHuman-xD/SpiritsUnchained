@@ -10,14 +10,15 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.bakedlibs.dough.items.CustomItemStack;
-import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.slimefun.Groups;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import net.kyori.adventure.text.Component;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -229,11 +230,12 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
         //Trait
         if (PlayerUtils.hasKnowledgeLevel(player, entityType, 3) || mode == SlimefunGuideMode.CHEAT_MODE) {
+            List<String> traitList = SpiritUtils.getTraitInfo(definition.getTrait());
             CustomItemStack traitItemStack = new CustomItemStack(
                     Material.GLASS,
                     "&aTrait",
                     "",
-                    "&bTrait: &d" + ChatUtils.humanize(definition.getTrait().get(1)),
+                    "&bTrait: &d" + ChatUtils.humanize(traitList.get(0)),
                     "&7(Click For Description)"
             );
             menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
@@ -244,7 +246,11 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                 } else {
                     ItemStack descriptionItemStack = traitItemStack.clone();
                     List<Component> currentLore = descriptionItemStack.lore();
-                    currentLore.set(2, Component.text(ChatColors.color(ChatColor.GRAY + "Example Description")));
+                    for (String line : traitList) {
+                        if (traitList.indexOf(line) != 0) {
+                            currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + line)));
+                        }
+                    }
                     currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + "(Click To Close Description)")));
                     descriptionItemStack.lore(currentLore);
                     menu.replaceExistingItem(TRAIT_SLOT, descriptionItemStack);

@@ -45,7 +45,7 @@ public class SpiritsManager {
             final int tier = spirit.getInt("Tier");
             final List<String> states = spirit.getStringList("States");
             final List<String> listGoal = spirit.getStringList("Pass On");
-            final List<String> trait = spirit.getStringList("Trait");
+            final String trait = spirit.getString("Trait");
             final Goal goal = new Goal(listGoal.get(0), listGoal.get(1), Integer.parseInt(listGoal.get(2)));
             final HashMap<String, List<EntityType>> relations = new HashMap<>();
             List<EntityType> Scare = new ArrayList<>();

@@ -1,11 +1,19 @@
 package me.justahuman.spiritsunchained.utils;
 
+import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.managers.ConfigManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpiritUtils {
     @ParametersAreNonnullByDefault
@@ -87,5 +95,26 @@ public class SpiritUtils {
             case ZOMBIE_VILLAGER -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(81, 56, 48)).build();
             case ZOMBIFIED_PIGLIN -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(219, 138, 138)).build();
         };
+    }
+    @ParametersAreNonnullByDefault
+    public static List<String> getTraitInfo(String traitId) {
+        ConfigurationSection trait = SpiritsUnchained.getConfigManager().getTraits().getConfigurationSection(traitId);
+        List<String> toReturn = new ArrayList<>();
+        if (trait == null) {return toReturn;}
+        toReturn.add(trait.getString("name"));
+        List<String> description = trait.getStringList("lore");
+        toReturn.addAll(description);
+        return toReturn;
+    }
+
+    @ParametersAreNonnullByDefault
+    @Nullable
+    public static Method getTraitMethod(String traitId) {
+        try {
+            return Class.forName(traitId).getMethod(traitId);
+        } catch(LinkageError | ClassNotFoundException | NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

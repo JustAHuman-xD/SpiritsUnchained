@@ -15,11 +15,11 @@ public class SpiritDefinition {
     private final List<String> states;
     private final Goal goal;
 
-    private final List<String> trait;
+    private final String trait;
     private final HashMap<String, List<EntityType>> relations;
 
     @ParametersAreNonnullByDefault
-    public SpiritDefinition(EntityType type, int tier, List<String> states, Goal goal, HashMap<String, List<EntityType>> relations, List<String> trait) {
+    public SpiritDefinition(EntityType type, int tier, List<String> states, Goal goal, HashMap<String, List<EntityType>> relations, String trait) {
         this.type = type;
         this.tier = tier;
         this.states = states;

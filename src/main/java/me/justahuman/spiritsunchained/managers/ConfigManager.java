@@ -19,10 +19,12 @@ import java.io.InputStreamReader;
 @Getter
 public class ConfigManager {
     private final FileConfiguration spirits;
+    private final FileConfiguration traits;
     private final FileConfiguration playerData;
 
     public ConfigManager() {
         this.spirits = loadConfig("spirits.yml", true);
+        this.traits = loadConfig("traits.yml", true);
         this.playerData = loadConfig("player-data.yml", false);
     }
 

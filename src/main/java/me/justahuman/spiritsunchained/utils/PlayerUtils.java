@@ -3,6 +3,9 @@ package me.justahuman.spiritsunchained.utils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -24,5 +27,11 @@ public class PlayerUtils {
     @ParametersAreNonnullByDefault
     public static boolean hasKnowledgeLevel(Player player, EntityType type, int checkLevel) {
         return SpiritsUnchained.getConfigManager().getPlayerData().get(player.getUniqueId() + "." + type) instanceof Integer currentLevel && currentLevel >= checkLevel;
+    }
+
+    @ParametersAreNonnullByDefault
+    public static boolean givePotionEffect(Player player, PotionEffectType type, int duration, int strength) {
+        PotionEffect potionEffect = new PotionEffect(type, duration, strength);
+        return (player.addPotionEffect(potionEffect));
     }
 }

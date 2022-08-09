@@ -1,0 +1,240 @@
+Better_Shears:
+  name: "&fBetter Shears"
+  lore:
+    - "75% Chance to get Double the Wool when Shearing!"
+Clear_Effects:
+  name: "&fMilk Production"
+  lore:
+    - "On Use will Clear all Potion Effects!"
+Eggpult:
+  name: "&6Eggpult"
+  lore:
+    - "Fire an Explosive Egg!"
+Legends_Never_Die:
+  name: "&dLegends Never Die"
+  lore:
+    - "Become a Legend"
+    - "Rest In Peace Technoblade"
+Jam_Out:
+  name: "&aJam Out"
+  lore:
+    - "Gain Strength when Listening to a Jukebox!"
+Aquatic_Creature:
+  name: "&3Aquatic Creature"
+  lore:
+    - "Adapt to the Water with Conduit Power!"
+Ink_Spray:
+  name: "&0Ink Spray"
+  lore:
+    - "Blind any Enemies Around you!"
+Speedy_Escape:
+  name: "&eSpeedy Escape"
+  lore:
+    - "Gain Feline Speed and Escape any Enemies!"
+Hops:
+  name: "&eHops"
+  lore:
+    - "Gain Jump Boost and Hop like a Rabbit!"
+Bees_Work:
+  name: "&eBee Buddy"
+  lore:
+    - "Get Honey & Honeycomb!"
+Webber:
+  name: "&fWebber"
+  lore:
+    - "Trap any Near Entities in Webs!"
+Explode:
+  name: "&cExplode"
+  lore:
+    - "Release a Deadly Explosion!"
+Strong_Bones:
+  name: "&fStrong Bones"
+  lore:
+    - "Strengthen your Brittle Bones and Gain Resistance!"
+Undead_Protection:
+  name: "&2Undead Protection"
+  lore:
+    - "Any damaging Potion Effects will instead Heal you!"
+What_Fall:
+  name: "&aWhat Fall"
+  lore:
+    - "Halve your Fall Damage"
+Group_Protection:
+  name: "&cGroup Protection"
+  lore:
+    - "Zombie Pigs will no longer Group up on You when Hitting them!"
+Infest:
+  name: "&8Infest"
+  lore:
+    - "Infest the Stone you Use this On!"
+Bush_Berries:
+  name: "&4Bush Berries"
+  lore:
+    - "No Longer take Damage in Sweet Berry Bushes!"
+Echolocation:
+  name: "&9Echolocation"
+  lore:
+    - "Highlight all Mobs Nearby!"
+Frosty:
+  name: "&bFrosty"
+  lore:
+    - "No Longer Freeze in Powdered Snow!"
+Stew_Maker:
+  name: "&cStew Maker"
+  lore:
+    - "Fill any Available Bowls with Stew"
+Lava_Walker:
+  name: "&4Lava Walker"
+  lore:
+    - "Temporarily Gain the Ability to Walk on Lava!"
+Scute_Shedding:
+  name: "&2Scute Shedding"
+  lore:
+    - "Gain Shed Turtle Scutes!"
+Villager_Friend:
+  name: "&aVillager Friend"
+  lore:
+    - "Get Better Trades with Villagers!"
+Poisonous_Thorns:
+  name: "&2Poisonous Thorns"
+  lore:
+    - "Thorns damage has a chance to Inflict Poison!"
+Play_Dead:
+  name: "&dPlay Dead"
+  lore:
+    - "Pretend to Die"
+    - "Go Invisible and Gain Regeneration!"
+Glow_Up:
+  name: "&bGlow Up"
+  lore:
+    - "Make any Item Frames & Signs Nearby Glow!"
+Light_It_Up:
+  name: "&eLight It Up"
+  lore:
+    - "Convert Magma Blocks into Froglights!"
+High_Jump:
+  name: "&6High Jump"
+  lore:
+    - "Gain a Big Jump Boost"
+Morning_Gift:
+  name: "&eMorning Gift!"
+  lore:
+    - "Gain a Gift from your Cat in the Morning!"
+Better_Food:
+  name: "&fBetter Food!"
+  lore:
+    - "When Eating food get a chance to double Hunger!"
+Spitter:
+  name: "&fSpitter"
+  lore:
+    - "Spit at your Enemies!"
+Dolphin_Swimmer:
+  name: "&3Dolphin Swimmer"
+  lore:
+    - "Get Dolphins Grace!"
+Thick_Fur:
+  name: "&fThick Fur"
+  lore:
+    - "Gain some Armor Toughness!"
+Crunchy_Bamboo:
+  name: "&2Crunchy Bamboo"
+  lore:
+    - "Gain the Ability to Eat Bamboo!"
+Goats_Instrument:
+  name: "&8Goats Instrument"
+  lore:
+    - "Play a Random Goat Horn Sound!"
+Poison_Spray:
+  name: "&2Poison Spray"
+  lore:
+    - "Spray a Thick spray of Poison to All nearby Enemies!"
+Strange_Secrets:
+  name: "&dStrange Secrets"
+  lore:
+    - "Convert Gold to Strange Nether Goo!"
+Multishoot:
+  name: "&8Multishoot"
+  lore:
+    - "Gain Multishot...."
+    - "For your Bow!"
+Crit_hit:
+  name: "&6Crit Hit"
+  lore:
+    - "Gain Strength 3 for a Small Period of Time!"
+Mini_Teleport:
+  name: "&5Mini Teleport"
+  lore:
+    - "Randomly Teleport as if Eating a Chorus Fruit!"
+Nautral_Thorns:
+  name: "&6Natural Thorns"
+  lore:
+    - "Gain a Natural Thorns Effect!"
+Hunger_Hit:
+  name: "&2Hunger Hit"
+  lore:
+    - "Get a Chance to Inflict Hunger when Hitting your Enemies!"
+Slow_Shot:
+  name: "&3Slow Shot"
+  lore:
+    - "Get a Chance to Inflict Slowness when Shooting your Enemies!"
+Sleep_No_More:
+  name: "&9Sleep No More"
+  lore:
+    - "Reset the Timer for Phantoms!"
+Blazing_Thorns:
+  name: "&cBlazing Thorns"
+  lore:
+    - "Get a Chance to Ignite your Attacker!"
+Magma_Trap:
+  name: "&4Magma Trap"
+  lore:
+    - "Dunk your Enemies in Lava!"
+Better_Brewer:
+  name: "&5Better Brewer"
+  lore:
+    - "Brew Water Bottles into Perfected Potions!"
+Heavy_Hit:
+  name: "&eHeavy Hit"
+  lore:
+    - "Your next Attack will Launch your Enemy into the Air!"
+Iron_Defense:
+  name: "&fIron Defense"
+  lore:
+    - "Gain a Constant Resistance Buff"
+Targeted_Teleport:
+  name: "&dTargeted Teleport"
+  lore:
+    - "Teleport in the Direction you are Looking!"
+Another_Chance:
+  name: "&eAnother Chance"
+  lore:
+    - "Get Saved from Death!"
+Tank:
+  name: "&8Tank"
+  lore:
+    - "Temporarily gain Strength & Resistance V"
+Bullet_Swarm:
+  name: "&dBullet Swarm"
+  lore:
+    - "Spawn a Swarm of Bullets"
+    - "Targeted for your Enemies"
+Wither_Resistance:
+  name: "&0Wither Resistance"
+  lore:
+    - "No longer get Damaged by the Withering Effect"
+No_Fatigue:
+  name: "&8No Fatigue"
+  lore:
+    - "No longer get Slowed by the Mining Fatigue Effect"
+Skull_Fire:
+  name: "&4Skull Fire"
+  lore:
+    - "Fire an Enhanced Wither Skull"
+Dragons_Breath:
+  name: "&dDragons Breath"
+  lore:
+    - "Surround yourself with Dragons Breath"
+Sonic_Beam:
+  name: "&bSonic Beam"
+  lore:
+    - "Fire a Sonic Beam like the Warden"
