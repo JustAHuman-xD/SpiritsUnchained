@@ -79,6 +79,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     private static final int RELATIONS_SLOT = 32;
     private static final int TRAIT_SLOT = 40;
 
+    private static boolean SHOWING_DESCRIPTION = false;
+
     private static final ItemStack notEnoughKnowledge = new CustomItemStack(
             Material.WRITABLE_BOOK,
             "&cNot Enough Knowledge!",
@@ -188,6 +190,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     @ParametersAreNonnullByDefault
     private void displayDefinition(Player player, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int returnPage, SpiritDefinition definition) {
         EntityType entityType = definition.getType();
+        SHOWING_DESCRIPTION = false;
 
         // Back Button
         menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, Slimefun.getLocalization().getMessage("guide.back.guide")));
@@ -226,12 +229,29 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
         //Trait
         if (PlayerUtils.hasKnowledgeLevel(player, entityType, 3) || mode == SlimefunGuideMode.CHEAT_MODE) {
-            menu.replaceExistingItem(TRAIT_SLOT, new CustomItemStack(
-                    Material.BARRIER,
+            CustomItemStack traitItemStack = new CustomItemStack(
+                    Material.GLASS,
                     "&aTrait",
                     "",
-                    "&7Not Implemented Yet"
-            ));
+                    "&bTrait: &d" + ChatUtils.humanize(definition.getTrait().get(1)),
+                    "&7(Click For Description)"
+            );
+            menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
+            menu.addMenuClickHandler(TRAIT_SLOT, (player1, slot, itemStack, clickAction) -> {
+                if (SHOWING_DESCRIPTION) {
+                    menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
+                    SHOWING_DESCRIPTION = !SHOWING_DESCRIPTION;
+                } else {
+                    ItemStack descriptionItemStack = traitItemStack.clone();
+                    List<Component> currentLore = descriptionItemStack.lore();
+                    currentLore.set(2, Component.text(ChatColors.color(ChatColor.GRAY + "Example Description")));
+                    currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + "(Click To Close Description)")));
+                    descriptionItemStack.lore(currentLore);
+                    menu.replaceExistingItem(TRAIT_SLOT, descriptionItemStack);
+                    SHOWING_DESCRIPTION = !SHOWING_DESCRIPTION;
+                }
+                return false;
+            });
         } else {
             menu.replaceExistingItem(TRAIT_SLOT, notEnoughKnowledge);
         }

@@ -2,7 +2,7 @@ SHEEP:
     Tier: 1
     Trait:
         - Custom
-        - BetterShears
+        - Better_Shears
     States:
         - Gentle
         - Passive
@@ -18,7 +18,7 @@ COW:
     Tier: 1
     Trait:
         - Use
-        - ClearEffects
+        - Clear_Effects
     States:
         - Gentle
         - Passive
@@ -49,7 +49,7 @@ PIG:
     Tier: 4
     Trait:
         - Potion
-        - LegendsNeverDie
+        - Legends_Never_Die
     States:
         - Gentle
         - Passive
@@ -66,7 +66,7 @@ PARROT:
     Tier: 1
     Trait:
         - Custom
-        - JamOut
+        - Jam_Out
     States:
         - Gentle
         - Passive
@@ -81,7 +81,7 @@ COD:
     Tier: 1
     Trait:
         - Use
-        - AquaticCreature
+        - Aquatic_Creature
     States:
         - Gentle
         - Passive
@@ -97,7 +97,7 @@ SALMON:
     Tier: 1
     Trait:
         - Use
-        - AquaticCreature
+        - Aquatic_Creature
     States:
         - Gentle
         - Passive
@@ -113,7 +113,7 @@ TROPICAL_FISH:
     Tier: 1
     Trait:
         - Use
-        - AquaticCreature
+        - Aquatic_Creature
     States:
         - Gentle
         - Passive
@@ -128,7 +128,7 @@ SQUID:
     Tier: 1
     Trait:
         - Use
-        - InkSpray
+        - Ink_Spray
     States:
         - Gentle
         - Passive
@@ -143,7 +143,7 @@ OCELOT:
     Tier: 1
     Trait:
         - Use
-        - SpeedyEscape
+        - Speedy_Escape
     States:
         - Gentle
         - Passive
@@ -173,7 +173,7 @@ BEE:
     Tier: 1
     Trait:
         - Use
-        - BeesWork
+        - Bees_Work
     States:
         - Gentle
         - Passive
@@ -222,7 +222,7 @@ SKELETON:
     Tier: 1
     Trait:
         - Use
-        - StrongBones
+        - Strong_Bones
     States:
         - Aggressive
         - Hostile
@@ -238,7 +238,7 @@ ZOMBIE:
     Tier: 1
     Trait:
         - Custom
-        - UndeadProtection
+        - Undead_Protection
     States:
         - Aggressive
         - Hostile
@@ -258,7 +258,7 @@ SLIME:
     Tier: 1
     Trait:
         - Custom
-        - WhatFall
+        - What_Fall
     States:
         - Passive
         - Aggressive
@@ -275,7 +275,7 @@ ZOMBIFIED_PIGLIN:
     Tier: 1
     Trait:
         - Custom
-        - GroupProtection
+        - Group_Protection
     States:
         - Passive
         - Aggressive
@@ -309,7 +309,7 @@ FOX:
     Tier: 2
     Trait:
         - Custom
-        - BushProtection
+        - Bush_Protection
     States:
         - Gentle
         - Passive
@@ -354,7 +354,7 @@ MUSHROOM_COW:
     Tier: 2
     Trait:
         - Use
-        - SuspiciousStew
+        - Suspicious_Stew
     States:
         - Gentle
         - Passive
@@ -366,7 +366,7 @@ STRIDER:
     Tier: 2
     Trait:
         - Use
-        - LavaWalker
+        - Lava_Walker
     States:
         - Gentle
         - Passive
@@ -378,7 +378,7 @@ TURTLE:
     Tier: 2
     Trait:
         - Use
-        - ScuteShedding
+        - Scute_Shedding
     States:
         - Gentle
         - Passive
@@ -395,7 +395,7 @@ VILLAGER:
     Tier: 2
     Trait:
         - Potion
-        - VillagerFriend
+        - Villager_Friend
     States:
         - Gentle
         - Passive
@@ -419,7 +419,7 @@ WANDERING_TRADER:
     Tier: 2
     Trait:
         - Potion
-        - VillagerFriend
+        - Villager_Friend
     States:
         - Gentle
         - Passive
@@ -445,7 +445,7 @@ PUFFERFISH:
     Tier: 2
     Trait:
         - Custom
-        - PoisonousThorns
+        - Poisonous_Thorns
     States:
         - Gentle
         - Passive
@@ -461,7 +461,7 @@ AXOLOTL:
     Tier: 2
     Trait:
         - Use
-        - PlayDead
+        - Play_Dead
     States:
         - Gentle
         - Passive
@@ -479,7 +479,7 @@ GLOW_SQUID:
     Tier: 2
     Trait:
         - Use
-        - GlowUp
+        - Glow_Up
     States:
         - Gentle
         - Passive
@@ -494,7 +494,7 @@ FROG:
     Tier: 2
     Trait:
         - Custom
-        - LightItUp
+        - Light_It_Up
     States:
         - Gentle
         - Passive
@@ -510,7 +510,7 @@ HORSE:
     Tier: 2
     Trait:
         - Use
-        - HighJump
+        - High_Jump
     States:
         - Friendly
         - Gentle
@@ -523,7 +523,7 @@ DONKEY:
     Tier: 2
     Trait:
         - Use
-        - HighJump
+        - High_Jump
     States:
         - Friendly
         - Gentle
@@ -536,7 +536,7 @@ MULE:
     Tier: 2
     Trait:
         - Use
-        - HighJump
+        - High_Jump
     States:
         - Friendly
         - Gentle
@@ -549,7 +549,7 @@ CAT:
     Tier: 2
     Trait:
         - Custom
-        - MorningGift
+        - Morning_Gift
     States:
         - Gentle
         - Passive
@@ -561,7 +561,7 @@ WOLF:
     Tier: 2
     Trait:
         - Custom
-        - BetterFood
+        - Better_Food
     States:
         - Gentle
         - Passive
@@ -589,7 +589,7 @@ DOLPHIN:
     Tier: 2
     Trait:
         - Potion
-        - DolphinSwimmer
+        - Dolphin_Swimmer
     States:
         - Gentle
         - Passive
@@ -601,7 +601,7 @@ POLAR_BEAR:
     Tier: 2
     Trait:
         - Use
-        - ThickFur
+        - Thick_Fur
     States:
         - Gentle
         - Passive
@@ -618,7 +618,7 @@ PANDA:
     Tier: 2
     Trait:
         - Use
-        - CrunchyBamboo
+        - Crunchy_Bamboo
     States:
         - Gentle
         - Passive
@@ -630,7 +630,7 @@ GOAT:
     Tier: 2
     Trait:
         - Use
-        - GoatsInstrument
+        - Goats_Instrument
     States:
         - Gentle
         - Passive
@@ -643,7 +643,7 @@ CAVE_SPIDER:
     Tier: 2
     Trait:
         - Use
-        - PoisonSpray
+        - Poison_Spray
     States:
         - Passive
         - Aggressive
@@ -655,7 +655,7 @@ PIGLIN:
     Tier: 2
     Trait:
         - Use
-        - StrangeSecrets
+        - Strange_Secrets
     States:
         - Passive
         - Aggressive
@@ -683,7 +683,7 @@ VINDICATOR:
     Tier: 2
     Trait:
         - Use
-        - CritHit
+        - Crit_Hit
     States:
         - Aggressive
         - Hostile
@@ -699,7 +699,7 @@ ENDERMITE:
     Tier: 2
     Trait:
         - Use
-        - MiniTeleport
+        - Mini_Teleport
     States:
         - Aggressive
         - Hostile
@@ -714,7 +714,7 @@ GUARDIAN:
     Tier: 2
     Trait:
         - Custom
-        - NaturalThorns
+        - Natural_Thorns
     States:
         - Aggressive
         - Hostile
@@ -726,7 +726,7 @@ HUSK:
     Tier: 2
     Trait:
         - Custom
-        - HungerHit
+        - Hunger_Hit
     States:
         - Aggressive
         - Hostile
@@ -742,7 +742,7 @@ STRAY:
     Tier: 2
     Trait:
         - Custom
-        - SlowShot
+        - Slow_Shot
     States:
         - Aggressive
         - Hostile
@@ -757,7 +757,7 @@ PHANTOM:
     Tier: 2
     Trait:
         - Use
-        - SleepNoMore
+        - Sleep_No_More
     States:
         - Aggressive
         - Hostile
@@ -773,7 +773,7 @@ BLAZE:
     Tier: 2
     Trait:
         - Custom
-        - FireyThorns
+        - Blazing_Thorns
     States:
         - Aggressive
         - Hostile
@@ -785,7 +785,7 @@ MAGMA_CUBE:
     Tier: 2
     Trait:
         - Custom
-        - DeathSplit
+        - Death_Split
     States:
         - Passive
         - Aggressive
@@ -801,7 +801,7 @@ ZOMBIE_VILLAGER:
     Tier: 2
     Trait:
         - Custom
-        - UndeadProtection
+        - Undead_Protection
     States:
         - Aggressive
         - Hostile
@@ -817,7 +817,7 @@ DROWNED:
     Tier: 2
     Trait:
         - Use
-        - AquaticCreature
+        - Aquatic_Creature
     States:
         - Aggressive
         - Hostile
@@ -833,7 +833,7 @@ WITCH:
     Tier: 2
     Trait:
         - Use
-        - BetterBrewer
+        - Better_Brewer
     States:
         - Aggressive
         - Hostile
@@ -845,7 +845,7 @@ HOGLIN:
     Tier: 2
     Trait:
         - Custom
-        - HeavyHit
+        - Heavy_Hit
     States:
         - Aggressive
         - Hostile
@@ -861,7 +861,7 @@ ZOGLIN:
     Tier: 2
     Trait:
         - Custom
-        - HeavyHit
+        - Heavy_Hit
     States:
         - Aggressive
         - Hostile
@@ -873,7 +873,7 @@ SKELETON_HORSE:
     Tier: 2
     Trait:
         - Use
-        - HighJump
+        - High_Jump
     States:
         - Gentle
         - Passive
@@ -885,7 +885,7 @@ ZOMBIE_HORSE:
     Tier: 2
     Trait:
         - Use
-        - HighJump
+        - High_Jump
     States:
         - Gentle
         - Passive
@@ -897,7 +897,7 @@ IRON_GOLEM:
     Tier: 3
     Trait:
         - Potion
-        - IronDefense
+        - Iron_Defense
     States:
         - Gentle
         - Passive
@@ -915,7 +915,7 @@ ENDERMAN:
     Tier: 3
     Trait:
         - Use
-        - TargetedTeleport
+        - Targeted_Teleport
     States:
         - Gentle
         - Passive
@@ -929,7 +929,7 @@ EVOKER:
     Tier: 3
     Trait:
         - Custom
-        - AnotherChance
+        - Another_Chance
     States:
         - Hostile
     Pass On:
@@ -951,7 +951,7 @@ SHULKER:
     Tier: 3
     Trait:
         - Use
-        - BulletSwarm
+        - Bullet_Swarm
     States:
         - Aggressive
         - Hostile
@@ -963,7 +963,7 @@ WITHER_SKELETON:
     Tier: 3
     Trait:
         - Custom
-        - WitherResistance
+        - Wither_Resistance
     States:
         - Aggressive
         - Hostile
@@ -975,7 +975,7 @@ ELDER_GUARDIAN:
     Tier: 3
     Trait:
         - Custom
-        - NoFatigue
+        - No_Fatigue
     States:
         - Hostile
     Pass On:
@@ -986,7 +986,7 @@ WITHER:
     Tier: 4
     Trait:
         - Use
-        - SkullFire
+        - Skull_Fire
     States:
         - Hostile
     Pass On:
@@ -1013,7 +1013,7 @@ ENDER_DRAGON:
     Tier: 4
     Trait:
         - Use
-        - DragonsBreath
+        - Dragons_Breath
     States:
         - Hostile
     Pass On:
@@ -1024,7 +1024,7 @@ WARDEN:
     Tier: 4
     Trait:
         - Use
-        - SonicBeam
+        - Sonic_Beam
     States:
         - Hostile
     Pass On:
