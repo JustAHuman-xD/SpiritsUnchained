@@ -6,10 +6,12 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.utils.MiscUtils;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -19,10 +21,13 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritEntityManager implements Listener {
 
@@ -35,6 +40,7 @@ public class SpiritEntityManager implements Listener {
         }
         SpiritsUnchained.getPluginManager().registerEvents(this, SpiritsUnchained.getInstance());
         Bukkit.getScheduler().runTaskTimer(SpiritsUnchained.getInstance(), this::tick, tickRate, Math.max(1, tickRate));
+        Bukkit.getScheduler().runTaskTimer(SpiritsUnchained.getInstance(), this::spawnTick, 1, 200);
     }
 
     public void register(AbstractCustomMob<?> customMob) {
@@ -64,6 +70,24 @@ public class SpiritEntityManager implements Listener {
                 AbstractCustomMob<?> customMob = getCustomClass(entity, null);
                 if (customMob != null) {
                     customMob.onEntityTick(entity);
+                }
+            }
+        }
+    }
+
+    private void spawnTick() {
+        for (World world : Bukkit.getWorlds()) {
+            for (Player player : world.getPlayers()) {
+                int chance = ThreadLocalRandom.current().nextInt(1, 100);
+                int soulcount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
+                ItemStack helmetItem = player.getInventory().getHelmet();
+                if (helmetItem == null) {continue;}
+                if (!MiscUtils.imbuedCheck(helmetItem)) {continue;}
+                if (soulcount < 4 && chance <= 10) {
+                    AbstractCustomMob<?> maybeSpirit = SpiritUtils.getSpawnMob(player.getLocation());
+                    if (maybeSpirit != null) {
+                        maybeSpirit.spawn(player.getLocation(), player.getWorld(), "Natural", null);
+                    }
                 }
             }
         }

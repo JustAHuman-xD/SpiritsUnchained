@@ -5,6 +5,7 @@ import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.MiscUtils;
 
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -34,7 +35,7 @@ public class PlayerReleaseSpiritListener implements Listener {
         if ( spirit == null) {return;}
         SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
         int chance = ThreadLocalRandom.current().nextInt(1, 100);
-        if (MiscUtils.imbuedCheck(helmetItem) && chance <= 10/definition.getTier()) {
+        if (MiscUtils.imbuedCheck(helmetItem) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < 4) {
             spirit.spawn(killedEntity.getLocation(), killedEntity.getWorld(), "Hostile", null);
         }
     }

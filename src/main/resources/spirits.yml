@@ -1,6 +1,11 @@
 SHEEP:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Better_Shears
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -13,8 +18,13 @@ SHEEP:
             - WITHER
             - WOLF
 COW:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Clear_Effects
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -26,8 +36,13 @@ COW:
         Afraid:
             - WITHER
 CHICKEN:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Eggpult
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -40,8 +55,13 @@ CHICKEN:
             - WITHER
             - FOX
 PIG:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 4
     Trait: Legends_Never_Die
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -55,8 +75,13 @@ PIG:
             - ENDER_DRAGON
             - WARDEN
 PARROT:
+    Biomes:
+        - jungle_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Jam_Out
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -68,8 +93,14 @@ PARROT:
         Afraid:
             - WITHER
 COD:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Aquatic_Creature
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -82,8 +113,14 @@ COD:
             - AXOLOTL
             - POLAR_BEAR
 SALMON:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Aquatic_Creature
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -96,8 +133,14 @@ SALMON:
             - AXOLOTL
             - POLAR_BEAR
 TROPICAL_FISH:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Aquatic_Creature
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -109,8 +152,14 @@ TROPICAL_FISH:
         Afraid:
             - AXOLOTL
 SQUID:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Ink_Spray
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -122,8 +171,13 @@ SQUID:
         Afraid:
             - GLOW_SQUID
 OCELOT:
+    Biomes:
+        - jungle_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Speedy_Escape
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -135,8 +189,13 @@ OCELOT:
         Scare:
             - CREEPER
 RABBIT:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Hops
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -148,8 +207,13 @@ RABBIT:
         Afraid:
             - WITHER
 BEE:
+    Biomes:
+        - forest_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Bee_Buddy
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -162,8 +226,14 @@ BEE:
         Afraid:
             - WITHER
 SPIDER:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Webber
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -176,8 +246,14 @@ SPIDER:
         Afraid:
             - WITHER
 CREEPER:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Explode
+    Time:
+        - Day
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -191,8 +267,13 @@ CREEPER:
             - OCELOT
             - WITHER
 SKELETON:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Strong_Bones
+    Time:
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -205,8 +286,13 @@ SKELETON:
             - WITHER
             - WOLF
 ZOMBIE:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Undead_Protection
+    Time:
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -223,8 +309,14 @@ ZOMBIE:
             - VILLAGER
             - WANDERING_TRADER
 SLIME:
+    Biomes:
+        - swamp_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: What_Fall
+    Time:
+        - Night
+        - Day
     States:
         - Passive
         - Aggressive
@@ -238,6 +330,9 @@ SLIME:
             - FROG
             - WITHER
 ZOMBIFIED_PIGLIN:
+    Biomes:
+        - main_nether
+    Dimension: NETHER
     Tier: 1
     Trait: Group_Protection
     States:
@@ -254,8 +349,14 @@ ZOMBIFIED_PIGLIN:
         Scare:
             - TURTLE
 SILVERFISH:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 1
     Trait: Infest
+    Time:
+        - Day
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -268,8 +369,13 @@ SILVERFISH:
             - WITHER
             - ENDERMITE
 FOX:
+    Biomes:
+        - snowy_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Bush_Berries
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -281,6 +387,9 @@ FOX:
         Scare:
             - CHICKEN
 BAT:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Echolocation
     States:
@@ -294,8 +403,14 @@ BAT:
         Afraid:
             - WARDEN
 SNOWMAN:
+    Biomes:
+        - snowy_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Frosty
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -307,8 +422,14 @@ SNOWMAN:
         Afraid:
             - BLAZE
 MUSHROOM_COW:
+    Biomes:
+        - mushroom_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Stew_Maker
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -317,6 +438,9 @@ MUSHROOM_COW:
         - MUSHROOM_COW
         - 4
 STRIDER:
+    Biomes:
+        - main_nether
+    Dimension: NETHER
     Tier: 2
     Trait: Lava_Walker
     States:
@@ -327,8 +451,14 @@ STRIDER:
         - LAVA_BUCKET
         - 5
 TURTLE:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Scute_Shedding
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -342,8 +472,13 @@ TURTLE:
             - HUSK
             - ZOMBIFIED_PIGLIN
 VILLAGER:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Villager_Friend
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -364,8 +499,14 @@ VILLAGER:
             - RAVAGER
             - WITCH
 WANDERING_TRADER:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Villager_Friend
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -388,8 +529,14 @@ WANDERING_TRADER:
         Scare:
             - LLAMA
 PUFFERFISH:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Poisonous_Thorns
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -402,8 +549,14 @@ PUFFERFISH:
         Afraid:
             - AXOLOTL
 AXOLOTL:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Play_Dead
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -418,8 +571,14 @@ AXOLOTL:
             - COD
             - SALMON
 GLOW_SQUID:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Glow_Up
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -431,8 +590,14 @@ GLOW_SQUID:
         Scare:
             - SQUID
 FROG:
+    Biomes:
+        - swamp_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Light_It_Up
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -445,8 +610,13 @@ FROG:
             - SLIME
             - MAGMA_CUBE
 HORSE:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: High_Jump
+    Time:
+        - Day
     States:
         - Friendly
         - Gentle
@@ -456,8 +626,13 @@ HORSE:
         - HAY_BLOCK
         - 16
 DONKEY:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: High_Jump
+    Time:
+        - Day
     States:
         - Friendly
         - Gentle
@@ -467,8 +642,13 @@ DONKEY:
         - HAY_BLOCK
         - 16
 MULE:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: High_Jump
+    Time:
+        - Day
     States:
         - Friendly
         - Gentle
@@ -478,8 +658,13 @@ MULE:
         - HAY_BLOCK
         - 16
 CAT:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Morning_Gift
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -488,8 +673,13 @@ CAT:
         - CAT
         - 4
 WOLF:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Better_Food
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -498,8 +688,13 @@ WOLF:
         - BONE
         - 32
 LLAMA:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Spitter
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -512,8 +707,14 @@ LLAMA:
         Afraid:
             - WANDERING_TRADER
 DOLPHIN:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Dolphin_Swimmer
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -522,8 +723,14 @@ DOLPHIN:
         - SEA_GRASS
         - 32
 POLAR_BEAR:
+    Biomes:
+        - snowy_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Thick_Fur
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -537,8 +744,13 @@ POLAR_BEAR:
             - COD
             - SALMON
 PANDA:
+    Biomes:
+        - jungle_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Crunchy_Bamboo
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -547,8 +759,13 @@ PANDA:
         - BAMBOO
         - 64
 GOAT:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Goats_Instrument
+    Time:
+        - Day
     States:
         - Gentle
         - Passive
@@ -558,8 +775,14 @@ GOAT:
         - GOAT_HORN
         - 2
 CAVE_SPIDER:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Poison_Spray
+    Time:
+        - Day
+        - Night
     States:
         - Passive
         - Aggressive
@@ -568,6 +791,9 @@ CAVE_SPIDER:
         - POISONOUS_POTATO
         - 16
 PIGLIN:
+    Biomes:
+        - main_nether
+    Dimension: NETHER
     Tier: 2
     Trait: Strange_Secrets
     States:
@@ -578,8 +804,14 @@ PIGLIN:
         - GOLD_24K
         - 16
 PILLAGER:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Multishoot
+    Time:
+        - Day
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -592,8 +824,14 @@ PILLAGER:
             - VILLAGER
             - WANDERING_TRADER
 VINDICATOR:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Crit_hit
+    Time:
+        - Day
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -606,8 +844,14 @@ VINDICATOR:
             - VILLAGER
             - WANDERING_TRADER
 ENDERMITE:
+    Biomes:
+        - main_end
+    Dimension: THE_END
     Tier: 2
     Trait: Mini_Teleport
+    Time:
+        - Day
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -619,8 +863,14 @@ ENDERMITE:
         Scare:
             - SILVERFISH
 GUARDIAN:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Nautral_Thorns
+    Time:
+        - Day
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -629,8 +879,14 @@ GUARDIAN:
         - COD
         - 16
 HUSK:
+    Biomes:
+        - desert_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Hunger_Hit
+    Time:
+        - Day
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -643,8 +899,13 @@ HUSK:
             - VILLAGER
             - WANDERING_TRADER
 STRAY:
+    Biomes:
+        - snowy_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Slow_Shot
+    Time:
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -656,8 +917,13 @@ STRAY:
         Afraid:
             - WOLF
 PHANTOM:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Sleep_No_More
+    Time:
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -670,6 +936,9 @@ PHANTOM:
             - CAT
             - OCELOT
 BLAZE:
+    Biomes:
+        - main_nether
+    Dimension: NETHER
     Tier: 2
     Trait: Blazing_Thorns
     States:
@@ -680,6 +949,9 @@ BLAZE:
         - FIRE_CHARGE
         - 16
 MAGMA_CUBE:
+    Biomes:
+        - magma_nether
+    Dimension: NETHER
     Tier: 2
     Trait: Magma_Trap
     States:
@@ -694,8 +966,13 @@ MAGMA_CUBE:
         Afraid:
             - FROG
 ZOMBIE_VILLAGER:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Undead_Protection
+    Time:
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -708,8 +985,14 @@ ZOMBIE_VILLAGER:
             - VILLAGER
             - WANDERING_TRADER
 DROWNED:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Aquatic_Creature
+    Time:
+        - Day
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -722,8 +1005,14 @@ DROWNED:
             - VILLAGER
             - WANDERING_TRADER
 WITCH:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: Better_Brewer
+    Time:
+        - Day
+        - Night
     States:
         - Aggressive
         - Hostile
@@ -732,6 +1021,9 @@ WITCH:
         - FERMENTED_SPIDER_EYE
         - 64
 HOGLIN:
+    Biomes:
+        - main_nether
+    Dimension: NETHER
     Tier: 2
     Trait: Heavy_Hit
     States:
@@ -746,6 +1038,9 @@ HOGLIN:
             - PIGLIN
             - PIGLIN_BRUTE
 ZOGLIN:
+    Biomes:
+        - main_nether
+    Dimension: NETHER
     Tier: 2
     Trait: Heavy_Hit
     States:
@@ -756,8 +1051,13 @@ ZOGLIN:
         - MAGICAL_ZOMBIE_PILLS
         - 3
 SKELETON_HORSE:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: High_Jump
+    Time:
+        - Night
     States:
         - Gentle
         - Passive
@@ -766,8 +1066,13 @@ SKELETON_HORSE:
         - LEATHER_HORSE_ARMOR
         - 1
 ZOMBIE_HORSE:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 2
     Trait: High_Jump
+    Time:
+        - Night
     States:
         - Gentle
         - Passive
@@ -776,8 +1081,14 @@ ZOMBIE_HORSE:
         - LEATHER_HORSE_ARMOR
         - 1
 IRON_GOLEM:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 3
     Trait: Iron_Defense
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -792,8 +1103,14 @@ IRON_GOLEM:
             - PILLAGER
             - VINDICATOR
 ENDERMAN:
+    Biomes:
+        - main_end
+    Dimension: THE_END
     Tier: 3
     Trait: Targeted_Teleport
+    Time:
+        - Day
+        - Night
     States:
         - Gentle
         - Passive
@@ -804,8 +1121,14 @@ ENDERMAN:
         - ENDERMITE
         - 8
 EVOKER:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 3
     Trait: Another_Chance
+    Time:
+        - Day
+        - Night
     States:
         - Hostile
     Pass On:
@@ -813,8 +1136,14 @@ EVOKER:
         - TOTEM_OF_UNDYING
         - 5
 RAVAGER:
+    Biomes:
+        - main_overworld
+    Dimension: NORMAL
     Tier: 3
     Trait: Tank
+    Time:
+        - Day
+        - Night
     States:
         - Hostile
     Pass On:
@@ -822,6 +1151,9 @@ RAVAGER:
         - Villager
         - 20
 SHULKER:
+    Biomes:
+        - main_end
+    Dimension: THE_END
     Tier: 3
     Trait: Bullet_Swarm
     States:
@@ -832,6 +1164,9 @@ SHULKER:
         - Player
         - 5
 WITHER_SKELETON:
+    Biomes:
+        - soul_nether
+    Dimension: NETHER
     Tier: 3
     Trait: Wither_Resistance
     States:
@@ -842,8 +1177,14 @@ WITHER_SKELETON:
         - NETHERITE_SWORD
         - 1
 ELDER_GUARDIAN:
+    Biomes:
+        - ocean_overworld
+    Dimension: NORMAL
     Tier: 3
     Trait: No_Fatigue
+    Time:
+        - Day
+        - Night
     States:
         - Hostile
     Pass On:
@@ -851,6 +1192,9 @@ ELDER_GUARDIAN:
         - SPONGE
         - 32
 WITHER:
+    Biomes:
+        - soul_nether
+    Dimension: NETHER
     Tier: 4
     Trait: Skull_Fire
     States:
@@ -877,6 +1221,9 @@ WITHER:
         Afraid:
             - PIG
 ENDER_DRAGON:
+    Biomes:
+        - dragon_end
+    Dimension: THE_END
     Tier: 4
     Trait: Dragons_Breath
     States:
@@ -889,8 +1236,14 @@ ENDER_DRAGON:
         Afraid:
             - PIG
 WARDEN:
+    Biomes:
+        - deep_dark
+    Dimension: NORMAL
     Tier: 4
     Trait: Sonic_Beam
+    Time:
+        - Day
+        - Night
     States:
         - Hostile
     Pass On:

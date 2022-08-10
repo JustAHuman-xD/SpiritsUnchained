@@ -20,8 +20,14 @@ public class SpiritsManager {
 
     @Getter
     private final Map<EntityType, SpiritDefinition> spiritMap = new HashMap<>();
+    @Getter
+    private final List<List<EntityType>> tierMaps = new ArrayList<>();
 
     public SpiritsManager() {
+        tierMaps.add(new ArrayList<>());
+        tierMaps.add(new ArrayList<>());
+        tierMaps.add(new ArrayList<>());
+        tierMaps.add(new ArrayList<>());
         fillSpiritMap();
     }
 
@@ -46,6 +52,9 @@ public class SpiritsManager {
             final int tier = spirit.getInt("Tier");
             final List<String> states = spirit.getStringList("States");
             final List<String> listGoal = spirit.getStringList("Pass On");
+            final List<String> biome_group = spirit.getStringList("Biomes");
+            final List<String> times = spirit.getStringList("Times");
+            final String dimension = spirit.getString("Dimension");
             final String trait = spirit.getString("Trait");
             final Goal goal = new Goal(listGoal.get(0), listGoal.get(1), Integer.parseInt(listGoal.get(2)));
             final HashMap<String, List<EntityType>> relations = new HashMap<>();
@@ -76,9 +85,13 @@ public class SpiritsManager {
                     states,
                     goal,
                     relations,
-                    trait
+                    trait,
+                    dimension,
+                    biome_group,
+                    times
             );
             spiritMap.put(type, spiritDefinition);
+            tierMaps.get(tier-1).add(type);
         }
         LogUtils.LogInfo("Loaded " + spiritMap.size() + " Spirits!");
     }

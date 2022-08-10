@@ -54,7 +54,7 @@ public class Items {
 
         new SpiritBook(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_BOOK,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
                 new ItemStack(Material.GLOW_INK_SAC), ItemStacks.SU_ECTOPLASM, ItemStacks.SU_INFUSED_FEATHER,
-                null, new ItemStack(Material.WRITABLE_BOOK), null,
+                null, new ItemStack(Material.BOOK), null,
                 ItemStacks.SU_INFUSED_FEATHER, ItemStacks.SU_ECTOPLASM, new ItemStack(Material.GLOW_INK_SAC)
         }).register(instance);
 

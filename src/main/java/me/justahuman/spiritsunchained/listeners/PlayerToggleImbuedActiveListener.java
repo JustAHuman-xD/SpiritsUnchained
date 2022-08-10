@@ -24,7 +24,7 @@ public class PlayerToggleImbuedActiveListener implements Listener {
                 ItemMeta mainMeta = mainHand.getItemMeta();
                 String Message;
                 PersistentDataAPI.setByte(mainMeta, MiscUtils.imbuedKey, PersistentDataAPI.getByte(mainMeta, MiscUtils.imbuedKey) == (byte) 1 ? (byte) 2 : (byte) 1);
-                Message = PersistentDataAPI.getByte(mainMeta, MiscUtils.imbuedKey) == (byte) 1 ? "Toggled Off Spirits" : "Toggled On Spirits";
+                Message = PersistentDataAPI.getByte(mainMeta, MiscUtils.imbuedKey) == (byte) 1 ? "Toggled Off Visibility" : "Toggled On Visibility";
                 mainHand.setItemMeta(mainMeta);
                 player.sendMessage(ChatColor.LIGHT_PURPLE + Message);
             }

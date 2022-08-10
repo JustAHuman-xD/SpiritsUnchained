@@ -13,6 +13,8 @@ public class RunnableManager {
         SpiritsUnchained spiritsUnchained = SpiritsUnchained.getInstance();
 
         this.saveRunnable = new SaveRunnable();
-        this.saveRunnable.runTaskTimer(spiritsUnchained,1, 12000);
+        this.saveRunnable.runTaskTimer(spiritsUnchained,1, 18000);
     }
+
+
 }

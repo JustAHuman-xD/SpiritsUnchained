@@ -16,18 +16,25 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 public class ConfigManager {
     private final FileConfiguration spirits;
     private final FileConfiguration traits;
     private final FileConfiguration playerData;
+    private final FileConfiguration biomeGroups;
+    private final Map<String, List<String>> biomeMap;
 
     public ConfigManager() {
         this.spirits = loadConfig("spirits.yml", true);
         this.traits = loadConfig("traits.yml", true);
+        this.biomeGroups = loadConfig("biome-groups.yml", true);
         this.playerData = loadConfig("player-data.yml", false);
+
+        biomeMap = fillBiomeMap();
     }
 
     @Nonnull
@@ -72,5 +79,13 @@ public class ConfigManager {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    private Map<String, List<String>> fillBiomeMap() {
+        Map<String, List<String>> finalMap = new HashMap<>();
+        for (String group : biomeGroups.getKeys(false)) {
+            finalMap.put(group, biomeGroups.getStringList(group));
+        }
+        return finalMap;
     }
 }

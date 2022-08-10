@@ -1,23 +1,34 @@
 package me.justahuman.spiritsunchained.utils;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
+import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
+import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
+import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static me.justahuman.spiritsunchained.utils.MiscUtils.getNearImbued;
 
@@ -139,5 +150,74 @@ public class SpiritUtils {
         for (Player player : collection) {
             player.spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, dustOptions);
         }
+    }
+
+    @ParametersAreNonnullByDefault
+    public static boolean isSpiritItem(ItemStack itemStack) {
+        if (!itemStack.hasItemMeta()) {return false;}
+        return PersistentDataAPI.hasString(itemStack.getItemMeta(), MiscUtils.spiritItemKey);
+    }
+
+    @ParametersAreNonnullByDefault
+    public static Collection<Entity> getNearbySpirits(Location location) {
+        Collection<Entity> nearbyEntities = location.getNearbyEntities(30, 30, 30);
+        Collection<Entity> returnList = new ArrayList<>();
+        if (nearbyEntities.size() < 1) {return returnList;}
+        for (Entity entity : nearbyEntities) {
+            if (! (SpiritsUnchained.getSpiritEntityManager().getCustomClass(entity, null) == null)) {
+                returnList.add(entity);
+            }
+        }
+        return returnList;
+    }
+
+    @Nullable
+    public static AbstractCustomMob<?> getSpawnMob(Location location) {
+        List<List<EntityType>> tierMap = SpiritsUnchained.getSpiritsManager().getTierMaps();
+        World world = location.getWorld();
+        Biome biome = location.getBlock().getBiome();
+        World.Environment dimension = world.getEnvironment();
+        boolean isDay = world.isDayTime();
+        int chance = ThreadLocalRandom.current().nextInt(1, 100);
+        AbstractCustomMob<?> spirit = null;
+        int tier;
+        if (chance > 40) {
+            tier = 0;
+        } else if (chance > 20) {
+            tier = 1;
+        } else if (chance > 5) {
+            tier = 2;
+        } else if (chance > 0) {
+            tier = 3;
+        } else {
+            tier = 0;
+        }
+        List<EntityType> getFrom = tierMap.get(tier);
+        Collections.shuffle(getFrom);
+        for (EntityType entityType : getFrom) {
+            SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(entityType);
+            if (dimension != World.Environment.valueOf(definition.getDimension())) {continue;} // Check if Dimensions Match Up
+            if (definition.getTimes().size() > 0) { //Check if the Spirit has a Time Requirement & if it does then is it Met
+                boolean timeRight = false;
+                for (String time : definition.getTimes()) {
+                    if (time.equals("Day") && isDay) {timeRight = true;}
+                    if (time.equals("Night") && !isDay) {timeRight = true;}
+                }
+                if (!timeRight) {continue;}
+            }
+            if (definition.getBiome_group().size() > 0) {
+                boolean inBiome = false;
+                for (String biomeId : definition.getBiome_group()) {
+                    for (String CurrentBiome : SpiritsUnchained.getConfigManager().getBiomeMap().get(biomeId)) {
+                        if (biome == Biome.valueOf(CurrentBiome)) {
+                            inBiome = true;
+                        }
+                    }
+                }
+                if (!inBiome) {continue;}
+            }
+            spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, entityType + "_SPIRIT");
+        }
+        return spirit;
     }
 }

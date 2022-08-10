@@ -2,14 +2,17 @@ package me.justahuman.spiritsunchained.implementation.multiblocks;
 
 import me.justahuman.spiritsunchained.utils.MiscUtils;
 
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 
 public class ChargedCore {
@@ -24,6 +27,12 @@ public class ChargedCore {
             String ID = BlockStorage.checkID(b);
             String Times = BlockStorage.getLocationInfo(b.getLocation(),"particle");
             particle(Integer.valueOf(Times),l);
+            for (Player player : players) {
+                ItemStack spiritItem = getSpiritItem(player);
+                if (spiritItem != null) {
+
+                }
+            }
         }
     }
 
@@ -34,5 +43,15 @@ public class ChargedCore {
     private static boolean isComplete(Block b) {
         String storage = BlockStorage.getLocationInfo(b.getLocation(),"complete");
         return Boolean.parseBoolean(storage);
+    }
+
+    @Nullable
+    private static ItemStack getSpiritItem(Player player) {
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (SpiritUtils.isSpiritItem(item)) {
+                return item;
+            }
+        }
+        return null;
     }
 }

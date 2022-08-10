@@ -44,6 +44,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
 
     @Nonnull
     public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String revealState) {
+        double health = this.getMaxHealth()*definition.getTier();
         String state;
         if (reason.equals("Natural")) {
             state = definition.getStates().get(new Random().nextInt(definition.getStates().size()));
@@ -57,8 +58,8 @@ public class Spirit extends AbstractCustomMob<Allay> {
         PersistentDataAPI.setString(mob, MiscUtils.EntityKey, this.getId());
         PersistentDataAPI.setString(mob, MiscUtils.spiritStateKey, state);
 
-        Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.getMaxHealth());
-        mob.setHealth(this.getMaxHealth());
+        Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
+        mob.setHealth(health);
         mob.setCustomName(this.getName());
         mob.setCustomNameVisible(true);
         mob.setRemoveWhenFarAway(true);
@@ -72,7 +73,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
     public void onSpawn(Allay allay) {
 
         allay.setCollidable(false);
-        allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000 * 20, 1, true));
+        allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000 * 20, 1, true, false));
     }
 
     @Override
@@ -81,13 +82,6 @@ public class Spirit extends AbstractCustomMob<Allay> {
         String state = PersistentDataAPI.getString(allay, MiscUtils.spiritStateKey);
         MiscUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true, true);
         SpiritUtils.spawnStateParticle(state, allay.getLocation());
-
-        for (Player player : allay.getWorld().getPlayers()) {
-            player.hideEntity(SpiritsUnchained.getInstance(), allay);
-        }
-        for (Player player : MiscUtils.getNearImbued(allay.getLocation())) {
-            player.showEntity(SpiritsUnchained.getInstance(), allay);
-        }
     }
 
     @Override

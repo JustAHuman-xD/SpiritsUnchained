@@ -7,10 +7,12 @@ import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.MiscUtils;
 
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -70,19 +72,13 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @ParametersAreNonnullByDefault
     public void onSpawn(Allay allay) {
         allay.setCollidable(false);
-        allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000*20, 1, true));
+        allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000*20, 1, true, false));
     }
 
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
         MiscUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true, true);
-        for (Player player : allay.getWorld().getPlayers()) {
-            player.hideEntity(SpiritsUnchained.getInstance(), allay);
-        }
-        for (Player player : MiscUtils.getNearImbued(allay.getLocation())) {
-            player.showEntity(SpiritsUnchained.getInstance(), allay);
-        }
     }
 
     @Override
