@@ -7,6 +7,7 @@ import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -20,7 +21,9 @@ public class AllCommands implements TabExecutor {
             return false;
         }
         if (args[0].equalsIgnoreCase("spawnsoul") && hasPerm(player) && args.length >= 2) {
-            return spawnSoul(args[1], player);
+            String type = "COW";
+            if (args[2] != null) {type = args[2];}
+            return spawnSoul(args[1], player, type);
         } else {
             return false;
         }
@@ -42,6 +45,14 @@ public class AllCommands implements TabExecutor {
 
             }
 
+            else if (args.length == 3) {
+                if (args[1].equalsIgnoreCase("UNIDENTIFIED_SPIRIT")) {
+                    for (EntityType type : SpiritsUnchained.getSpiritsManager().getSpiritMap().keySet()) {
+                        l.add(String.valueOf(type));
+                    }
+                }
+            }
+
             return l;
         }
         return null;
@@ -51,12 +62,12 @@ public class AllCommands implements TabExecutor {
         return player.isOp() || player.hasPermission("spiritsunchained.admin");
     }
 
-    private boolean spawnSoul(String soulId, Player player) {
+    private boolean spawnSoul(String soulId, Player player, String type) {
         AbstractCustomMob<?> spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, soulId);
         if (spirit == null) {
             return false;
         }
-        spirit.spawn(player.getLocation(), player.getWorld(), "Natural");
+        spirit.spawn(player.getLocation(), player.getWorld(), "Natural", type);
         return true;
     }
 }

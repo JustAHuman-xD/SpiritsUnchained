@@ -6,9 +6,10 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.commands.AllCommands;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.implementation.mobs.Spirit;
 import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
@@ -16,12 +17,14 @@ import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.implementation.tools.IdentifyingGlass;
 
-import net.md_5.bungee.api.ChatMessageType;
+import me.justahuman.spiritsunchained.utils.MiscUtils;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Allay;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -52,7 +55,8 @@ public class IdentifyingGlassListener implements Listener {
                 ProtocolManager manager = SpiritsUnchained.getProtocolManager();
                 PacketContainer packet = manager.createPacket(PacketType.Play.Server.SET_ACTION_BAR_TEXT);
                 SpiritDefinition definition = spirit.getDefinition();
-                String actionBarMessage = "Spirit Type: " + ChatUtils.humanize(definition.getType().name()) + "   Current State: " + spirit.getState() + "   Tier: " + definition.getTrait();
+                ChatColor tierColor = SpiritUtils.tierColor(definition.getTier());
+                String actionBarMessage = ChatColors.color("&bSpirit Type: " + tierColor + ChatUtils.humanize(definition.getType().name()) + "   &bCurrent State: " + tierColor + PersistentDataAPI.getString(currentEntity, MiscUtils.spiritStateKey) + "   &bTier: " + tierColor + definition.getTier());
                 packet.getChatComponents().write(0, WrappedChatComponent.fromText(actionBarMessage));
                 packet.setMeta("SpiritsUnchained", true);
                 try {
@@ -82,7 +86,6 @@ public class IdentifyingGlassListener implements Listener {
         Location eye = player.getEyeLocation();
         Vector toEntity = livingEntity.getLocation().toVector().subtract(eye.toVector());
         double dot = toEntity.normalize().dot(eye.getDirection());
-        LogUtils.LogInfo("Dot: " + dot);
         return dot > 0.99D;
     }
 }

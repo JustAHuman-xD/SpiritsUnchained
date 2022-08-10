@@ -53,11 +53,10 @@ abstract public class AbstractCustomMob<T extends LivingEntity> {
     }
 
     @Nonnull
-    public T spawn(@Nonnull Location loc, @Nonnull World world, String reason) {
+    public T spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
         T mob = world.spawn(loc, this.clazz);
 
-        PersistentDataAPI.setString(mob, MiscUtils.spiritEntityKey, this.id);
-        PersistentDataAPI.setBoolean(mob, MiscUtils.spiritRevealedKey, false);
+        PersistentDataAPI.setString(mob, MiscUtils.EntityKey, this.id);
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.maxHealth);
         mob.setHealth(this.maxHealth);

@@ -11,8 +11,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MiscUtils {
 
     private final static SpiritsUnchained instance = SpiritsUnchained.getInstance();
-    public final static NamespacedKey spiritEntityKey = new NamespacedKey(instance, "living-entity");
-    public final static NamespacedKey spiritRevealedKey = new NamespacedKey(instance, "revealed");
+    public final static NamespacedKey EntityKey = new NamespacedKey(instance, "living-entity");
+    public final static NamespacedKey spiritTypeKey = new NamespacedKey(instance, "spirit-type");
+    public final static NamespacedKey spiritStateKey = new NamespacedKey(instance, "state");
 
     public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, boolean stopMovements) {
         for (int i = 0; i < amount; i++) {

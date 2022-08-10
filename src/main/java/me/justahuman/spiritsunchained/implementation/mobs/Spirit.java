@@ -33,8 +33,6 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Getter
     private int particleCount = 4;
     @Getter
-    private String state = "Passive";
-    @Getter
     private final SpiritDefinition definition;
 
     public Spirit(String id, String name, EntityType soulType) {
@@ -43,16 +41,17 @@ public class Spirit extends AbstractCustomMob<Allay> {
     }
 
     @Nonnull
-    public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason) {
+    public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String s) {
+        String state;
         if (reason.equals("Natural")) {
             state = definition.getStates().get(new Random().nextInt(definition.getStates().size()));
         } else {
-            state = "hostile";
+            state = reason;
         }
 
         Allay mob = world.spawn(loc, this.getClazz());
-        PersistentDataAPI.setString(mob, MiscUtils.spiritEntityKey, this.getId());
-        PersistentDataAPI.setBoolean(mob, MiscUtils.spiritRevealedKey, false);
+        PersistentDataAPI.setString(mob, MiscUtils.EntityKey, this.getId());
+        PersistentDataAPI.setString(mob, MiscUtils.spiritStateKey, state);
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.getMaxHealth());
         mob.setHealth(this.getMaxHealth());
@@ -75,8 +74,9 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
+        String state = PersistentDataAPI.getString(allay, MiscUtils.spiritStateKey);
         MiscUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true);
-        SpiritUtils.spawnStateParticle(this.state, allay.getLocation());
+        SpiritUtils.spawnStateParticle(state, allay.getLocation());
     }
 
     @Override
