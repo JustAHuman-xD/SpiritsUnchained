@@ -11,10 +11,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MiscUtils {
 
     private final static SpiritsUnchained instance = SpiritsUnchained.getInstance();
-    public final static NamespacedKey spiritEntityKey = new NamespacedKey(instance, "spirit");
+    public final static NamespacedKey spiritEntityKey = new NamespacedKey(instance, "living-entity");
     public final static NamespacedKey spiritRevealedKey = new NamespacedKey(instance, "revealed");
 
-    public static void spawnParticleRadius(Location location, Particle particle, int radius, int amount, boolean stopMovements) {
+    public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, boolean stopMovements) {
         for (int i = 0; i < amount; i++) {
             double x = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
             double y = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);

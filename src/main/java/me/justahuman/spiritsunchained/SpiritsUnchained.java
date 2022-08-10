@@ -1,10 +1,14 @@
 package me.justahuman.spiritsunchained;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
+import lombok.Getter;
+import me.justahuman.spiritsunchained.commands.AllCommands;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.ListenerManager;
@@ -12,7 +16,6 @@ import me.justahuman.spiritsunchained.managers.RunnableManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
-import me.justahuman.spiritsunchained.slimefun.Setup;
 
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,7 +31,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     private SpiritsManager spiritsManager;
     private SpiritEntityManager spiritEntityManager;
     private ConfigManager configManager;
-
+    private ProtocolManager protocolManager;
     private RunnableManager runnableManager;
 
     public static PluginManager getPluginManager() {
@@ -49,6 +52,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         this.listenerManager = new ListenerManager();
         this.spiritsManager = new SpiritsManager();
         this.spiritEntityManager = new SpiritEntityManager();
+        this.protocolManager = ProtocolLibrary.getProtocolManager();
 
         Setup.INSTANCE.init();
 
@@ -59,7 +63,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
             //updater.start(); Disabled for Now
         }
 
-        //this.getCommand("spiritsunchained soul give").setExecutor(new GiveSoul());
+        this.getCommand("spirits").setExecutor(new AllCommands());
     }
 
     @Nonnull
@@ -90,6 +94,9 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     }
     public static SpiritEntityManager getSpiritEntityManager() {
         return instance.spiritEntityManager;
+    }
+    public static ProtocolManager getProtocolManager() {
+        return instance.protocolManager;
     }
 
     @Nonnull

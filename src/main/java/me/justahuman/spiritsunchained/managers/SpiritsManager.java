@@ -1,6 +1,7 @@
 package me.justahuman.spiritsunchained.managers;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.implementation.mobs.Spirit;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.spirits.Goal;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
@@ -20,6 +21,7 @@ public class SpiritsManager {
 
     @Getter
     private final Map<EntityType, SpiritDefinition> spiritMap = new HashMap<>();
+
     public SpiritsManager() {
         fillSpiritMap();
     }

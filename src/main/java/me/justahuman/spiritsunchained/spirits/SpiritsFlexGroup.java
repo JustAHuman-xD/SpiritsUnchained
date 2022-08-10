@@ -235,27 +235,28 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                     Material.GLASS,
                     "&aTrait",
                     "",
-                    "&bTrait: &d" + ChatUtils.humanize(traitList.get(0)),
+                    "&bTrait: " + traitList.get(0),
                     "&7(Click For Description)"
             );
             menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
             menu.addMenuClickHandler(TRAIT_SLOT, (player1, slot, itemStack, clickAction) -> {
                 if (SHOWING_DESCRIPTION) {
                     menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
-                    SHOWING_DESCRIPTION = !SHOWING_DESCRIPTION;
                 } else {
                     ItemStack descriptionItemStack = traitItemStack.clone();
                     List<Component> currentLore = descriptionItemStack.lore();
+                    currentLore.remove(2);
                     for (String line : traitList) {
                         if (traitList.indexOf(line) != 0) {
                             currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + line)));
                         }
                     }
+                    currentLore.add(Component.text(""));
                     currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + "(Click To Close Description)")));
                     descriptionItemStack.lore(currentLore);
                     menu.replaceExistingItem(TRAIT_SLOT, descriptionItemStack);
-                    SHOWING_DESCRIPTION = !SHOWING_DESCRIPTION;
                 }
+                SHOWING_DESCRIPTION = !SHOWING_DESCRIPTION;
                 return false;
             });
         } else {

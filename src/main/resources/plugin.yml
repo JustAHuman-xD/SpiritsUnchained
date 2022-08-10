@@ -23,9 +23,15 @@ api-version: 1.19
 ## This is required and marks Slimefun as a plugin dependency.
 depend:
 - Slimefun
+- ProtocolLib
 
 commands:
-  spiritsunchained:
-    description: /unchained
-    usage: /unchained <sub>
-    aliases: [ su, unchained ]
+  spirits:
+    description: /spirits
+    usage: /spirits <sub>
+    aliases: [ su, unchained, spiritsunchained ]
+
+permissions:
+  spiritsunchained.*:
+    default: op
+    description: Gives access

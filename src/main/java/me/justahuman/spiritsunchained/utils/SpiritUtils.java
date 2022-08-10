@@ -5,6 +5,8 @@ import me.justahuman.spiritsunchained.managers.ConfigManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
@@ -98,7 +100,8 @@ public class SpiritUtils {
     }
     @ParametersAreNonnullByDefault
     public static List<String> getTraitInfo(String traitId) {
-        ConfigurationSection trait = SpiritsUnchained.getConfigManager().getTraits().getConfigurationSection(traitId);
+        FileConfiguration traits = SpiritsUnchained.getConfigManager().getTraits();
+        ConfigurationSection trait = traits.getConfigurationSection(traitId);
         List<String> toReturn = new ArrayList<>();
         if (trait == null) {return toReturn;}
         toReturn.add(trait.getString("name"));
@@ -116,5 +119,16 @@ public class SpiritUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @ParametersAreNonnullByDefault
+    public static void spawnStateParticle(String state, Location location) {
+        switch(state) {
+            default -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(80,80,80), 1));
+            case "Hostile" -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(180,0,0), 1));
+            case "Aggressive" -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(200,20,20), 1));
+            case "Gentle" -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(20,200,20), 1));
+            case "Friendly" -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(0,180,20), 1));
+        };
     }
 }
