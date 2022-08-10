@@ -3,7 +3,6 @@ package me.justahuman.spiritsunchained.commands;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 
-import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -20,10 +19,12 @@ public class AllCommands implements TabExecutor {
         if (! (sender instanceof Player player ) || args.length == 0) {
             return false;
         }
-        if (args[0].equalsIgnoreCase("spawnsoul") && hasPerm(player) && args.length >= 2) {
+        if (args[0].equalsIgnoreCase("SummonSpirit") && hasPerm(player) && args.length >= 2) {
             String type = "COW";
-            if (args[2] != null) {type = args[2];}
-            return spawnSoul(args[1], player, type);
+            if (args.length >= 3) {
+                type = args[2];
+            }
+            return summonSpirit(args[1], player, type);
         } else {
             return false;
         }
@@ -35,11 +36,11 @@ public class AllCommands implements TabExecutor {
             List<String> l = new ArrayList<String>();
 
             if (args.length == 1) {
-                l.add("SpawnSoul");
+                l.add("SummonSpirit");
             }
 
             else if (args.length == 2) {
-                if (args[0].equalsIgnoreCase("spawnsoul")) {
+                if (args[0].equalsIgnoreCase("SummonSpirit")) {
                     l.addAll(SpiritsUnchained.getSpiritEntityManager().EntityMap.keySet());
                 }
 
@@ -62,7 +63,7 @@ public class AllCommands implements TabExecutor {
         return player.isOp() || player.hasPermission("spiritsunchained.admin");
     }
 
-    private boolean spawnSoul(String soulId, Player player, String type) {
+    private boolean summonSpirit(String soulId, Player player, String type) {
         AbstractCustomMob<?> spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, soulId);
         if (spirit == null) {
             return false;

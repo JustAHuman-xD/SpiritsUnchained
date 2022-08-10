@@ -1,7 +1,7 @@
 package me.justahuman.spiritsunchained.utils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.managers.ConfigManager;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -10,12 +10,16 @@ import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import static me.justahuman.spiritsunchained.utils.MiscUtils.getNearImbued;
 
 public class SpiritUtils {
     @ParametersAreNonnullByDefault
@@ -123,12 +127,17 @@ public class SpiritUtils {
 
     @ParametersAreNonnullByDefault
     public static void spawnStateParticle(String state, Location location) {
+        Particle.DustOptions dustOptions;
         switch(state) {
-            default -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(80,80,80), 1));
-            case "Hostile" -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(180,0,0), 1));
-            case "Aggressive" -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(200,20,20), 1));
-            case "Gentle" -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(20,200,20), 1));
-            case "Friendly" -> location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, new Particle.DustOptions(Color.fromRGB(0,180,20), 1));
-        };
+            default -> dustOptions = new Particle.DustOptions(Color.fromRGB(80,80,80), 1);
+            case "Hostile" -> dustOptions = new Particle.DustOptions(Color.fromRGB(180,0,0), 1);
+            case "Aggressive" -> dustOptions = new Particle.DustOptions(Color.fromRGB(200,20,20), 1);
+            case "Gentle" -> dustOptions = new Particle.DustOptions(Color.fromRGB(20,200,20), 1);
+            case "Friendly" -> dustOptions = new Particle.DustOptions(Color.fromRGB(0,180,20), 1);
+        }
+        Collection<Player> collection = getNearImbued(location);
+        for (Player player : collection) {
+            player.spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, dustOptions);
+        }
     }
 }

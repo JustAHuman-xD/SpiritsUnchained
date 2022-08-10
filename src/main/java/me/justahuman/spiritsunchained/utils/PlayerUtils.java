@@ -1,11 +1,11 @@
 package me.justahuman.spiritsunchained.utils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

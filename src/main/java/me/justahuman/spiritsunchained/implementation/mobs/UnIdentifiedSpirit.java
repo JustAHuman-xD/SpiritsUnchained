@@ -1,6 +1,7 @@
 package me.justahuman.spiritsunchained.implementation.mobs;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
@@ -14,12 +15,10 @@ import org.bukkit.entity.Allay;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -77,7 +76,13 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
-        MiscUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true);
+        MiscUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true, true);
+        for (Player player : allay.getWorld().getPlayers()) {
+            player.hideEntity(SpiritsUnchained.getInstance(), allay);
+        }
+        for (Player player : MiscUtils.getNearImbued(allay.getLocation())) {
+            player.showEntity(SpiritsUnchained.getInstance(), allay);
+        }
     }
 
     @Override
@@ -106,7 +111,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void reveal(Allay allay, Player player) {
+        SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, PersistentDataAPI.getString(allay, MiscUtils.spiritTypeKey)).spawn(allay.getLocation(), allay.getWorld(), "Reveal", PersistentDataAPI.getString(allay, MiscUtils.spiritStateKey));
         allay.damage(allay.getHealth());
-        SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, PersistentDataAPI.getString(allay, MiscUtils.spiritTypeKey)).spawn(allay.getLocation(), allay.getWorld(), "Reveal", null);
     }
 }

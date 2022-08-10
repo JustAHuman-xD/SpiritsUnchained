@@ -1,6 +1,7 @@
 package me.justahuman.spiritsunchained.spirits.bases;
 
 import lombok.Getter;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

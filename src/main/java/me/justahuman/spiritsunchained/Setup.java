@@ -1,10 +1,10 @@
 package me.justahuman.spiritsunchained;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+
 import me.justahuman.spiritsunchained.implementation.mobs.Spirit;
 import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
-import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.slimefun.Groups;
 import me.justahuman.spiritsunchained.slimefun.Items;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;

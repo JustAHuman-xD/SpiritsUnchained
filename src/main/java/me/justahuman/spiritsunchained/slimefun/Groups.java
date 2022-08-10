@@ -3,14 +3,14 @@ package me.justahuman.spiritsunchained.slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
-
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
+
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.spirits.SpiritsFlexGroup;
 
 import dev.sefiraat.sefilib.slimefun.itemgroup.DummyItemGroup;
 import dev.sefiraat.sefilib.slimefun.itemgroup.SimpleFlexGroup;
 
-import me.justahuman.spiritsunchained.spirits.SpiritsFlexGroup;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

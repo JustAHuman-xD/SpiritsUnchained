@@ -2,14 +2,16 @@ package me.justahuman.spiritsunchained.implementation.mobs;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+
 import lombok.Getter;
+
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.tools.SpiritBook;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.MiscUtils;
-
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
+
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -41,10 +43,12 @@ public class Spirit extends AbstractCustomMob<Allay> {
     }
 
     @Nonnull
-    public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String s) {
+    public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String revealState) {
         String state;
         if (reason.equals("Natural")) {
             state = definition.getStates().get(new Random().nextInt(definition.getStates().size()));
+        } else if (reason.equals("Reveal")) {
+            state = revealState;
         } else {
             state = reason;
         }
@@ -75,8 +79,15 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
         String state = PersistentDataAPI.getString(allay, MiscUtils.spiritStateKey);
-        MiscUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true);
+        MiscUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true, true);
         SpiritUtils.spawnStateParticle(state, allay.getLocation());
+
+        for (Player player : allay.getWorld().getPlayers()) {
+            player.hideEntity(SpiritsUnchained.getInstance(), allay);
+        }
+        for (Player player : MiscUtils.getNearImbued(allay.getLocation())) {
+            player.showEntity(SpiritsUnchained.getInstance(), allay);
+        }
     }
 
     @Override

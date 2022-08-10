@@ -1,13 +1,17 @@
 package me.justahuman.spiritsunchained;
 
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import lombok.Getter;
 import me.justahuman.spiritsunchained.commands.AllCommands;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
@@ -17,12 +21,15 @@ import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 
+import me.justahuman.spiritsunchained.utils.MiscUtils;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 
 public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
 

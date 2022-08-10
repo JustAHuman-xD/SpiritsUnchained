@@ -4,19 +4,18 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.implementation.mobs.Spirit;
 import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
-import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.implementation.tools.IdentifyingGlass;
-
 import me.justahuman.spiritsunchained.utils.MiscUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 

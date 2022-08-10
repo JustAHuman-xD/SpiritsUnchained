@@ -1,34 +1,28 @@
 package me.justahuman.spiritsunchained.implementation.mobs;
 
 import java.util.Objects;
-import java.util.Random;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.Validate;
+
 import lombok.Getter;
 
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.utils.MiscUtils;
-import org.bukkit.Chunk;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntitySpellCastEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
+import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.Validate;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 

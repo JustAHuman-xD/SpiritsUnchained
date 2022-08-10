@@ -18,7 +18,7 @@ public class Aquatic_Creature {
     }
 
     protected void Use(Player player) {
-        MiscUtils.spawnParticleRadius(player.getLocation().clone().add(0,1,0), Particle.NAUTILUS, 4, 30, false);
+        MiscUtils.spawnParticleRadius(player.getLocation().clone().add(0,1,0), Particle.NAUTILUS, 4, 30, false, false);
         boolean result = PlayerUtils.givePotionEffect(player, PotionEffectType.CONDUIT_POWER, 30*20, 2);
         if (!result) {
             player.sendMessage("Could not give Potion Effect!");

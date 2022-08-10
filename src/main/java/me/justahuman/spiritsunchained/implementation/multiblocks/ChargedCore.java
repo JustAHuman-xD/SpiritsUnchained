@@ -1,8 +1,7 @@
 package me.justahuman.spiritsunchained.implementation.multiblocks;
 
-import dev.sefiraat.sefilib.misc.ParticleUtils;
-
 import me.justahuman.spiritsunchained.utils.MiscUtils;
+
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 import org.bukkit.Location;
@@ -29,7 +28,7 @@ public class ChargedCore {
     }
 
     private static void particle(Integer times, Location start) {
-        MiscUtils.spawnParticleRadius(start.clone().add(0, 1.5, 0), Particle.END_ROD, 2, times, true);
+        MiscUtils.spawnParticleRadius(start.clone().add(0, 1.5, 0), Particle.END_ROD, 2, times, true, false);
     }
 
     private static boolean isComplete(Block b) {

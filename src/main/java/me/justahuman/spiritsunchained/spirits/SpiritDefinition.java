@@ -1,6 +1,7 @@
 package me.justahuman.spiritsunchained.spirits;
 
 import lombok.Getter;
+
 import org.bukkit.entity.EntityType;
 
 import javax.annotation.ParametersAreNonnullByDefault;

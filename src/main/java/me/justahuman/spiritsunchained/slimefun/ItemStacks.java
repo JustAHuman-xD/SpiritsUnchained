@@ -126,8 +126,9 @@ public class ItemStacks {
             new ColoredFireworkStar(Color.fromRGB(154,96,255),
                     "&7Ancient Rune &8&l[&d&lSpirit&8&l]",
                     "",
-                    "&eDrop this rune onto a dropped item to",
-                    "&egrant the ability to &dsee &ea different realm"
+                    "&eDrop this rune onto a dropped &dHelmet &eto",
+                    "&egrant the ability to &dsee &ea different realm",
+                    "&eShift Left Click on Helmet Once Added to Toggle Visibility"
                     )
     );
 

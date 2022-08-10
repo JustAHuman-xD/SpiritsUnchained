@@ -1,8 +1,7 @@
 package me.justahuman.spiritsunchained.implementation.tools;
 
 
-import me.justahuman.spiritsunchained.SpiritsUnchained;
-
+import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -10,19 +9,18 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
+import me.justahuman.spiritsunchained.utils.MiscUtils;
 
 import net.kyori.adventure.text.Component;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.Sound;
 import org.bukkit.Material;
 
@@ -36,7 +34,6 @@ import java.util.Optional;
 public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private static final double RANGE = 1.5;
-    private static final NamespacedKey IMBUED_KEY = new NamespacedKey(SpiritsUnchained.getInstance(), "imbued");
     private static final String IMBUED_LORE = ChatColor.LIGHT_PURPLE + "Imbued";
 
     public SpiritRune(ItemGroup category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
@@ -91,7 +88,7 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                 Slimefun.runSync(() -> {
                     // Being sure entities are still valid and not picked up or whatsoever.
-                    if (rune.isValid() && runeStack.getAmount() == 1 && item.isValid() && itemStack.getAmount() == 1 && !isImbued(itemStack)) {
+                    if (rune.isValid() && runeStack.getAmount() == 1 && item.isValid() && itemStack.getAmount() == 1 && !PersistentDataAPI.hasByte(itemStack.getItemMeta(), MiscUtils.imbuedKey)) {
 
                         l.getWorld().spawnParticle(Particle.CRIT_MAGIC, l, 1);
                         l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
@@ -114,40 +111,19 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
     }
 
     public static void setImbued(@Nullable ItemStack item, Player p) {
-        if (item != null && item.getType() != Material.AIR) {
-            boolean imbuedCheck = isImbued(item);
+        if (item != null && item.getType() != Material.AIR && !PersistentDataAPI.hasByte(item.getItemMeta(), MiscUtils.imbuedKey)) {
             ItemMeta meta = item.getItemMeta();
-            PersistentDataContainer container = meta.getPersistentDataContainer();
-            if (!imbuedCheck) {
-                container.set(IMBUED_KEY, PersistentDataType.BYTE, (byte) 1);
-                List<Component> lore = meta.hasLore() ? meta.lore() : new ArrayList<>();
-                lore.add(Component.text(IMBUED_LORE));
-                meta.lore(lore);
-                item.setItemMeta(meta);
-            }
+            PersistentDataAPI.setByte(meta, MiscUtils.imbuedKey, (byte) 1);
+            List<Component> lore = meta.hasLore() ? meta.lore() : new ArrayList<>();
+            lore.add(Component.text(IMBUED_LORE));
+            meta.lore(lore);
+            item.setItemMeta(meta);
         }
-    }
-
-    public static boolean isImbued(@Nullable ItemStack item) {
-        if (item != null && item.getType() != Material.AIR) {
-            ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
-            return hasImbuedFlag(meta);
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean hasImbuedFlag(@Nullable ItemMeta meta) {
-        if (meta != null) {
-            PersistentDataContainer container = meta.getPersistentDataContainer();
-            return container.has(IMBUED_KEY, PersistentDataType.BYTE);
-        }
-        return false;
     }
 
     private boolean findCompatibleItem(Entity entity) {
         if (entity instanceof Item item) {
-            return !isImbued(item.getItemStack()) && !isItem(item.getItemStack());
+            return !PersistentDataAPI.hasByte(item.getItemStack().getItemMeta(), MiscUtils.imbuedKey);
         }
         return false;
     }

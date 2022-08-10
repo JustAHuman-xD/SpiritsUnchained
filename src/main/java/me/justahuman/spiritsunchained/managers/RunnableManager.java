@@ -1,6 +1,7 @@
 package me.justahuman.spiritsunchained.managers;
 
 import lombok.Getter;
+
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.runnables.SaveRunnable;
 
