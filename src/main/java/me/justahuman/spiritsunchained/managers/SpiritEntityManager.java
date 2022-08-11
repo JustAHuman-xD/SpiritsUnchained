@@ -40,7 +40,7 @@ public class SpiritEntityManager implements Listener {
 
     public SpiritEntityManager() {
         int tickRate = SpiritsUnchained.getInstance().getConfig().getInt("tick-rate", 2);
-        int spawnRate = SpiritsUnchained.getInstance().getConfig().getInt("spawn-rate", 15) * 20;
+        int spawnRate = SpiritsUnchained.getInstance().getConfig().getInt("spawn-rate", 10) * 20;
         if (tickRate > 20) {
             tickRate = 20;
         }

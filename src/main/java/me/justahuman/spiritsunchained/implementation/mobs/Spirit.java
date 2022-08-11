@@ -61,8 +61,6 @@ public class Spirit extends AbstractCustomMob<Allay> {
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
         mob.setHealth(health);
-        mob.setCustomName(this.getName());
-        mob.setCustomNameVisible(true);
         mob.setRemoveWhenFarAway(true);
 
         onSpawn(mob);

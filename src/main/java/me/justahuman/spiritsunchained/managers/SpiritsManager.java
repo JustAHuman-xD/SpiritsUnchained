@@ -53,7 +53,7 @@ public class SpiritsManager {
             final List<String> states = spirit.getStringList("States");
             final List<String> listGoal = spirit.getStringList("Pass On");
             final List<String> biome_group = spirit.getStringList("Biomes");
-            final List<String> times = spirit.getStringList("Times");
+            final List<String> times = spirit.getStringList("Time");
             final String dimension = spirit.getString("Dimension");
             final String trait = spirit.getString("Trait");
             final Goal goal = new Goal(listGoal.get(0), listGoal.get(1), Integer.parseInt(listGoal.get(2)));

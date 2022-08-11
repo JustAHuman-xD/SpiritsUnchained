@@ -39,7 +39,7 @@ public class ConfigManager {
 
     @Nonnull
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private FileConfiguration loadConfig(@Nonnull String name, boolean updateWithDefaults) {
+    private FileConfiguration loadConfig(@Nonnull String name, boolean override) {
         final SpiritsUnchained plugin = SpiritsUnchained.getInstance();
         final File file = new File(plugin.getDataFolder(), name);
         try {
@@ -53,8 +53,8 @@ public class ConfigManager {
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
         try {
             configuration.load(file);
-            if (updateWithDefaults) {
-                updateConfig(configuration, file, name);
+            if (override) {
+                overrideConfiguration(configuration, file, name);
             }
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class ConfigManager {
     }
 
     @ParametersAreNonnullByDefault
-    private void updateConfig(FileConfiguration config, File file, String fileName) throws IOException {
+    private void overrideConfiguration(FileConfiguration config, File file, String fileName) throws IOException {
         final InputStream inputStream = SpiritsUnchained.getInstance().getResource(fileName);
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         final YamlConfiguration defaults = YamlConfiguration.loadConfiguration(reader);

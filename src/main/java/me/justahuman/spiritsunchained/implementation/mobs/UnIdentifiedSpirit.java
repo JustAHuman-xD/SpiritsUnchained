@@ -62,8 +62,6 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.getMaxHealth());
         mob.setHealth(this.getMaxHealth());
-        mob.setCustomName(this.getName());
-        mob.setCustomNameVisible(true);
         mob.setRemoveWhenFarAway(true);
 
         onSpawn(mob);
@@ -110,6 +108,6 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @ParametersAreNonnullByDefault
     public void reveal(Allay allay, Player player) {
         SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, PersistentDataAPI.getString(allay, MiscUtils.spiritTypeKey)).spawn(allay.getLocation(), allay.getWorld(), "Reveal", PersistentDataAPI.getString(allay, MiscUtils.spiritStateKey));
-        allay.damage(allay.getHealth());
+        allay.remove();
     }
 }

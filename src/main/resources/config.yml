@@ -19,4 +19,4 @@ options:
   # How often Spirits Unchained will try to spawn a Spirit (in seconds)
   # This will only spawn Spirits around Players that are actively
   # Using a Spirit Rune (Toggled On) or who are Using Spirit Lenses
-  spawn-rate: 15
+  spawn-rate: 10
