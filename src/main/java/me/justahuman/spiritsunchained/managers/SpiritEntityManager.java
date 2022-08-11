@@ -40,12 +40,13 @@ public class SpiritEntityManager implements Listener {
 
     public SpiritEntityManager() {
         int tickRate = SpiritsUnchained.getInstance().getConfig().getInt("tick-rate", 2);
+        int spawnRate = SpiritsUnchained.getInstance().getConfig().getInt("spawn-rate", 15) * 20;
         if (tickRate > 20) {
             tickRate = 20;
         }
         SpiritsUnchained.getPluginManager().registerEvents(this, SpiritsUnchained.getInstance());
         Bukkit.getScheduler().runTaskTimer(SpiritsUnchained.getInstance(), this::tick, tickRate, Math.max(1, tickRate));
-        Bukkit.getScheduler().runTaskTimer(SpiritsUnchained.getInstance(), this::spawnTick, 1, 200);
+        Bukkit.getScheduler().runTaskTimer(SpiritsUnchained.getInstance(), this::spawnTick, 1, spawnRate);
     }
 
     public void register(AbstractCustomMob<?> customMob) {

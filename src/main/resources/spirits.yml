@@ -830,18 +830,20 @@ VINDICATOR:
         Scare:
             - VILLAGER
             - WANDERING_TRADER
-ENDERMITE:
+ENDERMAN:
     Biomes:
         - main_end
     Dimension: THE_END
     Tier: 2
     Trait: Mini_Teleport
     States:
+        - Gentle
+        - Passive
         - Aggressive
         - Hostile
     Pass On:
         - Kill
-        - ENDERMAN
+        - ENDERMITE
         - 8
     Relations:
         Scare:
@@ -1084,20 +1086,18 @@ IRON_GOLEM:
         Scare:
             - PILLAGER
             - VINDICATOR
-ENDERMAN:
+ENDERMITE:
     Biomes:
         - main_end
     Dimension: THE_END
     Tier: 3
     Trait: Targeted_Teleport
     States:
-        - Gentle
-        - Passive
         - Aggressive
         - Hostile
     Pass On:
         - Kill
-        - ENDERMITE
+        - ENDERMAN
         - 8
 EVOKER:
     Biomes:

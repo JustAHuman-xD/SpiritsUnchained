@@ -183,9 +183,9 @@ public class SpiritUtils {
         int tier;
         if (chance > 40) {
             tier = 0;
-        } else if (chance > 20) {
+        } else if (chance > 10) {
             tier = 1;
-        } else if (chance > 5) {
+        } else if (chance > 1) {
             tier = 2;
         } else if (chance > 0) {
             tier = 3;
@@ -200,8 +200,8 @@ public class SpiritUtils {
             if (definition.getTimes().size() > 0) { //Check if the Spirit has a Time Requirement & if it does then is it Met
                 boolean timeRight = false;
                 for (String time : definition.getTimes()) {
-                    if (time.equals("Day") && isDay) {timeRight = true;}
-                    if (time.equals("Night") && !isDay) {timeRight = true;}
+                    if (time.equals("Day") && isDay) {timeRight = true; LogUtils.LogInfo("Day");}
+                    if (time.equals("Night") && !isDay) {timeRight = true; LogUtils.LogInfo("Night");}
                 }
                 if (!timeRight) {continue;}
             }
