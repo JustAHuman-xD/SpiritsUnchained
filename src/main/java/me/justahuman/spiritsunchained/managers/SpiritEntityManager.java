@@ -9,7 +9,9 @@ import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
 import me.justahuman.spiritsunchained.utils.MiscUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -25,7 +27,9 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -80,14 +84,20 @@ public class SpiritEntityManager implements Listener {
         for (World world : Bukkit.getWorlds()) {
             for (Player player : world.getPlayers()) {
                 int chance = ThreadLocalRandom.current().nextInt(1, 100);
-                int soulcount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
+                int soulCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
                 ItemStack helmetItem = player.getInventory().getHelmet();
                 if (helmetItem == null) {continue;}
                 if (!MiscUtils.imbuedCheck(helmetItem)) {continue;}
-                if (soulcount < 4 && chance <= 20) {
+                if (SpiritUtils.canSpawn() && soulCount < SpiritUtils.getPlayerCap() && chance <= 15) {
                     String maybeSpirit = SpiritUtils.getSpawnMob(player.getLocation());
+                    List<Integer> positiveOrNegative = new ArrayList<>();
+                    positiveOrNegative.add(-1);
+                    positiveOrNegative.add(1);
                     if (maybeSpirit != null && this.EntityMap.get("UNIDENTIFIED_SPIRIT") != null) {
-                        this.EntityMap.get("UNIDENTIFIED_SPIRIT").spawn(player.getLocation(), player.getWorld(), "Natural", maybeSpirit);
+                        int x = (new Random().nextInt(17) * positiveOrNegative.get(new Random().nextInt(0,2)))+ player.getLocation().getBlockX();
+                        int z = (new Random().nextInt(17) * positiveOrNegative.get(new Random().nextInt(0,2)))+ player.getLocation().getBlockZ();
+                        Block b = world.getHighestBlockAt(x, z).getRelative(0, 4, 0);
+                        this.EntityMap.get("UNIDENTIFIED_SPIRIT").spawn(b.getLocation(), player.getWorld(), "Natural", maybeSpirit);
                     }
                 }
             }

@@ -44,6 +44,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
 
     @Nonnull
     public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String revealState) {
+        MiscUtils.totalSpiritCount++;
         double health = this.getMaxHealth()*definition.getTier();
         String state;
         if (reason.equals("Natural")) {

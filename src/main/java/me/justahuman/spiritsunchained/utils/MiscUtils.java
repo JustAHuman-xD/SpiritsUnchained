@@ -22,16 +22,18 @@ public class MiscUtils {
     private final static SpiritsUnchained instance = SpiritsUnchained.getInstance();
     public final static NamespacedKey EntityKey = new NamespacedKey(instance, "living-entity");
     public final static NamespacedKey spiritTypeKey = new NamespacedKey(instance, "spirit-type");
+    public final static NamespacedKey spiritIdentified = new NamespacedKey(instance, "identified");
     public final static NamespacedKey spiritStateKey = new NamespacedKey(instance, "state");
     public final static NamespacedKey imbuedKey = new NamespacedKey(instance, "imbued");
     public final static NamespacedKey spiritItemKey = new NamespacedKey(instance, "spirit-item");
+    public static int totalSpiritCount = 0;
 
     public static boolean imbuedCheck(ItemStack helmetItem) {
         return SlimefunItem.getByItem(helmetItem) instanceof SpiritLenses || PersistentDataAPI.hasByte(helmetItem.getItemMeta(), MiscUtils.imbuedKey) && PersistentDataAPI.getByte(helmetItem.getItemMeta(), MiscUtils.imbuedKey) == 2;
     }
 
     public static Collection<Player> getNearImbued(Location location) {
-        Collection<Entity> collection = location.getWorld().getNearbyEntities(location, 30, 30, 30);
+        Collection<Entity> collection = location.getWorld().getNearbyEntities(location, 48, 48, 48);
         Collection<Player> toReturn = new ArrayList<>();
         for (Entity entity : collection) {
             if (entity instanceof Player player) {

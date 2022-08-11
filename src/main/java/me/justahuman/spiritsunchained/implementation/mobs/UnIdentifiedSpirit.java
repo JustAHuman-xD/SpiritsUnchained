@@ -38,6 +38,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Nonnull
     @Override
     public Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
+        MiscUtils.totalSpiritCount++;
         Allay mob = world.spawn(loc, this.getClazz());
         SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
         String state;
@@ -57,6 +58,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         PersistentDataAPI.setString(mob, MiscUtils.EntityKey, this.getId());
         PersistentDataAPI.setString(mob, MiscUtils.spiritStateKey, state);
         PersistentDataAPI.setString(mob, MiscUtils.spiritTypeKey, type);
+        PersistentDataAPI.setBoolean(mob, MiscUtils.spiritIdentified, false);
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.getMaxHealth());
         mob.setHealth(this.getMaxHealth());

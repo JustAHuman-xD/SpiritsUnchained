@@ -1,6 +1,17 @@
 options:
   auto-update: true
+
   #tick-rate controls how often the Spirit Entities will Tick
   #Lower numbers will make them tick faster giving smoother appearance but worse on Performance
   #there are 20 minecraft ticks a Second so a setting of 2 would make it tick 10 times a second
   tick-rate: 2
+
+  # The max amount of Spirits on the Server at a Time
+  # This is not Per Player its for the **Total** Server
+  # You may want this number Higher or Lower depending on both Player Counts and Server Performance
+  max-spirits: 40
+
+  # The max amount of Spirits in a radius around a Player
+  # This will limit how many Spirits 1 player can have at a time
+  # Useful for assuring that multiple Players will always be able to have Spirits
+  player-spirit-cap: 4

@@ -34,6 +34,12 @@ cave_overworld:
   - dripstone_caves
   - lush_caves
 
+stone_overworld:
+  - dripstone_caves
+  - lush_caves
+  - stony_peaks
+  - stony_shore
+
 deep_dark:
   - deep_dark
 

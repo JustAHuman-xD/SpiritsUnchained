@@ -2,6 +2,7 @@ package me.justahuman.spiritsunchained.commands;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -65,7 +66,7 @@ public class AllCommands implements TabExecutor {
 
     private boolean summonSpirit(String soulId, Player player, String type) {
         AbstractCustomMob<?> spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, soulId);
-        if (spirit == null) {
+        if (spirit == null || ! SpiritUtils.canSpawn()) {
             return false;
         }
         spirit.spawn(player.getLocation(), player.getWorld(), "Natural", type);

@@ -350,7 +350,7 @@ ZOMBIFIED_PIGLIN:
             - TURTLE
 SILVERFISH:
     Biomes:
-        - main_overworld
+        - stone_overworld
     Dimension: NORMAL
     Tier: 1
     Trait: Infest

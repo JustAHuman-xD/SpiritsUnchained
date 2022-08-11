@@ -48,7 +48,8 @@ public class IdentifyingGlassListener implements Listener {
         for (Entity currentEntity : lookingAt) {
             if (currentEntity.getType() != EntityType.ALLAY) continue;
             AbstractCustomMob<?> maybeSpirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(currentEntity, null);
-            if (maybeSpirit instanceof UnIdentifiedSpirit) {
+            if (maybeSpirit instanceof UnIdentifiedSpirit && !PersistentDataAPI.getBoolean(currentEntity, MiscUtils.spiritIdentified)) {
+                PersistentDataAPI.setBoolean(currentEntity, MiscUtils.spiritIdentified, true);
                 maybeSpirit.reveal((Allay) currentEntity, player);
             } else if (maybeSpirit instanceof Spirit spirit) {
                 ProtocolManager manager = SpiritsUnchained.getProtocolManager();

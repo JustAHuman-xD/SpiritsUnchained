@@ -160,7 +160,7 @@ public class SpiritUtils {
 
     @ParametersAreNonnullByDefault
     public static Collection<Entity> getNearbySpirits(Location location) {
-        Collection<Entity> nearbyEntities = location.getNearbyEntities(30, 30, 30);
+        Collection<Entity> nearbyEntities = location.getNearbyEntities(48, 48, 48);
         Collection<Entity> returnList = new ArrayList<>();
         if (nearbyEntities.size() < 1) {return returnList;}
         for (Entity entity : nearbyEntities) {
@@ -219,5 +219,13 @@ public class SpiritUtils {
             spirit = entityType.name();
         }
         return spirit;
+    }
+
+    public static boolean canSpawn() {
+        return MiscUtils.totalSpiritCount < SpiritsUnchained.getInstance().getConfig().getInt("max-spirits", 40);
+    }
+
+    public static int getPlayerCap() {
+        return SpiritsUnchained.getInstance().getConfig().getInt("player-spirit-cap", 4);
     }
 }
