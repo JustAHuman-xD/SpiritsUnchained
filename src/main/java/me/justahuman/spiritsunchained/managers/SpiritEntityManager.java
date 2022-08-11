@@ -90,14 +90,14 @@ public class SpiritEntityManager implements Listener {
                 if (helmetItem == null) {continue;}
                 if (!MiscUtils.imbuedCheck(helmetItem)) {continue;}
                 if (SpiritUtils.canSpawn() && soulCount < SpiritUtils.getPlayerCap() && chance <= 10) {
-                    String maybeSpirit = SpiritUtils.getSpawnMob(player.getLocation());
                     List<Integer> positiveOrNegative = new ArrayList<>();
                     positiveOrNegative.add(-1);
                     positiveOrNegative.add(1);
+                    int x = (new Random().nextInt(17) * positiveOrNegative.get(new Random().nextInt(0,2)))+ player.getLocation().getBlockX();
+                    int z = (new Random().nextInt(17) * positiveOrNegative.get(new Random().nextInt(0,2)))+ player.getLocation().getBlockZ();
+                    Block b = world.getHighestBlockAt(x, z).getRelative(0, 4, 0);
+                    String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());
                     if (maybeSpirit != null && this.EntityMap.get("UNIDENTIFIED_SPIRIT") != null) {
-                        int x = (new Random().nextInt(17) * positiveOrNegative.get(new Random().nextInt(0,2)))+ player.getLocation().getBlockX();
-                        int z = (new Random().nextInt(17) * positiveOrNegative.get(new Random().nextInt(0,2)))+ player.getLocation().getBlockZ();
-                        Block b = world.getHighestBlockAt(x, z).getRelative(0, 4, 0);
                         this.EntityMap.get("UNIDENTIFIED_SPIRIT").spawn(b.getLocation(), player.getWorld(), "Natural", maybeSpirit);
                     }
                 }
