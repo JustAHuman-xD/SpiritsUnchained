@@ -97,11 +97,10 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onInteract(PlayerInteractEntityEvent event) {
-
+        event.setCancelled(true);
         Allay allay = (Allay) event.getRightClicked();
         Player player = event.getPlayer();
         ItemStack interactStack = player.getInventory().getItem(event.getHand());
-        event.setCancelled(true);
         if (SlimefunItem.getByItem(interactStack) instanceof SpiritBook) {
 
         }

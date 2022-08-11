@@ -38,7 +38,8 @@ public class ConfigManager {
     }
 
     @Nonnull
-    private FileConfiguration loadConfig(String name, boolean updateWithDefaults) {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private FileConfiguration loadConfig(@Nonnull String name, boolean updateWithDefaults) {
         final SpiritsUnchained plugin = SpiritsUnchained.getInstance();
         final File file = new File(plugin.getDataFolder(), name);
         try {

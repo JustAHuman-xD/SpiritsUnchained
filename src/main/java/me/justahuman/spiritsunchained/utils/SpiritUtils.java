@@ -152,8 +152,8 @@ public class SpiritUtils {
         }
     }
 
-    @ParametersAreNonnullByDefault
     public static boolean isSpiritItem(ItemStack itemStack) {
+        if (itemStack == null) {return false;}
         if (!itemStack.hasItemMeta()) {return false;}
         return PersistentDataAPI.hasString(itemStack.getItemMeta(), MiscUtils.spiritItemKey);
     }
@@ -172,14 +172,14 @@ public class SpiritUtils {
     }
 
     @Nullable
-    public static AbstractCustomMob<?> getSpawnMob(Location location) {
+    public static String getSpawnMob(Location location) {
         List<List<EntityType>> tierMap = SpiritsUnchained.getSpiritsManager().getTierMaps();
         World world = location.getWorld();
         Biome biome = location.getBlock().getBiome();
         World.Environment dimension = world.getEnvironment();
         boolean isDay = world.isDayTime();
         int chance = ThreadLocalRandom.current().nextInt(1, 100);
-        AbstractCustomMob<?> spirit = null;
+        String spirit = null;
         int tier;
         if (chance > 40) {
             tier = 0;
@@ -209,14 +209,14 @@ public class SpiritUtils {
                 boolean inBiome = false;
                 for (String biomeId : definition.getBiome_group()) {
                     for (String CurrentBiome : SpiritsUnchained.getConfigManager().getBiomeMap().get(biomeId)) {
-                        if (biome == Biome.valueOf(CurrentBiome)) {
+                        if (biome == Biome.valueOf(CurrentBiome.toUpperCase())) {
                             inBiome = true;
                         }
                     }
                 }
                 if (!inBiome) {continue;}
             }
-            spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, entityType + "_SPIRIT");
+            spirit = entityType.name();
         }
         return spirit;
     }

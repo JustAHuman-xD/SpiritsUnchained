@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
+import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
 import me.justahuman.spiritsunchained.utils.MiscUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
@@ -83,10 +84,10 @@ public class SpiritEntityManager implements Listener {
                 ItemStack helmetItem = player.getInventory().getHelmet();
                 if (helmetItem == null) {continue;}
                 if (!MiscUtils.imbuedCheck(helmetItem)) {continue;}
-                if (soulcount < 4 && chance <= 10) {
-                    AbstractCustomMob<?> maybeSpirit = SpiritUtils.getSpawnMob(player.getLocation());
-                    if (maybeSpirit != null) {
-                        maybeSpirit.spawn(player.getLocation(), player.getWorld(), "Natural", null);
+                if (soulcount < 4 && chance <= 20) {
+                    String maybeSpirit = SpiritUtils.getSpawnMob(player.getLocation());
+                    if (maybeSpirit != null && this.EntityMap.get("UNIDENTIFIED_SPIRIT") != null) {
+                        this.EntityMap.get("UNIDENTIFIED_SPIRIT").spawn(player.getLocation(), player.getWorld(), "Natural", maybeSpirit);
                     }
                 }
             }
