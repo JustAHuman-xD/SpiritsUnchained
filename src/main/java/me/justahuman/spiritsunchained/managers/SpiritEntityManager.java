@@ -88,7 +88,7 @@ public class SpiritEntityManager implements Listener {
                 ItemStack helmetItem = player.getInventory().getHelmet();
                 if (helmetItem == null) {continue;}
                 if (!MiscUtils.imbuedCheck(helmetItem)) {continue;}
-                if (SpiritUtils.canSpawn() && soulCount < SpiritUtils.getPlayerCap() && chance <= 15) {
+                if (SpiritUtils.canSpawn() && soulCount < SpiritUtils.getPlayerCap() && chance <= 10) {
                     String maybeSpirit = SpiritUtils.getSpawnMob(player.getLocation());
                     List<Integer> positiveOrNegative = new ArrayList<>();
                     positiveOrNegative.add(-1);
