@@ -100,7 +100,6 @@ COD:
     Trait: Aquatic_Creature
     Time:
         - Day
-        - Night
     States:
         - Gentle
         - Passive
@@ -120,7 +119,6 @@ SALMON:
     Trait: Aquatic_Creature
     Time:
         - Day
-        - Night
     States:
         - Gentle
         - Passive
@@ -140,7 +138,6 @@ TROPICAL_FISH:
     Trait: Aquatic_Creature
     Time:
         - Day
-        - Night
     States:
         - Gentle
         - Passive
@@ -159,7 +156,6 @@ SQUID:
     Trait: Ink_Spray
     Time:
         - Day
-        - Night
     States:
         - Gentle
         - Passive
@@ -232,7 +228,6 @@ SPIDER:
     Tier: 1
     Trait: Webber
     Time:
-        - Day
         - Night
     States:
         - Gentle
@@ -252,7 +247,6 @@ CREEPER:
     Tier: 1
     Trait: Explode
     Time:
-        - Day
         - Night
     States:
         - Aggressive
@@ -458,7 +452,6 @@ TURTLE:
     Trait: Scute_Shedding
     Time:
         - Day
-        - Night
     States:
         - Gentle
         - Passive
@@ -536,7 +529,6 @@ PUFFERFISH:
     Trait: Poisonous_Thorns
     Time:
         - Day
-        - Night
     States:
         - Gentle
         - Passive
@@ -556,7 +548,6 @@ AXOLOTL:
     Trait: Play_Dead
     Time:
         - Day
-        - Night
     States:
         - Gentle
         - Passive
@@ -714,7 +705,6 @@ DOLPHIN:
     Trait: Dolphin_Swimmer
     Time:
         - Day
-        - Night
     States:
         - Gentle
         - Passive
@@ -781,7 +771,6 @@ CAVE_SPIDER:
     Tier: 2
     Trait: Poison_Spray
     Time:
-        - Day
         - Night
     States:
         - Passive
@@ -811,7 +800,6 @@ PILLAGER:
     Trait: Multishoot
     Time:
         - Day
-        - Night
     States:
         - Aggressive
         - Hostile
@@ -831,7 +819,6 @@ VINDICATOR:
     Trait: Crit_hit
     Time:
         - Day
-        - Night
     States:
         - Aggressive
         - Hostile
@@ -849,9 +836,6 @@ ENDERMITE:
     Dimension: THE_END
     Tier: 2
     Trait: Mini_Teleport
-    Time:
-        - Day
-        - Night
     States:
         - Aggressive
         - Hostile
@@ -991,7 +975,6 @@ DROWNED:
     Tier: 2
     Trait: Aquatic_Creature
     Time:
-        - Day
         - Night
     States:
         - Aggressive
@@ -1011,7 +994,6 @@ WITCH:
     Tier: 2
     Trait: Better_Brewer
     Time:
-        - Day
         - Night
     States:
         - Aggressive
@@ -1108,9 +1090,6 @@ ENDERMAN:
     Dimension: THE_END
     Tier: 3
     Trait: Targeted_Teleport
-    Time:
-        - Day
-        - Night
     States:
         - Gentle
         - Passive
@@ -1128,7 +1107,6 @@ EVOKER:
     Trait: Another_Chance
     Time:
         - Day
-        - Night
     States:
         - Hostile
     Pass On:
@@ -1143,7 +1121,6 @@ RAVAGER:
     Trait: Tank
     Time:
         - Day
-        - Night
     States:
         - Hostile
     Pass On:
@@ -1182,9 +1159,6 @@ ELDER_GUARDIAN:
     Dimension: NORMAL
     Tier: 3
     Trait: No_Fatigue
-    Time:
-        - Day
-        - Night
     States:
         - Hostile
     Pass On:
