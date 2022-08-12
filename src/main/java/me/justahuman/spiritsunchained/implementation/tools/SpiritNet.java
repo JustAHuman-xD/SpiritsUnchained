@@ -9,10 +9,10 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class SpiritCatcher extends SlimefunItem {
+public class SpiritNet extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public SpiritCatcher(ItemGroup group, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public SpiritNet(ItemGroup group, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(group,item,recipeType,recipe);
     }
 }

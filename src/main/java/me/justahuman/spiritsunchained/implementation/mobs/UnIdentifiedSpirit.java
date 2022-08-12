@@ -1,24 +1,27 @@
 package me.justahuman.spiritsunchained.implementation.mobs;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.implementation.tools.SpiritNet;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.MiscUtils;
 
-import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Allay;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -96,6 +99,15 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @ParametersAreNonnullByDefault
     public void onInteract(PlayerInteractEntityEvent event) {
         event.setCancelled(true);
+        Entity entity = event.getRightClicked();
+        Player player = event.getPlayer();
+        ItemStack itemStack = player.getInventory().getItem(event.getHand());
+        if (itemStack.getType() == Material.AIR) {return;}
+        if (SlimefunItem.getByItem(itemStack) instanceof SpiritNet) {
+            entity.remove();
+            itemStack.setAmount(itemStack.getAmount() - 1);
+            player.getInventory().addItem(ItemStacks.SU_UNIDENTIFIED_SPIRIT);
+        }
     }
 
     @Override

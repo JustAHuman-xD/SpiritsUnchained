@@ -70,7 +70,7 @@ public class Items {
                 ItemStacks.SU_INFUSED_FEATHER, ItemStacks.SU_ECTOPLASM, new ItemStack(Material.GLOW_INK_SAC)
         }).register(instance);
 
-        new SpiritCatcher(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_NET,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
+        new SpiritNet(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_NET,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
                 new ItemStack(Material.STRING), ItemStacks.SU_ECTOPLASM, new ItemStack(Material.STRING),
                 ItemStacks.SU_ECTOPLASM, ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM,
                 new ItemStack(Material.STRING), ItemStacks.SU_ECTOPLASM, new ItemStack(Material.STRING)
@@ -106,7 +106,7 @@ public class Items {
         //Tier 1
         new SpiritualAltarPiece(Groups.SU_ALTAR_1,ItemStacks.SU_CHARGED_QUARTZ_I, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM, new ItemStack(Material.QUARTZ_BLOCK),
-                ItemStacks.SU_ECTOPLASM, SlimefunItems.BLANK_RUNE, ItemStacks.SU_ECTOPLASM,
+                ItemStacks.SU_ECTOPLASM, ItemStacks.SU_UNIDENTIFIED_SPIRIT, ItemStacks.SU_ECTOPLASM,
                 new ItemStack(Material.QUARTZ_BLOCK), ItemStacks.SU_ECTOPLASM, ItemStacks.SU_INFUSED_MEMBRANE
         }, 8).register(instance);
 
@@ -121,7 +121,7 @@ public class Items {
         //Tier 2
         new SpiritualAltarPiece(Groups.SU_ALTAR_2,ItemStacks.SU_CHARGED_QUARTZ_II, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM, ItemStacks.SU_CHARGED_QUARTZ_I,
-                ItemStacks.SU_ECTOPLASM, SlimefunItems.BLANK_RUNE, ItemStacks.SU_ECTOPLASM,
+                ItemStacks.SU_ECTOPLASM, ItemStacks.SU_UNIDENTIFIED_SPIRIT, ItemStacks.SU_ECTOPLASM,
                 ItemStacks.SU_CHARGED_QUARTZ_I, ItemStacks.SU_ECTOPLASM, ItemStacks.SU_INFUSED_MEMBRANE
         }, 8).register(instance);
 
@@ -142,7 +142,7 @@ public class Items {
         //Tier 3
         new SpiritualAltarPiece(Groups.SU_ALTAR_3,ItemStacks.SU_CHARGED_QUARTZ_III, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM, ItemStacks.SU_CHARGED_QUARTZ_II,
-                ItemStacks.SU_ECTOPLASM, SlimefunItems.BLANK_RUNE, ItemStacks.SU_ECTOPLASM,
+                ItemStacks.SU_ECTOPLASM, ItemStacks.SU_UNIDENTIFIED_SPIRIT, ItemStacks.SU_ECTOPLASM,
                 ItemStacks.SU_CHARGED_QUARTZ_II, ItemStacks.SU_ECTOPLASM, ItemStacks.SU_INFUSED_MEMBRANE
         }, 8).register(instance);
 

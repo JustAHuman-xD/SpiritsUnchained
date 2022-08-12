@@ -113,7 +113,7 @@ public class SpiritEntityManager implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     private void onEntityInteract(@Nonnull PlayerInteractEntityEvent e) {
         AbstractCustomMob<?> customMob = getCustomClass(e.getRightClicked(), null);
         if (customMob != null) {

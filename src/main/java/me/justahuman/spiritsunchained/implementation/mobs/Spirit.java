@@ -7,16 +7,19 @@ import lombok.Getter;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.tools.SpiritBook;
+import me.justahuman.spiritsunchained.implementation.tools.SpiritNet;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.MiscUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Allay;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -97,11 +100,19 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @ParametersAreNonnullByDefault
     public void onInteract(PlayerInteractEntityEvent event) {
         event.setCancelled(true);
-        Allay allay = (Allay) event.getRightClicked();
+        Entity entity = event.getRightClicked();
         Player player = event.getPlayer();
-        ItemStack interactStack = player.getInventory().getItem(event.getHand());
-        if (SlimefunItem.getByItem(interactStack) instanceof SpiritBook) {
-
+        ItemStack itemStack = player.getInventory().getItem(event.getHand());
+        SpiritDefinition spiritDefinition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(entity.getType());
+        if (itemStack.getType() == Material.AIR) {return;}
+        if (SlimefunItem.getByItem(itemStack) instanceof SpiritNet) {
+            if (new Random().nextInt(1,100) <= SpiritUtils.getTierChance(spiritDefinition.getTier())) {
+                entity.remove();
+                itemStack.setAmount(itemStack.getAmount() - 1);
+                player.getInventory().addItem(ItemStacks.SU_UNIDENTIFIED_SPIRIT);
+            } else {
+                player.sendMessage("The Spirit Escaped the Net!");
+            }
         }
     }
 }

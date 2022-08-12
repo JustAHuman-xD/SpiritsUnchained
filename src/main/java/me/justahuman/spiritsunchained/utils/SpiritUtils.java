@@ -283,4 +283,12 @@ public class SpiritUtils {
         int divideAt = Progress % 5;
         return ChatColors.color(ChatColor.GREEN + base.substring(0, divideAt) + ChatColor.GRAY + base.substring(divideAt));
     }
+
+    public static int getTierChance(int Tier) {
+        return switch(Tier) {
+            default -> 75;
+            case 2,3 -> 50;
+            case 4 -> 25;
+        };
+    }
 }
