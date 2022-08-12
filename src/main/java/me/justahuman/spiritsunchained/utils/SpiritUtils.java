@@ -41,6 +41,17 @@ import static me.justahuman.spiritsunchained.utils.MiscUtils.getNearImbued;
 
 public class SpiritUtils {
 
+    public static List<String> getStates() {
+        List<String> states = new ArrayList<>();
+        states.add("Hostile");
+        states.add("Aggressive");
+        states.add("Passive");
+        states.add("Gentle");
+        states.add("Friendly");
+        return states;
+    }
+
+
     public static ChatColor tierColor(int tier) {
         return switch (tier) {
             default -> ChatColor.YELLOW;

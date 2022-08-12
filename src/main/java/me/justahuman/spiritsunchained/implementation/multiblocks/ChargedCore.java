@@ -13,6 +13,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,16 +34,28 @@ public class ChargedCore {
         if (!players.isEmpty() && isComplete(b)) {
             String ID = BlockStorage.checkID(b);
             String Times = BlockStorage.getLocationInfo(b.getLocation(),"particle");
-            int Multiplier = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "multiplier"));
+            double Multiplier = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "multiplier"));
             particle(Integer.valueOf(Times),l);
             for (Player player : players) {
                 ItemStack spiritItem = getSpiritItem(player);
                 if (spiritItem != null) {
                     ItemMeta itemMeta = spiritItem.getItemMeta();
                     List<Component> lore = itemMeta.lore();
-                    SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(PersistentDataAPI.getString(itemMeta, MiscUtils.spiritItemKey));
-                    PersistentDataAPI.setDouble(itemMeta, MiscUtils.spiritProgressKey, PersistentDataAPI.getDouble(itemMeta, MiscUtils.spiritProgressKey) + 1*Multiplier/definition.getTier());
+                    SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(PersistentDataAPI.getString(itemMeta, MiscUtils.spiritItemKey)));
+                    double currentProgress = PersistentDataAPI.getDouble(itemMeta, MiscUtils.spiritProgressKey);
+                    if (currentProgress < 100.0) {
+                        double toIncrease = currentProgress+ Multiplier / (double) definition.getTier();
+                        if (toIncrease > 100.0) toIncrease = 100.0;
+                        PersistentDataAPI.setDouble(itemMeta, MiscUtils.spiritProgressKey, toIncrease);
+                    } else {
+                        List<String> states = SpiritUtils.getStates();
+                        String newState = states.get(states.indexOf(PersistentDataAPI.getString(itemMeta, MiscUtils.spiritStateKey))+1);
+                        PersistentDataAPI.setDouble(itemMeta, MiscUtils.spiritProgressKey, 0);
+                        PersistentDataAPI.setString(itemMeta, MiscUtils.spiritStateKey, newState);
+                    }
+                    lore.set(4, Component.text(ChatColors.color("&fState: " + SpiritUtils.stateColor(PersistentDataAPI.getString(itemMeta, MiscUtils.spiritStateKey)) + PersistentDataAPI.getString(itemMeta, MiscUtils.spiritStateKey))));
                     lore.set(5, Component.text(ChatColors.color("&fProgress: " + SpiritUtils.getProgress(PersistentDataAPI.getDouble(itemMeta, MiscUtils.spiritProgressKey)))));
+
                     itemMeta.lore(lore);
                     spiritItem.setItemMeta(itemMeta);
                 }

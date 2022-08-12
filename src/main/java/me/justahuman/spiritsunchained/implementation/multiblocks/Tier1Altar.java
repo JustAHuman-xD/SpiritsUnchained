@@ -59,7 +59,7 @@ public class Tier1Altar extends SlimefunItem {
             public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
                 Block b = e.getBlockPlaced();
                 BlockStorage.addBlockInfo(b, "particle", "2");
-                BlockStorage.addBlockInfo(b, "multiplier", "1");
+                BlockStorage.addBlockInfo(b, "multiplier", "1.0");
                 if (isComplete(b)) {
                     BlockStorage.addBlockInfo(b, "complete", "true");
                     e.getPlayer().sendMessage(ChatColor.AQUA + "The Spiritual Altar (Tier 1) has been activated!");
