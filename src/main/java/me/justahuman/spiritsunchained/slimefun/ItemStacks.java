@@ -159,7 +159,7 @@ public class ItemStacks {
     public static final SlimefunItemStack SU_ELECTRIC_SPIRIT_WRITER = new SlimefunItemStack(
             "SU_ELECTRIC_SPIRIT_WRITER",
             Material.LECTERN,
-            "&aElectric Spirit WRITER",
+            "&aElectric Spirit Writer",
             "",
             "&7Automatically let Spirits Write to A Spirit Book",
             "",

@@ -267,11 +267,11 @@ public class SpiritUtils {
         itemMeta.displayName(Component.text(tierColor + spiritType + " Spirit"));
 
         itemLore.add(Component.text(""));
-        itemLore.add(Component.text("&fTier: " + tierColor + definition.getTier()));
-        itemLore.add(Component.text("&fCurrent State: " + stateColor + state));
-        itemLore.add(Component.text("&fActivate " + traitInfo.get(0) + ": " + traitInfo.get(1)));
+        itemLore.add(Component.text(ChatColors.color("&fTier: " + tierColor + definition.getTier())));
+        itemLore.add(Component.text(ChatColors.color("&fCurrent State: " + stateColor + state)));
+        itemLore.add(Component.text(ChatColors.color("&fActivate " + traitInfo.get(0) + ": " + traitInfo.get(1))));
         itemLore.add(Component.text(""));
-        itemLore.add(Component.text("&fProgress: " + getProgress(0)));
+        itemLore.add(Component.text(ChatColors.color("&fProgress: " + getProgress(0))));
 
         itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 
