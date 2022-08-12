@@ -49,11 +49,14 @@ public class ChargedCore {
                         PersistentDataAPI.setDouble(itemMeta, MiscUtils.spiritProgressKey, toIncrease);
                     } else {
                         List<String> states = SpiritUtils.getStates();
-                        String newState = states.get(states.indexOf(PersistentDataAPI.getString(itemMeta, MiscUtils.spiritStateKey))+1);
-                        PersistentDataAPI.setDouble(itemMeta, MiscUtils.spiritProgressKey, 0);
-                        PersistentDataAPI.setString(itemMeta, MiscUtils.spiritStateKey, newState);
+                        int indexIncrease = states.indexOf(PersistentDataAPI.getString(itemMeta, MiscUtils.spiritStateKey))+1;
+                        if (states.size() >= indexIncrease+1) {
+                            String newState = states.get(indexIncrease);
+                            PersistentDataAPI.setDouble(itemMeta, MiscUtils.spiritProgressKey, 0);
+                            PersistentDataAPI.setString(itemMeta, MiscUtils.spiritStateKey, newState);
+                        }
                     }
-                    lore.set(4, Component.text(ChatColors.color("&fState: " + SpiritUtils.stateColor(PersistentDataAPI.getString(itemMeta, MiscUtils.spiritStateKey)) + PersistentDataAPI.getString(itemMeta, MiscUtils.spiritStateKey))));
+                    lore.set(2, Component.text(ChatColors.color("&fCurrent State: " + SpiritUtils.stateColor(PersistentDataAPI.getString(itemMeta, MiscUtils.spiritStateKey)) + PersistentDataAPI.getString(itemMeta, MiscUtils.spiritStateKey))));
                     lore.set(5, Component.text(ChatColors.color("&fProgress: " + SpiritUtils.getProgress(PersistentDataAPI.getDouble(itemMeta, MiscUtils.spiritProgressKey)))));
 
                     itemMeta.lore(lore);
