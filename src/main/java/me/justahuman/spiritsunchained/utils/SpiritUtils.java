@@ -262,14 +262,14 @@ public class SpiritUtils {
 
         PersistentDataAPI.setString(itemMeta, MiscUtils.spiritItemKey, String.valueOf(definition.getType()));
         PersistentDataAPI.setString(itemMeta, MiscUtils.spiritStateKey, state);
-        PersistentDataAPI.setInt(itemMeta, MiscUtils.spiritProgressKey, 0);
+        PersistentDataAPI.setDouble(itemMeta, MiscUtils.spiritProgressKey, 0);
 
         itemMeta.displayName(Component.text(tierColor + spiritType + " Spirit"));
 
         itemLore.add(Component.text(""));
         itemLore.add(Component.text(ChatColors.color("&fTier: " + tierColor + definition.getTier())));
         itemLore.add(Component.text(ChatColors.color("&fCurrent State: " + stateColor + state)));
-        itemLore.add(Component.text(ChatColors.color("&fActivate " + traitInfo.get(0) + ": " + traitInfo.get(1))));
+        itemLore.add(Component.text(ChatColors.color("&fUse " + traitInfo.get(0) + "&f: " + traitInfo.get(1))));
         itemLore.add(Component.text(""));
         itemLore.add(Component.text(ChatColors.color("&fProgress: " + getProgress(0))));
 
@@ -281,10 +281,10 @@ public class SpiritUtils {
         return itemStack;
     }
 
-    public static String getProgress(int Progress) {
+    public static String getProgress(double Progress) {
         String base = "¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦";
-        int divideAt = Progress % 5;
-        return ChatColors.color(ChatColor.GREEN + base.substring(0, divideAt) + ChatColor.GRAY + base.substring(divideAt));
+        int divideAt = (int) (Progress % 5);
+        return Progress + "% " +  ChatColors.color(ChatColor.GREEN + base.substring(0, divideAt) + ChatColor.GRAY + base.substring(divideAt));
     }
 
     public static int getTierChance(int Tier) {

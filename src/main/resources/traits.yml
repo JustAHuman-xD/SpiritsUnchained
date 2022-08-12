@@ -45,7 +45,7 @@ Hops:
   type: "Use Item"
   lore:
     - "Gain Jump Boost and Hop like a Rabbit!"
-Bees_Work:
+Bee_Buddy:
   name: "&eBee Buddy"
   type: "Use Item"
   lore:
