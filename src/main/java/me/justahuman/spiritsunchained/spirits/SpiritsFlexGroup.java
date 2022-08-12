@@ -247,7 +247,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                     List<Component> currentLore = descriptionItemStack.lore();
                     currentLore.remove(2);
                     for (String line : traitList) {
-                        if (traitList.indexOf(line) != 0) {
+                        if (traitList.indexOf(line) > 1) {
                             currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + line)));
                         }
                     }

@@ -45,6 +45,8 @@ public class ItemStacks {
 
     }
 
+    // Crafting Materials
+
     public static final SlimefunItemStack SU_INFUSED_MEMBRANE = new SlimefunItemStack(
             "SU_INFUSED_MEMBRANE",
             PHANTOM_MEMBRANE,
@@ -77,6 +79,16 @@ public class ItemStacks {
       "&7Attained from those Impassable"
     );
 
+    public static final SlimefunItemStack SU_UNIDENTIFIED_SPIRIT = new SlimefunItemStack(
+      "SU_UNIDENTIFIED_SPIRIT",
+      new ColoredFireworkStar(Color.fromRGB(100, 100, 100),
+              "&fUnidentified Spirit",
+              "",
+              "&7A Captured Unidentified Spirit",
+              "&7Useless on its Own"
+      )
+    );
+
     // Tools
 
     public static final SlimefunItemStack SU_IDENTIFYING_GLASS = new SlimefunItemStack(
@@ -96,10 +108,10 @@ public class ItemStacks {
             "&7While Wearing these Lenses"
     );
 
-    public static final SlimefunItemStack SU_SPIRIT_CATCHER = new SlimefunItemStack(
-            "SU_SPIRIT_CATCHER",
+    public static final SlimefunItemStack SU_SPIRIT_NET = new SlimefunItemStack(
+            "SU_SPIRIT_NET",
             Material.COBWEB,
-            "&aSpirit Catcher",
+            "&aSpirit Net",
             "",
             "&7Use this to catch a Spirit!"
     );
@@ -142,7 +154,7 @@ public class ItemStacks {
             "&7Automatically catch Spirits",
             "",
             LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE),
-            LoreBuilder.speed(1), LoreBuilder.powerBuffer(1000) ,LoreBuilder.powerPerSecond(250));
+            LoreBuilder.speed(1), LoreBuilder.powerBuffer(4000) ,LoreBuilder.powerPerSecond(250));
 
     public static final SlimefunItemStack SU_ELECTRIC_SPIRIT_WRITER = new SlimefunItemStack(
             "SU_ELECTRIC_SPIRIT_WRITER",
@@ -152,7 +164,7 @@ public class ItemStacks {
             "&7Automatically let Spirits Write to A Spirit Book",
             "",
             LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE),
-            LoreBuilder.speed(1), LoreBuilder.powerBuffer(1000) ,LoreBuilder.powerPerSecond(125));
+            LoreBuilder.speed(1), LoreBuilder.powerBuffer(2000) ,LoreBuilder.powerPerSecond(125));
 
     // Altar Building Blocks
 

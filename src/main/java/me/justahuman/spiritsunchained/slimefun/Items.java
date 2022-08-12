@@ -1,10 +1,13 @@
 package me.justahuman.spiritsunchained.slimefun;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 
+import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritCatcher;
+import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritWriter;
 import me.justahuman.spiritsunchained.implementation.multiblocks.*;
 import me.justahuman.spiritsunchained.implementation.tools.*;
 
@@ -39,6 +42,15 @@ public class Items {
                 null, null, null})
                 .register(instance);
 
+        SlimefunItem UnidentifiedSpirit = new UnplaceableBlock(Groups.SU_RESOURCES, ItemStacks.SU_UNIDENTIFIED_SPIRIT, RecipeType.NULL, new ItemStack[] {
+                null, null, null,
+                null, null, null,
+                null, null, null});
+
+        UnidentifiedSpirit.setHidden(true);
+        UnidentifiedSpirit.register(instance);
+
+
         //Tools
         new SpiritLenses(Groups.SU_TOOLS, ItemStacks.SU_SPIRIT_LENSES, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
                 SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH,
@@ -58,7 +70,7 @@ public class Items {
                 ItemStacks.SU_INFUSED_FEATHER, ItemStacks.SU_ECTOPLASM, new ItemStack(Material.GLOW_INK_SAC)
         }).register(instance);
 
-        new SpiritCatcher(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_CATCHER,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
+        new SpiritCatcher(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_NET,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
                 new ItemStack(Material.STRING), ItemStacks.SU_ECTOPLASM, new ItemStack(Material.STRING),
                 ItemStacks.SU_ECTOPLASM, ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM,
                 new ItemStack(Material.STRING), ItemStacks.SU_ECTOPLASM, new ItemStack(Material.STRING)
@@ -74,6 +86,20 @@ public class Items {
                 SlimefunItems.INFUSED_MAGNET, SlimefunItems.BATTERY, ItemStacks.SU_INFUSED_MEMBRANE,
                 ItemStacks.SU_ECTOPLASM, new ItemStack(Material.TRIDENT), ItemStacks.SU_ECTOPLASM,
                 ItemStacks.SU_INFUSED_MEMBRANE, SlimefunItems.BATTERY, SlimefunItems.INFUSED_MAGNET
+        }).register(instance);
+
+        //Machines
+
+        new ElectricSpiritCatcher(Groups.SU_MACHINES, ItemStacks.SU_ELECTRIC_SPIRIT_CATCHER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+                ItemStacks.SU_ECTOPLASM, SlimefunItems.COOLING_UNIT, ItemStacks.SU_ECTOPLASM,
+                SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.SCULK_SHRIEKER), SlimefunItems.REINFORCED_PLATE,
+                ItemStacks.SU_ECTOPLASM, SlimefunItems.REINFORCED_PLATE, ItemStacks.SU_ECTOPLASM,
+        }).register(instance);
+
+        new ElectricSpiritWriter(Groups.SU_MACHINES, ItemStacks.SU_ELECTRIC_SPIRIT_CATCHER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+                ItemStacks.SU_ECTOPLASM, SlimefunItems.COOLING_UNIT, ItemStacks.SU_ECTOPLASM,
+                SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.SCULK_SHRIEKER), SlimefunItems.REINFORCED_PLATE,
+                ItemStacks.SU_ECTOPLASM, SlimefunItems.REINFORCED_PLATE, ItemStacks.SU_ECTOPLASM,
         }).register(instance);
 
         //Altar Blocks

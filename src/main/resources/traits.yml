@@ -1,240 +1,305 @@
 Better_Shears:
   name: "&fBetter Shears"
+  type: "Passive"
   lore:
     - "75% Chance to get Double the Wool when Shearing!"
 Clear_Effects:
   name: "&fMilk Production"
+  type: "Use Item"
   lore:
     - "On Use will Clear all Potion Effects!"
 Eggpult:
   name: "&6Eggpult"
+  type: "Use Item"
   lore:
     - "Fire an Explosive Egg!"
 Legends_Never_Die:
   name: "&dLegends Never Die"
+  type: "Use Item"
   lore:
     - "Become a Legend"
     - "Rest In Peace Technoblade"
 Jam_Out:
   name: "&aJam Out"
+  type: "Passive"
   lore:
     - "Gain Strength when Listening to a Jukebox!"
 Aquatic_Creature:
   name: "&3Aquatic Creature"
+  type: "Use Item"
   lore:
     - "Adapt to the Water with Conduit Power!"
 Ink_Spray:
   name: "&0Ink Spray"
+  type: "Use Item"
   lore:
     - "Blind any Enemies Around you!"
 Speedy_Escape:
   name: "&eSpeedy Escape"
+  type: "Passive"
   lore:
     - "Gain Feline Speed and Escape any Enemies!"
+    - "Triggers when Health below 10%"
 Hops:
   name: "&eHops"
+  type: "Use Item"
   lore:
     - "Gain Jump Boost and Hop like a Rabbit!"
 Bees_Work:
   name: "&eBee Buddy"
+  type: "Use Item"
   lore:
     - "Get Honey & Honeycomb!"
 Webber:
   name: "&fWebber"
+  type: "Use Item"
   lore:
     - "Trap any Near Entities in Webs!"
 Explode:
   name: "&cExplode"
+  type: "Use Item"
   lore:
     - "Release a Deadly Explosion!"
 Strong_Bones:
   name: "&fStrong Bones"
+  type: "Passive"
   lore:
     - "Strengthen your Brittle Bones and Gain Resistance!"
+    - "Triggers when Health below 50%"
 Undead_Protection:
   name: "&2Undead Protection"
+  type: "Passive"
   lore:
     - "Any damaging Potion Effects will instead Heal you!"
 What_Fall:
   name: "&aWhat Fall"
+  type: "Passive"
   lore:
     - "Halve your Fall Damage"
 Group_Protection:
   name: "&cGroup Protection"
+  type: "Passive"
   lore:
     - "Zombie Pigs will no longer Group up on You when Hitting them!"
 Infest:
   name: "&8Infest"
+  type: "Use Item"
   lore:
     - "Infest the Stone you Use this On!"
 Bush_Berries:
   name: "&4Bush Berries"
+  type: "Passive"
   lore:
     - "No Longer take Damage in Sweet Berry Bushes!"
 Echolocation:
   name: "&9Echolocation"
+  type: "Use Item"
   lore:
     - "Highlight all Mobs Nearby!"
 Frosty:
   name: "&bFrosty"
+  type: "Passive"
   lore:
     - "No Longer Freeze in Powdered Snow!"
 Stew_Maker:
   name: "&cStew Maker"
+  type: "Use Item"
   lore:
-    - "Fill any Available Bowls with Stew"
+    - "Fill some Available Bowls with Stew"
 Lava_Walker:
   name: "&4Lava Walker"
+  type: "Use Item"
   lore:
     - "Temporarily Gain the Ability to Walk on Lava!"
 Scute_Shedding:
   name: "&2Scute Shedding"
+  type: "Passive"
   lore:
     - "Gain Shed Turtle Scutes!"
+    - "Slowly adds Scutes to your Inventory"
 Villager_Friend:
   name: "&aVillager Friend"
+  type: "Use Item"
   lore:
     - "Get Better Trades with Villagers!"
+    - "(Gives Hero of the Village V)"
 Poisonous_Thorns:
   name: "&2Poisonous Thorns"
+  type: "Passive"
   lore:
-    - "Thorns damage has a chance to Inflict Poison!"
+    - "Thorns damage has a 25% Chance to Inflict Poison!"
 Play_Dead:
   name: "&dPlay Dead"
+  type: "Passive"
   lore:
     - "Pretend to Die"
     - "Go Invisible and Gain Regeneration!"
+    - "Triggers at 25% Health"
 Glow_Up:
   name: "&bGlow Up"
+  type: "Use Item"
   lore:
     - "Make any Item Frames & Signs Nearby Glow!"
 Light_It_Up:
   name: "&eLight It Up"
+  type: "Use Item"
   lore:
     - "Convert Magma Blocks into Froglights!"
 High_Jump:
   name: "&6High Jump"
+  type: "Use Item"
   lore:
     - "Gain a Big Jump Boost"
 Morning_Gift:
   name: "&eMorning Gift!"
+  type: "Passive"
   lore:
     - "Gain a Gift from your Cat in the Morning!"
 Better_Food:
   name: "&fBetter Food!"
+  type: "Passive"
   lore:
-    - "When Eating food get a chance to double Hunger!"
+    - "When Eating food get a 30% Chance to double Hunger!"
 Spitter:
   name: "&fSpitter"
+  type: "Use Item"
   lore:
     - "Spit at your Enemies!"
 Dolphin_Swimmer:
   name: "&3Dolphin Swimmer"
+  type: "Passive"
   lore:
-    - "Get Dolphins Grace!"
+    - "Get Dolphins Grace when under Water!"
 Thick_Fur:
   name: "&fThick Fur"
+  type: "Passive"
   lore:
     - "Gain some Armor Toughness!"
 Crunchy_Bamboo:
   name: "&2Crunchy Bamboo"
+  type: "Passive"
   lore:
     - "Gain the Ability to Eat Bamboo!"
 Goats_Instrument:
   name: "&8Goats Instrument"
+  type: "Use Item"
   lore:
     - "Play a Random Goat Horn Sound!"
 Poison_Spray:
   name: "&2Poison Spray"
+  type: "Use Item"
   lore:
     - "Spray a Thick spray of Poison to All nearby Enemies!"
 Strange_Secrets:
   name: "&dStrange Secrets"
+  type: "Passive"
   lore:
     - "Convert Gold to Strange Nether Goo!"
 Multishoot:
   name: "&8Multishoot"
+  type: "Passive"
   lore:
     - "Gain Multishot...."
     - "For your Bow!"
 Crit_hit:
   name: "&6Crit Hit"
+  type: "Use Item"
   lore:
     - "Gain Strength 3 for a Small Period of Time!"
 Mini_Teleport:
   name: "&5Mini Teleport"
+  type: "Use Item"
   lore:
     - "Randomly Teleport as if Eating a Chorus Fruit!"
 Nautral_Thorns:
   name: "&6Natural Thorns"
+  type: "Passive"
   lore:
     - "Gain a Natural Thorns Effect!"
 Hunger_Hit:
   name: "&2Hunger Hit"
+  type: "Passive"
   lore:
-    - "Get a Chance to Inflict Hunger when Hitting your Enemies!"
+    - "Gain a 30% Chance to Inflict Hunger when Hitting your Enemies!"
 Slow_Shot:
   name: "&3Slow Shot"
+  type: "Passive"
   lore:
-    - "Get a Chance to Inflict Slowness when Shooting your Enemies!"
+    - "Gain a 30% Chance to Inflict Slowness when Shooting your Enemies!"
 Sleep_No_More:
   name: "&9Sleep No More"
+  type: "Use Item"
   lore:
     - "Reset the Timer for Phantoms!"
 Blazing_Thorns:
   name: "&cBlazing Thorns"
+  type: "Passive"
   lore:
-    - "Get a Chance to Ignite your Attacker!"
+    - "Get a 25% Chance to Ignite your Attacker!"
 Magma_Trap:
   name: "&4Magma Trap"
+  type: "Use Item"
   lore:
     - "Dunk your Enemies in Lava!"
 Better_Brewer:
   name: "&5Better Brewer"
+  type: "Use Item"
   lore:
     - "Brew Water Bottles into Perfected Potions!"
 Heavy_Hit:
   name: "&eHeavy Hit"
+  type: "Use Item"
   lore:
     - "Your next Attack will Launch your Enemy into the Air!"
 Iron_Defense:
   name: "&fIron Defense"
+  type: "Passive"
   lore:
     - "Gain a Constant Resistance Buff"
 Targeted_Teleport:
   name: "&dTargeted Teleport"
+  type: "Use Item"
   lore:
     - "Teleport in the Direction you are Looking!"
 Another_Chance:
   name: "&eAnother Chance"
+  type: "Passive"
   lore:
-    - "Get Saved from Death!"
+    - "Another Chance after Death!"
+    - "Triggers when you Die"
 Tank:
   name: "&8Tank"
+  type: "Use Item"
   lore:
     - "Temporarily gain Strength & Resistance V"
 Bullet_Swarm:
   name: "&dBullet Swarm"
+  type: "Use Item"
   lore:
     - "Spawn a Swarm of Bullets"
     - "Targeted for your Enemies"
 Wither_Resistance:
   name: "&0Wither Resistance"
+  type: "Passive"
   lore:
     - "No longer get Damaged by the Withering Effect"
 No_Fatigue:
   name: "&8No Fatigue"
+  type: "Passive"
   lore:
     - "No longer get Slowed by the Mining Fatigue Effect"
 Skull_Fire:
   name: "&4Skull Fire"
+  type: "Use Item"
   lore:
     - "Fire an Enhanced Wither Skull"
 Dragons_Breath:
   name: "&dDragons Breath"
+  type: "Use Item"
   lore:
     - "Surround yourself with Dragons Breath"
 Sonic_Beam:
   name: "&bSonic Beam"
+  type: "Use Item"
   lore:
     - "Fire a Sonic Beam like the Warden"

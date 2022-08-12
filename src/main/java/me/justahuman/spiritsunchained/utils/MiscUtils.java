@@ -26,6 +26,7 @@ public class MiscUtils {
     public final static NamespacedKey spiritStateKey = new NamespacedKey(instance, "state");
     public final static NamespacedKey imbuedKey = new NamespacedKey(instance, "imbued");
     public final static NamespacedKey spiritItemKey = new NamespacedKey(instance, "spirit-item");
+    public final static NamespacedKey spiritProgressKey = new NamespacedKey(instance, "state-progress");
     public static int totalSpiritCount = 0;
 
     public static boolean imbuedCheck(ItemStack helmetItem) {

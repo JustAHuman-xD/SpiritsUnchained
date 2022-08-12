@@ -56,7 +56,8 @@ public class IdentifyingGlassListener implements Listener {
                 PacketContainer packet = manager.createPacket(PacketType.Play.Server.SET_ACTION_BAR_TEXT);
                 SpiritDefinition definition = spirit.getDefinition();
                 ChatColor tierColor = SpiritUtils.tierColor(definition.getTier());
-                String actionBarMessage = ChatColors.color("&bSpirit Type: " + tierColor + ChatUtils.humanize(definition.getType().name()) + "   &bCurrent State: " + tierColor + PersistentDataAPI.getString(currentEntity, MiscUtils.spiritStateKey) + "   &bTier: " + tierColor + definition.getTier());
+                ChatColor stateColor = SpiritUtils.stateColor(PersistentDataAPI.getString(currentEntity, MiscUtils.spiritStateKey));
+                String actionBarMessage = ChatColors.color("&fSpirit Type: " + tierColor + ChatUtils.humanize(definition.getType().name()) + "   &fCurrent State: " + stateColor + PersistentDataAPI.getString(currentEntity, MiscUtils.spiritStateKey) + "   &fTier: " + tierColor + definition.getTier());
                 packet.getChatComponents().write(0, WrappedChatComponent.fromText(actionBarMessage));
                 packet.setMeta("SpiritsUnchained", true);
                 try {

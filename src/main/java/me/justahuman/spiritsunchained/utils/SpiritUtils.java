@@ -1,15 +1,19 @@
 package me.justahuman.spiritsunchained.utils;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -19,6 +23,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkEffectMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -33,7 +39,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static me.justahuman.spiritsunchained.utils.MiscUtils.getNearImbued;
 
 public class SpiritUtils {
-    @ParametersAreNonnullByDefault
+
     public static ChatColor tierColor(int tier) {
         return switch (tier) {
             default -> ChatColor.YELLOW;
@@ -42,6 +48,17 @@ public class SpiritUtils {
             case 4 -> ChatColor.GOLD;
         };
     }
+
+    public static ChatColor stateColor(String state) {
+        return switch (state) {
+            default -> ChatColor.YELLOW;
+            case "Hostile" -> ChatColor.DARK_RED;
+            case "Aggressive" -> ChatColor.RED;
+            case "Gentle" -> ChatColor.GREEN;
+            case "Friendly" -> ChatColor.DARK_GREEN;
+        };
+    }
+
     @ParametersAreNonnullByDefault
     public static FireworkEffect effectColor(EntityType type) {
         return switch (type) {
@@ -120,6 +137,7 @@ public class SpiritUtils {
         List<String> toReturn = new ArrayList<>();
         if (trait == null) {return toReturn;}
         toReturn.add(trait.getString("name"));
+        toReturn.add(trait.getString("type"));
         List<String> description = trait.getStringList("lore");
         toReturn.addAll(description);
         return toReturn;
@@ -227,5 +245,42 @@ public class SpiritUtils {
 
     public static int getPlayerCap() {
         return SpiritsUnchained.getInstance().getConfig().getInt("player-spirit-cap", 4);
+    }
+
+    public ItemStack SpiritItem(String state, SpiritDefinition definition) {
+        ItemStack itemStack = new ItemStack(Material.FIREWORK_STAR);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        List<Component> itemLore = new ArrayList<>();
+
+        ChatColor tierColor = tierColor(definition.getTier());
+        ChatColor stateColor = stateColor(state);
+        String spiritType  = ChatUtils.humanize(definition.getType().name());
+        List<String> traitInfo = getTraitInfo(definition.getTrait());
+
+        ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
+
+        PersistentDataAPI.setString(itemMeta, MiscUtils.spiritItemKey, String.valueOf(definition.getType()));
+        PersistentDataAPI.setString(itemMeta, MiscUtils.spiritStateKey, state);
+        PersistentDataAPI.setInt(itemMeta, MiscUtils.spiritProgressKey, 0);
+
+        itemMeta.displayName(Component.text(tierColor + spiritType + " Spirit"));
+
+        itemLore.add(Component.text(""));
+        itemLore.add(Component.text("&fTier: " + tierColor + definition.getTier()));
+        itemLore.add(Component.text("&fCurrent State: " + stateColor + state));
+        itemLore.add(Component.text("&fActivate " + traitInfo.get(0) + ": " + traitInfo.get(1)));
+        itemLore.add(Component.text(""));
+        itemLore.add(Component.text("&fProgress: " + getProgress(0)));
+
+        itemMeta.lore(itemLore);
+        itemStack.setItemMeta(itemMeta);
+
+        return itemStack;
+    }
+
+    public String getProgress(int Progress) {
+        String base = "¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦";
+        int divideAt = Progress % 5;
+        return ChatColors.color(ChatColor.GREEN + base.substring(0, divideAt) + ChatColor.GRAY + base.substring(divideAt));
     }
 }

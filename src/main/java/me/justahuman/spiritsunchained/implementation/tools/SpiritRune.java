@@ -113,7 +113,7 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
     public static void setImbued(@Nullable ItemStack item, Player p) {
         if (item != null && item.getType() != Material.AIR && !PersistentDataAPI.hasByte(item.getItemMeta(), MiscUtils.imbuedKey)) {
             ItemMeta meta = item.getItemMeta();
-            PersistentDataAPI.setByte(meta, MiscUtils.imbuedKey, (byte) 1);
+            PersistentDataAPI.setByte(meta, MiscUtils.imbuedKey, (byte) 2);
             List<Component> lore = meta.hasLore() ? meta.lore() : new ArrayList<>();
             lore.add(Component.text(IMBUED_LORE));
             meta.lore(lore);
