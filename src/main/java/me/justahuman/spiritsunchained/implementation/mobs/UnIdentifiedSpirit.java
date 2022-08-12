@@ -66,6 +66,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.getMaxHealth());
         mob.setHealth(this.getMaxHealth());
         mob.setRemoveWhenFarAway(true);
+        mob.setCanPickupItems(false);
 
         onSpawn(mob);
         return mob;
@@ -98,7 +99,6 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onInteract(PlayerInteractEntityEvent event) {
-        event.setCancelled(true);
         Entity entity = event.getRightClicked();
         Player player = event.getPlayer();
         ItemStack itemStack = player.getInventory().getItem(event.getHand());
@@ -108,6 +108,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
             itemStack.setAmount(itemStack.getAmount() - 1);
             player.getInventory().addItem(ItemStacks.SU_UNIDENTIFIED_SPIRIT);
         }
+        event.setCancelled(true);
     }
 
     @Override

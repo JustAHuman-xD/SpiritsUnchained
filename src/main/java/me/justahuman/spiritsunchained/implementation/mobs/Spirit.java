@@ -65,6 +65,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
         mob.setHealth(health);
         mob.setRemoveWhenFarAway(true);
+        mob.setCanPickupItems(false);
 
         onSpawn(mob);
         return mob;
@@ -99,20 +100,19 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onInteract(PlayerInteractEntityEvent event) {
-        event.setCancelled(true);
         Entity entity = event.getRightClicked();
         Player player = event.getPlayer();
         ItemStack itemStack = player.getInventory().getItem(event.getHand());
-        SpiritDefinition spiritDefinition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(entity.getType());
         if (itemStack.getType() == Material.AIR) {return;}
         if (SlimefunItem.getByItem(itemStack) instanceof SpiritNet) {
-            if (new Random().nextInt(1,100) <= SpiritUtils.getTierChance(spiritDefinition.getTier())) {
+            if (new Random().nextInt(1,100) <= SpiritUtils.getTierChance(this.definition.getTier())) {
                 entity.remove();
                 itemStack.setAmount(itemStack.getAmount() - 1);
-                player.getInventory().addItem(ItemStacks.SU_UNIDENTIFIED_SPIRIT);
+                player.getInventory().addItem(SpiritUtils.SpiritItem(PersistentDataAPI.getString(entity, MiscUtils.spiritStateKey), this.definition));
             } else {
                 player.sendMessage("The Spirit Escaped the Net!");
             }
         }
+        event.setCancelled(true);
     }
 }

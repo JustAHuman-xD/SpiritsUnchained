@@ -22,6 +22,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -247,7 +248,7 @@ public class SpiritUtils {
         return SpiritsUnchained.getInstance().getConfig().getInt("player-spirit-cap", 4);
     }
 
-    public ItemStack SpiritItem(String state, SpiritDefinition definition) {
+    public static ItemStack SpiritItem(String state, SpiritDefinition definition) {
         ItemStack itemStack = new ItemStack(Material.FIREWORK_STAR);
         ItemMeta itemMeta = itemStack.getItemMeta();
         List<Component> itemLore = new ArrayList<>();
@@ -272,13 +273,15 @@ public class SpiritUtils {
         itemLore.add(Component.text(""));
         itemLore.add(Component.text("&fProgress: " + getProgress(0)));
 
+        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+
         itemMeta.lore(itemLore);
         itemStack.setItemMeta(itemMeta);
 
         return itemStack;
     }
 
-    public String getProgress(int Progress) {
+    public static String getProgress(int Progress) {
         String base = "¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦";
         int divideAt = Progress % 5;
         return ChatColors.color(ChatColor.GREEN + base.substring(0, divideAt) + ChatColor.GRAY + base.substring(divideAt));
