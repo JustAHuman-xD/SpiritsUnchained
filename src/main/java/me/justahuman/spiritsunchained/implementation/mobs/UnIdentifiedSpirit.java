@@ -76,6 +76,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @ParametersAreNonnullByDefault
     public void onSpawn(Allay allay) {
         allay.setCollidable(false);
+        allay.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 1000000 * 20, 1, true, false));
         allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000*20, 1, true, false));
     }
 

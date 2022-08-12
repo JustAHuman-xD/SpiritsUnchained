@@ -77,6 +77,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
 
         allay.setCollidable(false);
         allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000 * 20, 1, true, false));
+        allay.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 1000000 * 20, 1, true, false));
     }
 
     @Override

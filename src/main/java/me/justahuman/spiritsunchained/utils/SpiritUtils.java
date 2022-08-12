@@ -17,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -294,7 +295,7 @@ public class SpiritUtils {
 
     public static String getProgress(double Progress) {
         String base = "¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦";
-        int divideAt = (int) (Progress % 5);
+        int divideAt = (int) (Progress/5);
         return Progress + "% " +  ChatColors.color(ChatColor.GREEN + base.substring(0, divideAt) + ChatColor.GRAY + base.substring(divideAt));
     }
 
@@ -304,5 +305,23 @@ public class SpiritUtils {
             case 2,3 -> 50;
             case 4 -> 25;
         };
+    }
+
+    public static Block getSpawnBlock(Location location) {
+        World world = location.getWorld();
+        World.Environment dimension = world.getEnvironment();
+        int x = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockX();
+        int z = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockZ();
+        int y = location.getBlockY();
+        if (! (world.getBlockAt(x,y,z).getType() == Material.AIR)) {
+            boolean foundAir = false;
+            while (!foundAir) {
+                y++;
+                if (world.getBlockAt(x,y,z).getType() == Material.AIR) {
+                    foundAir = true;
+                }
+            }
+        }
+        return world.getBlockAt(x,y,z);
     }
 }
