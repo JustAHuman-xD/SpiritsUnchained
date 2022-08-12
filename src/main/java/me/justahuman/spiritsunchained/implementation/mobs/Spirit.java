@@ -111,6 +111,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
                 player.getInventory().addItem(SpiritUtils.SpiritItem(PersistentDataAPI.getString(entity, MiscUtils.spiritStateKey), this.definition));
             } else {
                 player.sendMessage("The Spirit Escaped the Net!");
+                itemStack.setAmount(itemStack.getAmount() - 1);
             }
         }
         event.setCancelled(true);
