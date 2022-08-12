@@ -96,7 +96,7 @@ public class Items {
                 ItemStacks.SU_ECTOPLASM, SlimefunItems.REINFORCED_PLATE, ItemStacks.SU_ECTOPLASM,
         }).register(instance);
 
-        new ElectricSpiritWriter(Groups.SU_MACHINES, ItemStacks.SU_ELECTRIC_SPIRIT_CATCHER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+        new ElectricSpiritWriter(Groups.SU_MACHINES, ItemStacks.SU_ELECTRIC_SPIRIT_WRITER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
                 ItemStacks.SU_ECTOPLASM, SlimefunItems.COOLING_UNIT, ItemStacks.SU_ECTOPLASM,
                 SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.SCULK_SHRIEKER), SlimefunItems.REINFORCED_PLATE,
                 ItemStacks.SU_ECTOPLASM, SlimefunItems.REINFORCED_PLATE, ItemStacks.SU_ECTOPLASM,
