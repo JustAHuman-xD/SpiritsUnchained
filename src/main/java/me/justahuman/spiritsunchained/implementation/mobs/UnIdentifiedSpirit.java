@@ -125,6 +125,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {
             ParticleUtils.bottleAnimation(entity.getLocation());
             entity.remove();
+            item.setAmount(item.getAmount() - 1);
             player.getInventory().addItem(ItemStacks.SU_SPIRIT_BOTTLE);
         }
     }

@@ -13,6 +13,7 @@ import me.justahuman.spiritsunchained.implementation.tools.*;
 
 import me.justahuman.spiritsunchained.spirits.SpiritInteract;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 public class Items {
@@ -39,13 +40,13 @@ public class Items {
                 SlimefunItems.ENDER_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_3})
                 .register(instance);
 
-        SlimefunItem spiritTemp = new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_UNIDENTIFIED_SPIRIT, SPIRIT_INTERACT, new ItemStack[]{
+        SlimefunItem UnIdentified = new SlimefunItem(Groups.SU_TOOLS, ItemStacks.SU_UNIDENTIFIED_SPIRIT, SPIRIT_INTERACT, new ItemStack[]{
                 null, null, null,
-                null, ItemStacks.SU_SPIRIT_NET, null,
+                null, ItemStacks.SU_ECTOPLASM, null,
                 null, null, null
         });
-        spiritTemp.setHidden(false);
-        spiritTemp.register(instance);
+        UnIdentified.setHidden(false);
+        UnIdentified.register(instance);
 
         new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_SPIRIT_BOTTLE, SPIRIT_INTERACT, new ItemStack[]{
                 null, null, null,

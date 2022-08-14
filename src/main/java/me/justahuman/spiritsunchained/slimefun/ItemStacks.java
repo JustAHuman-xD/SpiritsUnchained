@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 
+import me.justahuman.spiritsunchained.utils.LogUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -34,8 +35,10 @@ public class ItemStacks {
         ItemStack itemStack = new ItemStack(Material.POTION);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
+            LogUtils.LogInfo("Past Potion");
             PotionMeta potionMeta = (PotionMeta) itemMeta;
             potionMeta.setColor(Color.fromRGB(r, g, b));
+            itemStack.setItemMeta(potionMeta);
         }
         return  itemStack;
     }

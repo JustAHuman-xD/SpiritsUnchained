@@ -126,9 +126,11 @@ public class Spirit extends AbstractCustomMob<Allay> {
             }
         } else if (SlimefunItem.getByItem(item) instanceof SpiritBook) {
             player.sendMessage("Book PlaceHolder");
+            item.setAmount(item.getAmount() - 1);
         } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {
             ParticleUtils.bottleAnimation(entity.getLocation());
             entity.remove();
+            item.setAmount(item.getAmount() - 1);
             player.getInventory().addItem(ItemStacks.SU_SPIRIT_BOTTLE);
         }
     }
