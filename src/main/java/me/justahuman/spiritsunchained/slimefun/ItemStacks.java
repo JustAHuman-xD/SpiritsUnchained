@@ -35,7 +35,7 @@ public class ItemStacks {
         ItemStack itemStack = new ItemStack(Material.POTION);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
             PotionMeta potionMeta = (PotionMeta) itemMeta;
             potionMeta.setColor(Color.fromRGB(r, g, b));
             itemStack.setItemMeta(potionMeta);
