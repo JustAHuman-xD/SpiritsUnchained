@@ -1,12 +1,12 @@
 package me.justahuman.spiritsunchained.utils;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
-import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
-import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
+import me.justahuman.spiritsunchained.implementation.tools.SpiritLenses;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -20,13 +20,16 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -34,13 +37,15 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static me.justahuman.spiritsunchained.utils.MiscUtils.getNearImbued;
-
 public class SpiritUtils {
+
+    public static Map<Integer, Entity> SpiritIdMap = new HashMap<>();
 
     public static List<String> getStates() {
         List<String> states = new ArrayList<>();
@@ -186,7 +191,7 @@ public class SpiritUtils {
     public static boolean isSpiritItem(ItemStack itemStack) {
         if (itemStack == null) {return false;}
         if (!itemStack.hasItemMeta()) {return false;}
-        return PersistentDataAPI.hasString(itemStack.getItemMeta(), MiscUtils.spiritItemKey);
+        return PersistentDataAPI.hasString(itemStack.getItemMeta(), Keys.spiritItemKey);
     }
 
     @ParametersAreNonnullByDefault
@@ -253,7 +258,26 @@ public class SpiritUtils {
     }
 
     public static boolean canSpawn() {
-        return MiscUtils.totalSpiritCount < SpiritsUnchained.getInstance().getConfig().getInt("max-spirits", 40);
+        return SpiritIdMap.size() < SpiritsUnchained.getInstance().getConfig().getInt("max-spirits", 40);
+    }
+
+    public static boolean imbuedCheck(ItemStack helmetItem) {
+        return SlimefunItem.getByItem(helmetItem) instanceof SpiritLenses || PersistentDataAPI.hasByte(helmetItem.getItemMeta(), Keys.imbuedKey) && PersistentDataAPI.getByte(helmetItem.getItemMeta(), Keys.imbuedKey) == 2;
+    }
+
+    public static Collection<Player> getNearImbued(Location location) {
+        Collection<Entity> collection = location.getWorld().getNearbyEntities(location, 48, 48, 48);
+        Collection<Player> toReturn = new ArrayList<>();
+        for (Entity entity : collection) {
+            if (entity instanceof Player player) {
+                ItemStack helmetItem = player.getInventory().getHelmet();
+                if (helmetItem == null) {continue;}
+                if (imbuedCheck(helmetItem)) {
+                    toReturn.add(player);
+                }
+            }
+        }
+        return toReturn;
     }
 
     public static int getPlayerCap() {
@@ -272,9 +296,9 @@ public class SpiritUtils {
 
         ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
 
-        PersistentDataAPI.setString(itemMeta, MiscUtils.spiritItemKey, String.valueOf(definition.getType()));
-        PersistentDataAPI.setString(itemMeta, MiscUtils.spiritStateKey, state);
-        PersistentDataAPI.setDouble(itemMeta, MiscUtils.spiritProgressKey, 0);
+        PersistentDataAPI.setString(itemMeta, Keys.spiritItemKey, String.valueOf(definition.getType()));
+        PersistentDataAPI.setString(itemMeta, Keys.spiritStateKey, state);
+        PersistentDataAPI.setDouble(itemMeta, Keys.spiritProgressKey, 0);
 
         itemMeta.displayName(Component.text(tierColor + spiritType + " Spirit"));
 
@@ -323,5 +347,25 @@ public class SpiritUtils {
             }
         }
         return world.getBlockAt(x,y,z);
+    }
+
+    public static List<Entity> getLookingList(Player player){
+        List<Entity> entities = new ArrayList<>();
+        for(Entity e : player.getNearbyEntities(10, 10, 10)){
+            if(e instanceof Allay){
+                if(getLookingAt(player, (LivingEntity) e)){
+                    entities.add(e);
+                }
+            }
+        }
+
+        return entities;
+    }
+
+    public static boolean getLookingAt(Player player, LivingEntity livingEntity){
+        Location eye = player.getEyeLocation();
+        Vector toEntity = livingEntity.getLocation().toVector().subtract(eye.toVector());
+        double dot = toEntity.normalize().dot(eye.getDirection());
+        return dot > 0.99D;
     }
 }

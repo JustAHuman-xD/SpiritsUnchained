@@ -1,9 +1,11 @@
 package me.justahuman.spiritsunchained.slimefun;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 
@@ -13,43 +15,36 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 
 public class ItemStacks {
 
     // Crafting Materials
-    private static final ItemStack PHANTOM_MEMBRANE = new ItemStack(Material.PHANTOM_MEMBRANE);
-    private static final ItemStack FEATHER = new ItemStack(Material.FEATHER);
-    private static final ItemStack TINTED_GLASS = new ItemStack(Material.TINTED_GLASS);
 
-    static{
-        ItemMeta meta1 = PHANTOM_MEMBRANE.getItemMeta();
-        if(meta1 != null) {
-            meta1.addEnchant(Enchantment.ARROW_DAMAGE, 1, false);
-            meta1.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            PHANTOM_MEMBRANE.setItemMeta(meta1);
+    private static ItemStack getEnchanted(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1, false);
+            itemStack.setItemMeta(itemMeta);
         }
+        return itemStack;
+    }
 
-        ItemMeta meta2 = FEATHER.getItemMeta();
-        if(meta2 != null) {
-            meta2.addEnchant(Enchantment.ARROW_DAMAGE, 1, false);
-            meta2.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            FEATHER.setItemMeta(meta2);
+    private static ItemStack getPotionColor(int r, int g, int b) {
+        ItemStack itemStack = new ItemStack(Material.POTION);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            PotionMeta potionMeta = (PotionMeta) itemMeta;
+            potionMeta.setColor(Color.fromRGB(r, g, b));
         }
-
-        ItemMeta meta3 = TINTED_GLASS.getItemMeta();
-        if(meta3 != null) {
-            meta3.addEnchant(Enchantment.ARROW_DAMAGE, 1, false);
-            meta3.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            TINTED_GLASS.setItemMeta(meta3);
-        }
-
+        return  itemStack;
     }
 
     // Crafting Materials
 
     public static final SlimefunItemStack SU_INFUSED_MEMBRANE = new SlimefunItemStack(
             "SU_INFUSED_MEMBRANE",
-            PHANTOM_MEMBRANE,
+            getEnchanted(new ItemStack(Material.PHANTOM_MEMBRANE)),
             "&5Infused Membrane",
             "",
             "&7A Membrane infused with Magic"
@@ -57,7 +52,7 @@ public class ItemStacks {
 
     public static final SlimefunItemStack SU_INFUSED_FEATHER = new SlimefunItemStack(
             "SU_INFUSED_FEATHER",
-            FEATHER,
+            getEnchanted(new ItemStack(Material.FEATHER)),
             "&5Infused Feather",
             "",
             "&7A Feather infused with Magic"
@@ -65,7 +60,7 @@ public class ItemStacks {
 
     public static final SlimefunItemStack SU_SOUL_STAINED_GLASS = new SlimefunItemStack(
             "SU_SOUL_STAINED_GLASS",
-            TINTED_GLASS,
+            getEnchanted(new ItemStack(Material.TINTED_GLASS)),
             "&5Soul Stained Glass",
             "",
             "&7Peer into Another Plane"
@@ -87,6 +82,15 @@ public class ItemStacks {
               "&7A Captured Unidentified Spirit",
               "&7Useless on its Own"
       )
+    );
+
+    public static final SlimefunItemStack SU_SPIRIT_BOTTLE = new SlimefunItemStack(
+            "SU_SPIRIT_BOTTLE",
+            getPotionColor(150,150,150),
+            "&fSpirit in a Bottle",
+            "",
+            "&7A Spirit in a Bottle",
+            "&7Use it to get Ectoplasm"
     );
 
     // Tools
@@ -118,19 +122,10 @@ public class ItemStacks {
 
     public static final SlimefunItemStack SU_SPIRIT_BOOK = new SlimefunItemStack(
             "SU_SPIRIT_BOOK",
-            Material.WRITABLE_BOOK,
+            Material.WRITTEN_BOOK,
             "&aSpirit Book",
             "",
             "&7A Book only Spirits can Write in"
-    );
-
-    public static final SlimefunItemStack SU_NEGATIVE_TRIDENT = new SlimefunItemStack(
-            "SU_NEGATIVE_TRIDENT",
-            Material.TRIDENT,
-            "&dNegative Trident",
-            "",
-            "&7A Reversed Trident",
-            "&7Use it to Harvest Ectoplasm"
     );
 
     public static final SlimefunItemStack SU_SPIRIT_RUNE = new SlimefunItemStack(

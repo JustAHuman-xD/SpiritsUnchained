@@ -8,7 +8,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.Getter;
 
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
-import me.justahuman.spiritsunchained.utils.MiscUtils;
+import me.justahuman.spiritsunchained.utils.Keys;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -50,7 +50,7 @@ abstract public class AbstractCustomMob<T extends LivingEntity> {
     public T spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
         T mob = world.spawn(loc, this.clazz);
 
-        PersistentDataAPI.setString(mob, MiscUtils.EntityKey, this.id);
+        PersistentDataAPI.setString(mob, Keys.EntityKey, this.id);
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.maxHealth);
         mob.setHealth(this.maxHealth);

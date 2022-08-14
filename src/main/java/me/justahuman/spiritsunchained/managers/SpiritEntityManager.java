@@ -5,11 +5,9 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
-import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
-import me.justahuman.spiritsunchained.utils.MiscUtils;
+import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -23,15 +21,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritEntityManager implements Listener {
@@ -59,7 +55,7 @@ public class SpiritEntityManager implements Listener {
     public AbstractCustomMob<?> getCustomClass(Entity entity, String key) {
         String getKey = null;
         if (entity != null) {
-            getKey = PersistentDataAPI.getString(entity, MiscUtils.EntityKey);
+            getKey = PersistentDataAPI.getString(entity, Keys.EntityKey);
         } else if (key != null) {
             getKey = key;
         }
@@ -88,7 +84,7 @@ public class SpiritEntityManager implements Listener {
                 int soulCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
                 ItemStack helmetItem = player.getInventory().getHelmet();
                 if (helmetItem == null) {continue;}
-                if (!MiscUtils.imbuedCheck(helmetItem)) {continue;}
+                if (!SpiritUtils.imbuedCheck(helmetItem)) {continue;}
                 if (SpiritUtils.canSpawn() && soulCount < SpiritUtils.getPlayerCap() && chance <= 10) {
                     Block b = SpiritUtils.getSpawnBlock(player.getLocation());
                     String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());

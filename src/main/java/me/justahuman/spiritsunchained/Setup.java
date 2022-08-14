@@ -8,6 +8,7 @@ import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.slimefun.Groups;
 import me.justahuman.spiritsunchained.slimefun.Items;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
+import me.justahuman.spiritsunchained.utils.ParticleUtils;
 
 public class Setup {
 
@@ -35,6 +36,7 @@ public class Setup {
         Groups.SU_MAIN_GROUP.addItemGroup(Groups.SU_ALTAR_3);
 
         Items.setup(plugin);
+        ParticleUtils.setup();
 
         UnIdentifiedSpirit unIdentifiedSpirit = new UnIdentifiedSpirit();
         unIdentifiedSpirit.register(manager);

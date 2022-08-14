@@ -11,11 +11,14 @@ import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritWrit
 import me.justahuman.spiritsunchained.implementation.multiblocks.*;
 import me.justahuman.spiritsunchained.implementation.tools.*;
 
+import me.justahuman.spiritsunchained.spirits.SpiritInteract;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class Items {
     public static void setup(SlimefunAddon instance) {
+
+        final RecipeType SPIRIT_INTERACT = new SpiritInteract();
 
         // Crafting Materials
         new UnplaceableBlock(Groups.SU_RESOURCES, ItemStacks.SU_INFUSED_MEMBRANE, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
@@ -36,20 +39,27 @@ public class Items {
                 SlimefunItems.ENDER_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_3})
                 .register(instance);
 
-        new UnplaceableBlock(Groups.SU_RESOURCES, ItemStacks.SU_ECTOPLASM, RecipeType.NULL, new ItemStack[]{
+        SlimefunItem spiritTemp = new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_UNIDENTIFIED_SPIRIT, SPIRIT_INTERACT, new ItemStack[]{
                 null, null, null,
-                null, null, null,
-                null, null, null})
-                .register(instance);
+                null, ItemStacks.SU_SPIRIT_NET, null,
+                null, null, null
+        });
+        spiritTemp.setHidden(false);
+        spiritTemp.register(instance);
 
-        SlimefunItem UnidentifiedSpirit = new UnplaceableBlock(Groups.SU_RESOURCES, ItemStacks.SU_UNIDENTIFIED_SPIRIT, RecipeType.NULL, new ItemStack[] {
+        new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_SPIRIT_BOTTLE, SPIRIT_INTERACT, new ItemStack[]{
                 null, null, null,
+                null, new ItemStack(Material.GLASS_BOTTLE), null,
+                null, null, null
+        }).register(instance);
+
+        ItemStack outputEctoplasm = ItemStacks.SU_ECTOPLASM.clone();
+        outputEctoplasm.setAmount(2);
+        new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_ECTOPLASM, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
                 null, null, null,
-                null, null, null});
-
-        UnidentifiedSpirit.setHidden(true);
-        UnidentifiedSpirit.register(instance);
-
+                null, ItemStacks.SU_SPIRIT_BOTTLE, null,
+                null, null, null
+        }, outputEctoplasm).register(instance);
 
         //Tools
         new SpiritLenses(Groups.SU_TOOLS, ItemStacks.SU_SPIRIT_LENSES, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
@@ -80,12 +90,6 @@ public class Items {
                 ItemStacks.SU_ECTOPLASM, SlimefunItems.ESSENCE_OF_AFTERLIFE, ItemStacks.SU_INFUSED_MEMBRANE,
                 ItemStacks.SU_SOUL_STAINED_GLASS, SlimefunItems.ENCHANTMENT_RUNE,ItemStacks.SU_SOUL_STAINED_GLASS,
                 ItemStacks.SU_INFUSED_MEMBRANE,SlimefunItems.ESSENCE_OF_AFTERLIFE,ItemStacks.SU_ECTOPLASM
-        }).register(instance);
-
-        new NegativeTrident(Groups.SU_TOOLS,ItemStacks.SU_NEGATIVE_TRIDENT,RecipeType.ANCIENT_ALTAR,new ItemStack[]{
-                SlimefunItems.INFUSED_MAGNET, SlimefunItems.BATTERY, ItemStacks.SU_INFUSED_MEMBRANE,
-                ItemStacks.SU_ECTOPLASM, new ItemStack(Material.TRIDENT), ItemStacks.SU_ECTOPLASM,
-                ItemStacks.SU_INFUSED_MEMBRANE, SlimefunItems.BATTERY, SlimefunItems.INFUSED_MAGNET
         }).register(instance);
 
         //Machines

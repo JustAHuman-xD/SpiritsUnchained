@@ -9,7 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
-import me.justahuman.spiritsunchained.utils.MiscUtils;
+import me.justahuman.spiritsunchained.utils.Keys;
 
 import net.kyori.adventure.text.Component;
 
@@ -88,7 +88,7 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                 Slimefun.runSync(() -> {
                     // Being sure entities are still valid and not picked up or whatsoever.
-                    if (rune.isValid() && runeStack.getAmount() == 1 && item.isValid() && itemStack.getAmount() == 1 && !PersistentDataAPI.hasByte(itemStack.getItemMeta(), MiscUtils.imbuedKey)) {
+                    if (rune.isValid() && runeStack.getAmount() == 1 && item.isValid() && itemStack.getAmount() == 1 && !PersistentDataAPI.hasByte(itemStack.getItemMeta(), Keys.imbuedKey)) {
 
                         l.getWorld().spawnParticle(Particle.CRIT_MAGIC, l, 1);
                         l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
@@ -111,9 +111,9 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
     }
 
     public static void setImbued(@Nullable ItemStack item, Player p) {
-        if (item != null && item.getType() != Material.AIR && !PersistentDataAPI.hasByte(item.getItemMeta(), MiscUtils.imbuedKey)) {
+        if (item != null && item.getType() != Material.AIR && !PersistentDataAPI.hasByte(item.getItemMeta(), Keys.imbuedKey)) {
             ItemMeta meta = item.getItemMeta();
-            PersistentDataAPI.setByte(meta, MiscUtils.imbuedKey, (byte) 2);
+            PersistentDataAPI.setByte(meta, Keys.imbuedKey, (byte) 2);
             List<Component> lore = meta.hasLore() ? meta.lore() : new ArrayList<>();
             lore.add(Component.text(IMBUED_LORE));
             meta.lore(lore);
@@ -123,7 +123,7 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private boolean findCompatibleItem(Entity entity) {
         if (entity instanceof Item item) {
-            return !PersistentDataAPI.hasByte(item.getItemStack().getItemMeta(), MiscUtils.imbuedKey);
+            return !PersistentDataAPI.hasByte(item.getItemStack().getItemMeta(), Keys.imbuedKey);
         }
         return false;
     }

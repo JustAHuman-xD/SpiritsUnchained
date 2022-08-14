@@ -4,11 +4,14 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.implementation.tools.SpiritBook;
 import me.justahuman.spiritsunchained.implementation.tools.SpiritNet;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
-import me.justahuman.spiritsunchained.utils.MiscUtils;
+import me.justahuman.spiritsunchained.utils.Keys;
 
+import me.justahuman.spiritsunchained.utils.ParticleUtils;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -21,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -41,8 +45,8 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Nonnull
     @Override
     public Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
-        MiscUtils.totalSpiritCount++;
         Allay mob = world.spawn(loc, this.getClazz());
+        SpiritUtils.SpiritIdMap.put(mob.getEntityId(), mob);
         SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
         String state;
 
@@ -58,10 +62,10 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
             type = type + "_SPIRIT";
         }
 
-        PersistentDataAPI.setString(mob, MiscUtils.EntityKey, this.getId());
-        PersistentDataAPI.setString(mob, MiscUtils.spiritStateKey, state);
-        PersistentDataAPI.setString(mob, MiscUtils.spiritTypeKey, type);
-        PersistentDataAPI.setBoolean(mob, MiscUtils.spiritIdentified, false);
+        PersistentDataAPI.setString(mob, Keys.EntityKey, this.getId());
+        PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
+        PersistentDataAPI.setString(mob, Keys.spiritTypeKey, type);
+        PersistentDataAPI.setBoolean(mob, Keys.spiritIdentified, false);
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.getMaxHealth());
         mob.setHealth(this.getMaxHealth());
@@ -83,7 +87,13 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
-        MiscUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true, true);
+        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true, true);
+
+        for (Player player : allay.getWorld().getPlayers()) {
+            if (player.canSee(allay)) {
+                player.hideEntity(SpiritsUnchained.getInstance(), allay);
+            }
+        }
     }
 
     @Override
@@ -100,16 +110,23 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onInteract(PlayerInteractEntityEvent event) {
-        Entity entity = event.getRightClicked();
         Player player = event.getPlayer();
-        ItemStack itemStack = player.getInventory().getItem(event.getHand());
-        if (itemStack.getType() == Material.AIR) {return;}
-        if (SlimefunItem.getByItem(itemStack) instanceof SpiritNet) {
+        Entity entity = event.getRightClicked();
+        EquipmentSlot hand = event.getHand();
+        ItemStack item = player.getInventory().getItem(hand);
+
+        if (item.getType() == Material.AIR) {return;}
+
+        if (SlimefunItem.getByItem(item) instanceof SpiritNet) {
+            ParticleUtils.catchAnimation(entity.getLocation());
             entity.remove();
-            itemStack.setAmount(itemStack.getAmount() - 1);
+            item.setAmount(item.getAmount() - 1);
             player.getInventory().addItem(ItemStacks.SU_UNIDENTIFIED_SPIRIT);
+        } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {
+            ParticleUtils.bottleAnimation(entity.getLocation());
+            entity.remove();
+            player.getInventory().addItem(ItemStacks.SU_SPIRIT_BOTTLE);
         }
-        event.setCancelled(true);
     }
 
     @Override
@@ -121,7 +138,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void reveal(Allay allay, Player player) {
-        SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, PersistentDataAPI.getString(allay, MiscUtils.spiritTypeKey)).spawn(allay.getLocation(), allay.getWorld(), "Reveal", PersistentDataAPI.getString(allay, MiscUtils.spiritStateKey));
+        SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, PersistentDataAPI.getString(allay, Keys.spiritTypeKey)).spawn(allay.getLocation(), allay.getWorld(), "Reveal", PersistentDataAPI.getString(allay, Keys.spiritStateKey));
         allay.remove();
     }
 }
