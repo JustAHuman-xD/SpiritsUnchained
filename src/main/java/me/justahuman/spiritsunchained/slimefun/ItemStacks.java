@@ -26,6 +26,7 @@ public class ItemStacks {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
             itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1, false);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             itemStack.setItemMeta(itemMeta);
         }
         return itemStack;

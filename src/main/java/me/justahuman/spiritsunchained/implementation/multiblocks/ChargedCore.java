@@ -12,6 +12,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -82,7 +83,7 @@ public class ChargedCore {
     @Nullable
     private static ItemStack getSpiritItem(Player player) {
         for (ItemStack item : player.getInventory().getContents()) {
-            if (SpiritUtils.isSpiritItem(item)) {
+            if (item != null && item.getType() != Material.AIR && item.hasItemMeta() && SpiritUtils.isSpiritItem(item)) {
                 return item;
             }
         }

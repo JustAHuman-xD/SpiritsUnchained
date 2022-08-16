@@ -4,10 +4,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import me.justahuman.spiritsunchained.SpiritsUnchained;
 
+import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.tools.SpiritLenses;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
+
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -189,8 +190,6 @@ public class SpiritUtils {
     }
 
     public static boolean isSpiritItem(ItemStack itemStack) {
-        if (itemStack == null) {return false;}
-        if (!itemStack.hasItemMeta()) {return false;}
         return PersistentDataAPI.hasString(itemStack.getItemMeta(), Keys.spiritItemKey);
     }
 
