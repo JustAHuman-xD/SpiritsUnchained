@@ -1,6 +1,5 @@
 package me.justahuman.spiritsunchained.listeners;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.ChatColor;

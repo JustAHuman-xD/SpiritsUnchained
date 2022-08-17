@@ -34,4 +34,10 @@ commands:
 permissions:
   spiritsunchained.*:
     default: op
-    description: Gives access
+    description: Gives access to all Commands
+    children:
+      spritsunchained.admin: true
+
+  spiritsunchained.admin:
+    default: op
+    description: Gives access to most Commands
