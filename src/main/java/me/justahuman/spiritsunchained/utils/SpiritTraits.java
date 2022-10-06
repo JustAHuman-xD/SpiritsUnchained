@@ -8,12 +8,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Egg;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
@@ -22,27 +22,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
-public class UseTrait {
+public class SpiritTraits {
 
-    Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
+    static Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
 
-    public String Use_Trait(Player player, Trait trait) {
+    public static String useTrait(Player player, Map<String, Object> traitInfo) {
         Method traitMethod = null;
         try {
-           traitMethod = getClass().getMethod(trait.getId(), Player.class, Trait.class);
+           traitMethod = SpiritTraits.class.getMethod((String) traitInfo.get("id"), Player.class, Trait.class);
         } catch (NoSuchMethodException ignored) {}
 
         if (traitMethod == null) {
@@ -52,19 +53,19 @@ public class UseTrait {
         UUID uuid = player.getUniqueId();
 
         //If the Trait is on Cooldown
-        if (Cooldown_Map.containsKey(uuid) && Cooldown_Map.get(uuid).containsKey(trait.getId()) && Cooldown_Map.get(uuid).get(trait.getId()) > System.currentTimeMillis()) {
+        if (Cooldown_Map.containsKey(uuid) && Cooldown_Map.get(uuid).containsKey((String) traitInfo.get("id")) && Cooldown_Map.get(uuid).get((String) traitInfo.get("id")) > System.currentTimeMillis()) {
             return "Cooldown";
         }
 
         try {
-            traitMethod.invoke(this, player, trait);
+            traitMethod.invoke(SpiritTraits.class, player);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             return "Error";
         }
 
         //Add the cooldown to the Map
         Map<String, Long> cooldowns = Cooldown_Map.containsKey(uuid) ? Cooldown_Map.get(uuid) : new HashMap<>();
-        cooldowns.put(trait.getId(), System.currentTimeMillis() + trait.getCooldown());
+        cooldowns.put((String) traitInfo.get("id"), System.currentTimeMillis() + (int) traitInfo.get("cooldown"));
         Cooldown_Map.put(uuid, cooldowns);
 
         return "Used";
@@ -235,6 +236,7 @@ public class UseTrait {
     }
     public void High_Jump(Player player) {
         player.setVelocity(new Vector(0, 15, 0));
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_HORSE_JUMP, 2, 1);
     }
     public void Spitter(Player player) {
         SpiritUtils.spawnProjectile(player, LlamaSpit.class, "Spitter");
@@ -265,26 +267,79 @@ public class UseTrait {
         Location location = player.getLocation();
 
         double x = location.getX() + (new Random().nextDouble() - 0.5D) * 16.0D;
-        double y = Math.max(location.getY() + (double) (new Random().nextInt(16) - 8), Math.min((double) world.getMinHeight(), (double) (world.getMinHeight() + world.getLogicalHeight() - 1)));
+        double y = Math.max(location.getY() + (double) (new Random().nextInt(16) - 8), Math.min(world.getMinHeight(), (double) (world.getMinHeight() + world.getLogicalHeight() - 1)));
         double z = location.getZ() + (new Random().nextDouble() - 0.5D) * 16.0D;
 
         player.teleport(player.getLocation().add(x, y, z));
         player.getWorld().playSound(player.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 2, 1);
     }
     public void Sleep_No_More(Player player) {
-
+        player.setStatistic(Statistic.TIME_SINCE_REST, 0);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PHANTOM_AMBIENT, 2, 1);
     }
     public void Magma_Trap(Player player) {
-
+        for (Player nearbyPlayer : player.getWorld().getNearbyPlayers(player.getLocation(), 5)) {
+            if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
+                continue;
+            }
+            nearbyPlayer.setFireTicks(10*20);
+        }
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_MAGMA_CUBE_SQUISH, 2, 1);
     }
     public void Better_Brewer(Player player) {
+        Inventory inventory = player.getInventory();
+        if (inventory.contains(Material.GLASS_BOTTLE)) {
+            int potionAmount = 0;
+            for(ItemStack item : inventory.getContents()) {
+                if (item.getType() == Material.GLASS_BOTTLE) {
+                    potionAmount = (item.getAmount() >= 3 ? new Random().nextInt(0,4) : new Random().nextInt(0,item.getAmount()));
+                    item.setAmount(item.getAmount() - potionAmount);
+                }
+            }
+            ItemStack potion1 = new ItemStack(Material.SPLASH_POTION);
+            PotionMeta meta1 = ((PotionMeta) potion1.getItemMeta());
+            meta1.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, 40, 2), true); //<-- 40 ticks whereas you had 10 ticks
+            potion1.setItemMeta(meta1);
 
+            ItemStack potion2 = new ItemStack(Material.POTION);
+            PotionMeta meta2 = ((PotionMeta) potion2.getItemMeta());
+            meta2.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 2), true); //<-- 40 ticks whereas you had 10 ticks
+            potion2.setItemMeta(meta2);
+
+            ItemStack potion3 = new ItemStack(Material.POTION);
+            PotionMeta meta3 = ((PotionMeta) potion3.getItemMeta());
+            meta2.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 60*20, 2), true); //<-- 40 ticks whereas you had 10 ticks
+            potion3.setItemMeta(meta3);
+
+            ItemStack[] potions = new ItemStack[] {
+                    potion1, potion2, potion3
+            };
+            for (int current = 0; current != potionAmount; potionAmount++) {
+                HashMap<Integer, ItemStack> remainingItems = inventory.addItem(potions[new Random().nextInt(3)]);
+                if (!remainingItems.isEmpty()) {
+                    for (ItemStack drop : remainingItems.values()) {
+                        player.getWorld().dropItemNaturally(player.getLocation(), drop);
+                    }
+                }
+            }
+        }
     }
     public void Heavy_Hit(Player player) {
-
+        PersistentDataAPI.setBoolean(player, Keys.heavyHitKey, true);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_HOGLIN_ATTACK, 2, 1);
     }
     public void Targeted_Teleport(Player player) {
-
+        RayTraceResult rs = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 64);
+        if (rs == null) {
+            return;
+        }
+        float yaw = player.getLocation().getYaw();
+        double D = 1;
+        double x = -D*Math.sin(yaw*Math.PI/180);
+        double z = D*Math.cos(yaw*Math.PI/180);
+        Location targetLoc = rs.getHitBlock().getLocation().subtract(x, -1, z);
+        player.teleport(targetLoc);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 2, 1);
     }
     public void Tank(Player player) {
 

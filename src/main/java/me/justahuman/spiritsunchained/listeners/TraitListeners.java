@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.util.Vector;
 
 public class TraitListeners implements Listener {
 
@@ -49,7 +50,7 @@ public class TraitListeners implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player player)) {
             return;
@@ -59,8 +60,8 @@ public class TraitListeners implements Listener {
         if (PersistentDataAPI.hasString(attacker, Keys.immuneKey) && PersistentDataAPI.getString(attacker, Keys.immuneKey).equals(player.getUniqueId().toString())) {
             event.setCancelled(true);
             return;
+        } else if(PersistentDataAPI.hasBoolean(attacker, Keys.heavyHitKey) && PersistentDataAPI.getBoolean(attacker, Keys.heavyHitKey)) {
+            player.setVelocity(new Vector(0, 15, 0));
         }
-
-
     }
 }

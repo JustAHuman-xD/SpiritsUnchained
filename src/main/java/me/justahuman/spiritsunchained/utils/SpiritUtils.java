@@ -9,6 +9,7 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.tools.SpiritLenses;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 
+import me.justahuman.spiritsunchained.spirits.Trait;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -19,11 +20,9 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Allay;
-import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -36,7 +35,6 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -152,15 +150,16 @@ public class SpiritUtils {
         };
     }
     @ParametersAreNonnullByDefault
-    public static List<String> getTraitInfo(String traitId) {
+    public static Map<String, Object> getTraitInfo(String traitId) {
         FileConfiguration traits = SpiritsUnchained.getConfigManager().getTraits();
         ConfigurationSection trait = traits.getConfigurationSection(traitId);
-        List<String> toReturn = new ArrayList<>();
+        Map<String, Object> toReturn = new HashMap<>();
         if (trait == null) {return toReturn;}
-        toReturn.add(trait.getString("name"));
-        toReturn.add(trait.getString("type"));
-        List<String> description = trait.getStringList("lore");
-        toReturn.addAll(description);
+        toReturn.put("id", traitId);
+        toReturn.put("name", trait.getString("name"));
+        toReturn.put("cooldown", trait.getInt("cooldown", 0));
+        toReturn.put("type", trait.getString("type"));
+        toReturn.put("lore", trait.getStringList("lore"));
         return toReturn;
     }
 
@@ -282,7 +281,7 @@ public class SpiritUtils {
         ChatColor tierColor = tierColor(definition.getTier());
         ChatColor stateColor = stateColor(state);
         String spiritType  = ChatUtils.humanize(definition.getType().name());
-        List<String> traitInfo = getTraitInfo(definition.getTrait());
+        Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
 
         ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
 
@@ -295,7 +294,7 @@ public class SpiritUtils {
         itemLore.add(Component.text(""));
         itemLore.add(Component.text(ChatColors.color("&fTier: " + tierColor + definition.getTier())));
         itemLore.add(Component.text(ChatColors.color("&fCurrent State: " + stateColor + state)));
-        itemLore.add(Component.text(ChatColors.color("&fUse " + traitInfo.get(0) + "&f: " + traitInfo.get(1))));
+        itemLore.add(Component.text(ChatColors.color("&fUse " + traitInfo.get("name") + "&f: " + traitInfo.get("type"))));
         itemLore.add(Component.text(""));
         itemLore.add(Component.text(ChatColors.color("&fProgress: " + getProgress(0))));
 

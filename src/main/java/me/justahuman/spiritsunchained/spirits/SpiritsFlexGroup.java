@@ -230,12 +230,12 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
         //Trait
         if (PlayerUtils.hasKnowledgeLevel(player, entityType, 3) || mode == SlimefunGuideMode.CHEAT_MODE) {
-            List<String> traitList = SpiritUtils.getTraitInfo(definition.getTrait());
+            Map<String, Object> traitList = SpiritUtils.getTraitInfo(definition.getTrait());
             CustomItemStack traitItemStack = new CustomItemStack(
                     Material.GLASS,
                     "&aTrait",
                     "",
-                    "&bTrait: " + traitList.get(0),
+                    "&bTrait: " + traitList.get("name"),
                     "&7(Click For Description)"
             );
             menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
@@ -246,10 +246,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                     ItemStack descriptionItemStack = traitItemStack.clone();
                     List<Component> currentLore = descriptionItemStack.lore();
                     currentLore.remove(2);
-                    for (String line : traitList) {
-                        if (traitList.indexOf(line) > 1) {
-                            currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + line)));
-                        }
+                    for (String line : (List<String>) traitList.get("lore")) {
+                        currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + line)));
                     }
                     currentLore.add(Component.text(""));
                     currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + "(Click To Close Description)")));

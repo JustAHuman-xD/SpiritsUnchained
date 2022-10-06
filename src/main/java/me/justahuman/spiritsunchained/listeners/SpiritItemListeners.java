@@ -1,15 +1,25 @@
 package me.justahuman.spiritsunchained.listeners;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.managers.SpiritsManager;
+import me.justahuman.spiritsunchained.utils.Keys;
+import me.justahuman.spiritsunchained.utils.SpiritTraits;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Map;
 
 public class SpiritItemListeners implements Listener {
 
@@ -35,6 +45,17 @@ public class SpiritItemListeners implements Listener {
                     break;
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerClick(PlayerRightClickEvent e) {
+        ItemStack item = e.getItem();
+        ItemMeta meta = item.getItemMeta();
+        if (SpiritUtils.isSpiritItem(item)) {
+            String type = PersistentDataAPI.getString(meta, Keys.spiritTypeKey);
+            Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
+            SpiritTraits.useTrait(e.getPlayer(), traitInfo);
         }
     }
 }
