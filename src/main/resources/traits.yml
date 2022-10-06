@@ -54,7 +54,7 @@ Webber:
   name: "&fWebber"
   type: "Use Item"
   lore:
-    - "Trap any Near Entities in Webs!"
+    - "Trap 3 Near Entities in Webs!"
 Explode:
   name: "&cExplode"
   type: "Use Item"
@@ -116,7 +116,7 @@ Scute_Shedding:
   type: "Passive"
   lore:
     - "Gain Shed Turtle Scutes!"
-    - "Slowly adds Scutes to your Inventory"
+    - "Have a chance to Drop Scutes when Damaged"
 Villager_Friend:
   name: "&aVillager Friend"
   type: "Use Item"
@@ -149,7 +149,7 @@ High_Jump:
   name: "&6High Jump"
   type: "Use Item"
   lore:
-    - "Gain a Big Jump Boost"
+    - "Launch yourself high into the Air!"
 Morning_Gift:
   name: "&eMorning Gift!"
   type: "Passive"
@@ -271,7 +271,7 @@ Tank:
   name: "&8Tank"
   type: "Use Item"
   lore:
-    - "Temporarily gain Strength & Resistance V"
+    - "Temporarily gain Strength & Resistance 3"
 Bullet_Swarm:
   name: "&dBullet Swarm"
   type: "Use Item"

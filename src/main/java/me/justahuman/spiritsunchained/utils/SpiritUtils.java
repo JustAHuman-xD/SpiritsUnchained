@@ -19,9 +19,11 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Allay;
+import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -160,17 +162,6 @@ public class SpiritUtils {
         List<String> description = trait.getStringList("lore");
         toReturn.addAll(description);
         return toReturn;
-    }
-
-    @ParametersAreNonnullByDefault
-    @Nullable
-    public static Method getTraitMethod(String traitId) {
-        try {
-            return Class.forName(traitId).getMethod(traitId);
-        } catch(LinkageError | ClassNotFoundException | NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @ParametersAreNonnullByDefault
@@ -366,5 +357,31 @@ public class SpiritUtils {
         Vector toEntity = livingEntity.getLocation().toVector().subtract(eye.toVector());
         double dot = toEntity.normalize().dot(eye.getDirection());
         return dot > 0.99D;
+    }
+
+    public static Entity spawnProjectile(Player player, Class<? extends Entity> entity, String reason) {
+        Location location = player.getLocation();
+        float yaw = location.getYaw();
+        double D = 1;
+        double x = -D*Math.sin(yaw*Math.PI/180);
+        double z = D*Math.cos(yaw*Math.PI/180);
+        Entity projectile = player.getWorld().spawn(location.add(x, 1.162, z), entity);
+        projectile.setVelocity(location.getDirection().multiply(2));
+        PersistentDataAPI.setString(projectile, Keys.entityKey, reason);
+        PersistentDataAPI.setString(projectile, Keys.ownerKey, player.getUniqueId().toString());
+        return projectile;
+    }
+
+    public static List<Block> getNearbyBlocks(Block block, int radius) {
+        List<Block> toReturn = new ArrayList<>();
+        for (int x = -radius; x < radius+1; x++) {
+            for (int y = -radius; y < radius+1; y++) {
+                for (int z = -radius; z < radius+1; z++) {
+                    Block relative = block.getRelative(x,y,z);
+                    toReturn.add(relative);
+                }
+            }
+        }
+        return toReturn;
     }
 }

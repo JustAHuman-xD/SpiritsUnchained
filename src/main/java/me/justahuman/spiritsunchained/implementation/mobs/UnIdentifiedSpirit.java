@@ -62,7 +62,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
             type = type + "_SPIRIT";
         }
 
-        PersistentDataAPI.setString(mob, Keys.EntityKey, this.getId());
+        PersistentDataAPI.setString(mob, Keys.entityKey, this.getId());
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
         PersistentDataAPI.setString(mob, Keys.spiritTypeKey, type);
         PersistentDataAPI.setBoolean(mob, Keys.spiritIdentified, false);

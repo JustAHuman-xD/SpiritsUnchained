@@ -55,7 +55,7 @@ public class SpiritEntityManager implements Listener {
     public AbstractCustomMob<?> getCustomClass(Entity entity, String key) {
         String getKey = null;
         if (entity != null) {
-            getKey = PersistentDataAPI.getString(entity, Keys.EntityKey);
+            getKey = PersistentDataAPI.getString(entity, Keys.entityKey);
         } else if (key != null) {
             getKey = key;
         }

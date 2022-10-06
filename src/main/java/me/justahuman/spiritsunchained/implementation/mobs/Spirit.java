@@ -63,7 +63,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
 
         Allay mob = world.spawn(loc, this.getClazz());
         SpiritUtils.SpiritIdMap.put(mob.getEntityId(), mob);
-        PersistentDataAPI.setString(mob, Keys.EntityKey, this.getId());
+        PersistentDataAPI.setString(mob, Keys.entityKey, this.getId());
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
