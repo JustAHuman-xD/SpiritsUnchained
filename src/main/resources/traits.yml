@@ -15,18 +15,17 @@ Eggpult:
   type: "Use Item"
   lore:
     - "Fire an Explosive Egg!"
-Legends_Never_Die:
-  name: "&dLegends Never Die"
-  cooldown: 60
-  type: "Use Item"
-  lore:
-    - "Become a Legend"
-    - "Rest In Peace Technoblade"
-Jam_Out:
-  name: "&aJam Out"
+Pig_Rancher:
+  name: "&dPig_Rancher"
   type: "Passive"
   lore:
-    - "Gain Strength when Listening to a Jukebox!"
+    - "Become a Pig Rancher"
+    - "Riding a Pig you gain Immense Speed"
+Winged_Creature:
+  name: "&aWinged Creature"
+  type: "Passive"
+  lore:
+    - "Gain passive slowfalling!"
 Aquatic_Creature:
   name: "&3Aquatic Creature"
   cooldown: 60
@@ -80,6 +79,7 @@ Undead_Protection:
   type: "Passive"
   lore:
     - "Any damaging Potion Effects will instead Heal you!"
+    - "(Except for Lingering Potions)"
 What_Fall:
   name: "&aWhat Fall"
   type: "Passive"
@@ -96,11 +96,11 @@ Infest:
   type: "Use Item"
   lore:
     - "Infest the Stone you Use this On!"
-Bush_Berries:
-  name: "&4Bush Berries"
+Sly_Fox:
+  name: "&4Sly Fox"
   type: "Passive"
   lore:
-    - "No Longer take Damage in Sweet Berry Bushes!"
+    - "No Longer take Damage from things like Sweet Berries, Cactus, etc!"
 Echolocation:
   name: "&9Echolocation"
   cooldown: 60
@@ -171,12 +171,12 @@ Morning_Gift:
   name: "&eMorning Gift!"
   type: "Passive"
   lore:
-    - "Gain a Gift from your Cat in the Morning!"
+    - "Gain a Gift from your Cat after Sleeping!"
 Better_Food:
   name: "&fBetter Food!"
   type: "Passive"
   lore:
-    - "When Eating food get a 30% Chance to double Hunger!"
+    - "When Eating food get a 30% Chance to double Hunger gained!"
 Spitter:
   name: "&fSpitter"
   cooldown: 60
@@ -188,11 +188,11 @@ Dolphin_Swimmer:
   type: "Passive"
   lore:
     - "Get Dolphins Grace when under Water!"
-Thick_Fur:
-  name: "&fThick Fur"
+Natural_Fisher:
+  name: "&fNatural Fisher"
   type: "Passive"
   lore:
-    - "Gain some Armor Toughness!"
+    - "Chance to get Fish when Swimming Underwater!"
 Crunchy_Bamboo:
   name: "&2Crunchy Bamboo"
   type: "Passive"
@@ -215,6 +215,7 @@ Strange_Secrets:
   type: "Passive"
   lore:
     - "Convert Gold to Strange Nether Goo!"
+#TODO
 Multishoot:
   name: "&8Multishoot"
   type: "Passive"
@@ -329,9 +330,9 @@ Dragons_Breath:
   type: "Use Item"
   lore:
     - "Surround yourself with Dragons Breath"
-Sonic_Beam:
-  name: "&bSonic Beam"
+Dark_Aura:
+  name: "&bDark_Aura"
   cooldown: 60
   type: "Use Item"
   lore:
-    - "Fire a Sonic Beam like the Warden"
+    - "Give all nearby Players Darkness and Slowness"

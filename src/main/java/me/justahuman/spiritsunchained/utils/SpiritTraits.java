@@ -3,6 +3,7 @@ package me.justahuman.spiritsunchained.utils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.spirits.Trait;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,7 +20,9 @@ import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.LlamaSpit;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.ShulkerBullet;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.entity.WitherSkull;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -30,7 +33,9 @@ import org.bukkit.util.Vector;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -110,7 +115,7 @@ public class SpiritTraits {
 
         item.setAmount(new Random().nextInt(1,6));
         world.playSound(location, Sound.BLOCK_BEEHIVE_SHEAR, 2, 1);
-        world.dropItemNaturally(location, item);
+        PlayerUtils.addOrDropItem(player, item);
     }
     public void Webber(Player player) {
         Location location = player.getLocation();
@@ -178,12 +183,7 @@ public class SpiritTraits {
                 }
             }
 
-            HashMap<Integer, ItemStack> remainingItems = inventory.addItem(new ItemStack(Material.MUSHROOM_STEW, stewAmount));
-            if (!remainingItems.isEmpty()) {
-                for (ItemStack drop : remainingItems.values()) {
-                    player.getWorld().dropItemNaturally(player.getLocation(), drop);
-                }
-            }
+            PlayerUtils.addOrDropItem(player, new ItemStack(Material.MUSHROOM_STEW, stewAmount));
         }
     }
     public void Lava_Walker(Player player) {
@@ -315,12 +315,7 @@ public class SpiritTraits {
                     potion1, potion2, potion3
             };
             for (int current = 0; current != potionAmount; potionAmount++) {
-                HashMap<Integer, ItemStack> remainingItems = inventory.addItem(potions[new Random().nextInt(3)]);
-                if (!remainingItems.isEmpty()) {
-                    for (ItemStack drop : remainingItems.values()) {
-                        player.getWorld().dropItemNaturally(player.getLocation(), drop);
-                    }
-                }
+                PlayerUtils.addOrDropItem(player, potions[new Random().nextInt(3)]);
             }
         }
     }
@@ -342,15 +337,48 @@ public class SpiritTraits {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 2, 1);
     }
     public void Tank(Player player) {
-
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_RAVAGER_ATTACK, 2, 1);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30*20, 3, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30*20, 3, true));
     }
     public void Bullet_Swarm(Player player) {
-
+        World world = player.getWorld();
+        Location location = player.getLocation();
+        List<Player> targets = new ArrayList<>();
+        for (Player nearbyPlayer : world.getNearbyPlayers(location, 20, 20, 20)) {
+            if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
+                continue;
+            }
+            for (Player target : targets) {
+                if (location.distance(nearbyPlayer.getLocation()) > location.distance(target.getLocation())) {
+                    targets.remove(nearbyPlayer);
+                    targets.add(targets.indexOf(target), nearbyPlayer);
+                }
+            }
+        }
+        for (int spawned = 0; spawned < 5; spawned++) {
+            ShulkerBullet bullet = (ShulkerBullet) world.spawnEntity(location.add(0,2,0), EntityType.SHULKER_BULLET);
+            bullet.setShooter(player);
+            bullet.setTarget(targets.get(spawned));
+        }
     }
     public void Skull_Fire(Player player) {
-
+        SpiritUtils.spawnProjectile(player, WitherSkull.class, "Skull_FIre");
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 2, 1);
     }
-    public void Sonic_Beam(Player player) {
-
+    public void Dark_Aura(Player player) {
+        World world = player.getWorld();
+        Location location = player.getLocation();
+        for (Player nearbyPlayer : world.getNearbyPlayers(location, 30, 30, 30)) {
+            if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
+                continue;
+            }
+            Location nearbyLocation = nearbyPlayer.getLocation();
+            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 30*20, 5, true));
+            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30*20, 5, true));
+            world.playSound(nearbyLocation, Sound.ENTITY_WARDEN_HEARTBEAT, 3, 1);
+            ParticleUtils.spawnParticleRadius(nearbyLocation, Particle.SCULK_SOUL, 2, 30, false, false);
+        }
+        world.playSound(location, Sound.ENTITY_WARDEN_ROAR, 1, 1);
     }
 }

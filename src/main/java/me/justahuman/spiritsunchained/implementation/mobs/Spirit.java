@@ -12,6 +12,7 @@ import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
+import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.Location;
@@ -112,26 +113,38 @@ public class Spirit extends AbstractCustomMob<Allay> {
         Player player = event.getPlayer();
         EquipmentSlot hand = event.getHand();
         Entity entity = event.getRightClicked();
+        EntityType type = this.definition.getType();
         ItemStack item = player.getInventory().getItem(hand);
+        int tier = this.definition.getTier();
+
         if (item.getType() == Material.AIR) {return;}
         if (SlimefunItem.getByItem(item) instanceof SpiritNet) {
-            if (new Random().nextInt(1,100) <= SpiritUtils.getTierChance(this.definition.getTier())) {
-                ParticleUtils.catchAnimation(entity.getLocation());
+            if (new Random().nextInt(1,100) <= SpiritUtils.getTierChance(tier)) {
+                //ParticleUtils.catchAnimation(entity.getLocation());
                 entity.remove();
-                item.setAmount(item.getAmount() - 1);
-                player.getInventory().addItem(SpiritUtils.SpiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
+                PlayerUtils.addOrDropItem(player, SpiritUtils.SpiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
             } else {
                 player.sendMessage("The Spirit Escaped the Net!");
-                item.setAmount(item.getAmount() - 1);
             }
+            item.subtract();
         } else if (SlimefunItem.getByItem(item) instanceof SpiritBook) {
-            player.sendMessage("Book PlaceHolder");
-            item.setAmount(item.getAmount() - 1);
+            if (new Random().nextInt(1, 100) <= SpiritUtils.getTierChance(tier)) {
+                int currentKnowledge = PlayerUtils.getKnowledgeLevel(player, type);
+                if (currentKnowledge < 2) {
+                    PlayerUtils.addOrDropItem(player, SpiritUtils.getFilledSpiritBook(this.definition, currentKnowledge));
+                    PlayerUtils.setKnowledgeLevel(player, type, currentKnowledge + 1);
+                } else {
+                    player.sendMessage("You can't gain anymore knowledge from a Book!");
+                }
+            } else {
+                player.sendMessage("The Spirit rips the Book to Shreds!");
+            }
+            item.subtract();
         } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {
-            ParticleUtils.bottleAnimation(entity.getLocation());
+            //ParticleUtils.bottleAnimation(entity.getLocation());
             entity.remove();
-            item.setAmount(item.getAmount() - 1);
-            player.getInventory().addItem(ItemStacks.SU_SPIRIT_BOTTLE);
+            item.subtract();
+            PlayerUtils.addOrDropItem(player, ItemStacks.SU_SPIRIT_BOTTLE);
         }
     }
 }

@@ -58,8 +58,8 @@ PIG:
     Biomes:
         - main_overworld
     Dimension: NORMAL
-    Tier: 4
-    Trait: Legends_Never_Die
+    Tier: 1
+    Trait: Pig_Rancher
     Time:
         - Day
     States:
@@ -67,13 +67,8 @@ PIG:
         - Passive
     Pass On:
         - Item
-        - GOLDEN_HELMET
-        - 1
-    Relations:
-        Scare:
-            - WITHER
-            - ENDER_DRAGON
-            - WARDEN
+        - GOLDEN_CARROT
+        - 64
 PARROT:
     Biomes:
         - jungle_overworld
@@ -367,7 +362,7 @@ FOX:
         - snowy_overworld
     Dimension: NORMAL
     Tier: 2
-    Trait: Bush_Berries
+    Trait: Sly_Fox
     Time:
         - Day
     States:
@@ -717,7 +712,7 @@ POLAR_BEAR:
         - snowy_overworld
     Dimension: NORMAL
     Tier: 2
-    Trait: Thick_Fur
+    Trait: Natural_Fisher
     Time:
         - Day
         - Night
@@ -1192,8 +1187,6 @@ WITHER:
             - SLIME
             - ZOMBIFIED_PIGLIN
             - SILVERFISH
-        Afraid:
-            - PIG
 ENDER_DRAGON:
     Biomes:
         - dragon_end
@@ -1206,15 +1199,12 @@ ENDER_DRAGON:
         - Item
         - DRAGON_EGG
         - 1
-    Relations:
-        Afraid:
-            - PIG
 WARDEN:
     Biomes:
         - deep_dark
     Dimension: NORMAL
     Tier: 4
-    Trait: Sonic_Beam
+    Trait: Dark_Aura
     Time:
         - Day
         - Night
@@ -1224,6 +1214,3 @@ WARDEN:
         - Kill
         - BAT
         - 50
-    Relations:
-        Afraid:
-            - PIG

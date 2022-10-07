@@ -8,8 +8,11 @@ import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,6 +22,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
@@ -37,6 +42,13 @@ public class PlayerClickListener implements Listener {
                 player.sendMessage(ChatColor.LIGHT_PURPLE + Message);
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            ItemStack clickedItem = e.getItem();
+            if (clickedItem.getType() == Material.BAMBOO && SpiritUtils.useSpiritItem(player, EntityType.PANDA)) {
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
+                clickedItem.subtract();
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1, 4, false, false));
+            }
+
             List<Entity> lookingAt = SpiritUtils.getLookingList(player);
             for (Entity entity : lookingAt) {
                 AbstractCustomMob<?> maybe = SpiritsUnchained.getSpiritEntityManager().getCustomClass(entity, null);

@@ -7,10 +7,13 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.tools.SpiritLenses;
+import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 
-import me.justahuman.spiritsunchained.spirits.Trait;
 import net.kyori.adventure.text.Component;
+
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -27,8 +30,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
@@ -183,6 +188,68 @@ public class SpiritUtils {
         return PersistentDataAPI.hasString(itemStack.getItemMeta(), Keys.spiritItemKey);
     }
 
+    public static ItemStack getSpiritItem(Player player, EntityType type) {
+        Inventory inventory = player.getInventory();
+        if (inventory.contains(Material.FIREWORK_STAR)) {
+            for (ItemStack item : inventory.getContents()) {
+                if (item.getType() == Material.FIREWORK_STAR && isSpiritItem(item) && PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey).equals(String.valueOf(type)) ) {
+                    return item;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static double getTierUsage(int tier, String type) {
+        return switch(type) {
+            default -> switch(tier) {
+                default -> 10.0;
+                case 3 -> 50.0;
+                case 4 -> 100.0;
+            };
+            case "Passive" -> switch(tier) {
+                default -> 2;
+                case 3 -> 5.0;
+                case 4 -> 10.0;
+            };
+        };
+    }
+
+    public static boolean useSpiritItem(Player player, EntityType type) {
+        ItemStack spiritItem = getSpiritItem(player, type);
+        if (spiritItem != null) {
+            ItemMeta meta = spiritItem.getItemMeta();
+            String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
+            SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
+            String traitType = (String) getTraitInfo(definition.getTrait()).get("type");
+            if (getStates().indexOf(state) >= 2) {
+                updateSpiritItemProgress(spiritItem, getTierUsage(definition.getTier(), traitType));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean updateSpiritItemProgress(ItemStack item, double updateWith) {
+        ItemMeta meta = item.getItemMeta();
+        List<Component> lore = meta.lore();
+        String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
+        double progress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
+        double newProgress = progress + updateWith;
+        boolean toReturn = false;
+        if (newProgress >= 100) {
+            newProgress = updateWith - 100.0;
+            state = getStates().get(getStates().indexOf(state)+1);
+            toReturn = true;
+        }
+        PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, newProgress);
+        PersistentDataAPI.setString(meta, Keys.spiritStateKey, state);
+        lore.set(2, Component.text(ChatColors.color("&fCurrent State: " + stateColor(state) + state)));
+        lore.set(5, Component.text(ChatColors.color("&fProgress: " + getProgress(newProgress))));
+        meta.lore(lore);
+        item.setItemMeta(meta);
+        return toReturn;
+    }
     @ParametersAreNonnullByDefault
     public static Collection<Entity> getNearbySpirits(Location location) {
         Collection<Entity> nearbyEntities = location.getNearbyEntities(48, 48, 48);
@@ -382,5 +449,18 @@ public class SpiritUtils {
             }
         }
         return toReturn;
+    }
+
+    public static ItemStack getFilledSpiritBook(SpiritDefinition definition, int knowledgeLevel) {
+        ItemStack filledBook = new ItemStack(Material.WRITTEN_BOOK);
+        BookMeta bookMeta = (BookMeta) filledBook.getItemMeta();
+        ChatColor tierColor = tierColor(definition.getTier());
+        String spiritName = ChatUtils.humanize(definition.getType().name()) + " Spirit";
+
+        bookMeta.addPages(Component.text("Example Book Test (Left for Polishing Stage)"));
+        bookMeta.setAuthor(ChatColors.color(tierColor + spiritName));
+        bookMeta.setTitle(spiritName);
+        filledBook.setItemMeta(bookMeta);
+        return filledBook;
     }
 }

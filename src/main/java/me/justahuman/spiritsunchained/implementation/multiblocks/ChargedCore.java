@@ -7,6 +7,7 @@ import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.Keys;
 
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
+import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -44,28 +45,13 @@ public class ChargedCore {
                 ItemStack spiritItem = getSpiritItem(player);
                 if (spiritItem != null) {
                     ItemMeta itemMeta = spiritItem.getItemMeta();
-                    List<Component> lore = itemMeta.lore();
-                    SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(PersistentDataAPI.getString(itemMeta, Keys.spiritItemKey)));
-                    double currentProgress = PersistentDataAPI.getDouble(itemMeta, Keys.spiritProgressKey);
-                    if (currentProgress < 100.0) {
-                        double toIncrease = currentProgress+ Multiplier / (double) definition.getTier();
-                        toIncrease = new BigDecimal(toIncrease).setScale(2, RoundingMode.HALF_UP).doubleValue();
-                        if (toIncrease > 100.0) toIncrease = 100.0;
-                        PersistentDataAPI.setDouble(itemMeta, Keys.spiritProgressKey, toIncrease);
-                    } else {
-                        List<String> states = SpiritUtils.getStates();
-                        int indexIncrease = states.indexOf(PersistentDataAPI.getString(itemMeta, Keys.spiritStateKey))+1;
-                        if (states.size() >= indexIncrease+1) {
-                            String newState = states.get(indexIncrease);
-                            PersistentDataAPI.setDouble(itemMeta, Keys.spiritProgressKey, 0);
-                            PersistentDataAPI.setString(itemMeta, Keys.spiritStateKey, newState);
-                        }
-                    }
-                    lore.set(2, Component.text(ChatColors.color("&fCurrent State: " + SpiritUtils.stateColor(PersistentDataAPI.getString(itemMeta, Keys.spiritStateKey)) + PersistentDataAPI.getString(itemMeta, Keys.spiritStateKey))));
-                    lore.set(5, Component.text(ChatColors.color("&fProgress: " + SpiritUtils.getProgress(PersistentDataAPI.getDouble(itemMeta, Keys.spiritProgressKey)))));
 
-                    itemMeta.lore(lore);
-                    spiritItem.setItemMeta(itemMeta);
+                    SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(PersistentDataAPI.getString(itemMeta, Keys.spiritItemKey)));
+                    String currentState = PersistentDataAPI.getString(itemMeta, Keys.spiritStateKey);
+                    double currentProgress = PersistentDataAPI.getDouble(itemMeta, Keys.spiritProgressKey);
+                    if (SpiritUtils.updateSpiritItemProgress(spiritItem, Multiplier / (double) definition.getTier())) {
+                        PlayerUtils.setKnowledgeLevel(player, definition.getType(), 3);
+                    }
                 }
             }
         }
