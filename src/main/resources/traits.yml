@@ -215,12 +215,11 @@ Strange_Secrets:
   type: "Passive"
   lore:
     - "Convert Gold to Strange Nether Goo!"
-#TODO
 Multishoot:
   name: "&8Multishoot"
   type: "Passive"
   lore:
-    - "Gain Multishot...."
+    - "Chance to Gain Multishot...."
     - "For your Bow!"
 Crit_hit:
   name: "&6Crit Hit"

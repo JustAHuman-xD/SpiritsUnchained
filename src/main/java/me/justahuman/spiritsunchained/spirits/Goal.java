@@ -52,7 +52,10 @@ public class Goal {
         if (type.equals("Item")) {
             try {
                 item.setType(Material.valueOf(what));
-            } catch(IllegalArgumentException ignored) {}
+            } catch(IllegalArgumentException e) {
+                System.out.println(type + ":" + what);
+                e.printStackTrace();
+            }
         }
         ItemStack slimefunItem = new CustomItemStack(
                 Material.SLIME_BALL,
@@ -66,12 +69,13 @@ public class Goal {
                 ItemStack properSlimefunItem = SpiritsUnchained.getSlimefunItem(what).clone();
                 List<Component> newLore = slimefunItem.lore();
                 ItemMeta newMeta = properSlimefunItem.getItemMeta();
-                newLore.set(2, Component.text(ChatColors.color(ChatColor.AQUA + "Task: " + ChatColor.GRAY + "Give " + properSlimefunItem.getItemMeta().getDisplayName())));
+                newLore.set(2, Component.text(ChatColors.color(ChatColor.AQUA + "Task: " + ChatColor.GRAY + "Give " + properSlimefunItem.getItemMeta().displayName())));
                 newMeta.displayName(Component.text(ChatColors.color(ChatColor.AQUA + "Pass On Task:")));
                 properSlimefunItem.setItemMeta(newMeta);
                 properSlimefunItem.lore(newLore);
                 slimefunItem = properSlimefunItem;
             } catch(IllegalArgumentException e) {
+                System.out.println(type + ":" + what);
                 e.printStackTrace();
             }
         }

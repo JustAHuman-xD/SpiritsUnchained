@@ -83,7 +83,7 @@ public class SpiritTraits {
         }
     }
     public void Eggpult(Player player) {
-        SpiritUtils.spawnProjectile(player, Egg.class, "Eggpult");
+        SpiritUtils.spawnProjectile(player, Egg.class, "Eggpult", 0);
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_CHICKEN_AMBIENT, 2, 1);
     }
     public void Aquatic_Creature(Player player) {
@@ -239,7 +239,7 @@ public class SpiritTraits {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_HORSE_JUMP, 2, 1);
     }
     public void Spitter(Player player) {
-        SpiritUtils.spawnProjectile(player, LlamaSpit.class, "Spitter");
+        SpiritUtils.spawnProjectile(player, LlamaSpit.class, "Spitter", 0);
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LLAMA_SPIT, 2, 1);
     }
     public void Goats_Instrument(Player player) {
@@ -363,7 +363,7 @@ public class SpiritTraits {
         }
     }
     public void Skull_Fire(Player player) {
-        SpiritUtils.spawnProjectile(player, WitherSkull.class, "Skull_FIre");
+        SpiritUtils.spawnProjectile(player, WitherSkull.class, "Skull_Fire", 0);
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 2, 1);
     }
     public void Dark_Aura(Player player) {

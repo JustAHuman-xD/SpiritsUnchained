@@ -29,19 +29,24 @@ public class PassivesRunnable extends BukkitRunnable {
     }
 
     private void checkPassives(Player player) {
+        //Winged Creature
         if (SpiritUtils.useSpiritItem(player, EntityType.PARROT)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 11*20, 2, true));
         }
+        //Iron Defense
         if (SpiritUtils.useSpiritItem(player, EntityType.IRON_GOLEM)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 11*20, 2, true));
         }
+        //Dolphin Swimmer
         Block headBlock = player.getLocation().getBlock().getRelative(BlockFace.UP);
         if (headBlock.isLiquid() && player.isSwimming() && SpiritUtils.useSpiritItem(player, EntityType.DOLPHIN)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 11*20, 2, true));
         }
+        //Natural Fisher
         if (headBlock.isLiquid() && player.isSwimming() && new Random().nextInt(1,101) >= 80 && SpiritUtils.useSpiritItem(player, EntityType.POLAR_BEAR)) {
             PlayerUtils.addOrDropItem(player, new ItemStack(Material.COD));
         }
+        //Strange Secrets
         if (player.getInventory().contains(Material.GOLD_INGOT) && SpiritUtils.useSpiritItem(player, EntityType.PIGLIN)) {
             Inventory inventory = player.getInventory();
             for (ItemStack item : inventory.getContents()) {

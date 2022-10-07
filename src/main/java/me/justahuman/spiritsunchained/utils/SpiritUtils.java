@@ -425,7 +425,7 @@ public class SpiritUtils {
         return dot > 0.99D;
     }
 
-    public static Entity spawnProjectile(Player player, Class<? extends Entity> entity, String reason) {
+    public static Entity spawnProjectile(Player player, Class<? extends Entity> entity, String reason, double offset) {
         Location location = player.getLocation();
         float yaw = location.getYaw();
         double D = 1;
@@ -433,6 +433,7 @@ public class SpiritUtils {
         double z = D*Math.cos(yaw*Math.PI/180);
         Entity projectile = player.getWorld().spawn(location.add(x, 1.162, z), entity);
         projectile.setVelocity(location.getDirection().multiply(2));
+        projectile.setVelocity(projectile.getVelocity().rotateAroundY(Math.toRadians(offset)));
         PersistentDataAPI.setString(projectile, Keys.entityKey, reason);
         PersistentDataAPI.setString(projectile, Keys.ownerKey, player.getUniqueId().toString());
         return projectile;

@@ -1,7 +1,5 @@
 package me.justahuman.spiritsunchained;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -29,7 +27,6 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     private SpiritsManager spiritsManager;
     private SpiritEntityManager spiritEntityManager;
     private ConfigManager configManager;
-    private ProtocolManager protocolManager;
     private RunnableManager runnableManager;
 
     public static PluginManager getPluginManager() {
@@ -50,7 +47,6 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         this.listenerManager = new ListenerManager();
         this.spiritsManager = new SpiritsManager();
         this.spiritEntityManager = new SpiritEntityManager();
-        this.protocolManager = ProtocolLibrary.getProtocolManager();
 
         Setup.INSTANCE.init();
 
@@ -92,9 +88,6 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     }
     public static SpiritEntityManager getSpiritEntityManager() {
         return instance.spiritEntityManager;
-    }
-    public static ProtocolManager getProtocolManager() {
-        return instance.protocolManager;
     }
 
     @Nonnull
