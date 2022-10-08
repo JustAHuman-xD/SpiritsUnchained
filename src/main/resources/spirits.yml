@@ -74,7 +74,7 @@ PARROT:
         - jungle_overworld
     Dimension: NORMAL
     Tier: 1
-    Trait: Jam_Out
+    Trait: Winged_Creature
     Time:
         - Day
     States:

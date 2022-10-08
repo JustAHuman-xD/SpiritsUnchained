@@ -1,15 +1,14 @@
 package me.justahuman.spiritsunchained.utils;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-import it.unimi.dsi.fastutil.longs.Long2BooleanArrayMap;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-
-import net.md_5.bungee.api.ChatMessageType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Rotation;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
 import org.bukkit.World;
@@ -18,6 +17,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.GlowItemFrame;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.LlamaSpit;
@@ -46,12 +46,12 @@ public class SpiritTraits {
 
     static Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
 
-    public static String useTrait(Player player, Map<String, Object> traitInfo, String state) {
+    public static String useTrait(Player player, Map<String, Object> traitInfo, String state, String type) {
         UUID uuid = player.getUniqueId();
         String name = (String) traitInfo.get("name");
-        Method traitMethod = null;
+        Method traitMethod;
 
-        if (! (SpiritUtils.getStates().indexOf(state) >= 2)) {
+        if (! (SpiritUtils.getStates().indexOf(state) > 2)) {
             return name + " needs to be to the Gentle State or Higher!";
         }
 
@@ -63,9 +63,6 @@ public class SpiritTraits {
            traitMethod = SpiritTraits.class.getMethod((String) traitInfo.get("id"), Player.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-        }
-
-        if (traitMethod == null) {
             return "Error";
         }
 
@@ -78,6 +75,7 @@ public class SpiritTraits {
         try {
             traitMethod.invoke(SpiritTraits.class, player);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
             return "Error";
         }
 
@@ -86,7 +84,14 @@ public class SpiritTraits {
         cooldowns.put((String) traitInfo.get("id"), System.currentTimeMillis() + (int) traitInfo.get("cooldown") * 1000);
         Cooldown_Map.put(uuid, cooldowns);
 
+        //Use 'Durability'
+        SpiritUtils.useSpiritItem(player, EntityType.valueOf(type));
+
         return name + " Used!";
+    }
+
+    public static void resetCooldown(Player player) {
+        Cooldown_Map.put(player.getUniqueId(), new HashMap<>());
     }
 
     public static void Clear_Effects(Player player) {
@@ -96,7 +101,7 @@ public class SpiritTraits {
         }
     }
     public static void Eggpult(Player player) {
-        SpiritUtils.spawnProjectile(player, Egg.class, "Eggpult", 0);
+        SpiritUtils.spawnProjectile(player, Egg.class, "Eggpult");
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_CHICKEN_AMBIENT, 2, 1);
     }
     public static void Aquatic_Creature(Player player) {
@@ -178,7 +183,7 @@ public class SpiritTraits {
     public static void Echolocation(Player player) {
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1*20, 0, true));
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BAT_AMBIENT, 1, 1);
-        for(LivingEntity entity: player.getWorld().getNearbyLivingEntities(player.getLocation(), 15, 15, 15)) {
+        for(LivingEntity entity: player.getWorld().getNearbyLivingEntities(player.getLocation(), 100, 100, 100)) {
             if (entity.getUniqueId() == player.getUniqueId()) {
                 continue;
             }
@@ -190,7 +195,7 @@ public class SpiritTraits {
         if (inventory.contains(Material.BOWL)) {
             int stewAmount = 0;
             for(ItemStack item : inventory.getContents()) {
-                if (item.getType() == Material.BOWL) {
+                if (item != null && item.getType() == Material.BOWL) {
                     stewAmount = (item.getAmount() >= 3 ? new Random().nextInt(0,4) : new Random().nextInt(0,item.getAmount()));
                     item.setAmount(item.getAmount() - stewAmount);
                 }
@@ -216,13 +221,20 @@ public class SpiritTraits {
             if (relative.getType().toString().contains("SIGN")) {
                 Sign sign = (Sign) relative.getState();
                 sign.setGlowingText(true);
+                sign.update();
                 ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.GLOW_SQUID_INK, 1.5, 24, false, false);
                 world.playSound(relative.getLocation(), Sound.ENTITY_GLOW_SQUID_SQUIRT, 1, 1);
             }
         }
 
         for (ItemFrame itemFrame : world.getNearbyEntitiesByType(ItemFrame.class, location, 5)) {
-            itemFrame.setGlowing(true);
+            ItemStack item = itemFrame.getItem();
+            Rotation rotation = itemFrame.getRotation();
+            Location frameLocation = itemFrame.getLocation();
+            itemFrame.remove();
+            GlowItemFrame frame = world.spawn(frameLocation, GlowItemFrame.class);
+            frame.setRotation(rotation);
+            frame.setItem(item);
             ParticleUtils.spawnParticleRadius(itemFrame.getLocation(), Particle.GLOW_SQUID_INK, 1.5, 24, false, false);
             world.playSound(itemFrame.getLocation(), Sound.ENTITY_GLOW_SQUID_SQUIRT, 1, 1);
         }
@@ -248,11 +260,11 @@ public class SpiritTraits {
         player.playSound(location, Sound.ENTITY_FROG_AMBIENT, 1, 1);
     }
     public static void High_Jump(Player player) {
-        player.setVelocity(new Vector(0, 15, 0));
+        player.setVelocity(new Vector(0, 3, 0));
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_HORSE_JUMP, 2, 1);
     }
     public static void Spitter(Player player) {
-        SpiritUtils.spawnProjectile(player, LlamaSpit.class, "Spitter", 0);
+        SpiritUtils.spawnProjectile(player, LlamaSpit.class, "Spitter");
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LLAMA_SPIT, 2, 1);
     }
     public static void Goats_Instrument(Player player) {
@@ -304,7 +316,7 @@ public class SpiritTraits {
         if (inventory.contains(Material.GLASS_BOTTLE)) {
             int potionAmount = 0;
             for(ItemStack item : inventory.getContents()) {
-                if (item.getType() == Material.GLASS_BOTTLE) {
+                if (item != null && item.getType() == Material.GLASS_BOTTLE) {
                     potionAmount = (item.getAmount() >= 3 ? new Random().nextInt(0,4) : new Random().nextInt(0,item.getAmount()));
                     item.setAmount(item.getAmount() - potionAmount);
                 }
@@ -341,11 +353,15 @@ public class SpiritTraits {
         if (rs == null) {
             return;
         }
-        float yaw = player.getLocation().getYaw();
+        Location location = player.getLocation();
+        float yaw = location.getYaw();
+        float pitch = location.getPitch();
         double D = 1;
         double x = -D*Math.sin(yaw*Math.PI/180);
         double z = D*Math.cos(yaw*Math.PI/180);
         Location targetLoc = rs.getHitBlock().getLocation().subtract(x, -1, z);
+        targetLoc.setYaw(yaw);
+        targetLoc.setPitch(pitch);
         player.teleport(targetLoc);
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 2, 1);
     }
@@ -357,26 +373,30 @@ public class SpiritTraits {
     public static void Bullet_Swarm(Player player) {
         World world = player.getWorld();
         Location location = player.getLocation();
-        List<Player> targets = new ArrayList<>();
-        for (Player nearbyPlayer : world.getNearbyPlayers(location, 20, 20, 20)) {
-            if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
+        List<LivingEntity> targets = new ArrayList<>();
+        for (LivingEntity nearbyEntity : world.getNearbyLivingEntities(location, 20, 20, 20)) {
+            if (nearbyEntity.getUniqueId() == player.getUniqueId()) {
                 continue;
             }
-            for (Player target : targets) {
-                if (location.distance(nearbyPlayer.getLocation()) > location.distance(target.getLocation())) {
-                    targets.remove(nearbyPlayer);
-                    targets.add(targets.indexOf(target), nearbyPlayer);
+            if (targets.isEmpty()) {
+                targets.add(nearbyEntity);
+            } else {
+                for (LivingEntity target : targets) {
+                    if (location.distance(nearbyEntity.getLocation()) > location.distance(target.getLocation())) {
+                        //targets.remove(nearbyEntity);
+                        targets.add(targets.indexOf(target), nearbyEntity);
+                    }
                 }
             }
         }
         for (int spawned = 0; spawned < 5; spawned++) {
             ShulkerBullet bullet = (ShulkerBullet) world.spawnEntity(location.add(0,2,0), EntityType.SHULKER_BULLET);
             bullet.setShooter(player);
-            bullet.setTarget(targets.get(spawned));
+            bullet.setTarget(targets.size() - 1 >= spawned ? targets.get(spawned) : targets.get(new Random().nextInt(targets.size())));
         }
     }
     public static void Skull_Fire(Player player) {
-        SpiritUtils.spawnProjectile(player, WitherSkull.class, "Skull_Fire", 0);
+        SpiritUtils.spawnProjectile(player, WitherSkull.class, "Skull_Fire");
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 2, 1);
     }
     public static void Dark_Aura(Player player) {

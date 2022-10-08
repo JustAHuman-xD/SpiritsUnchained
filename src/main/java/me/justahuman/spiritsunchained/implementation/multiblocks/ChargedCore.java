@@ -69,7 +69,7 @@ public class ChargedCore {
     @Nullable
     private static ItemStack getSpiritItem(Player player) {
         for (ItemStack item : player.getInventory().getContents()) {
-            if (item != null && item.getType() != Material.AIR && item.hasItemMeta() && SpiritUtils.isSpiritItem(item) && ! PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritStateKey).equals("Friendly")) {
+            if (item != null && item.getType() != Material.AIR && item.hasItemMeta() && SpiritUtils.isSpiritItem(item) && ! (PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritStateKey).equals("Friendly") && PersistentDataAPI.getDouble(item.getItemMeta(), Keys.spiritProgressKey) == 100.0)) {
                 return item;
             }
         }

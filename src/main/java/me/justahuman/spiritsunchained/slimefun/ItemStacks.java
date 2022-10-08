@@ -126,10 +126,10 @@ public class ItemStacks {
 
     public static final SlimefunItemStack SU_SPIRIT_BOOK = new SlimefunItemStack(
             "SU_SPIRIT_BOOK",
-            Material.WRITTEN_BOOK,
+            Material.WRITABLE_BOOK,
             "&aSpirit Book",
             "",
-            "&7A Book only Spirits can Write in"
+            "&7A Book Spirits can Write in!"
     );
 
     public static final SlimefunItemStack SU_SPIRIT_RUNE = new SlimefunItemStack(

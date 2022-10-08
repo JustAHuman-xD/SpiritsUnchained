@@ -86,20 +86,35 @@ public class TraitListeners implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerShoot(EntityShootBowEvent event) {
-        if (!(event.getEntity() instanceof Player player)) {
+        if (!(event.getEntity() instanceof Player player && event.getProjectile() instanceof Arrow arrow1)) {
             return;
         }
         if (new Random().nextInt(1, 101) >= 65 && isUsed(player, EntityType.PILLAGER)) {
-            SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot", 30);
-            SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot", -30);
+            Arrow arrow2 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
+            Arrow arrow3 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
+            arrow2.setShooter(player);
+            arrow3.setShooter(player);
+            arrow2.setColor(arrow1.getColor());
+            arrow3.setColor(arrow1.getColor());
+            arrow2.setVelocity(arrow1.getVelocity().rotateAroundY(Math.toRadians(10)));
+            arrow3.setVelocity(arrow1.getVelocity().rotateAroundY(Math.toRadians(-10)));
+            arrow2.setDamage(arrow1.getDamage());
+            arrow3.setDamage(arrow1.getDamage());
+            arrow2.setCritical(arrow1.isCritical());
+            arrow3.setCritical(arrow1.isCritical());
+            for (PotionEffect effect : arrow1.getCustomEffects()) {
+                arrow2.addCustomEffect(effect, true);
+                arrow3.addCustomEffect(effect, true);
+            }
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerDamage(EntityDamageEvent event) {
-        if (!(event.getEntity() instanceof Player player)) {
+    public void onEntityDamage(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity entity)) {
             return;
         }
+        Player player = entity instanceof Player maybe ? maybe : null;
         //What Fall
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL && isUsed(player, EntityType.SLIME)) {
             event.setDamage(event.getDamage() / 2);
@@ -120,44 +135,44 @@ public class TraitListeners implements Listener {
             return;
         }
         Entity attacker = event instanceof EntityDamageByEntityEvent otherEvent ? otherEvent.getDamager() : null;
-        double finalHealth = player.getHealth() - event.getFinalDamage();
-        double finalHealthPercentage = finalHealth / player.getMaxHealth();
+        double finalHealth = entity.getHealth() - event.getFinalDamage();
+        double finalHealthPercentage = finalHealth / entity.getMaxHealth();
 
         //Explosion Traits
-        if (attacker != null && PersistentDataAPI.getString(attacker, Keys.immuneKey).equals(player.getUniqueId().toString())) {
+        if (attacker != null && PersistentDataAPI.hasString(attacker, Keys.immuneKey) && PersistentDataAPI.getString(attacker, Keys.immuneKey).equals(entity.getUniqueId().toString())) {
             event.setCancelled(true);
             return;
         }
         //Heavy hit
-        if(attacker != null && PersistentDataAPI.getBoolean(attacker, Keys.heavyHitKey)) {
-            player.setVelocity(new Vector(0, 15, 0));
+        if(attacker != null && PersistentDataAPI.hasBoolean(attacker, Keys.heavyHitKey) && PersistentDataAPI.getBoolean(attacker, Keys.heavyHitKey)) {
+            entity.setVelocity(new Vector(0, 3, 0));
             PersistentDataAPI.setBoolean(attacker, Keys.heavyHitKey, false);
         }
         //Poisonous Thorns
         if (attacker instanceof Player attackingPlayer) {
             if (event.getCause() == EntityDamageEvent.DamageCause.THORNS && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.PUFFERFISH)) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 10*20, 1, true));
+                entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 10*20, 1, true));
             }
         }
         //Hunger Hit
         if (attacker instanceof Player attackingPlayer) {
             if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.HUSK)) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
+                entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
             }
         }
         //Slow Shot
         if (attacker instanceof Arrow arrow && arrow.getShooter() instanceof Player attackingPlayer) {
             if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.HUSK)) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
+                entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
             }
         } else if (attacker instanceof SpectralArrow arrow && arrow.getShooter() instanceof Player attackingPlayer) {
             if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.HUSK)) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
+                entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
             }
         }
         //Natural Thorns
         if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && new Random().nextInt(1,101) >= 50 && isUsed(player, EntityType.GUARDIAN)) {
-            EntityDamageByEntityEvent newEvent = new EntityDamageByEntityEvent(player, attacker, EntityDamageEvent.DamageCause.THORNS, new Random().nextInt(1,5));
+            EntityDamageByEntityEvent newEvent = new EntityDamageByEntityEvent(entity, attacker, EntityDamageEvent.DamageCause.THORNS, new Random().nextInt(1,5));
             newEvent.callEvent();
         }
         //Blazing Thorns
@@ -165,22 +180,22 @@ public class TraitListeners implements Listener {
             attacker.setFireTicks(5*20);
         }
         //Strong Bones
-        if(finalHealthPercentage <= 0.5 && !onCooldown(player, Keys.strongBones) && isUsed(player, EntityType.SKELETON)) {
+        if(finalHealthPercentage <= 0.5 && !onCooldown(entity, Keys.strongBones) && isUsed(player, EntityType.SKELETON)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 45*20, 1, true));
             startCooldown(player, Keys.strongBones, 90);
         }
         //Play Dead
-        if(finalHealthPercentage <= 0.25 && !onCooldown(player, Keys.playDead) && isUsed(player, EntityType.AXOLOTL)) {
+        if(finalHealthPercentage <= 0.25 && !onCooldown(entity, Keys.playDead) && isUsed(player, EntityType.AXOLOTL)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 15*20, 1, true));
             startCooldown(player, Keys.playDead, 60);
         }
         //Speedy Escape
-        if(finalHealthPercentage <= 0.1 && !onCooldown(player, Keys.speedyEscape) && isUsed(player, EntityType.OCELOT)) {
+        if(finalHealthPercentage <= 0.1 && !onCooldown(entity, Keys.speedyEscape) && isUsed(player, EntityType.OCELOT)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 15*20, 5, true));
             startCooldown(player, Keys.speedyEscape, 60);
         }
         //Another Chance
-        if(event.getFinalDamage() >= player.getHealth() && isUsed(player, EntityType.EVOKER)) {
+        if(event.getFinalDamage() >= entity.getHealth() && isUsed(player, EntityType.EVOKER)) {
             ItemStack offHand = player.getInventory().getItemInOffHand().clone();
             player.getInventory().setItemInOffHand(new ItemStack(Material.TOTEM_OF_UNDYING));
             Bukkit.getScheduler().runTaskLater(instance, () -> {
@@ -341,8 +356,8 @@ public class TraitListeners implements Listener {
         }
         return false;
     }
-    private boolean onCooldown(Player player, NamespacedKey key) {
-        return PersistentDataAPI.getBoolean(player, key);
+    private boolean onCooldown(LivingEntity entity, NamespacedKey key) {
+        return PersistentDataAPI.getBoolean(entity, key);
     }
     private void startCooldown(Player player, NamespacedKey key, int when) {
         PersistentDataAPI.setBoolean(player, key, true);

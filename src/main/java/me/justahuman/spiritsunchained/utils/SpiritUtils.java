@@ -40,6 +40,8 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,7 +64,6 @@ public class SpiritUtils {
         states.add("Friendly");
         return states;
     }
-
 
     public static ChatColor tierColor(int tier) {
         return switch (tier) {
@@ -208,7 +209,7 @@ public class SpiritUtils {
                 case 4 -> 100.0;
             };
             case "Passive" -> switch(tier) {
-                default -> 2;
+                default -> 1;
                 case 3 -> 5.0;
                 case 4 -> 10.0;
             };
@@ -216,13 +217,16 @@ public class SpiritUtils {
     }
 
     public static boolean useSpiritItem(Player player, EntityType type) {
+        if (player == null) {
+            return false;
+        }
         ItemStack spiritItem = getSpiritItem(player, type);
         if (spiritItem != null) {
             ItemMeta meta = spiritItem.getItemMeta();
             String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
             SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
             String traitType = (String) getTraitInfo(definition.getTrait()).get("type");
-            if (getStates().indexOf(state) >= 2) {
+            if (getStates().indexOf(state) > 2) {
                 updateSpiritItemProgress(spiritItem, - getTierUsage(definition.getTier(), traitType));
                 return true;
             }
@@ -250,6 +254,7 @@ public class SpiritUtils {
             newProgress = canDecrease ? newProgress + 100.0 : 0.0;
             toReturn = true;
         }
+        newProgress = new BigDecimal(newProgress).setScale(2, RoundingMode.HALF_UP).doubleValue();
         PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, newProgress);
         PersistentDataAPI.setString(meta, Keys.spiritStateKey, state);
         lore.set(2, Component.text(ChatColors.color("&fCurrent State: " + stateColor(state) + state)));
@@ -433,7 +438,7 @@ public class SpiritUtils {
         return dot > 0.99D;
     }
 
-    public static Entity spawnProjectile(Player player, Class<? extends Entity> entity, String reason, double offset) {
+    public static Entity spawnProjectile(Player player, Class<? extends Entity> entity, String reason) {
         Location location = player.getLocation();
         float yaw = location.getYaw();
         double D = 1;
@@ -441,7 +446,6 @@ public class SpiritUtils {
         double z = D*Math.cos(yaw*Math.PI/180);
         Entity projectile = player.getWorld().spawn(location.add(x, 1.162, z), entity);
         projectile.setVelocity(location.getDirection().multiply(2));
-        projectile.setVelocity(projectile.getVelocity().rotateAroundY(Math.toRadians(offset)));
         PersistentDataAPI.setString(projectile, Keys.entityKey, reason);
         PersistentDataAPI.setString(projectile, Keys.ownerKey, player.getUniqueId().toString());
         return projectile;
