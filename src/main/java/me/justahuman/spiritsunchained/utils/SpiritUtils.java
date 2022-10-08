@@ -192,7 +192,7 @@ public class SpiritUtils {
         Inventory inventory = player.getInventory();
         if (inventory.contains(Material.FIREWORK_STAR)) {
             for (ItemStack item : inventory.getContents()) {
-                if (item.getType() == Material.FIREWORK_STAR && isSpiritItem(item) && PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey).equals(String.valueOf(type)) ) {
+                if (item != null && item.getType() == Material.FIREWORK_STAR && isSpiritItem(item) && PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey).equals(String.valueOf(type)) ) {
                     return item;
                 }
             }
@@ -238,8 +238,10 @@ public class SpiritUtils {
         double newProgress = progress + updateWith;
         boolean toReturn = false;
         if (newProgress >= 100) {
-            newProgress = updateWith - 100.0;
-            state = getStates().get(getStates().indexOf(state)+1);
+            int index = getStates().indexOf(state);
+            boolean canIncrease = getStates().size() > index;
+            state = canIncrease ? getStates().get(index+1) : state;
+            newProgress = canIncrease ? newProgress - 100.0 : 100.0;
             toReturn = true;
         }
         PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, newProgress);
@@ -352,7 +354,7 @@ public class SpiritUtils {
 
         ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
 
-        PersistentDataAPI.setString(itemMeta, Keys.spiritItemKey, String.valueOf(definition.getType()));
+        PersistentDataAPI.setString(itemMeta, Keys.spiritItemKey, definition.getType().toString());
         PersistentDataAPI.setString(itemMeta, Keys.spiritStateKey, state);
         PersistentDataAPI.setDouble(itemMeta, Keys.spiritProgressKey, 0);
 

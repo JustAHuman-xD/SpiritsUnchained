@@ -14,8 +14,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -49,13 +51,18 @@ public class SpiritItemListeners implements Listener {
     }
 
     @EventHandler
-    public void onPlayerClick(PlayerRightClickEvent e) {
-        ItemStack item = e.getItem();
-        ItemMeta meta = item.getItemMeta();
-        if (SpiritUtils.isSpiritItem(item)) {
-            String type = PersistentDataAPI.getString(meta, Keys.spiritTypeKey);
-            Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
-            SpiritTraits.useTrait(e.getPlayer(), traitInfo);
+    public void onPlayerClick(PlayerInteractEvent e) {
+        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            ItemStack item = e.getPlayer().getEquipment().getItem(e.getHand());
+            ItemMeta meta = item.getItemMeta();
+            if (meta == null) {
+                return;
+            }
+            if (SpiritUtils.isSpiritItem(item)) {
+                String type = PersistentDataAPI.getString(meta, Keys.spiritItemKey);
+                Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
+                SpiritTraits.useTrait(e.getPlayer(), traitInfo);
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.utils.Keys;
+import me.justahuman.spiritsunchained.utils.SpiritTraits;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.ChatColor;
@@ -26,6 +27,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
+import java.util.Map;
 
 public class PlayerClickListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -42,11 +44,12 @@ public class PlayerClickListener implements Listener {
                 player.sendMessage(ChatColor.LIGHT_PURPLE + Message);
             }
         } else if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            ItemStack clickedItem = e.getItem();
-            if (clickedItem.getType() == Material.BAMBOO && SpiritUtils.useSpiritItem(player, EntityType.PANDA)) {
-                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
-                clickedItem.subtract();
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1, 4, false, false));
+            if (!rightClick(player, player.getInventory().getItemInMainHand())) {
+               if (rightClick(player, player.getInventory().getItemInOffHand())) {
+                   return;
+                }
+            } else {
+                return;
             }
 
             List<Entity> lookingAt = SpiritUtils.getLookingList(player);
@@ -59,5 +62,26 @@ public class PlayerClickListener implements Listener {
                 }
             }
         }
+    }
+
+    private boolean rightClick(Player player, ItemStack item) {
+        player.sendMessage("Right Clicked");
+        if (item.getType() == Material.FIREWORK_STAR) {
+            player.sendMessage("Fire Star *insert eyes*");
+            if (SpiritUtils.isSpiritItem(item)) {
+                player.sendMessage("Spirit *double eyes*");
+                String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
+                Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
+                player.sendMessage(SpiritTraits.useTrait(player, traitInfo));
+                return true;
+            }
+        }
+        if (item.getType() == Material.BAMBOO && SpiritUtils.useSpiritItem(player, EntityType.PANDA)) {
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
+            item.subtract();
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1, 4, false, false));
+            return true;
+        }
+        return false;
     }
 }

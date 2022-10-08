@@ -46,9 +46,10 @@ public class SpiritTraits {
     static Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
 
     public static String useTrait(Player player, Map<String, Object> traitInfo) {
+        player.sendMessage("Using Trait");
         Method traitMethod = null;
         try {
-           traitMethod = SpiritTraits.class.getMethod((String) traitInfo.get("id"), Player.class, Trait.class);
+           traitMethod = SpiritTraits.class.getMethod((String) traitInfo.get("id"), Player.class);
         } catch (NoSuchMethodException ignored) {}
 
         if (traitMethod == null) {

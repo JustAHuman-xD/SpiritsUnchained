@@ -351,7 +351,7 @@ SILVERFISH:
         - Hostile
     Pass On:
         - Item
-        - CHISELED_STONE
+        - CHISELED_STONE_BRICKS
         - 1
     Relations:
         Afraid:
@@ -589,7 +589,7 @@ FROG:
         - Passive
     Pass On:
         - Item
-        - FROG_SPAWN
+        - FROGSPAWN
         - 5
     Relations:
         Scare:
@@ -705,7 +705,7 @@ DOLPHIN:
         - Passive
     Pass On:
         - Item
-        - SEA_GRASS
+        - SEAGRASS
         - 32
 POLAR_BEAR:
     Biomes:

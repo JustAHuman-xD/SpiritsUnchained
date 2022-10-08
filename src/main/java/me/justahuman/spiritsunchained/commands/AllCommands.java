@@ -12,8 +12,11 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class AllCommands implements TabExecutor {
+
+    Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().EntityMap.keySet();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -42,7 +45,11 @@ public class AllCommands implements TabExecutor {
 
             else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("SummonSpirit")) {
-                    l.addAll(SpiritsUnchained.getSpiritEntityManager().EntityMap.keySet());
+                    for (String string : spiritTypes) {
+                        if (string.contains(args[1])) {
+                            l.add(string);
+                        }
+                    }
                 }
 
             }

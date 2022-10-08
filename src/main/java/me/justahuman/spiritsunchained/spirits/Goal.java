@@ -53,7 +53,6 @@ public class Goal {
             try {
                 item.setType(Material.valueOf(what));
             } catch(IllegalArgumentException e) {
-                System.out.println(type + ":" + what);
                 e.printStackTrace();
             }
         }
@@ -75,7 +74,6 @@ public class Goal {
                 properSlimefunItem.lore(newLore);
                 slimefunItem = properSlimefunItem;
             } catch(IllegalArgumentException e) {
-                System.out.println(type + ":" + what);
                 e.printStackTrace();
             }
         }
