@@ -46,7 +46,7 @@ public class AllCommands implements TabExecutor {
             else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("SummonSpirit")) {
                     for (String string : spiritTypes) {
-                        if (string.contains(args[1])) {
+                        if (string.contains(args[1].toUpperCase())) {
                             l.add(string);
                         }
                     }

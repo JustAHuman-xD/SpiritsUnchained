@@ -223,7 +223,7 @@ public class SpiritUtils {
             SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
             String traitType = (String) getTraitInfo(definition.getTrait()).get("type");
             if (getStates().indexOf(state) >= 2) {
-                updateSpiritItemProgress(spiritItem, getTierUsage(definition.getTier(), traitType));
+                updateSpiritItemProgress(spiritItem, - getTierUsage(definition.getTier(), traitType));
                 return true;
             }
         }
@@ -239,9 +239,15 @@ public class SpiritUtils {
         boolean toReturn = false;
         if (newProgress >= 100) {
             int index = getStates().indexOf(state);
-            boolean canIncrease = getStates().size() > index;
-            state = canIncrease ? getStates().get(index+1) : state;
+            boolean canIncrease = ! getStates().get(getStates().size()-1).equals(state);
+            state = canIncrease ? getStates().get(index + 1) : state;
             newProgress = canIncrease ? newProgress - 100.0 : 100.0;
+            toReturn = true;
+        } else if (newProgress <= 0) {
+            int index = getStates().indexOf(state);
+            boolean canDecrease = !(index == 0);
+            state = canDecrease ? getStates().get(index - 1) : state;
+            newProgress = canDecrease ? newProgress + 100.0 : 0.0;
             toReturn = true;
         }
         PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, newProgress);

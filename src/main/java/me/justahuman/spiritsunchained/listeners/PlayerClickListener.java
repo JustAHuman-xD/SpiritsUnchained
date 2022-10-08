@@ -1,5 +1,6 @@
 package me.justahuman.spiritsunchained.listeners;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
@@ -8,6 +9,8 @@ import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritTraits;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -65,21 +68,18 @@ public class PlayerClickListener implements Listener {
     }
 
     private boolean rightClick(Player player, ItemStack item) {
-        player.sendMessage("Right Clicked");
         if (item.getType() == Material.FIREWORK_STAR) {
-            player.sendMessage("Fire Star *insert eyes*");
             if (SpiritUtils.isSpiritItem(item)) {
-                player.sendMessage("Spirit *double eyes*");
                 String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
                 Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
-                player.sendMessage(SpiritTraits.useTrait(player, traitInfo));
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(SpiritTraits.useTrait(player, traitInfo, PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritStateKey)))));
                 return true;
             }
         }
         if (item.getType() == Material.BAMBOO && SpiritUtils.useSpiritItem(player, EntityType.PANDA)) {
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
             item.subtract();
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1, 4, false, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1, 1, false, false));
             return true;
         }
         return false;
