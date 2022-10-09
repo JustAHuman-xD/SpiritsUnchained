@@ -11,6 +11,7 @@ import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -92,6 +93,8 @@ public class TraitListeners implements Listener {
         if (new Random().nextInt(1, 101) >= 65 && isUsed(player, EntityType.PILLAGER)) {
             Arrow arrow2 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
             Arrow arrow3 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
+            arrow2.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
+            arrow3.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
             arrow2.setShooter(player);
             arrow3.setShooter(player);
             arrow2.setColor(arrow1.getColor());

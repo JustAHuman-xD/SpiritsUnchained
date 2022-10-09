@@ -35,6 +35,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * I definitely sampled from Sefiraat's Crystamae Historia to make this flex group
+ * So please do check out his awesome stuff:
+ * {@link io.github.sefiraat.crystamaehistoria.slimefun.itemgroups.MainFlexGroup}
+ */
 public class SpiritsFlexGroup extends FlexItemGroup {
 
     private static final int GUIDE_BACK = 1;
