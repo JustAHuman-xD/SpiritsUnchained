@@ -328,7 +328,7 @@ Dragons_Breath:
   cooldown: 60
   type: "Use Item"
   lore:
-    - "Surround yourself with Dragons Breath"
+    - "Fill Bottles with Dragons Breath"
 Dark_Aura:
   name: "&bDark_Aura"
   cooldown: 60

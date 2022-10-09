@@ -7,13 +7,10 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.tools.SpiritLenses;
-import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 
 import net.kyori.adventure.text.Component;
 
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -63,6 +60,14 @@ public class SpiritUtils {
         states.add("Gentle");
         states.add("Friendly");
         return states;
+    }
+
+    public static List<String> getTypes() {
+        List<String> types = new ArrayList<>();
+        for (EntityType type : SpiritsUnchained.getSpiritsManager().getSpiritMap().keySet()) {
+            types.add(type.name());
+        }
+        return types;
     }
 
     public static ChatColor tierColor(int tier) {
@@ -201,18 +206,16 @@ public class SpiritUtils {
         return null;
     }
 
-    public static double getTierUsage(int tier, String type) {
-        return switch(type) {
-            default -> switch(tier) {
-                default -> 10.0;
-                case 3 -> 50.0;
-                case 4 -> 100.0;
-            };
-            case "Passive" -> switch(tier) {
-                default -> 1;
-                case 3 -> 5.0;
-                case 4 -> 10.0;
-            };
+    public static double getTraitUsage(String trait) {
+        return switch(trait) {
+            default -> 1;
+            case "Multishoot", "Hunger_Hit", "Slow_Shot" -> 2;
+            case "Iron_Defense" -> 3;
+            case "Clear_Effects", "Pig_Rancher", "Aquatic_Creature", "Ink_Spray", "Hops", "Undead_Protection", "Group_Protection", "Infest", "High_Jump", "Morning_Gift", "Spitter", "Natural_Fisher", "Goats_Instrument", "Strange_Secrets", "Mini_Teleport", "Heavy_Hit" -> 5;
+            case "Speedy_Escape", "Bee_Buddy", "Strong_Bones", "Stew_Maker", "Villager_Friend", "Glow_Up", "Light_It_Up", "Poison_Spray", "Sleep_No_More" -> 10;
+            case "Better_Brewer", "Targeted_Teleport", "Skull_Fire", "Dragons_Breath", "Dark_Aura" -> 15;
+            case "Eggpult", "Webber", "Explode", "Lava_Walker", "Play_Dead", "Crit_hit", "Magma_Trap", "Tank", "Bullet_Swarm" -> 25;
+            case "Another_Chance" -> 30;
         };
     }
 
@@ -227,7 +230,7 @@ public class SpiritUtils {
             SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
             String traitType = (String) getTraitInfo(definition.getTrait()).get("type");
             if (getStates().indexOf(state) > 2) {
-                updateSpiritItemProgress(spiritItem, - getTierUsage(definition.getTier(), traitType));
+                updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
                 return true;
             }
         }

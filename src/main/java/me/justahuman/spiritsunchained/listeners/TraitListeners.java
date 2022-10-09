@@ -121,7 +121,7 @@ public class TraitListeners implements Listener {
         }
         //Sly Fox
         if (event.getCause() == EntityDamageEvent.DamageCause.CONTACT && isUsed(player, EntityType.FOX)) {
-            event.setCancelled(true);
+            event.setDamage(0);
             return;
         }
         //Frosty
@@ -145,7 +145,9 @@ public class TraitListeners implements Listener {
         }
         //Heavy hit
         if(attacker != null && PersistentDataAPI.hasBoolean(attacker, Keys.heavyHitKey) && PersistentDataAPI.getBoolean(attacker, Keys.heavyHitKey)) {
-            entity.setVelocity(new Vector(0, 3, 0));
+            Bukkit.getScheduler().runTaskLater(instance, () -> {
+                entity.setVelocity(new Vector(0, 1, 0));
+            }, 2);
             PersistentDataAPI.setBoolean(attacker, Keys.heavyHitKey, false);
         }
         //Poisonous Thorns
@@ -187,6 +189,7 @@ public class TraitListeners implements Listener {
         //Play Dead
         if(finalHealthPercentage <= 0.25 && !onCooldown(entity, Keys.playDead) && isUsed(player, EntityType.AXOLOTL)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 15*20, 1, true));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 15*20, 1, true));
             startCooldown(player, Keys.playDead, 60);
         }
         //Speedy Escape
@@ -272,7 +275,7 @@ public class TraitListeners implements Listener {
         }
     }
     //Undead Protection
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onSplashPotion(PotionSplashEvent event) {
 
         ThrownPotion potion = event.getPotion();
@@ -305,10 +308,7 @@ public class TraitListeners implements Listener {
         Entity entity = event.getEntity();
         Player player = event.getPlayer();
         if (entity instanceof Sheep) {
-            if (! isUsed(player, EntityType.SHEEP)) {
-                return;
-            }
-            if (new Random().nextInt(1,101) >= 25) {
+            if (new Random().nextInt(1,101) >= 25 && isUsed(player, EntityType.SHEEP)) {
                 event.getItem().setAmount(event.getItem().getAmount()*2);
             }
         }

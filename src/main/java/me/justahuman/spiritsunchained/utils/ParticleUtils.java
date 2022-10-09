@@ -30,14 +30,18 @@ public class ParticleUtils {
         }
     }
 
-    public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, boolean stopMovements, boolean special) {
+    public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, boolean stopMovements, boolean special, Particle.DustOptions... other) {
         for (int i = 0; i < amount; i++) {
             double x = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
             double y = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
             double z = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
             if (!special) {
                 if (stopMovements) {
-                    location.getWorld().spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
+                    if (particle == Particle.REDSTONE && other.length > 0) {
+                        location.getWorld().spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, other[0]);
+                    } else {
+                        location.getWorld().spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
+                    }
                     continue;
                 }
                 location.getWorld().spawnParticle(particle, location.clone().add(x, y, z), 1);

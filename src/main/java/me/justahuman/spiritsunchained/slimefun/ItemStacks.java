@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 
 import me.justahuman.spiritsunchained.utils.LogUtils;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

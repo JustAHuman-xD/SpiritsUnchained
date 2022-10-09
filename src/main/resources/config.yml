@@ -20,3 +20,9 @@ options:
   # This will only spawn Spirits around Players that are actively
   # Using a Spirit Rune (Toggled On) or who are Using Spirit Lenses
   spawn-rate: 10
+
+  #Should Hostile Spirits Be Able to Move around Items in a Players Inventory
+  hostile-movement: true
+
+  #Should Hostile and Aggressive Spirits Damage Players when in a Players Inventory
+  aggressive-damage: true

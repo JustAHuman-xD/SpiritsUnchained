@@ -1,25 +1,34 @@
 package me.justahuman.spiritsunchained.slimefun;
 
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritCatcher;
 import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritWriter;
 import me.justahuman.spiritsunchained.implementation.multiblocks.*;
 import me.justahuman.spiritsunchained.implementation.tools.*;
 
-import me.justahuman.spiritsunchained.spirits.SpiritInteract;
+import me.justahuman.spiritsunchained.utils.Keys;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
+import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 public class Items {
     public static void setup(SlimefunAddon instance) {
 
-        final RecipeType SPIRIT_INTERACT = new SpiritInteract();
+        final RecipeType SPIRIT_INTERACT = new RecipeType(Keys.spiritInteractKey,
+                new ColoredFireworkStar(Color.fromRGB(100, 100, 100),
+                        "&fUse On Spirit",
+                        "",
+                        "&7Use the Item on the Right on any Spirit"
+                ));
 
         // Crafting Materials
         new UnplaceableBlock(Groups.SU_RESOURCES, ItemStacks.SU_INFUSED_MEMBRANE, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
@@ -40,13 +49,11 @@ public class Items {
                 SlimefunItems.ENDER_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_3})
                 .register(instance);
 
-        SlimefunItem UnIdentified = new SlimefunItem(Groups.SU_TOOLS, ItemStacks.SU_UNIDENTIFIED_SPIRIT, SPIRIT_INTERACT, new ItemStack[]{
+        new SlimefunItem(Groups.SU_TOOLS, ItemStacks.SU_UNIDENTIFIED_SPIRIT, SPIRIT_INTERACT, new ItemStack[]{
                 null, null, null,
-                null, ItemStacks.SU_ECTOPLASM, null,
+                null, ItemStacks.SU_SPIRIT_NET, null,
                 null, null, null
-        });
-        UnIdentified.setHidden(false);
-        UnIdentified.register(instance);
+        }).register(instance);
 
         new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_SPIRIT_BOTTLE, SPIRIT_INTERACT, new ItemStack[]{
                 null, null, null,

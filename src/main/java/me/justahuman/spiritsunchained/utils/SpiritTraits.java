@@ -22,6 +22,7 @@ import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.LlamaSpit;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ShulkerBullet;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.entity.WitherSkull;
@@ -52,7 +53,7 @@ public class SpiritTraits {
         Method traitMethod;
 
         if (! (SpiritUtils.getStates().indexOf(state) > 2)) {
-            return name + " needs to be to the Gentle State or Higher!";
+            return ChatUtils.humanize(type) + " Spirit needs to be to the Gentle State or Higher!";
         }
 
         if (traitInfo.get("type").equals("Passive")) {
@@ -172,11 +173,12 @@ public class SpiritTraits {
     public static void Infest(Player player) {
         Block lookingAt = player.getTargetBlock(null, 5);
         try{
-            Material newMatieral = Material.valueOf("infested_" + lookingAt.getType().toString());
+            Material newMatieral = Material.valueOf("infested_" + lookingAt.getType());
             lookingAt.setType(newMatieral);
             ParticleUtils.spawnParticleRadius(lookingAt.getLocation(), Particle.ASH, 1.5, 40, false, false);
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_SILVERFISH_AMBIENT, 1, 1);
         } catch (IllegalArgumentException | NullPointerException e) {
+            e.printStackTrace();
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_SILVERFISH_DEATH, 1, 1);
         }
     }
@@ -191,18 +193,7 @@ public class SpiritTraits {
         }
     }
     public static void Stew_Maker(Player player) {
-        Inventory inventory = player.getInventory();
-        if (inventory.contains(Material.BOWL)) {
-            int stewAmount = 0;
-            for(ItemStack item : inventory.getContents()) {
-                if (item != null && item.getType() == Material.BOWL) {
-                    stewAmount = (item.getAmount() >= 3 ? new Random().nextInt(0,4) : new Random().nextInt(0,item.getAmount()));
-                    item.setAmount(item.getAmount() - stewAmount);
-                }
-            }
-
-            PlayerUtils.addOrDropItem(player, new ItemStack(Material.MUSHROOM_STEW, stewAmount));
-        }
+        fillItems(player, Material.BOWL, new ItemStack(Material.MUSHROOM_STEW), 4);
     }
     public static void Lava_Walker(Player player) {
         player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 60*20, 0, true));
@@ -260,15 +251,26 @@ public class SpiritTraits {
         player.playSound(location, Sound.ENTITY_FROG_AMBIENT, 1, 1);
     }
     public static void High_Jump(Player player) {
-        player.setVelocity(new Vector(0, 3, 0));
+        player.setVelocity(new Vector(0, 1.5, 0));
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_HORSE_JUMP, 2, 1);
     }
     public static void Spitter(Player player) {
-        SpiritUtils.spawnProjectile(player, LlamaSpit.class, "Spitter");
+        Projectile spit = (Projectile) SpiritUtils.spawnProjectile(player, LlamaSpit.class, "Spitter");
+        spit.setShooter(player);
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LLAMA_SPIT, 2, 1);
     }
     public static void Goats_Instrument(Player player) {
-        player.getWorld().playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_PLAY, 2, 1);
+        Sound[] playFrom = new Sound[] {
+                Sound.ITEM_GOAT_HORN_SOUND_0,
+                Sound.ITEM_GOAT_HORN_SOUND_1,
+                Sound.ITEM_GOAT_HORN_SOUND_2,
+                Sound.ITEM_GOAT_HORN_SOUND_3,
+                Sound.ITEM_GOAT_HORN_SOUND_4,
+                Sound.ITEM_GOAT_HORN_SOUND_5,
+                Sound.ITEM_GOAT_HORN_SOUND_6,
+                Sound.ITEM_GOAT_HORN_SOUND_7
+        };
+        player.getWorld().playSound(player.getLocation(), playFrom[new Random().nextInt(0,8)], 2, 1);
     }
     public static void Poison_Spray(Player player) {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LLAMA_SPIT, 2, 1);
@@ -314,13 +316,6 @@ public class SpiritTraits {
     public static void Better_Brewer(Player player) {
         Inventory inventory = player.getInventory();
         if (inventory.contains(Material.GLASS_BOTTLE)) {
-            int potionAmount = 0;
-            for(ItemStack item : inventory.getContents()) {
-                if (item != null && item.getType() == Material.GLASS_BOTTLE) {
-                    potionAmount = (item.getAmount() >= 3 ? new Random().nextInt(0,4) : new Random().nextInt(0,item.getAmount()));
-                    item.setAmount(item.getAmount() - potionAmount);
-                }
-            }
             ItemStack potion1 = new ItemStack(Material.SPLASH_POTION);
             PotionMeta meta1 = ((PotionMeta) potion1.getItemMeta());
             meta1.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, 40, 1), true); //<-- 40 ticks whereas you had 10 ticks
@@ -339,8 +334,8 @@ public class SpiritTraits {
             ItemStack[] potions = new ItemStack[] {
                     potion1, potion2, potion3
             };
-            for (int current = 0; current != potionAmount; potionAmount++) {
-                PlayerUtils.addOrDropItem(player, potions[new Random().nextInt(3)]);
+            for (int current = 0; current < 4; current++) {
+                fillItems(player, Material.GLASS_BOTTLE, potions[new Random().nextInt(4)], 1);
             }
         }
     }
@@ -399,6 +394,9 @@ public class SpiritTraits {
         SpiritUtils.spawnProjectile(player, WitherSkull.class, "Skull_Fire");
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 2, 1);
     }
+    public static void Dragons_Breath(Player player) {
+        fillItems(player, Material.GLASS_BOTTLE, new ItemStack(Material.DRAGON_BREATH), 8);
+    }
     public static void Dark_Aura(Player player) {
         World world = player.getWorld();
         Location location = player.getLocation();
@@ -413,5 +411,19 @@ public class SpiritTraits {
             ParticleUtils.spawnParticleRadius(nearbyLocation, Particle.SCULK_SOUL, 2, 30, false, false);
         }
         world.playSound(location, Sound.ENTITY_WARDEN_ROAR, 1, 1);
+    }
+    public static void fillItems(Player player, Material fill, ItemStack fillWith, int howMany) {
+        Inventory inventory = player.getInventory();
+        if (inventory.contains(fill)) {
+            int fillAmount = 0;
+            for(ItemStack item : inventory.getContents()) {
+                if (item != null && item.getType() == Material.BOWL) {
+                    fillAmount = (item.getAmount() >= howMany ? new Random().nextInt(1,howMany + 1) : new Random().nextInt(0,item.getAmount()));
+                    item.setAmount(item.getAmount() - fillAmount);
+                }
+            }
+            fillWith.setAmount(fillAmount);
+            PlayerUtils.addOrDropItem(player, fillWith);
+        }
     }
 }
