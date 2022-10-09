@@ -6,4 +6,6 @@ I need to Fill this :D
 - Add Functionality to Machines (High Priority)
 - Finish out the default Balancing of Various Spirits & Traits (High Priority)
 - Release Videos for Altar Setups (Medium Priority)
+- Fill out the Spirit Books (Medium Priority)
 - Add in Game Explanations similar to Crystamae maybe ? (Medium Priority)
+- Make Spirit in a Bottle give Levitation (Low Priority)

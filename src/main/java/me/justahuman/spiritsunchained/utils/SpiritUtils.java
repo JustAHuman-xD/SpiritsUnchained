@@ -227,9 +227,9 @@ public class SpiritUtils {
         if (spiritItem != null) {
             ItemMeta meta = spiritItem.getItemMeta();
             String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
+            double progress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
             SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
-            String traitType = (String) getTraitInfo(definition.getTrait()).get("type");
-            if (getStates().indexOf(state) > 2) {
+            if (getStates().indexOf(state) > 2 && progress >= getTraitUsage(definition.getTrait())) {
                 updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
                 return true;
             }
