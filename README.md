@@ -9,3 +9,4 @@ I need to Fill this :D
 - Fill out the Spirit Books (Medium Priority)
 - Add in Game Explanations similar to Crystamae maybe ? (Medium Priority)
 - Make Spirit in a Bottle give Levitation (Low Priority)
+- Use final more in Variables (Jeff)
