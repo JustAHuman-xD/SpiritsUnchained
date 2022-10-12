@@ -57,7 +57,7 @@ public class TraitListeners implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onProjectileHit(ProjectileHitEvent event) {
-        Projectile projectile = event.getEntity();
+        final Projectile projectile = event.getEntity();
         if (!PersistentDataAPI.hasString(projectile, Keys.entityKey)) {
             return;
         }
@@ -65,7 +65,7 @@ public class TraitListeners implements Listener {
         switch (PersistentDataAPI.getString(projectile, Keys.entityKey)) {
             default -> {}
             case "Eggpult" -> {
-                TNTPrimed tnt = (TNTPrimed) projectile.getWorld().spawnEntity(projectile.getLocation(), EntityType.PRIMED_TNT);
+                final TNTPrimed tnt = (TNTPrimed) projectile.getWorld().spawnEntity(projectile.getLocation(), EntityType.PRIMED_TNT);
                 tnt.setFuseTicks(1);
                 PersistentDataAPI.setString(tnt, Keys.entityKey, "DullExplosion");
                 PersistentDataAPI.setString(tnt, Keys.immuneKey, PersistentDataAPI.getString(projectile, Keys.ownerKey));
@@ -75,7 +75,7 @@ public class TraitListeners implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onTntExplode(EntityExplodeEvent event) {
-        Entity exploding = event.getEntity();
+        final Entity exploding = event.getEntity();
         if (!PersistentDataAPI.hasString(exploding, Keys.entityKey)) {
             return;
         }
@@ -91,8 +91,8 @@ public class TraitListeners implements Listener {
             return;
         }
         if (new Random().nextInt(1, 101) >= 65 && isUsed(player, EntityType.PILLAGER)) {
-            Arrow arrow2 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
-            Arrow arrow3 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
+            final Arrow arrow2 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
+            final Arrow arrow3 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
             arrow2.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
             arrow3.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
             arrow2.setShooter(player);
@@ -117,7 +117,7 @@ public class TraitListeners implements Listener {
         if (!(event.getEntity() instanceof LivingEntity entity)) {
             return;
         }
-        Player player = entity instanceof Player maybe ? maybe : null;
+        final Player player = entity instanceof Player maybe ? maybe : null;
         //What Fall
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL && isUsed(player, EntityType.SLIME)) {
             event.setDamage(event.getDamage() / 2);
@@ -137,9 +137,9 @@ public class TraitListeners implements Listener {
             event.setCancelled(true);
             return;
         }
-        Entity attacker = event instanceof EntityDamageByEntityEvent otherEvent ? otherEvent.getDamager() : null;
-        double finalHealth = entity.getHealth() - event.getFinalDamage();
-        double finalHealthPercentage = finalHealth / entity.getMaxHealth();
+        final Entity attacker = event instanceof EntityDamageByEntityEvent otherEvent ? otherEvent.getDamager() : null;
+        final double finalHealth = entity.getHealth() - event.getFinalDamage();
+        final double finalHealthPercentage = finalHealth / entity.getMaxHealth();
 
         //Explosion Traits
         if (attacker != null && PersistentDataAPI.hasString(attacker, Keys.immuneKey) && PersistentDataAPI.getString(attacker, Keys.immuneKey).equals(entity.getUniqueId().toString())) {
@@ -177,7 +177,7 @@ public class TraitListeners implements Listener {
         }
         //Natural Thorns
         if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && new Random().nextInt(1,101) >= 50 && isUsed(player, EntityType.GUARDIAN)) {
-            EntityDamageByEntityEvent newEvent = new EntityDamageByEntityEvent(entity, attacker, EntityDamageEvent.DamageCause.THORNS, new Random().nextInt(1,5));
+            final EntityDamageByEntityEvent newEvent = new EntityDamageByEntityEvent(entity, attacker, EntityDamageEvent.DamageCause.THORNS, new Random().nextInt(1,5));
             newEvent.callEvent();
         }
         //Blazing Thorns
@@ -202,7 +202,7 @@ public class TraitListeners implements Listener {
         }
         //Another Chance
         if(event.getFinalDamage() >= entity.getHealth() && isUsed(player, EntityType.EVOKER)) {
-            ItemStack offHand = player.getInventory().getItemInOffHand().clone();
+            final ItemStack offHand = player.getInventory().getItemInOffHand().clone();
             player.getInventory().setItemInOffHand(new ItemStack(Material.TOTEM_OF_UNDYING));
             Bukkit.getScheduler().runTaskLater(instance, () -> {
                 player.getInventory().setItemInOffHand(offHand);
@@ -216,7 +216,7 @@ public class TraitListeners implements Listener {
     //Morning Gift
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerSleep(PlayerDeepSleepEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
         if (isUsed(player, EntityType.CAT)) {
             PlayerUtils.addOrDropItem(player, ItemStacks.SU_ECTOPLASM);
         }
@@ -224,7 +224,7 @@ public class TraitListeners implements Listener {
     //Group Protection
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onAngerPigman(PigZombieAngerEvent event) {
-        Entity entity = event.getTarget();
+        final Entity entity = event.getTarget();
         if (entity instanceof Player player && isUsed(player, EntityType.ZOMBIFIED_PIGLIN)) {
             event.setCancelled(true);
         }
@@ -239,8 +239,8 @@ public class TraitListeners implements Listener {
     //Undead Protection
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onConsumeItem(PlayerItemConsumeEvent event) {
-        Player player = event.getPlayer();
-        ItemStack item = event.getItem();
+        final Player player = event.getPlayer();
+        final ItemStack item = event.getItem();
 
         if (!isUsed(player, EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER)) {
             return;
@@ -268,7 +268,7 @@ public class TraitListeners implements Listener {
     //Better Foods
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHungerChange(FoodLevelChangeEvent event) {
-        HumanEntity entity = event.getEntity();
+        final HumanEntity entity = event.getEntity();
         if (!(entity instanceof Player player)) {
             return;
         }
@@ -281,7 +281,7 @@ public class TraitListeners implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onSplashPotion(PotionSplashEvent event) {
 
-        ThrownPotion potion = event.getPotion();
+        final ThrownPotion potion = event.getPotion();
         for (LivingEntity entity : event.getAffectedEntities()) {
             if (! (entity instanceof Player player)) {
                 return;
@@ -289,7 +289,7 @@ public class TraitListeners implements Listener {
             if (! isUsed(player, EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER)) {
                 return;
             }
-            PotionMeta potionMeta = potion.getPotionMeta();
+            final PotionMeta potionMeta = potion.getPotionMeta();
             PotionData base = potionMeta.getBasePotionData();
             for (PotionEffect effect : potionMeta.getCustomEffects()) {
                 if (effect.getType() == PotionEffectType.HARM) {
@@ -308,8 +308,8 @@ public class TraitListeners implements Listener {
     //Better Shears
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerShear(PlayerShearEntityEvent event) {
-        Entity entity = event.getEntity();
-        Player player = event.getPlayer();
+        final Entity entity = event.getEntity();
+        final Player player = event.getPlayer();
         if (entity instanceof Sheep) {
             if (new Random().nextInt(1,101) >= 25 && isUsed(player, EntityType.SHEEP)) {
                 event.getItem().setAmount(event.getItem().getAmount()*2);
@@ -319,8 +319,8 @@ public class TraitListeners implements Listener {
     //Pig Rancher
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerEnter(EntityMountEvent event) {
-        Entity rider = event.getEntity();
-        Entity mount = event.getMount();
+        final Entity rider = event.getEntity();
+        final Entity mount = event.getMount();
         if (!(rider instanceof Player player)) {
             return;
         }
@@ -330,13 +330,14 @@ public class TraitListeners implements Listener {
                 return;
             }
             pig.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 10, true));
+            PersistentDataAPI.setBoolean(pig, Keys.entityKey, true);
         }
     }
     //Pig Rancher
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLeave(EntityDismountEvent event) {
-        Entity rider = event.getEntity();
-        Entity dismount = event.getDismounted();
+        final Entity rider = event.getEntity();
+        final Entity dismount = event.getDismounted();
         if (!(rider instanceof Player player)) {
             return;
         }
@@ -345,7 +346,7 @@ public class TraitListeners implements Listener {
             if (! isUsed(player, EntityType.PIG)) {
                 return;
             }
-            if (pig.hasPotionEffect(PotionEffectType.SPEED) && pig.getPotionEffect(PotionEffectType.SPEED).getAmplifier() == 10) {
+            if (PersistentDataAPI.hasBoolean(pig, Keys.entityKey) && PersistentDataAPI.getBoolean(pig, Keys.entityKey)) {
                 pig.removePotionEffect(PotionEffectType.SPEED);
             }
         }

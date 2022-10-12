@@ -45,12 +45,12 @@ import java.util.UUID;
 
 public class SpiritTraits {
 
-    static Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
+    final static Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
 
     public static String useTrait(Player player, Map<String, Object> traitInfo, String state, String type) {
-        UUID uuid = player.getUniqueId();
-        String name = (String) traitInfo.get("name");
-        Method traitMethod;
+        final UUID uuid = player.getUniqueId();
+        final String name = (String) traitInfo.get("name");
+        final Method traitMethod;
 
         if (! (SpiritUtils.getStates().indexOf(state) > 2)) {
             return ChatUtils.humanize(type) + " Spirit needs to be to the Gentle State or Higher!";
@@ -69,7 +69,7 @@ public class SpiritTraits {
 
         //If the Trait is on Cooldown
         if (Cooldown_Map.containsKey(uuid) && Cooldown_Map.get(uuid).containsKey((String) traitInfo.get("id")) && Cooldown_Map.get(uuid).get((String) traitInfo.get("id")) > System.currentTimeMillis()) {
-            long cooldown = (Cooldown_Map.get(uuid).get((String) traitInfo.get("id")) - System.currentTimeMillis()) / 1000;
+            final long cooldown = (Cooldown_Map.get(uuid).get((String) traitInfo.get("id")) - System.currentTimeMillis()) / 1000;
             return name + " on Cooldown! (" + cooldown + "s)";
         }
 
@@ -81,7 +81,7 @@ public class SpiritTraits {
         }
 
         //Add the cooldown to the Map
-        Map<String, Long> cooldowns = Cooldown_Map.containsKey(uuid) ? Cooldown_Map.get(uuid) : new HashMap<>();
+        final Map<String, Long> cooldowns = Cooldown_Map.containsKey(uuid) ? Cooldown_Map.get(uuid) : new HashMap<>();
         cooldowns.put((String) traitInfo.get("id"), System.currentTimeMillis() + (int) traitInfo.get("cooldown") * 1000);
         Cooldown_Map.put(uuid, cooldowns);
 
@@ -110,7 +110,7 @@ public class SpiritTraits {
         player.addPotionEffect(new PotionEffect(PotionEffectType.CONDUIT_POWER, 60*20, 0, true));
     }
     public static void Ink_Spray(Player player) {
-        Location location = player.getLocation();
+        final Location location = player.getLocation();
         ParticleUtils.spawnParticleRadius(location, Particle.SQUID_INK, 2, 20, true, false);
         for(Player nearbyPlayer : player.getWorld().getNearbyPlayers(location, 5, 5, 5)) {
             if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
@@ -121,15 +121,15 @@ public class SpiritTraits {
         player.getWorld().playSound(location, Sound.ENTITY_SQUID_SQUIRT, 2, 1);
     }
     public static void Hops(Player player) {
-        Location location = player.getLocation();
+        final Location location = player.getLocation();
         player.getWorld().playSound(location, Sound.ENTITY_RABBIT_JUMP, 3, 1);
         ParticleUtils.spawnParticleRadius(location.add(0, 0.5, 0), Particle.COMPOSTER, 3, 20, true, false);
         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 30*20, 1, true));
     }
     public static void Bee_Buddy(Player player) {
-        World world = player.getWorld();
-        Location location = player.getLocation();
-        ItemStack item = (Math.random() <= 0.5) ? new ItemStack(Material.HONEYCOMB) : new ItemStack(Material.HONEY_BOTTLE);
+        final World world = player.getWorld();
+        final Location location = player.getLocation();
+        final ItemStack item = (Math.random() <= 0.5) ? new ItemStack(Material.HONEYCOMB) : new ItemStack(Material.HONEY_BOTTLE);
         ParticleUtils.spawnParticleRadius(location.add(0, 0.5, 0), Particle.DRIPPING_HONEY, 3, 20, true, false);
 
         item.setAmount(new Random().nextInt(1,6));
@@ -137,21 +137,21 @@ public class SpiritTraits {
         PlayerUtils.addOrDropItem(player, item);
     }
     public static void Webber(Player player) {
-        Location location = player.getLocation();
+        final Location location = player.getLocation();
         int count = 0;
         for(Player nearbyPlayer : player.getWorld().getNearbyPlayers(location, 5, 5, 5)) {
             if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
                 continue;
             }
 
-            Block block = nearbyPlayer.getWorld().getBlockAt(nearbyPlayer.getLocation());
+            final Block block = nearbyPlayer.getWorld().getBlockAt(nearbyPlayer.getLocation());
             if (block.getType().isAir() || ! block.getType().isSolid()) {
                 if (count >= 3) {
                     break;
                 }
 
-                Material restoreType = block.getType();
-                BlockData restoreData = block.getBlockData();
+                final Material restoreType = block.getType();
+                final BlockData restoreData = block.getBlockData();
                 block.setType(Material.COBWEB);
 
                 Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
@@ -164,16 +164,16 @@ public class SpiritTraits {
         }
     }
     public static void Explode(Player player) {
-        Location location = player.getLocation();
-        TNTPrimed tnt = (TNTPrimed) player.getWorld().spawnEntity(location, EntityType.PRIMED_TNT);
+        final Location location = player.getLocation();
+        final TNTPrimed tnt = (TNTPrimed) player.getWorld().spawnEntity(location, EntityType.PRIMED_TNT);
         tnt.setFuseTicks(1);
         PersistentDataAPI.setString(tnt, Keys.immuneKey, player.getUniqueId().toString());
         PersistentDataAPI.setString(tnt, Keys.entityKey, "DullExplosion");
     }
     public static void Infest(Player player) {
-        Block lookingAt = player.getTargetBlock(null, 5);
+        final Block lookingAt = player.getTargetBlock(null, 5);
         try{
-            Material newMatieral = Material.valueOf("infested_" + lookingAt.getType());
+            final Material newMatieral = Material.valueOf("infested_" + lookingAt.getType());
             lookingAt.setType(newMatieral);
             ParticleUtils.spawnParticleRadius(lookingAt.getLocation(), Particle.ASH, 1.5, 40, false, false);
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_SILVERFISH_AMBIENT, 1, 1);
@@ -204,13 +204,13 @@ public class SpiritTraits {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_VILLAGER_CELEBRATE, 1, 1);
     }
     public static void Glow_Up(Player player) {
-        Location location = player.getLocation();
-        World world = player.getWorld();
-        Block block = world.getBlockAt(location);
+        final Location location = player.getLocation();
+        final World world = player.getWorld();
+        final Block block = world.getBlockAt(location);
 
         for (Block relative : SpiritUtils.getNearbyBlocks(block, 5)) {
             if (relative.getType().toString().contains("SIGN")) {
-                Sign sign = (Sign) relative.getState();
+                final Sign sign = (Sign) relative.getState();
                 sign.setGlowingText(true);
                 sign.update();
                 ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.GLOW_SQUID_INK, 1.5, 24, false, false);
@@ -219,11 +219,11 @@ public class SpiritTraits {
         }
 
         for (ItemFrame itemFrame : world.getNearbyEntitiesByType(ItemFrame.class, location, 5)) {
-            ItemStack item = itemFrame.getItem();
-            Rotation rotation = itemFrame.getRotation();
-            Location frameLocation = itemFrame.getLocation();
+            final ItemStack item = itemFrame.getItem();
+            final Rotation rotation = itemFrame.getRotation();
+            final Location frameLocation = itemFrame.getLocation();
             itemFrame.remove();
-            GlowItemFrame frame = world.spawn(frameLocation, GlowItemFrame.class);
+            final GlowItemFrame frame = world.spawn(frameLocation, GlowItemFrame.class);
             frame.setRotation(rotation);
             frame.setItem(item);
             ParticleUtils.spawnParticleRadius(itemFrame.getLocation(), Particle.GLOW_SQUID_INK, 1.5, 24, false, false);
@@ -231,18 +231,18 @@ public class SpiritTraits {
         }
     }
     public static void Light_It_Up(Player player) {
-        Location location = player.getLocation();
-        World world = player.getWorld();
-        Block block = world.getBlockAt(location);
+        final Location location = player.getLocation();
+        final World world = player.getWorld();
+        final Block block = world.getBlockAt(location);
 
         for (Block relative : SpiritUtils.getNearbyBlocks(block, 5)) {
             if (relative.getType() == Material.MAGMA_BLOCK) {
-                Material[] chooseFrom = new Material[] {
+                final Material[] chooseFrom = new Material[] {
                         Material.OCHRE_FROGLIGHT,
                         Material.VERDANT_FROGLIGHT,
                         Material.PEARLESCENT_FROGLIGHT
                 };
-                Material newMaterial = chooseFrom[new Random().nextInt(3)];
+                final Material newMaterial = chooseFrom[new Random().nextInt(3)];
                 relative.setType(newMaterial);
                 ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.END_ROD, 1.5, 24, true, false);
             }
@@ -255,12 +255,12 @@ public class SpiritTraits {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_HORSE_JUMP, 2, 1);
     }
     public static void Spitter(Player player) {
-        Projectile spit = (Projectile) SpiritUtils.spawnProjectile(player, LlamaSpit.class, "Spitter");
+        final Projectile spit = (Projectile) SpiritUtils.spawnProjectile(player, LlamaSpit.class, "Spitter");
         spit.setShooter(player);
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LLAMA_SPIT, 2, 1);
     }
     public static void Goats_Instrument(Player player) {
-        Sound[] playFrom = new Sound[] {
+        final Sound[] playFrom = new Sound[] {
                 Sound.ITEM_GOAT_HORN_SOUND_0,
                 Sound.ITEM_GOAT_HORN_SOUND_1,
                 Sound.ITEM_GOAT_HORN_SOUND_2,
@@ -290,12 +290,12 @@ public class SpiritTraits {
         if (player.getVehicle() != null) {
             player.leaveVehicle();
         }
-        World world = player.getWorld();
-        Location location = player.getLocation();
+        final World world = player.getWorld();
+        final Location location = player.getLocation();
 
-        double x = location.getX() + (new Random().nextDouble() - 0.5D) * 16.0D;
-        double y = Math.max(location.getY() + (double) (new Random().nextInt(16) - 8), Math.min(world.getMinHeight(), (double) (world.getMinHeight() + world.getLogicalHeight() - 1)));
-        double z = location.getZ() + (new Random().nextDouble() - 0.5D) * 16.0D;
+        final double x = location.getX() + (new Random().nextDouble() - 0.5D) * 16.0D;
+        final double y = Math.max(location.getY() + (double) (new Random().nextInt(16) - 8), Math.min(world.getMinHeight(), (double) (world.getMinHeight() + world.getLogicalHeight() - 1)));
+        final double z = location.getZ() + (new Random().nextDouble() - 0.5D) * 16.0D;
 
         player.teleport(player.getLocation().add(x, y, z));
         player.getWorld().playSound(player.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 2, 1);
@@ -314,24 +314,24 @@ public class SpiritTraits {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_MAGMA_CUBE_SQUISH, 2, 1);
     }
     public static void Better_Brewer(Player player) {
-        Inventory inventory = player.getInventory();
+        final Inventory inventory = player.getInventory();
         if (inventory.contains(Material.GLASS_BOTTLE)) {
-            ItemStack potion1 = new ItemStack(Material.SPLASH_POTION);
-            PotionMeta meta1 = ((PotionMeta) potion1.getItemMeta());
+            final ItemStack potion1 = new ItemStack(Material.SPLASH_POTION);
+            final PotionMeta meta1 = ((PotionMeta) potion1.getItemMeta());
             meta1.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, 40, 1), true); //<-- 40 ticks whereas you had 10 ticks
             potion1.setItemMeta(meta1);
 
-            ItemStack potion2 = new ItemStack(Material.POTION);
-            PotionMeta meta2 = ((PotionMeta) potion2.getItemMeta());
+            final ItemStack potion2 = new ItemStack(Material.POTION);
+            final PotionMeta meta2 = ((PotionMeta) potion2.getItemMeta());
             meta2.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1), true); //<-- 40 ticks whereas you had 10 ticks
             potion2.setItemMeta(meta2);
 
-            ItemStack potion3 = new ItemStack(Material.POTION);
-            PotionMeta meta3 = ((PotionMeta) potion3.getItemMeta());
+            final ItemStack potion3 = new ItemStack(Material.POTION);
+            final PotionMeta meta3 = ((PotionMeta) potion3.getItemMeta());
             meta2.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 60*20, 1), true); //<-- 40 ticks whereas you had 10 ticks
             potion3.setItemMeta(meta3);
 
-            ItemStack[] potions = new ItemStack[] {
+            final ItemStack[] potions = new ItemStack[] {
                     potion1, potion2, potion3
             };
             for (int current = 0; current < 4; current++) {
@@ -344,17 +344,17 @@ public class SpiritTraits {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_HOGLIN_ATTACK, 2, 1);
     }
     public static void Targeted_Teleport(Player player) {
-        RayTraceResult rs = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 64);
+        final RayTraceResult rs = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 64);
         if (rs == null) {
             return;
         }
-        Location location = player.getLocation();
-        float yaw = location.getYaw();
-        float pitch = location.getPitch();
-        double D = 1;
-        double x = -D*Math.sin(yaw*Math.PI/180);
-        double z = D*Math.cos(yaw*Math.PI/180);
-        Location targetLoc = rs.getHitBlock().getLocation().subtract(x, -1, z);
+        final Location location = player.getLocation();
+        final float yaw = location.getYaw();
+        final float pitch = location.getPitch();
+        final double D = 1;
+        final double x = -D*Math.sin(yaw*Math.PI/180);
+        final double z = D*Math.cos(yaw*Math.PI/180);
+        final Location targetLoc = rs.getHitBlock().getLocation().subtract(x, -1, z);
         targetLoc.setYaw(yaw);
         targetLoc.setPitch(pitch);
         player.teleport(targetLoc);
@@ -366,9 +366,9 @@ public class SpiritTraits {
         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30*20, 2, true));
     }
     public static void Bullet_Swarm(Player player) {
-        World world = player.getWorld();
-        Location location = player.getLocation();
-        List<LivingEntity> targets = new ArrayList<>();
+        final World world = player.getWorld();
+        final Location location = player.getLocation();
+        final List<LivingEntity> targets = new ArrayList<>();
         for (LivingEntity nearbyEntity : world.getNearbyLivingEntities(location, 20, 20, 20)) {
             if (nearbyEntity.getUniqueId() == player.getUniqueId()) {
                 continue;
@@ -385,7 +385,7 @@ public class SpiritTraits {
             }
         }
         for (int spawned = 0; spawned < 5; spawned++) {
-            ShulkerBullet bullet = (ShulkerBullet) world.spawnEntity(location.add(0,2,0), EntityType.SHULKER_BULLET);
+            final ShulkerBullet bullet = (ShulkerBullet) world.spawnEntity(location.add(0,2,0), EntityType.SHULKER_BULLET);
             bullet.setShooter(player);
             bullet.setTarget(targets.size() - 1 >= spawned ? targets.get(spawned) : targets.get(new Random().nextInt(targets.size())));
         }
@@ -398,13 +398,13 @@ public class SpiritTraits {
         fillItems(player, Material.GLASS_BOTTLE, new ItemStack(Material.DRAGON_BREATH), 8);
     }
     public static void Dark_Aura(Player player) {
-        World world = player.getWorld();
-        Location location = player.getLocation();
+        final World world = player.getWorld();
+        final Location location = player.getLocation();
         for (Player nearbyPlayer : world.getNearbyPlayers(location, 30, 30, 30)) {
             if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
                 continue;
             }
-            Location nearbyLocation = nearbyPlayer.getLocation();
+            final Location nearbyLocation = nearbyPlayer.getLocation();
             nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 30*20, 4, true));
             nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30*20, 4, true));
             world.playSound(nearbyLocation, Sound.ENTITY_WARDEN_HEARTBEAT, 3, 1);
@@ -413,7 +413,7 @@ public class SpiritTraits {
         world.playSound(location, Sound.ENTITY_WARDEN_ROAR, 1, 1);
     }
     public static void fillItems(Player player, Material fill, ItemStack fillWith, int howMany) {
-        Inventory inventory = player.getInventory();
+        final Inventory inventory = player.getInventory();
         if (inventory.contains(fill)) {
             int fillAmount = 0;
             for(ItemStack item : inventory.getContents()) {

@@ -35,21 +35,26 @@ import java.util.List;
 public class IdentifyingGlassListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onSpyglassLook(PlayerStatisticIncrementEvent evt) {
-        Player player = evt.getPlayer();
-        if (evt.getStatistic() != Statistic.USE_ITEM || evt.getMaterial() != Material.SPYGLASS) return;
-        if (!(SlimefunItem.getByItem(player.getInventory().getItemInMainHand()) instanceof IdentifyingGlass || SlimefunItem.getByItem(player.getInventory().getItemInOffHand()) instanceof IdentifyingGlass)) return;
-        List<Entity> lookingAt = SpiritUtils.getLookingList(player);
-        for (Entity currentEntity : lookingAt) {
+        final Player player = evt.getPlayer();
+
+        if (evt.getStatistic() != Statistic.USE_ITEM || evt.getMaterial() != Material.SPYGLASS) {
+            return;
+        }
+        if (!(SlimefunItem.getByItem(player.getInventory().getItemInMainHand()) instanceof IdentifyingGlass || SlimefunItem.getByItem(player.getInventory().getItemInOffHand()) instanceof IdentifyingGlass)) {
+            return;
+        }
+
+        for (Entity currentEntity : SpiritUtils.getLookingList(player)) {
             if (currentEntity.getType() != EntityType.ALLAY) continue;
-            AbstractCustomMob<?> maybeSpirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(currentEntity, null);
+            final AbstractCustomMob<?> maybeSpirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(currentEntity, null);
             if (maybeSpirit instanceof UnIdentifiedSpirit && !PersistentDataAPI.getBoolean(currentEntity, Keys.spiritIdentified)) {
                 PersistentDataAPI.setBoolean(currentEntity, Keys.spiritIdentified, true);
                 maybeSpirit.reveal((Allay) currentEntity, player);
             } else if (maybeSpirit instanceof Spirit spirit) {
-                SpiritDefinition definition = spirit.getDefinition();
-                ChatColor tierColor = SpiritUtils.tierColor(definition.getTier());
-                ChatColor stateColor = SpiritUtils.stateColor(PersistentDataAPI.getString(currentEntity, Keys.spiritStateKey));
-                String actionBarMessage = ChatColors.color("&fSpirit Type: " + tierColor + ChatUtils.humanize(definition.getType().name()) + "   &fCurrent State: " + stateColor + PersistentDataAPI.getString(currentEntity, Keys.spiritStateKey) + "   &fTier: " + tierColor + definition.getTier());
+                final SpiritDefinition definition = spirit.getDefinition();
+                final ChatColor tierColor = SpiritUtils.tierColor(definition.getTier());
+                final ChatColor stateColor = SpiritUtils.stateColor(PersistentDataAPI.getString(currentEntity, Keys.spiritStateKey));
+                final String actionBarMessage = ChatColors.color("&fSpirit Type: " + tierColor + ChatUtils.humanize(definition.getType().name()) + "   &fCurrent State: " + stateColor + PersistentDataAPI.getString(currentEntity, Keys.spiritStateKey) + "   &fTier: " + tierColor + definition.getTier());
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBarMessage));
             }
         }

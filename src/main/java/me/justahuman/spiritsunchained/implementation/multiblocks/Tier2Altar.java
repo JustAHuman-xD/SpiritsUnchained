@@ -53,7 +53,7 @@ public class Tier2Altar extends SlimefunItem {
 
             @Override
             public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
-                Block b = e.getBlockPlaced();
+                final Block b = e.getBlockPlaced();
                 BlockStorage.addBlockInfo(b, "particle", "4");
                 BlockStorage.addBlockInfo(b, "multiplier", "2.0");
                 if (isComplete(b)) {
@@ -69,7 +69,7 @@ public class Tier2Altar extends SlimefunItem {
 
     private BlockUseHandler onUse() {
         return e -> {
-            Block b = e.getClickedBlock().get();
+            final Block b = e.getClickedBlock().get();
             if (BlockStorage.getLocationInfo(b.getLocation(), "complete").equals("false")) {
                 if (isComplete(b)) {
                     BlockStorage.addBlockInfo(b, "complete", "true");

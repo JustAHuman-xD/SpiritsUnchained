@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 public class LogUtils {
 
-    private static final SpiritsUnchained instance = SpiritsUnchained.getInstance();
+    private final static SpiritsUnchained instance = SpiritsUnchained.getInstance();
 
-    private static final Logger logger = instance.getLogger();
+    private final static Logger logger = instance.getLogger();
 
     @ParametersAreNonnullByDefault
     public static void LogInfo(String toLog) {

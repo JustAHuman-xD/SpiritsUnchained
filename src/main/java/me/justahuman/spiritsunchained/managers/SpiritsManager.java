@@ -58,8 +58,8 @@ public class SpiritsManager {
             final String trait = spirit.getString("Trait");
             final Goal goal = new Goal(listGoal.get(0), listGoal.get(1), Integer.parseInt(listGoal.get(2)));
             final HashMap<String, List<EntityType>> relations = new HashMap<>();
-            List<EntityType> Scare = new ArrayList<>();
-            List<EntityType> Afraid = new ArrayList<>();
+            final List<EntityType> Scare = new ArrayList<>();
+            final List<EntityType> Afraid = new ArrayList<>();
 
             final ConfigurationSection relationSection = spirit.getConfigurationSection("Relations");
 

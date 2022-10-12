@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * I definitely sampled from Sefiraat's Crystamae Historia to make this flex group
  * So please do check out his awesome stuff:
- * {@link io.github.sefiraat.crystamaehistoria.slimefun.itemgroups.MainFlexGroup}
+ * <a href="https://github.com/Sefiraat/CrystamaeHistoria/blob/master/src/main/java/io/github/sefiraat/crystamaehistoria/slimefun/itemgroups/MainFlexGroup.java">...</a>
  */
 public class SpiritsFlexGroup extends FlexItemGroup {
 
@@ -123,8 +123,12 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     public void open(Player player, PlayerProfile profile, SlimefunGuideMode mode) {
         final ChestMenu menu = new ChestMenu("&aSpirits Unchained");
 
-        for (int slot : HEADER) { menu.addItem(slot, ChestMenuUtils.getBackground(), (player1, i1, itemStack, clickAction) -> false);}
-        for (int slot : FOOTER) { menu.addItem(slot, ChestMenuUtils.getBackground(), (player1, i1, itemStack, clickAction) -> false);}
+        for (int slot : HEADER) {
+            menu.addItem(slot, ChestMenuUtils.getBackground(), (player1, i1, itemStack, clickAction) -> false);
+        }
+        for (int slot : FOOTER) {
+            menu.addItem(slot, ChestMenuUtils.getBackground(), (player1, i1, itemStack, clickAction) -> false);
+        }
 
         menu.setEmptySlotsClickable(false);
         prepare(player, profile, mode, menu, 1);
@@ -195,7 +199,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
     @ParametersAreNonnullByDefault
     private void displayDefinition(Player player, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int returnPage, SpiritDefinition definition) {
-        EntityType entityType = definition.getType();
+        final EntityType entityType = definition.getType();
         SHOWING_DESCRIPTION = false;
 
         // Back Button
@@ -235,8 +239,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
         //Trait
         if (PlayerUtils.hasKnowledgeLevel(player, entityType, 3) || mode == SlimefunGuideMode.CHEAT_MODE) {
-            Map<String, Object> traitList = SpiritUtils.getTraitInfo(definition.getTrait());
-            CustomItemStack traitItemStack = new CustomItemStack(
+            final Map<String, Object> traitList = SpiritUtils.getTraitInfo(definition.getTrait());
+            final CustomItemStack traitItemStack = new CustomItemStack(
                     Material.GLASS,
                     "&aTrait",
                     "",
@@ -248,8 +252,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                 if (SHOWING_DESCRIPTION) {
                     menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
                 } else {
-                    ItemStack descriptionItemStack = traitItemStack.clone();
-                    List<Component> currentLore = descriptionItemStack.lore();
+                    final ItemStack descriptionItemStack = traitItemStack.clone();
+                    final List<Component> currentLore = descriptionItemStack.lore();
                     currentLore.remove(2);
                     for (String line : (List<String>) traitList.get("lore")) {
                         currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + line)));
@@ -271,6 +275,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     private void displayRelationsTree(Player player, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int returnPage, SpiritDefinition definition) {
         // Back Button
         menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, Slimefun.getLocalization().getMessage("guide.back.guide")));
+
         menu.addMenuClickHandler(GUIDE_BACK, (player1, slot, itemStack, clickAction) -> {
             displayDefinition(player1, profile, mode, menu, returnPage, definition);
             return false;
@@ -278,19 +283,31 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
         clearDisplay(menu);
 
-        for (int SLOT : DIVIDER) { menu.replaceExistingItem(SLOT, ChestMenuUtils.getBackground());}
-        for (int SLOT : AFRAID) { menu.replaceExistingItem(SLOT, afraid);}
-        for (int SLOT : SCARE) { menu.replaceExistingItem(SLOT, scare);}
+        for (int SLOT : DIVIDER) {
+            menu.replaceExistingItem(SLOT, ChestMenuUtils.getBackground());
+        }
+        for (int SLOT : AFRAID) {
+            menu.replaceExistingItem(SLOT, afraid);
+        }
+        for (int SLOT : SCARE) {
+            menu.replaceExistingItem(SLOT, scare);
+        }
 
         int currentA = 0;
         int currentS = 0;
         for (Map.Entry<String, List<EntityType>> Entry : definition.getRelations().entrySet()) {
-            String relation = Entry.getKey();
+            final String relation = Entry.getKey();
             for (EntityType mobType : Entry.getValue()) {
-                SpiritDefinition currentRelator = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(mobType);
+                final SpiritDefinition currentRelator = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(mobType);
                 int Slot = 0;
-                if (relation.equals("Afraid")) {Slot = AFRAID_ENTRIES[currentA]; currentA++;}
-                if (relation.equals("Scare")) {Slot = SCARE_ENTRIES[currentS]; currentS++;}
+                if (relation.equals("Afraid")) {
+                    Slot = AFRAID_ENTRIES[currentA];
+                    currentA++;
+                }
+                if (relation.equals("Scare")) {
+                    Slot = SCARE_ENTRIES[currentS];
+                    currentS++;
+                }
                 menu.replaceExistingItem(Slot, getSpiritMenuItem(currentRelator));
             }
         }
@@ -307,15 +324,15 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
     @ParametersAreNonnullByDefault
     private ItemStack getSpiritMenuItem(SpiritDefinition definition) {
-        ItemStack itemStack = new ItemStack(Material.FIREWORK_STAR);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        ChatColor chatColor = SpiritUtils.tierColor(definition.getTier());
-        String spiritType  = ChatUtils.humanize(definition.getType().name());
+        final ItemStack itemStack = new ItemStack(Material.FIREWORK_STAR);
+        final ItemMeta itemMeta = itemStack.getItemMeta();
+        final ChatColor chatColor = SpiritUtils.tierColor(definition.getTier());
+        final String spiritType  = ChatUtils.humanize(definition.getType().name());
 
         itemMeta.displayName(Component.text(chatColor + spiritType + " Spirit" ));
         ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
 
-        List<Component> lore = new ArrayList<>();
+        final List<Component> lore = new ArrayList<>();
         lore.add(Component.text(ChatColors.color(ChatColor.WHITE + "The Captured Spirit of a " + spiritType)));
         lore.add(Component.text(ChatColors.color(ChatColor.WHITE + "Tier: " + chatColor + definition.getTier())));
         itemMeta.lore(lore);

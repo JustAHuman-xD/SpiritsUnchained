@@ -23,7 +23,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -34,14 +33,13 @@ import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
 public class Spirit extends AbstractCustomMob<Allay> {
 
     @Getter
-    private int particleCount = 4;
+    private final int particleCount = 4;
     @Getter
     private final SpiritDefinition definition;
 
@@ -52,8 +50,8 @@ public class Spirit extends AbstractCustomMob<Allay> {
 
     @Nonnull
     public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String revealState) {
-        double health = this.getMaxHealth()*definition.getTier();
-        String state;
+        final double health = this.getMaxHealth()*definition.getTier();
+        final String state;
         if (reason.equals("Natural")) {
             state = definition.getStates().get(new Random().nextInt(definition.getStates().size()));
         } else if (reason.equals("Reveal")) {
@@ -62,7 +60,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
             state = reason;
         }
 
-        Allay mob = world.spawn(loc, this.getClazz());
+        final Allay mob = world.spawn(loc, this.getClazz());
         SpiritUtils.SpiritIdMap.put(mob.getEntityId(), mob);
         PersistentDataAPI.setString(mob, Keys.entityKey, this.getId());
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
@@ -88,7 +86,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
-        String state = PersistentDataAPI.getString(allay, Keys.spiritStateKey);
+        final String state = PersistentDataAPI.getString(allay, Keys.spiritStateKey);
         ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true, true);
         SpiritUtils.spawnStateParticle(state, allay.getLocation());
 
@@ -102,7 +100,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onDeath(EntityDeathEvent event) {
-        ItemStack todrop = ItemStacks.SU_ECTOPLASM.clone();
+        final ItemStack todrop = ItemStacks.SU_ECTOPLASM.clone();
         todrop.setAmount(definition.getTier() + 1);
         event.getDrops().add(todrop);
     }
@@ -110,14 +108,16 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onInteract(PlayerInteractEntityEvent event) {
-        Player player = event.getPlayer();
-        EquipmentSlot hand = event.getHand();
-        Entity entity = event.getRightClicked();
-        EntityType type = this.definition.getType();
-        ItemStack item = player.getInventory().getItem(hand);
-        int tier = this.definition.getTier();
+        final Player player = event.getPlayer();
+        final EquipmentSlot hand = event.getHand();
+        final Entity entity = event.getRightClicked();
+        final EntityType type = this.definition.getType();
+        final ItemStack item = player.getInventory().getItem(hand);
+        final int tier = this.definition.getTier();
 
-        if (item.getType() == Material.AIR) {return;}
+        if (item.getType() == Material.AIR) {
+            return;
+        }
         if (SlimefunItem.getByItem(item) instanceof SpiritNet) {
             if (new Random().nextInt(1,100) <= SpiritUtils.getTierChance(tier)) {
                 //ParticleUtils.catchAnimation(entity.getLocation());

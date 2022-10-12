@@ -35,12 +35,12 @@ import java.util.Map;
 public class PlayerClickListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerClick(PlayerInteractEvent e) {
-        Player player = e.getPlayer();
+        final Player player = e.getPlayer();
         if (e.getAction() == Action.LEFT_CLICK_AIR && player.isSneaking()) {
-            ItemStack mainHand = player.getInventory().getItemInMainHand();
+            final ItemStack mainHand = player.getInventory().getItemInMainHand();
             if (mainHand.hasItemMeta() && PersistentDataAPI.hasByte(mainHand.getItemMeta(), Keys.imbuedKey)) {
-                ItemMeta mainMeta = mainHand.getItemMeta();
-                String Message;
+                final ItemMeta mainMeta = mainHand.getItemMeta();
+                final String Message;
                 PersistentDataAPI.setByte(mainMeta, Keys.imbuedKey, PersistentDataAPI.getByte(mainMeta, Keys.imbuedKey) == (byte) 1 ? (byte) 2 : (byte) 1);
                 Message = PersistentDataAPI.getByte(mainMeta, Keys.imbuedKey) == (byte) 1 ? "Toggled Off Visibility" : "Toggled On Visibility";
                 mainHand.setItemMeta(mainMeta);
@@ -55,9 +55,9 @@ public class PlayerClickListener implements Listener {
                 return;
             }
 
-            List<Entity> lookingAt = SpiritUtils.getLookingList(player);
+            final List<Entity> lookingAt = SpiritUtils.getLookingList(player);
             for (Entity entity : lookingAt) {
-                AbstractCustomMob<?> maybe = SpiritsUnchained.getSpiritEntityManager().getCustomClass(entity, null);
+                final AbstractCustomMob<?> maybe = SpiritsUnchained.getSpiritEntityManager().getCustomClass(entity, null);
                 if (entity instanceof Allay && maybe != null && player.getLocation().distance(entity.getLocation()) < 4) {
                     e.setCancelled(true);
                     maybe.onInteract(new PlayerInteractEntityEvent(player, entity, e.getHand()));
@@ -70,8 +70,8 @@ public class PlayerClickListener implements Listener {
     private boolean rightClick(Player player, ItemStack item) {
         if (item.getType() == Material.FIREWORK_STAR) {
             if (SpiritUtils.isSpiritItem(item)) {
-                String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
-                Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
+                final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
+                final Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
                 player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(SpiritTraits.useTrait(player, traitInfo, PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritStateKey), PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey)))));
                 return true;
             }

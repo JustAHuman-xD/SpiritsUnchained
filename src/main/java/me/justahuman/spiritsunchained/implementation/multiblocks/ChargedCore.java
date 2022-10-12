@@ -30,25 +30,19 @@ import java.util.List;
 
 public class ChargedCore {
     public static void tick(@Nonnull Block b) {
-        Location l = b.getLocation();
-        Collection<Player> players = b.getWorld().getNearbyEntitiesByType(
-                Player.class,
-                l,
-                2
-        );
+        final Location l = b.getLocation();
+        final Collection<Player> players = b.getWorld().getNearbyEntitiesByType(Player.class, l, 2);
+
         if (!players.isEmpty() && isComplete(b)) {
-            String ID = BlockStorage.checkID(b);
-            String Times = BlockStorage.getLocationInfo(b.getLocation(),"particle");
-            double Multiplier = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "multiplier"));
+            final String Times = BlockStorage.getLocationInfo(b.getLocation(),"particle");
+            final double Multiplier = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "multiplier"));
             particle(Integer.valueOf(Times),l);
             for (Player player : players) {
-                ItemStack spiritItem = getSpiritItem(player);
+                final ItemStack spiritItem = getSpiritItem(player);
                 if (spiritItem != null) {
                     ItemMeta itemMeta = spiritItem.getItemMeta();
 
-                    SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(PersistentDataAPI.getString(itemMeta, Keys.spiritItemKey)));
-                    String currentState = PersistentDataAPI.getString(itemMeta, Keys.spiritStateKey);
-                    double currentProgress = PersistentDataAPI.getDouble(itemMeta, Keys.spiritProgressKey);
+                    final  SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(PersistentDataAPI.getString(itemMeta, Keys.spiritItemKey)));
                     if (SpiritUtils.updateSpiritItemProgress(spiritItem, Multiplier / (double) definition.getTier())) {
                         PlayerUtils.setKnowledgeLevel(player, definition.getType(), 3);
                     }
@@ -62,7 +56,7 @@ public class ChargedCore {
     }
 
     private static boolean isComplete(Block b) {
-        String storage = BlockStorage.getLocationInfo(b.getLocation(),"complete");
+        final String storage = BlockStorage.getLocationInfo(b.getLocation(),"complete");
         return Boolean.parseBoolean(storage);
     }
 

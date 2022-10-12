@@ -25,8 +25,6 @@ import java.util.List;
 
 public class Tier1Altar extends SlimefunItem {
 
-    public static final String ITEM_PREFIX = ChatColors.color("&bSPIRITUAL ALTAR 1");
-
     public Tier1Altar() {
         super(Groups.SU_ALTAR_1, ItemStacks.SU_CHARGED_CORE_I, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
                 null, ItemStacks.SU_CHARGED_QUARTZ_I, null,
@@ -57,7 +55,7 @@ public class Tier1Altar extends SlimefunItem {
 
             @Override
             public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
-                Block b = e.getBlockPlaced();
+                final Block b = e.getBlockPlaced();
                 BlockStorage.addBlockInfo(b, "particle", "2");
                 BlockStorage.addBlockInfo(b, "multiplier", "1.0");
                 if (isComplete(b)) {
@@ -73,7 +71,7 @@ public class Tier1Altar extends SlimefunItem {
 
     private BlockUseHandler onUse() {
         return e -> {
-            Block b = e.getClickedBlock().get();
+            final Block b = e.getClickedBlock().get();
             if (BlockStorage.getLocationInfo(b.getLocation(), "complete").equals("false")) {
                 if (isComplete(b)) {
                     BlockStorage.addBlockInfo(b, "complete", "true");

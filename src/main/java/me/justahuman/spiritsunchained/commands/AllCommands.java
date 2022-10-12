@@ -27,8 +27,8 @@ import java.util.Set;
 
 public class AllCommands implements TabExecutor {
 
-    Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().EntityMap.keySet();
-    List<String> entityTypes = SpiritUtils.getTypes();
+    final Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().EntityMap.keySet();
+    final List<String> entityTypes = SpiritUtils.getTypes();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -36,25 +36,13 @@ public class AllCommands implements TabExecutor {
             return false;
         }
         if (useCommand("SummonSpirit", player, 0, 2, args)) {
-            String type = "COW";
-            if (args.length >= 3) {
-                type = args[2];
-            }
-            return summonSpirit(args[1], player, type);
+            return summonSpirit(args[1], player, args.length >= 3 ? args[2] : "COW");
         }
         else if (useCommand("GiveSpirit", player, 0, 2, args)) {
-            String state = "Friendly";
-            if (args.length >= 3) {
-                state = args[2];
-            }
-            return giveSpirit(player, args[1], state);
+            return giveSpirit(player, args[1], args.length >= 3 ? args[2] : "Friendly");
         }
         else if (useCommand("EditItem", player, 0, 2, args)) {
-            String additional = "Blank";
-            if (args.length >= 3) {
-                additional = args[2];
-            }
-            return editItem(player, args[1], additional);
+            return editItem(player, args[1], args.length >= 3 ? args[2] : "Blank");
         }
         else if (useCommand("ResetCooldowns", player, 0, 1, args)) {
             return resetCooldown(player, args.length >= 2 ? args[1] : player.getName());
@@ -67,8 +55,8 @@ public class AllCommands implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (command.getName().equalsIgnoreCase("spirits")) {
-            List<String> l = new ArrayList<String>();
-            Map<String, Integer> add = new HashMap<>();
+            final List<String> l = new ArrayList<>();
+            final Map<String, Integer> add = new HashMap<>();
             if (args.length == 1) {
                 add.put("GiveSpirit", 0);
                 add.put("SummonSpirit", 0);
@@ -122,8 +110,8 @@ public class AllCommands implements TabExecutor {
 
             //Change displays based on the current message
             for (Map.Entry<String, Integer> entry : add.entrySet()) {
-                String toAdd = entry.getKey();
-                Integer index = entry.getValue();
+                final String toAdd = entry.getKey();
+                final Integer index = entry.getValue();
                 if (toAdd.toLowerCase().contains(args[index].toLowerCase())) {
                     l.add(toAdd);
                 }
@@ -143,7 +131,7 @@ public class AllCommands implements TabExecutor {
     }
 
     private boolean giveSpirit(Player player, String type, String state) {
-        EntityType spiritType;
+        final EntityType spiritType;
         try {
             spiritType = EntityType.valueOf(type);
         } catch (IllegalArgumentException | NullPointerException e) {
@@ -154,7 +142,7 @@ public class AllCommands implements TabExecutor {
     }
 
     private boolean summonSpirit(String spiritId, Player player, String type) {
-        AbstractCustomMob<?> spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, spiritId);
+        final AbstractCustomMob<?> spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, spiritId);
         if (spirit == null || ! SpiritUtils.canSpawn()) {
             return sendError(player, "Not a Valid Spirit Type!");
         }
@@ -163,11 +151,11 @@ public class AllCommands implements TabExecutor {
     }
 
     private boolean editItem(Player player, String toChange, String changeValue) {
-        ItemStack item = player.getInventory().getItemInMainHand();
+        final ItemStack item = player.getInventory().getItemInMainHand();
         if (!SpiritUtils.isSpiritItem(item)) {
             return sendError(player, "You are not holding a Spirit Item!");
         }
-        ItemMeta meta = item.getItemMeta();
+        final ItemMeta meta = item.getItemMeta();
         if (toChange.equalsIgnoreCase("state")) {
             if (!SpiritUtils.getStates().contains(changeValue)) {
                 return sendError(player, "Not a valid Spirit State!");
@@ -189,7 +177,7 @@ public class AllCommands implements TabExecutor {
     }
 
     private boolean resetCooldown(Player sender, String playerName) {
-        Player player = Bukkit.getPlayer(playerName);
+        final Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
             return sendError(sender, playerName + " not Online!");
         }

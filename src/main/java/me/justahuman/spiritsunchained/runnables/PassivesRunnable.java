@@ -38,7 +38,7 @@ public class PassivesRunnable extends BukkitRunnable {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 61*20, 2, true));
         }
         //Dolphin Swimmer
-        Block headBlock = player.getLocation().getBlock().getRelative(BlockFace.UP);
+        final Block headBlock = player.getLocation().getBlock().getRelative(BlockFace.UP);
         if (headBlock.isLiquid() && player.isSwimming() && SpiritUtils.useSpiritItem(player, EntityType.DOLPHIN)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 61*20, 2, true));
         }
@@ -48,7 +48,7 @@ public class PassivesRunnable extends BukkitRunnable {
         }
         //Strange Secrets
         if (player.getInventory().contains(Material.GOLD_INGOT) && SpiritUtils.useSpiritItem(player, EntityType.PIGLIN)) {
-            Inventory inventory = player.getInventory();
+            final Inventory inventory = player.getInventory();
             for (ItemStack item : inventory.getContents()) {
                 if (item.getType() == Material.GOLD_INGOT) {
                     item.subtract();

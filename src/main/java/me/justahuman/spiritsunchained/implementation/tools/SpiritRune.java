@@ -69,14 +69,14 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
             return;
         }
 
-        Location l = rune.getLocation();
-        Collection<Entity> entities = l.getWorld().getNearbyEntities(l, RANGE, RANGE, RANGE, this::findCompatibleItem);
-        Optional<Entity> optional = entities.stream().findFirst();
+        final Location l = rune.getLocation();
+        final Collection<Entity> entities = l.getWorld().getNearbyEntities(l, RANGE, RANGE, RANGE, this::findCompatibleItem);
+        final Optional<Entity> optional = entities.stream().findFirst();
 
         if (optional.isPresent()) {
-            Item item = (Item) optional.get();
-            ItemStack itemStack = item.getItemStack();
-            ItemStack runeStack = rune.getItemStack();
+            final Item item = (Item) optional.get();
+            final ItemStack itemStack = item.getItemStack();
+            final ItemStack runeStack = rune.getItemStack();
             if (!itemStack.getType().name().endsWith("HELMET")) {
                 p.sendMessage(ChatColor.LIGHT_PURPLE + "The thrown Item is not a Helmet!");
                 return;
@@ -112,9 +112,9 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     public static void setImbued(@Nullable ItemStack item, Player p) {
         if (item != null && item.getType() != Material.AIR && !PersistentDataAPI.hasByte(item.getItemMeta(), Keys.imbuedKey)) {
-            ItemMeta meta = item.getItemMeta();
+            final ItemMeta meta = item.getItemMeta();
             PersistentDataAPI.setByte(meta, Keys.imbuedKey, (byte) 2);
-            List<Component> lore = meta.hasLore() ? meta.lore() : new ArrayList<>();
+            final List<Component> lore = meta.hasLore() ? meta.lore() : new ArrayList<>();
             lore.add(Component.text(IMBUED_LORE));
             meta.lore(lore);
             item.setItemMeta(meta);

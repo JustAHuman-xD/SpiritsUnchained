@@ -36,27 +36,27 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
     }
 
     private void checkSpirits(Player player, Map<EntityType, SpiritDefinition> spiritMap) {
-        Inventory inventory = player.getInventory();
-        ItemStack[] contents = inventory.getContents();
+        final Inventory inventory = player.getInventory();
+        final ItemStack[] contents = inventory.getContents();
         for (ItemStack item : contents) {
             //If it's not a Spirit I don't want it
             if (item == null || ! (item.getType() == Material.FIREWORK_STAR) || ! SpiritUtils.isSpiritItem(item)) {
                 continue;
             }
-            Location location = player.getLocation();
-            World world = player.getWorld();
-            ItemMeta meta = item.getItemMeta();
-            String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
-            SpiritDefinition definition = spiritMap.get(EntityType.valueOf(PersistentDataAPI.getString(meta, Keys.spiritItemKey)));
-            Map<String, List<EntityType>> relations = definition.getRelations();
+            final Location location = player.getLocation();
+            final World world = player.getWorld();
+            final ItemMeta meta = item.getItemMeta();
+            final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
+            final SpiritDefinition definition = spiritMap.get(EntityType.valueOf(PersistentDataAPI.getString(meta, Keys.spiritItemKey)));
+            final Map<String, List<EntityType>> relations = definition.getRelations();
 
             for (EntityType type : relations.get("Scare")) {
-                ItemStack scared = SpiritUtils.getSpiritItem(player, type);
+                final ItemStack scared = SpiritUtils.getSpiritItem(player, type);
 
                 if (scared == null) {
                     continue;
                 }
-                ItemMeta scaredMeta = scared.getItemMeta();
+                final ItemMeta scaredMeta = scared.getItemMeta();
                 PersistentDataAPI.setDouble(scaredMeta, Keys.spiritProgressKey, PersistentDataAPI.getDouble(scaredMeta, Keys.spiritProgressKey) - ((double) 1 / new Random().nextInt(1, 5)));
                 scared.setItemMeta(scaredMeta);
                 world.dropItemNaturally(location, scared.clone());
@@ -67,10 +67,10 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
 
             if (SpiritsUnchained.getInstance().getConfig().getBoolean("hostile-movement", true)) {
                 if (state.equals("Hostile")) {
-                    int index = new Random().nextInt(contents.length);
-                    ItemStack toMove = inventory.getItem(index) != null ? inventory.getItem(index).clone() : null;
-                    int moveTo = new Random().nextInt(contents.length);
-                    ItemStack toSwitch = inventory.getItem(moveTo) != null ? inventory.getItem(moveTo).clone() : null;
+                    final int index = new Random().nextInt(contents.length);
+                    final ItemStack toMove = inventory.getItem(index) != null ? inventory.getItem(index).clone() : null;
+                    final int moveTo = new Random().nextInt(contents.length);
+                    final ItemStack toSwitch = inventory.getItem(moveTo) != null ? inventory.getItem(moveTo).clone() : null;
                     inventory.setItem(index, toSwitch);
                     inventory.setItem(moveTo, toMove);
                 }

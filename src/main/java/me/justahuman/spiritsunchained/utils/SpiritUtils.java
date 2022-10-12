@@ -7,6 +7,9 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.tools.SpiritLenses;
+import me.justahuman.spiritsunchained.managers.ConfigManager;
+import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
+import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 
 import net.kyori.adventure.text.Component;
@@ -50,10 +53,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritUtils {
 
-    public static Map<Integer, Entity> SpiritIdMap = new HashMap<>();
+    public final static Map<Integer, Entity> SpiritIdMap = new HashMap<>();
+    private final static ConfigManager configManager = SpiritsUnchained.getConfigManager();
+    private final static SpiritEntityManager spiritEntityManager = SpiritsUnchained.getSpiritEntityManager();
+    private final static SpiritsManager spiritsManager = SpiritsUnchained.getSpiritsManager();
+
+    private final static Map<EntityType, SpiritDefinition> spiritMap = spiritsManager.getSpiritMap();
+    private final static FileConfiguration config = SpiritsUnchained.getInstance().getConfig();
 
     public static List<String> getStates() {
-        List<String> states = new ArrayList<>();
+        final List<String> states = new ArrayList<>();
         states.add("Hostile");
         states.add("Aggressive");
         states.add("Passive");
@@ -63,8 +72,8 @@ public class SpiritUtils {
     }
 
     public static List<String> getTypes() {
-        List<String> types = new ArrayList<>();
-        for (EntityType type : SpiritsUnchained.getSpiritsManager().getSpiritMap().keySet()) {
+        final List<String> types = new ArrayList<>();
+        for (EntityType type : spiritMap.keySet()) {
             types.add(type.name());
         }
         return types;
@@ -162,9 +171,9 @@ public class SpiritUtils {
     }
     @ParametersAreNonnullByDefault
     public static Map<String, Object> getTraitInfo(String traitId) {
-        FileConfiguration traits = SpiritsUnchained.getConfigManager().getTraits();
-        ConfigurationSection trait = traits.getConfigurationSection(traitId);
-        Map<String, Object> toReturn = new HashMap<>();
+        final FileConfiguration traits = configManager.getTraits();
+        final ConfigurationSection trait = traits.getConfigurationSection(traitId);
+        final Map<String, Object> toReturn = new HashMap<>();
         if (trait == null) {return toReturn;}
         toReturn.put("id", traitId);
         toReturn.put("name", trait.getString("name"));
@@ -176,7 +185,7 @@ public class SpiritUtils {
 
     @ParametersAreNonnullByDefault
     public static void spawnStateParticle(String state, Location location) {
-        Particle.DustOptions dustOptions;
+        final Particle.DustOptions dustOptions;
         switch(state) {
             default -> dustOptions = new Particle.DustOptions(Color.fromRGB(80,80,80), 1);
             case "Hostile" -> dustOptions = new Particle.DustOptions(Color.fromRGB(180,0,0), 1);
@@ -184,7 +193,7 @@ public class SpiritUtils {
             case "Gentle" -> dustOptions = new Particle.DustOptions(Color.fromRGB(20,200,20), 1);
             case "Friendly" -> dustOptions = new Particle.DustOptions(Color.fromRGB(0,180,20), 1);
         }
-        Collection<Player> collection = getNearImbued(location);
+        final Collection<Player> collection = getNearImbued(location);
         for (Player player : collection) {
             player.spawnParticle(Particle.REDSTONE, location.clone().add(0,0.5,0), 1, 0, 0, 0, dustOptions);
         }
@@ -195,7 +204,7 @@ public class SpiritUtils {
     }
 
     public static ItemStack getSpiritItem(Player player, EntityType type) {
-        Inventory inventory = player.getInventory();
+        final Inventory inventory = player.getInventory();
         if (inventory.contains(Material.FIREWORK_STAR)) {
             for (ItemStack item : inventory.getContents()) {
                 if (item != null && item.getType() == Material.FIREWORK_STAR && isSpiritItem(item) && PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey).equals(String.valueOf(type)) ) {
@@ -223,12 +232,12 @@ public class SpiritUtils {
         if (player == null) {
             return false;
         }
-        ItemStack spiritItem = getSpiritItem(player, type);
+        final ItemStack spiritItem = getSpiritItem(player, type);
         if (spiritItem != null) {
-            ItemMeta meta = spiritItem.getItemMeta();
-            String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
-            double progress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
-            SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
+            final ItemMeta meta = spiritItem.getItemMeta();
+            final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
+            final double progress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
+            final SpiritDefinition definition = spiritMap.get(type);
             if (getStates().indexOf(state) > 2 && progress >= getTraitUsage(definition.getTrait())) {
                 updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
                 return true;
@@ -238,41 +247,40 @@ public class SpiritUtils {
     }
 
     public static boolean updateSpiritItemProgress(ItemStack item, double updateWith) {
-        ItemMeta meta = item.getItemMeta();
-        List<Component> lore = meta.lore();
+        final ItemMeta meta = item.getItemMeta();
+        final List<Component> lore = meta.lore();
         String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
-        double progress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
-        double newProgress = progress + updateWith;
+        double progress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey) + updateWith;
         boolean toReturn = false;
-        if (newProgress >= 100) {
+        if (progress >= 100) {
             int index = getStates().indexOf(state);
             boolean canIncrease = ! getStates().get(getStates().size()-1).equals(state);
             state = canIncrease ? getStates().get(index + 1) : state;
-            newProgress = canIncrease ? newProgress - 100.0 : 100.0;
+            progress = canIncrease ? progress - 100.0 : 100.0;
             toReturn = true;
-        } else if (newProgress <= 0) {
+        } else if (progress <= 0) {
             int index = getStates().indexOf(state);
             boolean canDecrease = !(index == 0);
             state = canDecrease ? getStates().get(index - 1) : state;
-            newProgress = canDecrease ? newProgress + 100.0 : 0.0;
+            progress = canDecrease ? progress + 100.0 : 0.0;
             toReturn = true;
         }
-        newProgress = new BigDecimal(newProgress).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, newProgress);
+        progress = new BigDecimal(progress).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, progress);
         PersistentDataAPI.setString(meta, Keys.spiritStateKey, state);
         lore.set(2, Component.text(ChatColors.color("&fCurrent State: " + stateColor(state) + state)));
-        lore.set(5, Component.text(ChatColors.color("&fProgress: " + getProgress(newProgress))));
+        lore.set(5, Component.text(ChatColors.color("&fProgress: " + getProgress(progress))));
         meta.lore(lore);
         item.setItemMeta(meta);
         return toReturn;
     }
     @ParametersAreNonnullByDefault
     public static Collection<Entity> getNearbySpirits(Location location) {
-        Collection<Entity> nearbyEntities = location.getNearbyEntities(48, 48, 48);
-        Collection<Entity> returnList = new ArrayList<>();
+        final Collection<Entity> nearbyEntities = location.getNearbyEntities(48, 48, 48);
+        final Collection<Entity> returnList = new ArrayList<>();
         if (nearbyEntities.size() < 1) {return returnList;}
         for (Entity entity : nearbyEntities) {
-            if (! (SpiritsUnchained.getSpiritEntityManager().getCustomClass(entity, null) == null)) {
+            if (! (spiritEntityManager.getCustomClass(entity, null) == null)) {
                 returnList.add(entity);
             }
         }
@@ -281,14 +289,14 @@ public class SpiritUtils {
 
     @Nullable
     public static String getSpawnMob(Location location) {
-        List<List<EntityType>> tierMap = SpiritsUnchained.getSpiritsManager().getTierMaps();
-        World world = location.getWorld();
-        Biome biome = location.getBlock().getBiome();
-        World.Environment dimension = world.getEnvironment();
-        boolean isDay = world.isDayTime();
-        int chance = ThreadLocalRandom.current().nextInt(1, 100);
+        final List<List<EntityType>> tierMap = spiritsManager.getTierMaps();
+        final World world = location.getWorld();
+        final Biome biome = location.getBlock().getBiome();
+        final World.Environment dimension = world.getEnvironment();
+        final boolean isDay = world.isDayTime();
+        final int chance = ThreadLocalRandom.current().nextInt(1, 100);
         String spirit = null;
-        int tier;
+        final int tier;
         if (chance > 40) {
             tier = 0;
         } else if (chance > 10) {
@@ -300,29 +308,29 @@ public class SpiritUtils {
         } else {
             tier = 0;
         }
-        List<EntityType> getFrom = tierMap.get(tier);
+        final List<EntityType> getFrom = tierMap.get(tier);
         Collections.shuffle(getFrom);
         for (EntityType entityType : getFrom) {
-            SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(entityType);
+            if (spirit != null) {
+                continue;
+            }
+            final SpiritDefinition definition = spiritMap.get(entityType);
+            final List<String> times = definition.getTimes();
             if (dimension != World.Environment.valueOf(definition.getDimension())) {continue;} // Check if Dimensions Match Up
             if (definition.getTimes().size() > 0) { //Check if the Spirit has a Time Requirement & if it does then is it Met
-                boolean timeRight = false;
-                for (String time : definition.getTimes()) {
-                    if (time.equals("Day") && isDay) {timeRight = true;}
-                    if (time.equals("Night") && !isDay) {timeRight = true;}
+                final boolean timeRight = (times.contains("Day") && isDay) || (times.contains("Night") && !isDay);
+                if (!timeRight) {
+                    continue;
                 }
-                if (!timeRight) {continue;}
             }
             if (definition.getBiome_group().size() > 0) {
                 boolean inBiome = false;
                 for (String biomeId : definition.getBiome_group()) {
-                    for (String CurrentBiome : SpiritsUnchained.getConfigManager().getBiomeMap().get(biomeId)) {
-                        if (biome == Biome.valueOf(CurrentBiome.toUpperCase())) {
-                            inBiome = true;
-                        }
-                    }
+                    inBiome = inBiome || configManager.getBiomeMap().get(biomeId).contains(biome.name());
                 }
-                if (!inBiome) {continue;}
+                if (!inBiome) {
+                    continue;
+                }
             }
             spirit = entityType.name();
         }
@@ -330,7 +338,7 @@ public class SpiritUtils {
     }
 
     public static boolean canSpawn() {
-        return SpiritIdMap.size() < SpiritsUnchained.getInstance().getConfig().getInt("max-spirits", 40);
+        return SpiritIdMap.size() < config.getInt("max-spirits", 40);
     }
 
     public static boolean imbuedCheck(ItemStack helmetItem) {
@@ -338,11 +346,11 @@ public class SpiritUtils {
     }
 
     public static Collection<Player> getNearImbued(Location location) {
-        Collection<Entity> collection = location.getWorld().getNearbyEntities(location, 48, 48, 48);
-        Collection<Player> toReturn = new ArrayList<>();
+        final Collection<Entity> collection = location.getWorld().getNearbyEntities(location, 48, 48, 48);
+        final Collection<Player> toReturn = new ArrayList<>();
         for (Entity entity : collection) {
             if (entity instanceof Player player) {
-                ItemStack helmetItem = player.getInventory().getHelmet();
+                final ItemStack helmetItem = player.getInventory().getHelmet();
                 if (helmetItem == null) {continue;}
                 if (imbuedCheck(helmetItem)) {
                     toReturn.add(player);
@@ -353,18 +361,18 @@ public class SpiritUtils {
     }
 
     public static int getPlayerCap() {
-        return SpiritsUnchained.getInstance().getConfig().getInt("player-spirit-cap", 4);
+        return config.getInt("player-spirit-cap", 4);
     }
 
     public static ItemStack SpiritItem(String state, SpiritDefinition definition) {
-        ItemStack itemStack = new ItemStack(Material.FIREWORK_STAR);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        List<Component> itemLore = new ArrayList<>();
+        final ItemStack itemStack = new ItemStack(Material.FIREWORK_STAR);
+        final ItemMeta itemMeta = itemStack.getItemMeta();
+        final List<Component> itemLore = new ArrayList<>();
 
-        ChatColor tierColor = tierColor(definition.getTier());
-        ChatColor stateColor = stateColor(state);
-        String spiritType  = ChatUtils.humanize(definition.getType().name());
-        Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
+        final ChatColor tierColor = tierColor(definition.getTier());
+        final ChatColor stateColor = stateColor(state);
+        final String spiritType  = ChatUtils.humanize(definition.getType().name());
+        final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
 
         ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
 
@@ -390,8 +398,8 @@ public class SpiritUtils {
     }
 
     public static String getProgress(double Progress) {
-        String base = "¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦";
-        int divideAt = (int) (Progress/5);
+        final String base = "¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦";
+        final int divideAt = (int) (Progress/5);
         return Progress + "% " +  ChatColors.color(ChatColor.GREEN + base.substring(0, divideAt) + ChatColor.GRAY + base.substring(divideAt));
     }
 
@@ -404,10 +412,9 @@ public class SpiritUtils {
     }
 
     public static Block getSpawnBlock(Location location) {
-        World world = location.getWorld();
-        World.Environment dimension = world.getEnvironment();
-        int x = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockX();
-        int z = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockZ();
+        final World world = location.getWorld();
+        final int x = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockX();
+        final int z = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockZ();
         int y = location.getBlockY();
         if (! (world.getBlockAt(x,y,z).getType() == Material.AIR)) {
             boolean foundAir = false;
@@ -422,7 +429,7 @@ public class SpiritUtils {
     }
 
     public static List<Entity> getLookingList(Player player){
-        List<Entity> entities = new ArrayList<>();
+        final List<Entity> entities = new ArrayList<>();
         for(Entity e : player.getNearbyEntities(10, 10, 10)){
             if(e instanceof Allay){
                 if(getLookingAt(player, (LivingEntity) e)){
@@ -435,19 +442,19 @@ public class SpiritUtils {
     }
 
     public static boolean getLookingAt(Player player, LivingEntity livingEntity){
-        Location eye = player.getEyeLocation();
-        Vector toEntity = livingEntity.getLocation().toVector().subtract(eye.toVector());
-        double dot = toEntity.normalize().dot(eye.getDirection());
+        final Location eye = player.getEyeLocation();
+        final Vector toEntity = livingEntity.getLocation().toVector().subtract(eye.toVector());
+        final double dot = toEntity.normalize().dot(eye.getDirection());
         return dot > 0.99D;
     }
 
     public static Entity spawnProjectile(Player player, Class<? extends Entity> entity, String reason) {
-        Location location = player.getLocation();
-        float yaw = location.getYaw();
-        double D = 1;
-        double x = -D*Math.sin(yaw*Math.PI/180);
-        double z = D*Math.cos(yaw*Math.PI/180);
-        Entity projectile = player.getWorld().spawn(location.add(x, 1.162, z), entity);
+        final Location location = player.getLocation();
+        final float yaw = location.getYaw();
+        final double D = 1;
+        final double x = -D*Math.sin(yaw*Math.PI/180);
+        final double z = D*Math.cos(yaw*Math.PI/180);
+        final Entity projectile = player.getWorld().spawn(location.add(x, 1.162, z), entity);
         projectile.setVelocity(location.getDirection().multiply(2));
         PersistentDataAPI.setString(projectile, Keys.entityKey, reason);
         PersistentDataAPI.setString(projectile, Keys.ownerKey, player.getUniqueId().toString());
@@ -455,11 +462,11 @@ public class SpiritUtils {
     }
 
     public static List<Block> getNearbyBlocks(Block block, int radius) {
-        List<Block> toReturn = new ArrayList<>();
+        final List<Block> toReturn = new ArrayList<>();
         for (int x = -radius; x < radius+1; x++) {
             for (int y = -radius; y < radius+1; y++) {
                 for (int z = -radius; z < radius+1; z++) {
-                    Block relative = block.getRelative(x,y,z);
+                    final Block relative = block.getRelative(x,y,z);
                     toReturn.add(relative);
                 }
             }
@@ -468,10 +475,11 @@ public class SpiritUtils {
     }
 
     public static ItemStack getFilledSpiritBook(SpiritDefinition definition, int knowledgeLevel) {
-        ItemStack filledBook = new ItemStack(Material.WRITTEN_BOOK);
-        BookMeta bookMeta = (BookMeta) filledBook.getItemMeta();
-        ChatColor tierColor = tierColor(definition.getTier());
-        String spiritName = ChatUtils.humanize(definition.getType().name()) + " Spirit";
+        final ChatColor tierColor = tierColor(definition.getTier());
+        final String spiritName = ChatUtils.humanize(definition.getType().name()) + " Spirit";
+
+        final ItemStack filledBook = new ItemStack(Material.WRITTEN_BOOK);
+        final BookMeta bookMeta = (BookMeta) filledBook.getItemMeta();
 
         bookMeta.addPages(Component.text("Example Book Test (Left for Polishing Stage)"));
         bookMeta.setAuthor(ChatColors.color(tierColor + spiritName));

@@ -50,7 +50,7 @@ public class ConfigManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+        final FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
         try {
             configuration.load(file);
             if (override) {
@@ -74,7 +74,7 @@ public class ConfigManager {
 
     public void save() {
         LogUtils.LogInfo("Saving Player Data");
-        File file = new File(SpiritsUnchained.getInstance().getDataFolder(), "player-data.yml");
+        final File file = new File(SpiritsUnchained.getInstance().getDataFolder(), "player-data.yml");
         try {
             playerData.save(file);
         } catch (IOException exception) {
@@ -83,7 +83,7 @@ public class ConfigManager {
     }
 
     private Map<String, List<String>> fillBiomeMap() {
-        Map<String, List<String>> finalMap = new HashMap<>();
+        final Map<String, List<String>> finalMap = new HashMap<>();
         for (String group : biomeGroups.getKeys(false)) {
             finalMap.put(group, biomeGroups.getStringList(group));
         }

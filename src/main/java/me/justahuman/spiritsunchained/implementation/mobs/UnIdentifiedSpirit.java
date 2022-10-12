@@ -45,10 +45,10 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Nonnull
     @Override
     public Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
-        Allay mob = world.spawn(loc, this.getClazz());
+        final Allay mob = world.spawn(loc, this.getClazz());
         SpiritUtils.SpiritIdMap.put(mob.getEntityId(), mob);
-        SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
-        String state;
+        final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
+        final String state;
 
         if (reason.equals("Natural")) {
             state = definition.getStates().get(new Random().nextInt(definition.getStates().size()));
@@ -99,7 +99,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onDeath(EntityDeathEvent event) {
-        Allay allay = (Allay) event.getEntity();
+        final Allay allay = (Allay) event.getEntity();
         if (allay.getKiller() != null) {
             event.getDrops().add(ItemStacks.SU_ECTOPLASM);
             return;
@@ -110,12 +110,14 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onInteract(PlayerInteractEntityEvent event) {
-        Player player = event.getPlayer();
-        Entity entity = event.getRightClicked();
-        EquipmentSlot hand = event.getHand();
-        ItemStack item = player.getInventory().getItem(hand);
+        final Player player = event.getPlayer();
+        final Entity entity = event.getRightClicked();
+        final EquipmentSlot hand = event.getHand();
+        final ItemStack item = player.getInventory().getItem(hand);
 
-        if (item.getType() == Material.AIR) {return;}
+        if (item.getType() == Material.AIR) {
+            return;
+        }
 
         if (SlimefunItem.getByItem(item) instanceof SpiritNet) {
             ParticleUtils.catchAnimation(entity.getLocation());

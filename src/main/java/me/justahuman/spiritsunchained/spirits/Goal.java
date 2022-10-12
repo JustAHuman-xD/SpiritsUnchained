@@ -30,19 +30,16 @@ public class Goal {
     }
 
     private ItemStack getTypeStack(String type, String what, int amount) {
-        String addition = "";
-        if (amount > 1) {
-            addition = "s";
-        }
-        String loreEnd = amount + " " + ChatUtils.humanize(what);
-        ItemStack kill = new CustomItemStack(
+        final String addition = amount > 1 ? "s" : "";
+        final String loreEnd = amount + " " + ChatUtils.humanize(what);
+        final ItemStack kill = new CustomItemStack(
                 Material.DIAMOND_SWORD,
                 "&bPass On Task:",
                 "",
                 "&bType: &7Kill Mob" + addition,
                 "&bTask: &7Kill " + loreEnd + addition
         );
-        ItemStack item = new CustomItemStack(
+        final ItemStack item = new CustomItemStack(
                 Material.STICK,
                 "&bPass On Task:",
                 "",
@@ -65,9 +62,9 @@ public class Goal {
         );
         if (type.equals("SlimefunItem")) {
             try {
-                ItemStack properSlimefunItem = SpiritsUnchained.getSlimefunItem(what).clone();
-                List<Component> newLore = slimefunItem.lore();
-                ItemMeta newMeta = properSlimefunItem.getItemMeta();
+                final ItemStack properSlimefunItem = SpiritsUnchained.getSlimefunItem(what).clone();
+                final List<Component> newLore = slimefunItem.lore();
+                final ItemMeta newMeta = properSlimefunItem.getItemMeta();
                 newLore.set(2, Component.text(ChatColors.color(ChatColor.AQUA + "Task: " + ChatColor.GRAY + "Give " + properSlimefunItem.getItemMeta().displayName())));
                 newMeta.displayName(Component.text(ChatColors.color(ChatColor.AQUA + "Pass On Task:")));
                 properSlimefunItem.setItemMeta(newMeta);
@@ -77,7 +74,7 @@ public class Goal {
                 e.printStackTrace();
             }
         }
-        ItemStack breed = new CustomItemStack(
+        final ItemStack breed = new CustomItemStack(
                 Material.WHEAT,
                 "&eBreed Mobs",
                 "",

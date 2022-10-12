@@ -20,20 +20,29 @@ public class PlayerReleaseSpiritListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void playerReleaseSpirit(EntityDeathEvent e) {
-        LivingEntity killedEntity = e.getEntity();
-        Player player = killedEntity.getKiller();
+        final LivingEntity killedEntity = e.getEntity();
+        final Player player = killedEntity.getKiller();
 
-        if (player == null) {return;}
+        if (player == null) {
+            return;
+        }
 
-        ItemStack helmetItem = player.getInventory().getHelmet();
+        final ItemStack helmetItem = player.getInventory().getHelmet();
 
-        if (helmetItem == null) {return;}
+        if (helmetItem == null) {
+            return;
+        }
 
-        EntityType type = killedEntity.getType();
-        AbstractCustomMob<?> spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, type + "_SPIRIT");
-        if ( spirit == null) {return;}
-        SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
-        int chance = ThreadLocalRandom.current().nextInt(1, 100);
+        final EntityType type = killedEntity.getType();
+        final AbstractCustomMob<?> spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, type + "_SPIRIT");
+
+        if ( spirit == null) {
+            return;
+        }
+
+        final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
+        final int chance = ThreadLocalRandom.current().nextInt(1, 100);
+
         if (SpiritUtils.imbuedCheck(helmetItem) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap()) {
             spirit.spawn(killedEntity.getLocation(), killedEntity.getWorld(), "Hostile", null);
         }
