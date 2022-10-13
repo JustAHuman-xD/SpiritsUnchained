@@ -215,6 +215,10 @@ public class SpiritUtils {
         return null;
     }
 
+    public static SpiritDefinition getSpiritDefinition(ItemStack item) {
+        return spiritMap.get(EntityType.valueOf(PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey)));
+    }
+
     public static double getTraitUsage(String trait) {
         return switch(trait) {
             case "Multishoot", "Hunger_Hit", "Slow_Shot" -> 2;

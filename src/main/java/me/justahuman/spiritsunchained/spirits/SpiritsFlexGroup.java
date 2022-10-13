@@ -213,7 +213,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
         //Pass On Task
         if (PlayerUtils.hasKnowledgeLevel(player, entityType, 1) || mode == SlimefunGuideMode.CHEAT_MODE) {
-            menu.replaceExistingItem(GOAL_SLOT, definition.getGoal().getType());
+            menu.replaceExistingItem(GOAL_SLOT, definition.getGoal().getDisplayStack());
         } else {
             menu.replaceExistingItem(GOAL_SLOT, notEnoughKnowledge);
         }

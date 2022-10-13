@@ -1,0 +1,38 @@
+overrides: #Use this to grant spirit Specific Rewards
+#  COW:
+#    min: 1
+#    max: 10
+#    rewards:
+#      - STRING
+#      - MILK_BUCKET
+#      - COPPER_DUST
+
+tiered:
+  1:
+    min: 15 #Minimum amount it can Grant
+    max: 50 #Maximum amount it can Grant
+    rewards: #Will pick a random item from this list
+      - IRON_INGOT #Can be an Item type, or a Slimefun Item ID
+      - IRON_INGOT
+      - IRON_INGOT
+  2:
+    min: 10
+    max: 25
+    rewards:
+      - SYNTHETIC_SAPPHIRE
+      - SYNTHETIC_SAPPHIRE
+      - SYNTHETIC_SAPPHIRE
+  3:
+    min: 3
+    max: 10
+    rewards:
+      - DIAMOND
+      - DIAMOND
+      - DIAMOND
+  4:
+    min: 1
+    max: 5
+    rewards:
+      - CARBONADO
+      - CARBONADO
+      - CARBONADO

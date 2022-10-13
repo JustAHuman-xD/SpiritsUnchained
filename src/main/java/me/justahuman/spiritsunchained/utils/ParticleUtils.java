@@ -50,4 +50,8 @@ public class ParticleUtils {
     public static void bottleAnimation(Location location) {
         // TODO Polish and Add This
     }
+
+    public static void passOnAnimation(Location location) {
+        // TODO Polish and Add This
+    }
 }
