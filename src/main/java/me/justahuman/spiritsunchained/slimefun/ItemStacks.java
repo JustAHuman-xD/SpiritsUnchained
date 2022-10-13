@@ -1,16 +1,12 @@
 package me.justahuman.spiritsunchained.slimefun;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 
-import me.justahuman.spiritsunchained.utils.LogUtils;
-import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -168,12 +164,14 @@ public class ItemStacks {
 
     // Altar Building Blocks
 
+    public static final String altarText = "&7Used to Build a Spiritual Altar";
+
     public static final SlimefunItemStack SU_CHARGED_QUARTZ_I = new SlimefunItemStack(
             "SU_CHARGED_QUARTZ_I",
             Material.QUARTZ_BLOCK,
             "&eCharged Quartz I",
             "",
-            "&7Used to Build a Tier 1 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_CHARGED_STAIRS_I = new SlimefunItemStack(
@@ -181,7 +179,7 @@ public class ItemStacks {
             Material.QUARTZ_STAIRS,
             "&eCharged Stairs I",
             "",
-            "&7Used to Build a Tier 1 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_CHARGED_CORE_I = new SlimefunItemStack(
@@ -189,7 +187,7 @@ public class ItemStacks {
             Material.CHISELED_QUARTZ_BLOCK,
             "&eCharged Core I",
             "",
-            "&7Used to Build a Tier 1 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_CHARGED_QUARTZ_II = new SlimefunItemStack(
@@ -197,7 +195,7 @@ public class ItemStacks {
             Material.QUARTZ_BLOCK,
             "&eCharged Quartz II",
             "",
-            "&7Used to Build a Tier 2 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_CHARGED_PILLAR_II = new SlimefunItemStack(
@@ -205,14 +203,14 @@ public class ItemStacks {
             Material.QUARTZ_PILLAR,
             "&eCharged Pillar II",
             "",
-            "&7Used to Build a Tier 2 Spiritual Altar"
+            altarText
     );
     public static final SlimefunItemStack SU_CHARGED_STAIRS_II = new SlimefunItemStack(
             "SU_CHARGED_STAIRS_II",
             Material.QUARTZ_STAIRS,
             "&eCharged Stairs II",
             "",
-            "&7Used to Build a Tier 2 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_CHARGED_CORE_II = new SlimefunItemStack(
@@ -220,7 +218,7 @@ public class ItemStacks {
             Material.CHISELED_QUARTZ_BLOCK,
             "&eCharged Core II",
             "",
-            "&7Used to Build a Tier 2 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_CHARGED_QUARTZ_III = new SlimefunItemStack(
@@ -228,7 +226,7 @@ public class ItemStacks {
             Material.QUARTZ_BLOCK,
             "&eCharged Quartz III",
             "",
-            "&7Used to Build a Tier 3 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_CHARGED_PILLAR_III = new SlimefunItemStack(
@@ -236,7 +234,7 @@ public class ItemStacks {
             Material.QUARTZ_PILLAR,
             "&eCharged Pillar III",
             "",
-            "&7Used to Build a Tier 3 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_CHARGED_STAIRS_III = new SlimefunItemStack(
@@ -244,7 +242,7 @@ public class ItemStacks {
             Material.QUARTZ_STAIRS,
             "&eCharged Stairs III",
             "",
-            "&7Used to Build a Tier 3 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_CHARGED_CORE_III = new SlimefunItemStack(
@@ -252,7 +250,7 @@ public class ItemStacks {
             Material.CHISELED_QUARTZ_BLOCK,
             "&eCharged Core III",
             "",
-            "&7Used to Build a Tier 3 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_SMOOTH_CHARGED_QUARTZ_III = new SlimefunItemStack(
@@ -260,7 +258,7 @@ public class ItemStacks {
             Material.SMOOTH_QUARTZ,
             "&eSmooth Charged Quartz III",
             "",
-            "&7Used to Build a Tier 3 Spiritual Altar"
+            altarText
     );
 
     public static final SlimefunItemStack SU_SMOOTH_CHARGED_STAIRS_III = new SlimefunItemStack(
@@ -268,7 +266,7 @@ public class ItemStacks {
             Material.SMOOTH_QUARTZ_STAIRS,
             "&eSmooth Charged Stairs III",
             "",
-            "&7Used to Build a Tier 3 Spiritual Altar"
+            altarText
     );
 
 }

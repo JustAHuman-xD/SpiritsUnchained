@@ -40,7 +40,7 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
         final ItemStack[] contents = inventory.getContents();
         for (ItemStack item : contents) {
             //If it's not a Spirit I don't want it
-            if (item == null || ! (item.getType() == Material.FIREWORK_STAR) || ! SpiritUtils.isSpiritItem(item)) {
+            if (item == null || item.getType() != Material.FIREWORK_STAR || ! SpiritUtils.isSpiritItem(item)) {
                 continue;
             }
             final Location location = player.getLocation();
@@ -56,6 +56,7 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
                 if (scared == null) {
                     continue;
                 }
+
                 final ItemMeta scaredMeta = scared.getItemMeta();
                 PersistentDataAPI.setDouble(scaredMeta, Keys.spiritProgressKey, PersistentDataAPI.getDouble(scaredMeta, Keys.spiritProgressKey) - ((double) 1 / new Random().nextInt(1, 5)));
                 scared.setItemMeta(scaredMeta);
@@ -65,21 +66,17 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
                 ParticleUtils.spawnParticleRadius(location, Particle.REDSTONE, 3, 30, true, false, new Particle.DustOptions(Color.fromRGB(255,0,0), 1));
             }
 
-            if (SpiritsUnchained.getInstance().getConfig().getBoolean("hostile-movement", true)) {
-                if (state.equals("Hostile")) {
-                    final int index = new Random().nextInt(contents.length);
-                    final ItemStack toMove = inventory.getItem(index) != null ? inventory.getItem(index).clone() : null;
-                    final int moveTo = new Random().nextInt(contents.length);
-                    final ItemStack toSwitch = inventory.getItem(moveTo) != null ? inventory.getItem(moveTo).clone() : null;
-                    inventory.setItem(index, toSwitch);
-                    inventory.setItem(moveTo, toMove);
-                }
+            if (SpiritsUnchained.getInstance().getConfig().getBoolean("hostile-movement", true) && state.equals("Hostile")) {
+                final int index = new Random().nextInt(contents.length);
+                final ItemStack toMove = inventory.getItem(index) != null ? inventory.getItem(index).clone() : null;
+                final int moveTo = new Random().nextInt(contents.length);
+                final ItemStack toSwitch = inventory.getItem(moveTo) != null ? inventory.getItem(moveTo).clone() : null;
+                inventory.setItem(index, toSwitch);
+                inventory.setItem(moveTo, toMove);
             }
 
-            if (SpiritsUnchained.getInstance().getConfig().getBoolean("aggressive-damage", true)) {
-                if (state.equals("Hostile") || state.equals("Aggressive")) {
-                    player.damage(new Random().nextInt(2));
-                }
+            if (SpiritsUnchained.getInstance().getConfig().getBoolean("aggressive-damage", true) && (state.equals("Hostile") || state.equals("Aggressive"))) {
+                player.damage(new Random().nextInt(2));
             }
         }
     }

@@ -9,28 +9,24 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.implementation.mobs.Spirit;
 import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
+import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
-import me.justahuman.spiritsunchained.implementation.tools.IdentifyingGlass;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerStatisticIncrementEvent;
-
-import java.util.List;
 
 public class IdentifyingGlassListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
@@ -40,7 +36,10 @@ public class IdentifyingGlassListener implements Listener {
         if (evt.getStatistic() != Statistic.USE_ITEM || evt.getMaterial() != Material.SPYGLASS) {
             return;
         }
-        if (!(SlimefunItem.getByItem(player.getInventory().getItemInMainHand()) instanceof IdentifyingGlass || SlimefunItem.getByItem(player.getInventory().getItemInOffHand()) instanceof IdentifyingGlass)) {
+
+        SlimefunItem slimefunItem1 = SlimefunItem.getByItem(player.getInventory().getItemInMainHand());
+        SlimefunItem slimefunItem2 = SlimefunItem.getByItem(player.getInventory().getItemInOffHand());
+        if (!((slimefunItem1 != null && slimefunItem1.getId().equals(ItemStacks.SU_IDENTIFYING_GLASS.getItemId())) || (slimefunItem2 != null && slimefunItem2.getId().equals(ItemStacks.SU_IDENTIFYING_GLASS.getItemId())))) {
             return;
         }
 

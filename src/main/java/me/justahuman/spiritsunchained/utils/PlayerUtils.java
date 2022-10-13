@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class PlayerUtils {
 
-    final static ConfigManager configManager = SpiritsUnchained.getConfigManager();
+    static final ConfigManager configManager = SpiritsUnchained.getConfigManager();
 
     //There are 3 levels of Knowledge about a Spirit (4 including Level: 0)
     //At Level 1 you learn what it needs to Pass On, Unlocked with a Spirit Book

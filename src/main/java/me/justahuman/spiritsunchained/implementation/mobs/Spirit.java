@@ -6,8 +6,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import lombok.Getter;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.implementation.tools.SpiritBook;
-import me.justahuman.spiritsunchained.implementation.tools.SpiritNet;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.Keys;
@@ -24,6 +22,7 @@ import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -39,7 +38,7 @@ import java.util.Random;
 public class Spirit extends AbstractCustomMob<Allay> {
 
     @Getter
-    private final int particleCount = 4;
+    private static final int particleCount = 4;
     @Getter
     private final SpiritDefinition definition;
 
@@ -48,6 +47,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
         this.definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(soulType);
     }
 
+    @Override
     @Nonnull
     public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String revealState) {
         final double health = this.getMaxHealth()*definition.getTier();
@@ -61,7 +61,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
         }
 
         final Allay mob = world.spawn(loc, this.getClazz());
-        SpiritUtils.SpiritIdMap.put(mob.getEntityId(), mob);
+        SpiritUtils.spiritIdMap.put(mob.getEntityId(), mob);
         PersistentDataAPI.setString(mob, Keys.entityKey, this.getId());
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
 
@@ -100,9 +100,15 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onDeath(EntityDeathEvent event) {
-        final ItemStack todrop = ItemStacks.SU_ECTOPLASM.clone();
-        todrop.setAmount(definition.getTier() + 1);
-        event.getDrops().add(todrop);
+        final ItemStack toDrop = ItemStacks.SU_ECTOPLASM.clone();
+        toDrop.setAmount(definition.getTier() + 1);
+        event.getDrops().add(toDrop);
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
+    public void onHit(EntityDamageByEntityEvent event) {
+        event.setCancelled(true);
     }
 
     @Override
@@ -118,16 +124,17 @@ public class Spirit extends AbstractCustomMob<Allay> {
         if (item.getType() == Material.AIR) {
             return;
         }
-        if (SlimefunItem.getByItem(item) instanceof SpiritNet) {
+        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+        if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_NET.getItemId())) {
             if (new Random().nextInt(1,100) <= SpiritUtils.getTierChance(tier)) {
                 //ParticleUtils.catchAnimation(entity.getLocation());
                 entity.remove();
-                PlayerUtils.addOrDropItem(player, SpiritUtils.SpiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
+                PlayerUtils.addOrDropItem(player, SpiritUtils.spiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
             } else {
                 player.sendMessage("The Spirit Escaped the Net!");
             }
             item.subtract();
-        } else if (SlimefunItem.getByItem(item) instanceof SpiritBook) {
+        } else if(slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_BOOK.getItemId())) {
             if (new Random().nextInt(1, 100) <= SpiritUtils.getTierChance(tier)) {
                 int currentKnowledge = PlayerUtils.getKnowledgeLevel(player, type);
                 if (currentKnowledge < 2) {

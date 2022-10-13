@@ -6,20 +6,20 @@ import org.bukkit.NamespacedKey;
 
 public class Keys {
 
-    private final static SpiritsUnchained instance = SpiritsUnchained.getInstance();
-    public final static NamespacedKey entityKey = new NamespacedKey(instance, "living_entity");
-    public final static NamespacedKey spiritTypeKey = new NamespacedKey(instance, "spirit_type");
-    public final static NamespacedKey spiritIdentified = new NamespacedKey(instance, "identified");
-    public final static NamespacedKey spiritStateKey = new NamespacedKey(instance, "state");
-    public final static NamespacedKey imbuedKey = new NamespacedKey(instance, "imbued");
-    public final static NamespacedKey spiritItemKey = new NamespacedKey(instance, "spirit_item");
-    public final static NamespacedKey spiritProgressKey = new NamespacedKey(instance, "state_progress");
-    public final static NamespacedKey spiritInteractKey = new NamespacedKey(instance, "spirit_interact");
-    public final static NamespacedKey ownerKey = new NamespacedKey(instance, "owner");
+    private static final SpiritsUnchained instance = SpiritsUnchained.getInstance();
+    public static final NamespacedKey entityKey = new NamespacedKey(instance, "living_entity");
+    public static final NamespacedKey spiritTypeKey = new NamespacedKey(instance, "spirit_type");
+    public static final NamespacedKey spiritIdentified = new NamespacedKey(instance, "identified");
+    public static final NamespacedKey spiritStateKey = new NamespacedKey(instance, "state");
+    public static final NamespacedKey imbuedKey = new NamespacedKey(instance, "imbued");
+    public static final NamespacedKey spiritItemKey = new NamespacedKey(instance, "spirit_item");
+    public static final NamespacedKey spiritProgressKey = new NamespacedKey(instance, "state_progress");
+    public static final NamespacedKey spiritInteractKey = new NamespacedKey(instance, "spirit_interact");
+    public static final NamespacedKey ownerKey = new NamespacedKey(instance, "owner");
 
-    public final static NamespacedKey immuneKey = new NamespacedKey(instance, "immune");
-    public final static NamespacedKey heavyHitKey = new NamespacedKey(instance, "heavy_hit");
-    public final static NamespacedKey speedyEscape = new NamespacedKey(instance, "speedy_escape");
-    public final static NamespacedKey strongBones = new NamespacedKey(instance, "strong_bones");
-    public final static NamespacedKey playDead = new NamespacedKey(instance, "play_dead");
+    public static final NamespacedKey immuneKey = new NamespacedKey(instance, "immune");
+    public static final NamespacedKey heavyHitKey = new NamespacedKey(instance, "heavy_hit");
+    public static final NamespacedKey speedyEscape = new NamespacedKey(instance, "speedy_escape");
+    public static final NamespacedKey strongBones = new NamespacedKey(instance, "strong_bones");
+    public static final NamespacedKey playDead = new NamespacedKey(instance, "play_dead");
 }

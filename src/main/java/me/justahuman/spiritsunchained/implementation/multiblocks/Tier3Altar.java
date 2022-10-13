@@ -23,6 +23,9 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class Tier3Altar extends SlimefunItem {
+
+    private static final String complete = "complete";
+
     public Tier3Altar() {
         super(Groups.SU_ALTAR_3, ItemStacks.SU_CHARGED_CORE_III, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 null, ItemStacks.SU_CHARGED_QUARTZ_III, null,
@@ -57,10 +60,10 @@ public class Tier3Altar extends SlimefunItem {
                 BlockStorage.addBlockInfo(b, "particle", "8");
                 BlockStorage.addBlockInfo(b, "multiplier", "4.0");
                 if (isComplete(b)) {
-                    BlockStorage.addBlockInfo(b, "complete", "true");
+                    BlockStorage.addBlockInfo(b, complete, "true");
                     e.getPlayer().sendMessage(ChatColor.AQUA + "The Spiritual Altar (Tier 3) has been activated!");
                 } else {
-                    BlockStorage.addBlockInfo(b, "complete", "false");
+                    BlockStorage.addBlockInfo(b, complete, "false");
                     e.getPlayer().sendMessage(ChatColor.AQUA + "Finish your Altar and click this block again to activate it!");
                 }
             }
@@ -70,12 +73,12 @@ public class Tier3Altar extends SlimefunItem {
     private BlockUseHandler onUse() {
         return e -> {
             final Block b = e.getClickedBlock().get();
-            if (BlockStorage.getLocationInfo(b.getLocation(), "complete").equals("false")) {
+            if (BlockStorage.getLocationInfo(b.getLocation(), complete).equals("false")) {
                 if (isComplete(b)) {
-                    BlockStorage.addBlockInfo(b, "complete", "true");
+                    BlockStorage.addBlockInfo(b, complete, "true");
                     e.getPlayer().sendMessage(ChatColor.AQUA + "The Spiritual Altar (Tier 3) has been activated!");
                 } else {
-                    BlockStorage.addBlockInfo(b, "complete", "false");
+                    BlockStorage.addBlockInfo(b, complete, "false");
                     e.getPlayer().sendMessage(ChatColor.AQUA + "The Altar is not finished!");
                 }
             }
@@ -88,7 +91,7 @@ public class Tier3Altar extends SlimefunItem {
         return new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
-                BlockStorage.addBlockInfo(e.getBlock(), "complete", null);
+                BlockStorage.addBlockInfo(e.getBlock(), complete, null);
                 BlockStorage.clearBlockInfo(e.getBlock());
                 e.getPlayer().sendMessage(ChatColor.AQUA + "The Altar has been broken!");
             }

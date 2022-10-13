@@ -50,7 +50,7 @@ public class PassivesRunnable extends BukkitRunnable {
         if (player.getInventory().contains(Material.GOLD_INGOT) && SpiritUtils.useSpiritItem(player, EntityType.PIGLIN)) {
             final Inventory inventory = player.getInventory();
             for (ItemStack item : inventory.getContents()) {
-                if (item.getType() == Material.GOLD_INGOT) {
+                if (item != null && item.getType() == Material.GOLD_INGOT) {
                     item.subtract();
                     PlayerUtils.addOrDropItem(player, SlimefunItem.getById("STRANGE_NETHER_GOO").getItem().clone());
                 }

@@ -22,7 +22,7 @@ public class RunnableManager {
         this.saveRunnable.runTaskTimer(spiritsUnchained,1, 18000);
 
         this.passivesRunnable = new PassivesRunnable();
-        this.passivesRunnable.runTaskTimer(spiritsUnchained, 1, 60*20);
+        this.passivesRunnable.runTaskTimer(spiritsUnchained, 1, 60* 20L);
 
         this.relationsAndStateRunnable = new RelationsAndStateRunnable();
         this.relationsAndStateRunnable.runTaskTimer(spiritsUnchained, 1, 20);

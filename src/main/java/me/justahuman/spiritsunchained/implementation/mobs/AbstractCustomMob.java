@@ -37,7 +37,7 @@ abstract public class AbstractCustomMob<T extends LivingEntity> {
     private SpiritEntityManager spiritEntityManager;
 
     @ParametersAreNonnullByDefault
-    public AbstractCustomMob(@Nonnull Class<T> clazz, @Nonnull String id, @Nonnull String name, double maxHealth) {
+    protected AbstractCustomMob(@Nonnull Class<T> clazz, @Nonnull String id, @Nonnull String name, double maxHealth) {
         Validate.isTrue(maxHealth > 0);
 
         this.clazz = clazz;

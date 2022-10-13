@@ -97,11 +97,12 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
             return (SlimefunItemStack) Slimefun.getRegistry().getSlimefunItemIds().get(id).getItem();
         } catch(NullPointerException | ClassCastException e) {
             e.printStackTrace();
-            LogUtils.LogInfo(id);
+            LogUtils.logInfo(id);
             return ItemStacks.SU_ECTOPLASM;
         }
     }
 
+    @Override
     public void onDisable() {
         configManager.save();
     }

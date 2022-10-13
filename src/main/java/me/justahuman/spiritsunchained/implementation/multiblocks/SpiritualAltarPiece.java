@@ -35,12 +35,9 @@ public class SpiritualAltarPiece extends SlimefunItem {
             public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
                 Block b = findAltar(e.getBlock());
 
-                if (b != null) {
-                    if (BlockStorage.getLocationInfo(b.getLocation(), "complete") != null &&
-                            BlockStorage.getLocationInfo(b.getLocation(), "complete").equals("true")) {
-                        BlockStorage.addBlockInfo(b, "complete", "false");
-                        e.getPlayer().sendMessage(ChatColor.AQUA + "Part of the altar has been broken, please repair it and reactivate it!");
-                    }
+                if (b != null && BlockStorage.getLocationInfo(b.getLocation(), "complete") != null && BlockStorage.getLocationInfo(b.getLocation(), "complete").equals("true")) {
+                    BlockStorage.addBlockInfo(b, "complete", "false");
+                    e.getPlayer().sendMessage(ChatColor.AQUA + "Part of the altar has been broken, please repair it and reactivate it!");
                 }
 
                 BlockStorage.clearBlockInfo(e.getBlock());
@@ -59,10 +56,8 @@ public class SpiritualAltarPiece extends SlimefunItem {
 
                     final Block block = b.getRelative(x, y, z);
 
-                    if (block.getType() == Material.CHISELED_QUARTZ_BLOCK && BlockStorage.getLocationInfo(block.getLocation(), "id") != null) {
-                        if (BlockStorage.getLocationInfo(block.getLocation(), "id").equals("SU_CHARGED_CORE_I") || BlockStorage.getLocationInfo(block.getLocation(), "id").equals("SU_CHARGED_CORE_II") || BlockStorage.getLocationInfo(block.getLocation(), "id").equals("SU_CHARGED_CORE_III")) {
-                            return block;
-                        }
+                    if (block.getType() == Material.CHISELED_QUARTZ_BLOCK && BlockStorage.getLocationInfo(block.getLocation(), "id") != null && BlockStorage.getLocationInfo(block.getLocation(), "id").contains("SU_CHARGED_CORE")) {
+                        return block;
                     }
                 }
             }

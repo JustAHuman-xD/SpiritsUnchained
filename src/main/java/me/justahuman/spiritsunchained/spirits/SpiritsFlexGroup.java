@@ -85,8 +85,6 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     private static final int RELATIONS_SLOT = 32;
     private static final int TRAIT_SLOT = 40;
 
-    private static boolean SHOWING_DESCRIPTION = false;
-
     private static final ItemStack notEnoughKnowledge = new CustomItemStack(
             Material.WRITABLE_BOOK,
             "&cNot Enough Knowledge!",
@@ -95,13 +93,13 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             "&7   - Getting the Spirit to the Friendly State! (Level 3)"
     );
 
-    private static final ItemStack afraid = new CustomItemStack(
+    private static final ItemStack afraidItemStack = new CustomItemStack(
             Material.BLACK_STAINED_GLASS_PANE,
             "&fAfraid Of",
             "&7This Spirit is afraid of the Spirits Shown Below"
     );
 
-    private static final ItemStack scare = new CustomItemStack(
+    private static final ItemStack scareItemStack = new CustomItemStack(
             Material.PURPLE_STAINED_GLASS_PANE,
             "&5Scares",
             "&7This Spirit Scares the Spirits Shown Below"
@@ -200,7 +198,6 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     @ParametersAreNonnullByDefault
     private void displayDefinition(Player player, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int returnPage, SpiritDefinition definition) {
         final EntityType entityType = definition.getType();
-        SHOWING_DESCRIPTION = false;
 
         // Back Button
         menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, Slimefun.getLocalization().getMessage("guide.back.guide")));
@@ -249,7 +246,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             );
             menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
             menu.addMenuClickHandler(TRAIT_SLOT, (player1, slot, itemStack, clickAction) -> {
-                if (SHOWING_DESCRIPTION) {
+                final boolean showingDescription = itemStack.getItemMeta().hasLore() && itemStack.lore().size() != 3;
+                if (showingDescription) {
                     menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
                 } else {
                     final ItemStack descriptionItemStack = traitItemStack.clone();
@@ -263,7 +261,6 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                     descriptionItemStack.lore(currentLore);
                     menu.replaceExistingItem(TRAIT_SLOT, descriptionItemStack);
                 }
-                SHOWING_DESCRIPTION = !SHOWING_DESCRIPTION;
                 return false;
             });
         } else {
@@ -287,10 +284,10 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             menu.replaceExistingItem(SLOT, ChestMenuUtils.getBackground());
         }
         for (int SLOT : AFRAID) {
-            menu.replaceExistingItem(SLOT, afraid);
+            menu.replaceExistingItem(SLOT, afraidItemStack);
         }
         for (int SLOT : SCARE) {
-            menu.replaceExistingItem(SLOT, scare);
+            menu.replaceExistingItem(SLOT, scareItemStack);
         }
 
         int currentA = 0;
@@ -299,16 +296,10 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             final String relation = Entry.getKey();
             for (EntityType mobType : Entry.getValue()) {
                 final SpiritDefinition currentRelator = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(mobType);
-                int Slot = 0;
-                if (relation.equals("Afraid")) {
-                    Slot = AFRAID_ENTRIES[currentA];
-                    currentA++;
-                }
-                if (relation.equals("Scare")) {
-                    Slot = SCARE_ENTRIES[currentS];
-                    currentS++;
-                }
-                menu.replaceExistingItem(Slot, getSpiritMenuItem(currentRelator));
+                final int slot = relation.equals("Afraid") ? AFRAID_ENTRIES[currentA] : SCARE_ENTRIES[currentS];
+                currentA = relation.equals("Afraid") ? currentA + 1 : currentA;
+                currentS = relation.equals("Scare") ? currentS + 1 : currentS;
+                menu.replaceExistingItem(slot, getSpiritMenuItem(currentRelator));
             }
         }
     }

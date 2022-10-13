@@ -18,8 +18,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +29,11 @@ import java.util.Set;
 
 public class AllCommands implements TabExecutor {
 
-    final Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().EntityMap.keySet();
+    final Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().entityMap.keySet();
     final List<String> entityTypes = SpiritUtils.getTypes();
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (! (sender instanceof Player player ) || args.length == 0) {
             return false;
         }
@@ -53,7 +55,7 @@ public class AllCommands implements TabExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, Command command, @NotNull String alias, String[] args) {
         if (command.getName().equalsIgnoreCase("spirits")) {
             final List<String> l = new ArrayList<>();
             final Map<String, Integer> add = new HashMap<>();
@@ -119,7 +121,7 @@ public class AllCommands implements TabExecutor {
 
             return l;
         }
-        return null;
+        return Collections.emptyList();
     }
 
     private boolean useCommand(String command, Player player, int index, int size, String[] args) {
@@ -137,7 +139,7 @@ public class AllCommands implements TabExecutor {
         } catch (IllegalArgumentException | NullPointerException e) {
             return sendError(player, "Not a Valid Spirit Type!");
         }
-        PlayerUtils.addOrDropItem(player, SpiritUtils.SpiritItem(state, SpiritsUnchained.getSpiritsManager().getSpiritMap().get(spiritType)));
+        PlayerUtils.addOrDropItem(player, SpiritUtils.spiritItem(state, SpiritsUnchained.getSpiritsManager().getSpiritMap().get(spiritType)));
         return true;
     }
 

@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public class SpiritDefinition {
@@ -15,14 +16,14 @@ public class SpiritDefinition {
     private final int tier;
     private final List<String> states;
     private final List<String> times;
-    private final List<String> biome_group;
+    private final List<String> biomeGroup;
     private final Goal goal;
     private final String trait;
     private final String dimension;
-    private final HashMap<String, List<EntityType>> relations;
+    private final Map<String, List<EntityType>> relations;
 
     @ParametersAreNonnullByDefault
-    public SpiritDefinition(EntityType type, int tier, List<String> states, Goal goal, HashMap<String, List<EntityType>> relations, String trait, String dimension, List<String> biome_group, List<String> times) {
+    public SpiritDefinition(EntityType type, int tier, List<String> states, Goal goal, Map<String, List<EntityType>> relations, String trait, String dimension, List<String> biomeGroup, List<String> times) {
         this.type = type;
         this.tier = tier;
         this.states = states;
@@ -30,7 +31,7 @@ public class SpiritDefinition {
         this.trait = trait;
         this.relations = relations;
         this.dimension = dimension;
-        this.biome_group = biome_group;
+        this.biomeGroup = biomeGroup;
         this.times = times;
     }
 }

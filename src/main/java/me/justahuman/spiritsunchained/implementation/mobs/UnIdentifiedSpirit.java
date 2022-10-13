@@ -4,8 +4,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.implementation.tools.SpiritBook;
-import me.justahuman.spiritsunchained.implementation.tools.SpiritNet;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.Keys;
@@ -36,8 +34,6 @@ import java.util.Random;
 
 public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
 
-    private int particleCount = 5;
-
     public UnIdentifiedSpirit() {
         super(Allay.class, "UNIDENTIFIED_SPIRIT", "&7Unidentified Spirit", 10);
     }
@@ -46,7 +42,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     public Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
         final Allay mob = world.spawn(loc, this.getClazz());
-        SpiritUtils.SpiritIdMap.put(mob.getEntityId(), mob);
+        SpiritUtils.spiritIdMap.put(mob.getEntityId(), mob);
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
         final String state;
 
@@ -87,7 +83,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
-        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true, true);
+        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, 5, true, true);
 
         for (Player player : allay.getWorld().getPlayers()) {
             if (player.canSee(allay)) {
@@ -119,7 +115,8 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
             return;
         }
 
-        if (SlimefunItem.getByItem(item) instanceof SpiritNet) {
+        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+        if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_NET.getItemId())) {
             ParticleUtils.catchAnimation(entity.getLocation());
             entity.remove();
             item.setAmount(item.getAmount() - 1);
@@ -135,7 +132,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onHit(EntityDamageByEntityEvent event) {
-
+        event.setCancelled(true);
     }
 
     @Override

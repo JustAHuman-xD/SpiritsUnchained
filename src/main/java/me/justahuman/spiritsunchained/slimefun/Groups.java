@@ -16,7 +16,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 
 public class Groups {
-
     public static final SimpleFlexGroup SU_MAIN_GROUP = new SimpleFlexGroup(
             SpiritsUnchained.getInstance(),
             "&aSpirits Unchained",

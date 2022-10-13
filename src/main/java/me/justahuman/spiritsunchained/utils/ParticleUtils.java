@@ -3,11 +3,8 @@ package me.justahuman.spiritsunchained.utils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static me.justahuman.spiritsunchained.utils.SpiritUtils.getNearImbued;
@@ -15,7 +12,7 @@ import static me.justahuman.spiritsunchained.utils.SpiritUtils.getNearImbued;
 public class ParticleUtils {
 
     public static void setup() {
-
+        // TODO might need to use this for later Visuals
     }
 
     public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, boolean stopMovements, boolean special, Particle.DustOptions... other) {
@@ -47,10 +44,10 @@ public class ParticleUtils {
     }
 
     public static void catchAnimation(Location location) {
-
+        // TODO Polish and Add This
     }
 
     public static void bottleAnimation(Location location) {
-
+        // TODO Polish and Add This
     }
 }

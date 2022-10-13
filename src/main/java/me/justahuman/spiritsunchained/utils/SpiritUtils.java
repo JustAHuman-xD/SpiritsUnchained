@@ -6,10 +6,10 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.implementation.tools.SpiritLenses;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
+import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 
 import net.kyori.adventure.text.Component;
@@ -53,13 +53,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritUtils {
 
-    public final static Map<Integer, Entity> SpiritIdMap = new HashMap<>();
-    private final static ConfigManager configManager = SpiritsUnchained.getConfigManager();
-    private final static SpiritEntityManager spiritEntityManager = SpiritsUnchained.getSpiritEntityManager();
-    private final static SpiritsManager spiritsManager = SpiritsUnchained.getSpiritsManager();
+    public static final Map<Integer, Entity> spiritIdMap = new HashMap<>();
+    private static final ConfigManager configManager = SpiritsUnchained.getConfigManager();
+    private static final SpiritEntityManager spiritEntityManager = SpiritsUnchained.getSpiritEntityManager();
+    private static final SpiritsManager spiritsManager = SpiritsUnchained.getSpiritsManager();
 
-    private final static Map<EntityType, SpiritDefinition> spiritMap = spiritsManager.getSpiritMap();
-    private final static FileConfiguration config = SpiritsUnchained.getInstance().getConfig();
+    private static final Map<EntityType, SpiritDefinition> spiritMap = spiritsManager.getSpiritMap();
+    private static final FileConfiguration config = SpiritsUnchained.getInstance().getConfig();
 
     public static List<String> getStates() {
         final List<String> states = new ArrayList<>();
@@ -81,27 +81,26 @@ public class SpiritUtils {
 
     public static ChatColor tierColor(int tier) {
         return switch (tier) {
-            default -> ChatColor.YELLOW;
             case 2 -> ChatColor.AQUA;
             case 3 -> ChatColor.LIGHT_PURPLE;
             case 4 -> ChatColor.GOLD;
+            default -> ChatColor.YELLOW;
         };
     }
 
     public static ChatColor stateColor(String state) {
         return switch (state) {
-            default -> ChatColor.YELLOW;
             case "Hostile" -> ChatColor.DARK_RED;
             case "Aggressive" -> ChatColor.RED;
             case "Gentle" -> ChatColor.GREEN;
             case "Friendly" -> ChatColor.DARK_GREEN;
+            default -> ChatColor.YELLOW;
         };
     }
 
     @ParametersAreNonnullByDefault
     public static FireworkEffect effectColor(EntityType type) {
         return switch (type) {
-            default -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(100, 100, 100)).build();
             case AXOLOTL -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(235, 181, 213)).build();
             case BAT -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(64, 53, 41)).build();
             case BEE, PUFFERFISH -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(228, 165, 1)).build();
@@ -167,6 +166,7 @@ public class SpiritUtils {
             case ZOMBIE_HORSE -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(46, 77, 49)).build();
             case ZOMBIE_VILLAGER -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(81, 56, 48)).build();
             case ZOMBIFIED_PIGLIN -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(219, 138, 138)).build();
+            default -> FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(100, 100, 100)).build();
         };
     }
     @ParametersAreNonnullByDefault
@@ -187,11 +187,11 @@ public class SpiritUtils {
     public static void spawnStateParticle(String state, Location location) {
         final Particle.DustOptions dustOptions;
         switch(state) {
-            default -> dustOptions = new Particle.DustOptions(Color.fromRGB(80,80,80), 1);
             case "Hostile" -> dustOptions = new Particle.DustOptions(Color.fromRGB(180,0,0), 1);
             case "Aggressive" -> dustOptions = new Particle.DustOptions(Color.fromRGB(200,20,20), 1);
             case "Gentle" -> dustOptions = new Particle.DustOptions(Color.fromRGB(20,200,20), 1);
             case "Friendly" -> dustOptions = new Particle.DustOptions(Color.fromRGB(0,180,20), 1);
+            default -> dustOptions = new Particle.DustOptions(Color.fromRGB(80,80,80), 1);
         }
         final Collection<Player> collection = getNearImbued(location);
         for (Player player : collection) {
@@ -217,7 +217,6 @@ public class SpiritUtils {
 
     public static double getTraitUsage(String trait) {
         return switch(trait) {
-            default -> 1;
             case "Multishoot", "Hunger_Hit", "Slow_Shot" -> 2;
             case "Iron_Defense" -> 3;
             case "Clear_Effects", "Pig_Rancher", "Aquatic_Creature", "Ink_Spray", "Hops", "Undead_Protection", "Group_Protection", "Infest", "High_Jump", "Morning_Gift", "Spitter", "Natural_Fisher", "Goats_Instrument", "Strange_Secrets", "Mini_Teleport", "Heavy_Hit" -> 5;
@@ -225,6 +224,7 @@ public class SpiritUtils {
             case "Better_Brewer", "Targeted_Teleport", "Skull_Fire", "Dragons_Breath", "Dark_Aura" -> 15;
             case "Eggpult", "Webber", "Explode", "Lava_Walker", "Play_Dead", "Crit_hit", "Magma_Trap", "Tank", "Bullet_Swarm" -> 25;
             case "Another_Chance" -> 30;
+            default -> 1;
         };
     }
 
@@ -260,12 +260,12 @@ public class SpiritUtils {
             toReturn = true;
         } else if (progress <= 0) {
             int index = getStates().indexOf(state);
-            boolean canDecrease = !(index == 0);
+            boolean canDecrease = index != 0;
             state = canDecrease ? getStates().get(index - 1) : state;
             progress = canDecrease ? progress + 100.0 : 0.0;
             toReturn = true;
         }
-        progress = new BigDecimal(progress).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        progress = BigDecimal.valueOf(progress).setScale(2, RoundingMode.HALF_UP).doubleValue();
         PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, progress);
         PersistentDataAPI.setString(meta, Keys.spiritStateKey, state);
         lore.set(2, Component.text(ChatColors.color("&fCurrent State: " + stateColor(state) + state)));
@@ -278,9 +278,8 @@ public class SpiritUtils {
     public static Collection<Entity> getNearbySpirits(Location location) {
         final Collection<Entity> nearbyEntities = location.getNearbyEntities(48, 48, 48);
         final Collection<Entity> returnList = new ArrayList<>();
-        if (nearbyEntities.size() < 1) {return returnList;}
         for (Entity entity : nearbyEntities) {
-            if (! (spiritEntityManager.getCustomClass(entity, null) == null)) {
+            if (spiritEntityManager.getCustomClass(entity, null) != null) {
                 returnList.add(entity);
             }
         }
@@ -317,15 +316,15 @@ public class SpiritUtils {
             final SpiritDefinition definition = spiritMap.get(entityType);
             final List<String> times = definition.getTimes();
             if (dimension != World.Environment.valueOf(definition.getDimension())) {continue;} // Check if Dimensions Match Up
-            if (definition.getTimes().size() > 0) { //Check if the Spirit has a Time Requirement & if it does then is it Met
+            if (!definition.getTimes().isEmpty()) { //Check if the Spirit has a Time Requirement & if it does then is it Met
                 final boolean timeRight = (times.contains("Day") && isDay) || (times.contains("Night") && !isDay);
                 if (!timeRight) {
                     continue;
                 }
             }
-            if (definition.getBiome_group().size() > 0) {
+            if (definition.getBiomeGroup().size() > 0) {
                 boolean inBiome = false;
-                for (String biomeId : definition.getBiome_group()) {
+                for (String biomeId : definition.getBiomeGroup()) {
                     inBiome = inBiome || configManager.getBiomeMap().get(biomeId).contains(biome.name());
                 }
                 if (!inBiome) {
@@ -338,11 +337,11 @@ public class SpiritUtils {
     }
 
     public static boolean canSpawn() {
-        return SpiritIdMap.size() < config.getInt("max-spirits", 40);
+        return spiritIdMap.size() < config.getInt("max-spirits", 40);
     }
 
     public static boolean imbuedCheck(ItemStack helmetItem) {
-        return SlimefunItem.getByItem(helmetItem) instanceof SpiritLenses || PersistentDataAPI.hasByte(helmetItem.getItemMeta(), Keys.imbuedKey) && PersistentDataAPI.getByte(helmetItem.getItemMeta(), Keys.imbuedKey) == 2;
+        return SlimefunItem.getByItem(helmetItem) != null && SlimefunItem.getByItem(helmetItem).getId().equals(ItemStacks.SU_SPIRIT_LENSES.getItemId()) || PersistentDataAPI.hasByte(helmetItem.getItemMeta(), Keys.imbuedKey) && PersistentDataAPI.getByte(helmetItem.getItemMeta(), Keys.imbuedKey) == 2;
     }
 
     public static Collection<Player> getNearImbued(Location location) {
@@ -364,7 +363,7 @@ public class SpiritUtils {
         return config.getInt("player-spirit-cap", 4);
     }
 
-    public static ItemStack SpiritItem(String state, SpiritDefinition definition) {
+    public static ItemStack spiritItem(String state, SpiritDefinition definition) {
         final ItemStack itemStack = new ItemStack(Material.FIREWORK_STAR);
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final List<Component> itemLore = new ArrayList<>();
@@ -397,17 +396,17 @@ public class SpiritUtils {
         return itemStack;
     }
 
-    public static String getProgress(double Progress) {
+    public static String getProgress(double progress) {
         final String base = "¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦";
-        final int divideAt = (int) (Progress/5);
-        return Progress + "% " +  ChatColors.color(ChatColor.GREEN + base.substring(0, divideAt) + ChatColor.GRAY + base.substring(divideAt));
+        final int divideAt = (int) (progress/5);
+        return progress + "% " +  ChatColors.color(ChatColor.GREEN + base.substring(0, divideAt) + ChatColor.GRAY + base.substring(divideAt));
     }
 
-    public static int getTierChance(int Tier) {
-        return switch(Tier) {
-            default -> 75;
+    public static int getTierChance(int tier) {
+        return switch(tier) {
             case 2,3 -> 50;
             case 4 -> 25;
+            default -> 75;
         };
     }
 
@@ -416,7 +415,7 @@ public class SpiritUtils {
         final int x = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockX();
         final int z = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockZ();
         int y = location.getBlockY();
-        if (! (world.getBlockAt(x,y,z).getType() == Material.AIR)) {
+        if (world.getBlockAt(x,y,z).getType() != Material.AIR) {
             boolean foundAir = false;
             while (!foundAir) {
                 y++;
@@ -431,10 +430,8 @@ public class SpiritUtils {
     public static List<Entity> getLookingList(Player player){
         final List<Entity> entities = new ArrayList<>();
         for(Entity e : player.getNearbyEntities(10, 10, 10)){
-            if(e instanceof Allay){
-                if(getLookingAt(player, (LivingEntity) e)){
-                    entities.add(e);
-                }
+            if(e instanceof Allay && getLookingAt(player, (LivingEntity) e)) {
+                entities.add(e);
             }
         }
 

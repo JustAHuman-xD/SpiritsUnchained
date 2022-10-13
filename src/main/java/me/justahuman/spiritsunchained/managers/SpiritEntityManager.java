@@ -22,7 +22,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -33,10 +32,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritEntityManager implements Listener {
 
-    public final Map<String, AbstractCustomMob<?>> EntityMap = new HashMap<>();
-    private final FileConfiguration config = SpiritsUnchained.getInstance().getConfig();
+    public final Map<String, AbstractCustomMob<?>> entityMap = new HashMap<>();
 
     public SpiritEntityManager() {
+        final FileConfiguration config = SpiritsUnchained.getInstance().getConfig();
         final int tickRate = Math.min(config.getInt("tick-rate", 2), 20);
         final int spawnRate = config.getInt("spawn-rate", 10) * 20;
 
@@ -46,10 +45,10 @@ public class SpiritEntityManager implements Listener {
     }
 
     public void register(AbstractCustomMob<?> customMob) {
-        if (this.EntityMap.containsKey(customMob.getId())) {
+        if (this.entityMap.containsKey(customMob.getId())) {
             throw new IllegalArgumentException("Custom Entity Already Registered!" + customMob.getId());
         }
-        this.EntityMap.put(customMob.getId(), customMob);
+        this.entityMap.put(customMob.getId(), customMob);
     }
 
     public AbstractCustomMob<?> getCustomClass(Entity entity, String key) {
@@ -59,11 +58,11 @@ public class SpiritEntityManager implements Listener {
         } else if (key != null) {
             getKey = key;
         }
-        return getKey == null ? null : this.EntityMap.get(getKey);
+        return getKey == null ? null : this.entityMap.get(getKey);
     }
 
     private void tick() {
-        for (AbstractCustomMob<?> customMob : this.EntityMap.values()) {
+        for (AbstractCustomMob<?> customMob : this.entityMap.values()) {
             customMob.onUniqueTick();
         }
 
@@ -83,13 +82,14 @@ public class SpiritEntityManager implements Listener {
                 final int chance = ThreadLocalRandom.current().nextInt(1, 100);
                 final int soulCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
                 final ItemStack helmetItem = player.getInventory().getHelmet();
-                if (helmetItem == null) {continue;}
-                if (!SpiritUtils.imbuedCheck(helmetItem)) {continue;}
+                if (helmetItem == null || !SpiritUtils.imbuedCheck(helmetItem)) {
+                    continue;
+                }
                 if (SpiritUtils.canSpawn() && soulCount < SpiritUtils.getPlayerCap() && chance <= 10) {
                     final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
                     final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());
-                    if (maybeSpirit != null && this.EntityMap.get("UNIDENTIFIED_SPIRIT") != null) {
-                        this.EntityMap.get("UNIDENTIFIED_SPIRIT").spawn(b.getLocation(), player.getWorld(), "Natural", maybeSpirit);
+                    if (maybeSpirit != null && this.entityMap.get("UNIDENTIFIED_SPIRIT") != null) {
+                        this.entityMap.get("UNIDENTIFIED_SPIRIT").spawn(b.getLocation(), player.getWorld(), "Natural", maybeSpirit);
                     }
                 }
             }

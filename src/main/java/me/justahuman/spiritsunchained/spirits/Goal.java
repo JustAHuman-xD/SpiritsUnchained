@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -32,16 +33,17 @@ public class Goal {
     private ItemStack getTypeStack(String type, String what, int amount) {
         final String addition = amount > 1 ? "s" : "";
         final String loreEnd = amount + " " + ChatUtils.humanize(what);
+        final String name = "&bPass on Task:";
         final ItemStack kill = new CustomItemStack(
                 Material.DIAMOND_SWORD,
-                "&bPass On Task:",
+                name,
                 "",
                 "&bType: &7Kill Mob" + addition,
                 "&bTask: &7Kill " + loreEnd + addition
         );
         final ItemStack item = new CustomItemStack(
                 Material.STICK,
-                "&bPass On Task:",
+                name,
                 "",
                 "&bType: &7Give Item" + addition,
                 "&bTask: &7Give " + loreEnd
@@ -55,7 +57,7 @@ public class Goal {
         }
         ItemStack slimefunItem = new CustomItemStack(
                 Material.SLIME_BALL,
-                "&bPass On Task:",
+                name,
                 "",
                 "&bType: &7Give Slimefun Item" + addition,
                 "&bTask: &7Give " + loreEnd
@@ -63,7 +65,7 @@ public class Goal {
         if (type.equals("SlimefunItem")) {
             try {
                 final ItemStack properSlimefunItem = SpiritsUnchained.getSlimefunItem(what).clone();
-                final List<Component> newLore = slimefunItem.lore();
+                final List<Component> newLore = slimefunItem.getItemMeta().hasLore() ? slimefunItem.lore() : new ArrayList<>();
                 final ItemMeta newMeta = properSlimefunItem.getItemMeta();
                 newLore.set(2, Component.text(ChatColors.color(ChatColor.AQUA + "Task: " + ChatColor.GRAY + "Give " + properSlimefunItem.getItemMeta().displayName())));
                 newMeta.displayName(Component.text(ChatColors.color(ChatColor.AQUA + "Pass On Task:")));
@@ -81,10 +83,10 @@ public class Goal {
                 "&7Breed " + loreEnd + addition
         );
         return switch (type) {
-            default -> kill;
             case "Item" -> item;
             case "SlimefunItem" -> slimefunItem;
             case "Breed" -> breed;
+            default -> kill;
         };
     }
 }

@@ -1,7 +1,5 @@
 package me.justahuman.spiritsunchained;
 
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-
 import me.justahuman.spiritsunchained.implementation.mobs.Spirit;
 import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
@@ -13,7 +11,6 @@ import me.justahuman.spiritsunchained.utils.ParticleUtils;
 public class Setup {
 
     public static final Setup INSTANCE = new Setup();
-    private final SlimefunAddon plugin = SpiritsUnchained.getInstance();
     private boolean initialised;
 
     public void init() {

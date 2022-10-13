@@ -58,18 +58,13 @@ public class TraitListeners implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onProjectileHit(ProjectileHitEvent event) {
         final Projectile projectile = event.getEntity();
-        if (!PersistentDataAPI.hasString(projectile, Keys.entityKey)) {
-            return;
-        }
+        final String key = PersistentDataAPI.hasString(projectile, Keys.entityKey) ? PersistentDataAPI.getString(projectile, Keys.entityKey) : "";
 
-        switch (PersistentDataAPI.getString(projectile, Keys.entityKey)) {
-            default -> {}
-            case "Eggpult" -> {
-                final TNTPrimed tnt = (TNTPrimed) projectile.getWorld().spawnEntity(projectile.getLocation(), EntityType.PRIMED_TNT);
-                tnt.setFuseTicks(1);
-                PersistentDataAPI.setString(tnt, Keys.entityKey, "DullExplosion");
-                PersistentDataAPI.setString(tnt, Keys.immuneKey, PersistentDataAPI.getString(projectile, Keys.ownerKey));
-            }
+        if (key.equalsIgnoreCase("Eggpult")) {
+            final TNTPrimed tnt = (TNTPrimed) projectile.getWorld().spawnEntity(projectile.getLocation(), EntityType.PRIMED_TNT);
+            tnt.setFuseTicks(1);
+            PersistentDataAPI.setString(tnt, Keys.entityKey, "DullExplosion");
+            PersistentDataAPI.setString(tnt, Keys.immuneKey, PersistentDataAPI.getString(projectile, Keys.ownerKey));
         }
     }
 
@@ -137,6 +132,7 @@ public class TraitListeners implements Listener {
             event.setCancelled(true);
             return;
         }
+
         final Entity attacker = event instanceof EntityDamageByEntityEvent otherEvent ? otherEvent.getDamager() : null;
         final double finalHealth = entity.getHealth() - event.getFinalDamage();
         final double finalHealthPercentage = finalHealth / entity.getMaxHealth();
@@ -166,11 +162,7 @@ public class TraitListeners implements Listener {
             }
         }
         //Slow Shot
-        if (attacker instanceof Arrow arrow && arrow.getShooter() instanceof Player attackingPlayer) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.HUSK)) {
-                entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
-            }
-        } else if (attacker instanceof SpectralArrow arrow && arrow.getShooter() instanceof Player attackingPlayer) {
+        if (attacker instanceof AbstractArrow arrow && arrow.getShooter() instanceof Player attackingPlayer) {
             if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.HUSK)) {
                 entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
             }
@@ -184,6 +176,7 @@ public class TraitListeners implements Listener {
         if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && new Random().nextInt(1,101) >= 75 && isUsed(player, EntityType.GUARDIAN)) {
             attacker.setFireTicks(5*20);
         }
+
         //Strong Bones
         if(finalHealthPercentage <= 0.5 && !onCooldown(entity, Keys.strongBones) && isUsed(player, EntityType.SKELETON)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 45*20, 1, true));

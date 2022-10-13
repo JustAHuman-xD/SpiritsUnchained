@@ -1,9 +1,7 @@
 package me.justahuman.spiritsunchained.slimefun;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
@@ -15,7 +13,6 @@ import me.justahuman.spiritsunchained.implementation.multiblocks.*;
 import me.justahuman.spiritsunchained.implementation.tools.*;
 
 import me.justahuman.spiritsunchained.utils.Keys;
-import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 public class Items {
     public static void setup(SlimefunAddon instance) {
 
-        final RecipeType SPIRIT_INTERACT = new RecipeType(Keys.spiritInteractKey,
+        final RecipeType spiritInteract = new RecipeType(Keys.spiritInteractKey,
                 new ColoredFireworkStar(Color.fromRGB(100, 100, 100),
                         "&fUse On Spirit",
                         "",
@@ -49,13 +46,13 @@ public class Items {
                 SlimefunItems.ENDER_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_3})
                 .register(instance);
 
-        new SlimefunItem(Groups.SU_TOOLS, ItemStacks.SU_UNIDENTIFIED_SPIRIT, SPIRIT_INTERACT, new ItemStack[]{
+        new SlimefunItem(Groups.SU_TOOLS, ItemStacks.SU_UNIDENTIFIED_SPIRIT, spiritInteract, new ItemStack[]{
                 null, null, null,
                 null, ItemStacks.SU_SPIRIT_NET, null,
                 null, null, null
         }).register(instance);
 
-        new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_SPIRIT_BOTTLE, SPIRIT_INTERACT, new ItemStack[]{
+        new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_SPIRIT_BOTTLE, spiritInteract, new ItemStack[]{
                 null, null, null,
                 null, new ItemStack(Material.GLASS_BOTTLE), null,
                 null, null, null
@@ -70,25 +67,25 @@ public class Items {
         }, outputEctoplasm).register(instance);
 
         //Tools
-        new SpiritLenses(Groups.SU_TOOLS, ItemStacks.SU_SPIRIT_LENSES, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
+        new SlimefunItem(Groups.SU_TOOLS, ItemStacks.SU_SPIRIT_LENSES, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
                 SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH,
                 ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_SOUL_STAINED_GLASS, ItemStacks.SU_INFUSED_MEMBRANE,
                 null, null, null
         }).register(instance);
 
-        new IdentifyingGlass(Groups.SU_TOOLS,ItemStacks.SU_IDENTIFYING_GLASS,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
+        new SlimefunItem(Groups.SU_TOOLS,ItemStacks.SU_IDENTIFYING_GLASS,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
                 null, null, ItemStacks.SU_SOUL_STAINED_GLASS,
                 null, SlimefunItems.MAGNESIUM_INGOT, null,
                 SlimefunItems.MAGNESIUM_INGOT, null, null
         }).register(instance);
 
-        new SpiritBook(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_BOOK,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
+        new SlimefunItem(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_BOOK,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
                 new ItemStack(Material.GLOW_INK_SAC), ItemStacks.SU_ECTOPLASM, ItemStacks.SU_INFUSED_FEATHER,
                 null, new ItemStack(Material.BOOK), null,
                 ItemStacks.SU_INFUSED_FEATHER, ItemStacks.SU_ECTOPLASM, new ItemStack(Material.GLOW_INK_SAC)
         }).register(instance);
 
-        new SpiritNet(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_NET,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
+        new SlimefunItem(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_NET,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
                 new ItemStack(Material.STRING), ItemStacks.SU_ECTOPLASM, new ItemStack(Material.STRING),
                 ItemStacks.SU_ECTOPLASM, ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM,
                 new ItemStack(Material.STRING), ItemStacks.SU_ECTOPLASM, new ItemStack(Material.STRING)

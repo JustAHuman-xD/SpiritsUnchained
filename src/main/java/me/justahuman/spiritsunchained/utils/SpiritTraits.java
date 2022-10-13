@@ -45,14 +45,14 @@ import java.util.UUID;
 
 public class SpiritTraits {
 
-    final static Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
+    static final Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
 
     public static String useTrait(Player player, Map<String, Object> traitInfo, String state, String type) {
         final UUID uuid = player.getUniqueId();
         final String name = (String) traitInfo.get("name");
         final Method traitMethod;
 
-        if (! (SpiritUtils.getStates().indexOf(state) > 2)) {
+        if (SpiritUtils.getStates().indexOf(state) <= 2) {
             return ChatUtils.humanize(type) + " Spirit needs to be to the Gentle State or Higher!";
         }
 
@@ -68,8 +68,8 @@ public class SpiritTraits {
         }
 
         //If the Trait is on Cooldown
-        if (Cooldown_Map.containsKey(uuid) && Cooldown_Map.get(uuid).containsKey((String) traitInfo.get("id")) && Cooldown_Map.get(uuid).get((String) traitInfo.get("id")) > System.currentTimeMillis()) {
-            final long cooldown = (Cooldown_Map.get(uuid).get((String) traitInfo.get("id")) - System.currentTimeMillis()) / 1000;
+        if (Cooldown_Map.containsKey(uuid) && Cooldown_Map.get(uuid).containsKey(traitInfo.get("id")) && Cooldown_Map.get(uuid).get(traitInfo.get("id")) > System.currentTimeMillis()) {
+            final long cooldown = (Cooldown_Map.get(uuid).get(traitInfo.get("id")) - System.currentTimeMillis()) / 1000;
             return name + " on Cooldown! (" + cooldown + "s)";
         }
 
@@ -81,9 +81,9 @@ public class SpiritTraits {
         }
 
         //Add the cooldown to the Map
-        final Map<String, Long> cooldowns = Cooldown_Map.containsKey(uuid) ? Cooldown_Map.get(uuid) : new HashMap<>();
-        cooldowns.put((String) traitInfo.get("id"), System.currentTimeMillis() + (int) traitInfo.get("cooldown") * 1000);
-        Cooldown_Map.put(uuid, cooldowns);
+        final Map<String, Long> cooldownMap = Cooldown_Map.containsKey(uuid) ? Cooldown_Map.get(uuid) : new HashMap<>();
+        cooldownMap.put((String) traitInfo.get("id"), System.currentTimeMillis() + (int) traitInfo.get("cooldown") * 1000);
+        Cooldown_Map.put(uuid, cooldownMap);
 
         //Use 'Durability'
         SpiritUtils.useSpiritItem(player, EntityType.valueOf(type));
@@ -173,8 +173,8 @@ public class SpiritTraits {
     public static void Infest(Player player) {
         final Block lookingAt = player.getTargetBlock(null, 5);
         try{
-            final Material newMatieral = Material.valueOf("infested_" + lookingAt.getType());
-            lookingAt.setType(newMatieral);
+            final Material newMaterial = Material.valueOf("infested_" + lookingAt.getType());
+            lookingAt.setType(newMaterial);
             ParticleUtils.spawnParticleRadius(lookingAt.getLocation(), Particle.ASH, 1.5, 40, false, false);
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_SILVERFISH_AMBIENT, 1, 1);
         } catch (IllegalArgumentException | NullPointerException e) {
@@ -294,7 +294,7 @@ public class SpiritTraits {
         final Location location = player.getLocation();
 
         final double x = location.getX() + (new Random().nextDouble() - 0.5D) * 16.0D;
-        final double y = Math.max(location.getY() + (double) (new Random().nextInt(16) - 8), Math.min(world.getMinHeight(), (double) (world.getMinHeight() + world.getLogicalHeight() - 1)));
+        final double y = Math.max(location.getY() + (new Random().nextInt(16) - 8), Math.min(world.getMinHeight(), (double) (world.getMinHeight() + world.getLogicalHeight() - 1)));
         final double z = location.getZ() + (new Random().nextDouble() - 0.5D) * 16.0D;
 
         player.teleport(player.getLocation().add(x, y, z));
