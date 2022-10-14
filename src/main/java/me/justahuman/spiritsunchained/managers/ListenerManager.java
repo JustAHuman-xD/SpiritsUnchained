@@ -19,5 +19,6 @@ public class ListenerManager {
         manager.registerEvents(new PlayerReleaseSpiritListener(), instance);
         manager.registerEvents(new SpiritItemListeners(), instance);
         manager.registerEvents(new TraitListeners(), instance);
+        manager.registerEvents(new PlayerReleaseSpiritListener(), instance);
     }
 }

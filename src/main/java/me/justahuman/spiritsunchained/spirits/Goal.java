@@ -28,14 +28,14 @@ public class Goal {
     private final int amount;
 
     public Goal(String goalType, String requiredType, int amount) {
-        this.displayStack = getDisplayStack();
         this.goalType = goalType;
         this.requiredType = requiredType;
-        this.requiredStack = getRequirementStack();
         this.amount = amount;
+        this.requiredStack = createRequirementStack();
+        this.displayStack = createDisplayStack();
     }
 
-    private ItemStack getDisplayStack() {
+    private ItemStack createDisplayStack() {
         final String addition = amount > 1 ? "s" : "";
         final String loreEnd = amount + " " + ChatUtils.humanize(requiredType);
         final String name = "&bPass on Task:";
@@ -87,7 +87,7 @@ public class Goal {
                 "",
                 "&7Breed " + loreEnd + addition
         );
-        return switch (requiredType) {
+        return switch (goalType) {
             case "Item" -> item;
             case "SlimefunItem" -> slimefunItem;
             case "Breed" -> breed;
@@ -95,7 +95,7 @@ public class Goal {
         };
     }
 
-    private ItemStack getRequirementStack() {
+    private ItemStack createRequirementStack() {
         ItemStack toReturn = new ItemStack(Material.AIR);
         if (goalType.equals("Item")) {
             toReturn = new ItemStack(Material.valueOf(requiredType));
