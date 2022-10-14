@@ -14,6 +14,8 @@ public class Keys {
     public static final NamespacedKey imbuedKey = new NamespacedKey(instance, "imbued");
     public static final NamespacedKey spiritItemKey = new NamespacedKey(instance, "spirit_item");
     public static final NamespacedKey spiritProgressKey = new NamespacedKey(instance, "state_progress");
+    public static final NamespacedKey spiritPassOnKey = new NamespacedKey(instance, "pass_on");
+    public static final NamespacedKey spiritUniqueKey = new NamespacedKey(instance, "unique_item");
     public static final NamespacedKey spiritInteractKey = new NamespacedKey(instance, "spirit_interact");
     public static final NamespacedKey ownerKey = new NamespacedKey(instance, "owner");
 

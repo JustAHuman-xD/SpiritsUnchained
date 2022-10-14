@@ -85,6 +85,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     private static final int RELATIONS_SLOT = 32;
     private static final int TRAIT_SLOT = 40;
 
+    private static final String backLore = ChatColors.color("&7" + Slimefun.getLocalization().getMessage("guide.back.guide"));
+
     private static final ItemStack notEnoughKnowledge = new CustomItemStack(
             Material.WRITABLE_BOOK,
             "&cNot Enough Knowledge!",
@@ -147,7 +149,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
         pageControls(player, profile, mode, menu, page, totalPages);
 
-        menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, Slimefun.getLocalization().getMessage("guide.back.guide")));
+        menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, backLore));
         menu.addMenuClickHandler(GUIDE_BACK, (player1, slot, itemStack, clickAction) -> {
             SlimefunGuide.openItemGroup(profile, Groups.SU_MAIN_GROUP, mode, 1);
             return false;
@@ -200,7 +202,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         final EntityType entityType = definition.getType();
 
         // Back Button
-        menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, Slimefun.getLocalization().getMessage("guide.back.guide")));
+        menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, backLore));
         menu.addMenuClickHandler(GUIDE_BACK, (player1, slot, itemStack, clickAction) -> {
             prepare(player1, profile, mode, menu, returnPage);
             return false;
@@ -271,7 +273,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     @ParametersAreNonnullByDefault
     private void displayRelationsTree(Player player, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int returnPage, SpiritDefinition definition) {
         // Back Button
-        menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, Slimefun.getLocalization().getMessage("guide.back.guide")));
+        menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, backLore));
 
         menu.addMenuClickHandler(GUIDE_BACK, (player1, slot, itemStack, clickAction) -> {
             displayDefinition(player1, profile, mode, menu, returnPage, definition);

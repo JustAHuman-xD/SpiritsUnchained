@@ -1,6 +1,7 @@
 package me.justahuman.spiritsunchained.managers;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.listeners.PassOnListeners;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.spirits.Goal;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
@@ -22,6 +23,8 @@ public class SpiritsManager {
     private final Map<EntityType, SpiritDefinition> spiritMap = new HashMap<>();
     @Getter
     private final List<List<EntityType>> tierMaps = new ArrayList<>();
+    @Getter
+    private final Map<EntityType, List<EntityType>> goalRequirements = new HashMap<>();
 
     public SpiritsManager() {
         tierMaps.add(new ArrayList<>());
@@ -79,6 +82,16 @@ public class SpiritsManager {
             relations.put("Scare", scare);
             relations.put("Afraid", afraid);
 
+            if (listGoal.get(0).equals("Kill") || listGoal.get(0).equals("Breed")) {
+                EntityType requirementType = null;
+                try {
+                    requirementType = EntityType.valueOf(listGoal.get(1));
+                    final List<EntityType> requiredFor = goalRequirements.containsKey(requirementType) ? goalRequirements.get(requirementType) : new ArrayList<>();
+                    requiredFor.add(type);
+                    goalRequirements.put(requirementType, requiredFor);
+                } catch(IllegalArgumentException | NullPointerException ignored) {}
+            }
+
             final SpiritDefinition spiritDefinition = new SpiritDefinition(
                     type,
                     tier,
@@ -94,5 +107,6 @@ public class SpiritsManager {
             tierMaps.get(tier-1).add(type);
         }
         LogUtils.logInfo("Loaded " + spiritMap.size() + " Spirits!");
+        LogUtils.logInfo(goalRequirements.toString());
     }
 }

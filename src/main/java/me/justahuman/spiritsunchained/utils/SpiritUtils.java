@@ -200,7 +200,10 @@ public class SpiritUtils {
     }
 
     public static boolean isSpiritItem(ItemStack itemStack) {
-        return PersistentDataAPI.hasString(itemStack.getItemMeta(), Keys.spiritItemKey);
+        if (itemStack != null && itemStack.getItemMeta() != null) {
+            return PersistentDataAPI.hasString(itemStack.getItemMeta(), Keys.spiritItemKey);
+        }
+        return false;
     }
 
     public static ItemStack getSpiritItem(Player player, EntityType type) {
@@ -379,9 +382,11 @@ public class SpiritUtils {
 
         ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
 
+        PersistentDataAPI.setString(itemMeta, Keys.spiritUniqueKey, String.valueOf(System.currentTimeMillis()));
         PersistentDataAPI.setString(itemMeta, Keys.spiritItemKey, definition.getType().toString());
         PersistentDataAPI.setString(itemMeta, Keys.spiritStateKey, state);
         PersistentDataAPI.setDouble(itemMeta, Keys.spiritProgressKey, 0);
+        PersistentDataAPI.setInt(itemMeta, Keys.spiritPassOnKey, 0);
 
         itemMeta.displayName(Component.text(tierColor + spiritType + " Spirit"));
 
