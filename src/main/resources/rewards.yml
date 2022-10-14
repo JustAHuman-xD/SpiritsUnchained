@@ -1,11 +1,11 @@
 overrides: #Use this to grant spirit Specific Rewards
-#  COW:
-#    min: 1
-#    max: 10
-#    rewards:
-#      - STRING
-#      - MILK_BUCKET
-#      - COPPER_DUST
+  COW: #To know what Path to use find the Entity in spirits.yml
+    min: 1
+    max: 10
+    rewards:
+      - IRON_INGOT
+      - IRON_INGOT
+      - IRON_INGOT
 
 tiered:
   1:

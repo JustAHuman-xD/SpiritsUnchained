@@ -107,6 +107,5 @@ public class SpiritsManager {
             tierMaps.get(tier-1).add(type);
         }
         LogUtils.logInfo("Loaded " + spiritMap.size() + " Spirits!");
-        LogUtils.logInfo(goalRequirements.toString());
     }
 }
