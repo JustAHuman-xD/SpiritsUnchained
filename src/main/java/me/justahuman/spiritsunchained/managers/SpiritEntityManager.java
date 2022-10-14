@@ -26,6 +26,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -33,6 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SpiritEntityManager implements Listener {
 
     public final Map<String, AbstractCustomMob<?>> entityMap = new HashMap<>();
+    public final Collection<LivingEntity> entityCollection = new ArrayList<>();
 
     public SpiritEntityManager() {
         final FileConfiguration config = SpiritsUnchained.getInstance().getConfig();
@@ -52,12 +55,7 @@ public class SpiritEntityManager implements Listener {
     }
 
     public AbstractCustomMob<?> getCustomClass(Entity entity, String key) {
-        String getKey = null;
-        if (entity != null) {
-            getKey = PersistentDataAPI.getString(entity, Keys.entityKey);
-        } else if (key != null) {
-            getKey = key;
-        }
+        String getKey = entity != null ? PersistentDataAPI.getString(entity, Keys.entityKey) : key;
         return getKey == null ? null : this.entityMap.get(getKey);
     }
 

@@ -5,13 +5,16 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import net.kyori.adventure.text.Component;
 
 import org.bukkit.ChatColor;
@@ -222,6 +225,11 @@ public class SpiritUtils {
         return spiritMap.get(EntityType.valueOf(PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey)));
     }
 
+    public static SpiritDefinition getSpiritDefinition(String type) {
+        return spiritMap.get(EntityType.valueOf(type));
+    }
+
+
     public static double getTraitUsage(String trait) {
         return switch(trait) {
             case "Multishoot", "Hunger_Hit", "Slow_Shot" -> 2;
@@ -279,17 +287,16 @@ public class SpiritUtils {
         PersistentDataAPI.setString(meta, Keys.spiritStateKey, state);
         lore.set(2, Component.text(ChatColors.color("&fCurrent State: " + stateColor(state) + state)));
         lore.set(5, Component.text(ChatColors.color("&fProgress: " + getProgress(progress))));
-        lore.set(6, Component.text(ChatColors.color("&fPass On: " + ChatColor.RED + passOn + "/" + getSpiritDefinition(item).getGoal().getAmount() + (PersistentDataAPI.hasBoolean(meta, Keys.spiritLocked) && PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? ChatColor.DARK_RED + " (LOCKED)" : ""))));
+        lore.set(6, Component.text(ChatColors.color("&fPass On: " + ChatColor.RED + passOn + "/" + toPass + (PersistentDataAPI.hasBoolean(meta, Keys.spiritLocked) && PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? ChatColor.DARK_RED + " (LOCKED)" : ""))));
         meta.lore(lore);
         item.setItemMeta(meta);
         return toReturn;
     }
     @ParametersAreNonnullByDefault
     public static Collection<Entity> getNearbySpirits(Location location) {
-        final Collection<Entity> nearbyEntities = location.getNearbyEntities(48, 48, 48);
         final Collection<Entity> returnList = new ArrayList<>();
-        for (Entity entity : nearbyEntities) {
-            if (spiritEntityManager.getCustomClass(entity, null) != null) {
+        for (LivingEntity entity : spiritEntityManager.entityCollection) {
+            if (location.distance(entity.getLocation()) <= 48) {
                 returnList.add(entity);
             }
         }
@@ -501,5 +508,11 @@ public class SpiritUtils {
         bookMeta.setTitle(spiritName);
         filledBook.setItemMeta(bookMeta);
         return filledBook;
+    }
+
+    public static void fillSlots(ChestMenu chestMenu, int[] slots, ItemStack itemStack) {
+        for (int slot : slots) {
+            chestMenu.addItem(slot, itemStack, ChestMenuUtils.getEmptyClickHandler());
+        }
     }
 }

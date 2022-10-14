@@ -15,7 +15,7 @@ public class ParticleUtils {
         // TODO might need to use this for later Visuals
     }
 
-    public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, boolean stopMovements, boolean special, Particle.DustOptions... other) {
+    public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, boolean stopMovements, boolean special, Object... other) {
         for (int i = 0; i < amount; i++) {
             final double x = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
             final double y = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
@@ -23,7 +23,7 @@ public class ParticleUtils {
             if (!special) {
                 if (stopMovements) {
                     if (particle == Particle.REDSTONE && other.length > 0) {
-                        location.getWorld().spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, other[0]);
+                        location.getWorld().spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0,(Particle.DustOptions) other[0]);
                     } else {
                         location.getWorld().spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
                     }
