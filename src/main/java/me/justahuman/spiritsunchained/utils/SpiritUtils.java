@@ -256,6 +256,8 @@ public class SpiritUtils {
     public static boolean updateSpiritItemProgress(ItemStack item, double updateWith) {
         final ItemMeta meta = item.getItemMeta();
         final List<Component> lore = meta.lore();
+        final int passOn = PersistentDataAPI.getInt(meta, Keys.spiritPassOnKey);
+        final int toPass = getSpiritDefinition(item).getGoal().getAmount();
         String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         double progress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey) + updateWith;
         boolean toReturn = false;
@@ -277,6 +279,7 @@ public class SpiritUtils {
         PersistentDataAPI.setString(meta, Keys.spiritStateKey, state);
         lore.set(2, Component.text(ChatColors.color("&fCurrent State: " + stateColor(state) + state)));
         lore.set(5, Component.text(ChatColors.color("&fProgress: " + getProgress(progress))));
+        lore.set(6, Component.text(ChatColors.color("&fPass On: " + ChatColor.RED + passOn + "/" + getSpiritDefinition(item).getGoal().getAmount() + (PersistentDataAPI.hasBoolean(meta, Keys.spiritLocked) && PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? ChatColor.DARK_RED + " (LOCKED)" : ""))));
         meta.lore(lore);
         item.setItemMeta(meta);
         return toReturn;
@@ -329,7 +332,7 @@ public class SpiritUtils {
                     continue;
                 }
             }
-            if (definition.getBiomeGroup().size() > 0) {
+            if (!definition.getBiomeGroup().isEmpty()) {
                 boolean inBiome = false;
                 for (String biomeId : definition.getBiomeGroup()) {
                     inBiome = inBiome || configManager.getBiomeMap().get(biomeId).contains(biome.name());
@@ -349,6 +352,10 @@ public class SpiritUtils {
 
     public static boolean imbuedCheck(ItemStack helmetItem) {
         return SlimefunItem.getByItem(helmetItem) != null && SlimefunItem.getByItem(helmetItem).getId().equals(ItemStacks.SU_SPIRIT_LENSES.getItemId()) || PersistentDataAPI.hasByte(helmetItem.getItemMeta(), Keys.imbuedKey) && PersistentDataAPI.getByte(helmetItem.getItemMeta(), Keys.imbuedKey) == 2;
+    }
+
+    public static boolean isLocked(ItemStack itemStack) {
+        return PersistentDataAPI.hasBoolean(itemStack.getItemMeta(), Keys.spiritLocked) && PersistentDataAPI.getBoolean(itemStack.getItemMeta(), Keys.spiritLocked);
     }
 
     public static Collection<Player> getNearImbued(Location location) {
@@ -382,6 +389,7 @@ public class SpiritUtils {
 
         ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
 
+        PersistentDataAPI.setBoolean(itemMeta, Keys.spiritLocked, false);
         PersistentDataAPI.setString(itemMeta, Keys.spiritUniqueKey, String.valueOf(System.currentTimeMillis()));
         PersistentDataAPI.setString(itemMeta, Keys.spiritItemKey, definition.getType().toString());
         PersistentDataAPI.setString(itemMeta, Keys.spiritStateKey, state);
@@ -396,6 +404,7 @@ public class SpiritUtils {
         itemLore.add(Component.text(ChatColors.color("&fUse " + traitInfo.get("name") + "&f: " + traitInfo.get("type"))));
         itemLore.add(Component.text(""));
         itemLore.add(Component.text(ChatColors.color("&fProgress: " + getProgress(0))));
+        itemLore.add(Component.text(ChatColors.color("&fPass On: " + ChatColor.RED + "0/" + definition.getGoal().getAmount())));
 
         itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 

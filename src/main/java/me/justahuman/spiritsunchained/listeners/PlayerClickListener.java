@@ -70,6 +70,13 @@ public class PlayerClickListener implements Listener {
     private boolean rightClick(Player player, ItemStack item) {
         if (item.getType() == Material.FIREWORK_STAR) {
             if (SpiritUtils.isSpiritItem(item)) {
+                if (player.isSneaking()) {
+                    ItemMeta meta = item.getItemMeta();
+                    PersistentDataAPI.setBoolean(meta, Keys.spiritLocked, !PersistentDataAPI.getBoolean(meta, Keys.spiritLocked));
+                    item.setItemMeta(meta);
+                    SpiritUtils.updateSpiritItemProgress(item, 0);
+                    return true;
+                }
                 final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
                 final Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
                 player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(SpiritTraits.useTrait(player, traitInfo, PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritStateKey), PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey)))));

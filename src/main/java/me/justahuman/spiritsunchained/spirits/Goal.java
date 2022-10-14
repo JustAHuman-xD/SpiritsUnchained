@@ -15,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -70,9 +69,9 @@ public class Goal {
         if (goalType.equals("SlimefunItem")) {
             try {
                 final ItemStack properSlimefunItem = SpiritsUnchained.getSlimefunItem(requiredType).clone();
-                final List<Component> newLore = slimefunItem.getItemMeta().hasLore() ? slimefunItem.lore() : new ArrayList<>();
+                final List<Component> newLore = slimefunItem.lore();
                 final ItemMeta newMeta = properSlimefunItem.getItemMeta();
-                newLore.set(2, Component.text(ChatColors.color(ChatColor.AQUA + "Task: " + ChatColor.GRAY + "Give " + properSlimefunItem.getItemMeta().displayName())));
+                newLore.set(2, Component.text(ChatColors.color(ChatColor.AQUA + "Task: " + ChatColor.GRAY + "Give " + amount + " " + properSlimefunItem.getItemMeta().getDisplayName())));
                 newMeta.displayName(Component.text(ChatColors.color(ChatColor.AQUA + "Pass On Task:")));
                 properSlimefunItem.setItemMeta(newMeta);
                 properSlimefunItem.lore(newLore);

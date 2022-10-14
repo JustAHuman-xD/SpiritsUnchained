@@ -35,7 +35,7 @@ public class PassOnListeners implements Listener {
     public void onItemClick(InventoryClickEvent clickEvent) {
         final ItemStack clickingWith = clickEvent.getCursor();
         final ItemStack clicking = clickEvent.getCurrentItem();
-        if (! (clickEvent.getWhoClicked() instanceof Player player) || ! (clickEvent.getClick().isLeftClick() || clickEvent.getClick().isRightClick()) || clickingWith == null || ! SpiritUtils.isSpiritItem(clicking)) {
+        if (! (clickEvent.getWhoClicked() instanceof Player player) || ! (clickEvent.getClick().isLeftClick() || clickEvent.getClick().isRightClick()) || clickingWith == null || ! SpiritUtils.isSpiritItem(clicking) || SpiritUtils.isLocked(clicking)) {
             return;
         }
         final ItemMeta clickingMeta = clicking.getItemMeta();
@@ -43,7 +43,7 @@ public class PassOnListeners implements Listener {
         final Goal goal = definition.getGoal();
         final ItemStack requirementStack = goal.getRequiredStack();
         final String goalType = goal.getGoalType();
-        final int amount = PersistentDataAPI.hasInt(clickingMeta, Keys.spiritPassOnKey) ? PersistentDataAPI.getInt(clickingMeta, Keys.spiritPassOnKey) : goal.getAmount();
+        final int amount = goal.getAmount() - PersistentDataAPI.getInt(clickingMeta, Keys.spiritPassOnKey);
 
 
         final SlimefunItem clickingWithSF = SlimefunItem.getByItem(clickingWith);
@@ -51,11 +51,12 @@ public class PassOnListeners implements Listener {
 
         if ((goalType.equals("Item") && clickingWithSF == null && clickingWith.getType() == requirementStack.getType()) || (goalType.equals("SlimefunItem") && clickingWithSF != null && clickingWithSF == requirementStackSF)) {
             final int clickingWithAmount = clickingWith.getAmount();
-            clickingWith.subtract(amount);
+            clickingWith.setAmount(clickingWithAmount - amount);
             clickEvent.setCancelled(true);
-            if (amount > clickingWithAmount ) {
-                PersistentDataAPI.setInt(clickingMeta, Keys.spiritPassOnKey, amount - clickingWithAmount);
+            if (amount > clickingWithAmount) {
+                PersistentDataAPI.setInt(clickingMeta, Keys.spiritPassOnKey, clickingWithAmount + PersistentDataAPI.getInt(clickingMeta, Keys.spiritPassOnKey));
                 clicking.setItemMeta(clickingMeta);
+                SpiritUtils.updateSpiritItemProgress(clicking, 0);
             } else {
                 clicking.subtract();
                 clickEvent.getInventory().close();
@@ -87,18 +88,19 @@ public class PassOnListeners implements Listener {
 
     private void onSpecialInteract(Player player, LivingEntity entity, String type) {
         for (EntityType goalFor : SpiritsUnchained.getSpiritsManager().getGoalRequirements().get(entity.getType())) {
-            ItemStack spiritItem = SpiritUtils.getSpiritItem(player, goalFor);
-            if (spiritItem != null) {
+            final ItemStack spiritItem = SpiritUtils.getSpiritItem(player, goalFor);
+            if (spiritItem != null && !SpiritUtils.isLocked(spiritItem)) {
                 SpiritDefinition definition = SpiritUtils.getSpiritDefinition(spiritItem);
                 if (!definition.getGoal().getGoalType().equals(type)) {
                     return;
                 }
-                ItemMeta meta = spiritItem.getItemMeta();
+                final ItemMeta meta = spiritItem.getItemMeta();
                 final int amount = definition.getGoal().getAmount();
                 final int currentAmount = PersistentDataAPI.getInt(meta, Keys.spiritPassOnKey) + 1;
                 if (amount > currentAmount) {
                     PersistentDataAPI.setInt(meta, Keys.spiritPassOnKey, currentAmount);
                     spiritItem.setItemMeta(meta);
+                    SpiritUtils.updateSpiritItemProgress(spiritItem, 0);
                 } else {
                     spiritItem.subtract();
                     passOn(player, definition);
