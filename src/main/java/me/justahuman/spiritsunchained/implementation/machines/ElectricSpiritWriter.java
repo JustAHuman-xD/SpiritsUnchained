@@ -28,6 +28,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -162,6 +163,7 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
 
         progress.put(pos, 0);
         ChestMenuUtils.updateProgressbar(inv, PROGRESS_SLOT, 1, 1, PROGRESS_ITEM);
+        b.getWorld().playSound(b.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
     }
 
     @Nonnull

@@ -15,12 +15,10 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.implementation.mobs.Spirit;
 import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
-import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
@@ -29,7 +27,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 import org.bukkit.Bukkit;
@@ -37,10 +34,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.Vibration;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
-import org.bukkit.block.SculkShrieker;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -174,7 +170,7 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
         final Vibration vibration = new Vibration(target.getLocation(), new Vibration.Destination.BlockDestination(location), 20);
         location.getWorld().spawnParticle(Particle.VIBRATION, target.getLocation(), 1, vibration);
         final Vector direction = location.subtract(target.getLocation()).toVector();
-        target.setVelocity(direction.normalize().multiply(1));
+        target.setVelocity(direction.normalize().multiply(0.5));
 
         ItemStack toReturn = new ItemStack(Material.AIR);
         int tier = 1;
@@ -191,6 +187,7 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
         final LivingEntity finalTarget = target;
         final ItemStack finalToReturn = toReturn;
         Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
+            finalTarget.getWorld().playSound(finalTarget.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
             finalTarget.remove();
             spiritNet.subtract();
             catching.put(pos, false);
