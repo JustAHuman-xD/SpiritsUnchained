@@ -2,6 +2,7 @@ package me.justahuman.spiritsunchained.managers;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.listeners.IdentifyingGlassListener;
+import me.justahuman.spiritsunchained.listeners.PassOnListeners;
 import me.justahuman.spiritsunchained.listeners.PlayerReleaseSpiritListener;
 import me.justahuman.spiritsunchained.listeners.PlayerClickListener;
 import me.justahuman.spiritsunchained.listeners.SpiritItemListeners;
@@ -19,6 +20,6 @@ public class ListenerManager {
         manager.registerEvents(new PlayerReleaseSpiritListener(), instance);
         manager.registerEvents(new SpiritItemListeners(), instance);
         manager.registerEvents(new TraitListeners(), instance);
-        manager.registerEvents(new PlayerReleaseSpiritListener(), instance);
+        manager.registerEvents(new PassOnListeners(), instance);
     }
 }
