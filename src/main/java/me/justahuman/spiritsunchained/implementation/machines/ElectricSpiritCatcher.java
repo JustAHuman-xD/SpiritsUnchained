@@ -20,6 +20,7 @@ import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.utils.Keys;
+import me.justahuman.spiritsunchained.utils.ParticleUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -169,7 +170,7 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
         ((Allay) target).setAware(false);
         final Vibration vibration = new Vibration(target.getLocation(), new Vibration.Destination.BlockDestination(location), 20);
         location.getWorld().spawnParticle(Particle.VIBRATION, target.getLocation(), 1, vibration);
-        final Vector direction = location.subtract(target.getLocation()).toVector();
+        final Vector direction = location.clone().subtract(target.getLocation().clone()).toVector();
         target.setVelocity(direction.normalize().multiply(0.5));
 
         ItemStack toReturn = new ItemStack(Material.AIR);
@@ -187,6 +188,7 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
         final LivingEntity finalTarget = target;
         final ItemStack finalToReturn = toReturn;
         Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
+            ParticleUtils.spawnParticleRadius(location, Particle.SPELL_INSTANT, 1.5, 10, true, false);
             finalTarget.getWorld().playSound(finalTarget.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
             finalTarget.remove();
             spiritNet.subtract();

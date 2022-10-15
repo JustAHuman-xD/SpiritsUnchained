@@ -85,7 +85,7 @@ public class Items {
                 ItemStacks.SU_INFUSED_FEATHER, ItemStacks.SU_ECTOPLASM, new ItemStack(Material.GLOW_INK_SAC)
         }).register(instance);
 
-        new SlimefunItem(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_NET,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
+        new UnplaceableBlock(Groups.SU_TOOLS,ItemStacks.SU_SPIRIT_NET,RecipeType.MAGIC_WORKBENCH,new ItemStack[]{
                 new ItemStack(Material.STRING), ItemStacks.SU_ECTOPLASM, new ItemStack(Material.STRING),
                 ItemStacks.SU_ECTOPLASM, ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM,
                 new ItemStack(Material.STRING), ItemStacks.SU_ECTOPLASM, new ItemStack(Material.STRING)

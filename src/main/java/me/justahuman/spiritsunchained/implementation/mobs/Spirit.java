@@ -128,7 +128,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
         SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
         if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_NET.getItemId())) {
             if (new Random().nextInt(1,100) <= SpiritUtils.getTierChance(tier)) {
-                //ParticleUtils.catchAnimation(entity.getLocation());
+                ParticleUtils.catchAnimation(entity.getLocation());
                 entity.remove();
                 PlayerUtils.addOrDropItem(player, SpiritUtils.spiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
             } else {

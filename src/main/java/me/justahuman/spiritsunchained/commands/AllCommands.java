@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.utils.Keys;
+import me.justahuman.spiritsunchained.utils.ParticleUtils;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.utils.SpiritTraits;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
@@ -37,7 +38,10 @@ public class AllCommands implements TabExecutor {
         if (! (sender instanceof Player player ) || args.length == 0) {
             return false;
         }
-        if (useCommand("SummonSpirit", player, 0, 2, args)) {
+        if (useCommand("TestParticles", player, 0, 2, args)) {
+            return testParticles(player, args[1]);
+        }
+        else if (useCommand("SummonSpirit", player, 0, 2, args)) {
             return summonSpirit(args[1], player, args.length >= 3 ? args[2] : "COW");
         }
         else if (useCommand("GiveSpirit", player, 0, 2, args)) {
@@ -60,6 +64,7 @@ public class AllCommands implements TabExecutor {
             final List<String> l = new ArrayList<>();
             final Map<String, Integer> add = new HashMap<>();
             if (args.length == 1) {
+                add.put("TestParticles", 0);
                 add.put("GiveSpirit", 0);
                 add.put("SummonSpirit", 0);
                 add.put("EditItem", 0);
@@ -67,7 +72,10 @@ public class AllCommands implements TabExecutor {
             }
 
             else if (args.length == 2) {
-                if (args[0].equalsIgnoreCase("SummonSpirit")) {
+                if (args[0].equalsIgnoreCase("TestParticles")) {
+                    add.put("Catch", 1);
+                }
+                else if (args[0].equalsIgnoreCase("SummonSpirit")) {
                     for (String string : spiritTypes) {
                         add.put(string, 1);
                     }
@@ -130,6 +138,18 @@ public class AllCommands implements TabExecutor {
 
     private boolean hasPerm(Player player) {
         return player.isOp() || player.hasPermission("spiritsunchained.admin");
+    }
+
+    private boolean testParticles(Player player, String test) {
+        switch (test.toLowerCase()) {
+            case "catch" -> {
+                ParticleUtils.catchAnimation(player.getLocation());
+                return true;
+            }
+            default -> {
+                return sendError(player, "Not a Proper Particle Test");
+            }
+        }
     }
 
     private boolean giveSpirit(Player player, String type, String state) {
