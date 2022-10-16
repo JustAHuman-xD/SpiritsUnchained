@@ -85,7 +85,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     private static final int RELATIONS_SLOT = 32;
     private static final int TRAIT_SLOT = 40;
 
-    private static final String backLore = ChatColors.color("&7" + Slimefun.getLocalization().getMessage("guide.back.guide"));
+    private static final String backLore = "&7" + Slimefun.getLocalization().getMessage("guide.back.guide");
 
     private static final ItemStack notEnoughKnowledge = new CustomItemStack(
             Material.WRITABLE_BOOK,
@@ -124,7 +124,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         final ChestMenu menu = new ChestMenu("&aSpirits Unchained");
 
         for (int slot : HEADER) {
-            menu.addItem(slot, ChestMenuUtils.getBackground(), (player1, i1, itemStack, clickAction) -> false);
+
         }
         for (int slot : FOOTER) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), (player1, i1, itemStack, clickAction) -> false);
@@ -214,14 +214,14 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         menu.replaceExistingItem(SPIRIT_SLOT, getSpiritMenuItem(definition));
 
         //Pass On Task
-        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 1) || mode == SlimefunGuideMode.CHEAT_MODE) {
+        if (PlayerUtils.hasKnowledgePiece(player, entityType, 1) || mode == SlimefunGuideMode.CHEAT_MODE) {
             menu.replaceExistingItem(GOAL_SLOT, definition.getGoal().getDisplayStack());
         } else {
             menu.replaceExistingItem(GOAL_SLOT, notEnoughKnowledge);
         }
 
         //Relations
-        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 2) || mode == SlimefunGuideMode.CHEAT_MODE) {
+        if (PlayerUtils.hasKnowledgePiece(player, entityType, 2) || mode == SlimefunGuideMode.CHEAT_MODE) {
             menu.replaceExistingItem(RELATIONS_SLOT, new CustomItemStack(
                     Material.WRITTEN_BOOK,
                     "&aRelations",
@@ -237,7 +237,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         }
 
         //Trait
-        if (PlayerUtils.hasKnowledgeLevel(player, entityType, 3) || mode == SlimefunGuideMode.CHEAT_MODE) {
+        if (PlayerUtils.hasKnowledgePiece(player, entityType, 3) || mode == SlimefunGuideMode.CHEAT_MODE) {
             final Map<String, Object> traitList = SpiritUtils.getTraitInfo(definition.getTrait());
             final CustomItemStack traitItemStack = new CustomItemStack(
                     Material.GLASS,

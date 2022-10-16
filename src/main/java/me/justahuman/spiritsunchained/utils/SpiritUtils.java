@@ -7,7 +7,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
@@ -261,26 +260,23 @@ public class SpiritUtils {
         return false;
     }
 
-    public static boolean updateSpiritItemProgress(ItemStack item, double updateWith) {
+    public static void updateSpiritItemProgress(ItemStack item, double updateWith) {
         final ItemMeta meta = item.getItemMeta();
         final List<Component> lore = meta.lore();
         final int passOn = PersistentDataAPI.getInt(meta, Keys.spiritPassOnKey);
         final int toPass = getSpiritDefinition(item).getGoal().getAmount();
         String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         double progress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey) + updateWith;
-        boolean toReturn = false;
         if (progress >= 100) {
             int index = getStates().indexOf(state);
             boolean canIncrease = ! getStates().get(getStates().size()-1).equals(state);
             state = canIncrease ? getStates().get(index + 1) : state;
             progress = canIncrease ? progress - 100.0 : 100.0;
-            toReturn = true;
         } else if (progress <= 0) {
             int index = getStates().indexOf(state);
             boolean canDecrease = index != 0;
             state = canDecrease ? getStates().get(index - 1) : state;
             progress = canDecrease ? progress + 100.0 : 0.0;
-            toReturn = true;
         }
         progress = BigDecimal.valueOf(progress).setScale(2, RoundingMode.HALF_UP).doubleValue();
         PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, progress);
@@ -290,7 +286,6 @@ public class SpiritUtils {
         lore.set(6, Component.text(ChatColors.color("&fPass On: " + ChatColor.RED + passOn + "/" + toPass + (PersistentDataAPI.hasBoolean(meta, Keys.spiritLocked) && PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? ChatColor.DARK_RED + " (LOCKED)" : ""))));
         meta.lore(lore);
         item.setItemMeta(meta);
-        return toReturn;
     }
     @ParametersAreNonnullByDefault
     public static Collection<Entity> getNearbySpirits(Location location) {
@@ -496,7 +491,7 @@ public class SpiritUtils {
         return toReturn;
     }
 
-    public static ItemStack getFilledSpiritBook(SpiritDefinition definition, int knowledgeLevel) {
+    public static ItemStack getFilledSpiritBook(SpiritDefinition definition) {
         final ChatColor tierColor = tierColor(definition.getTier());
         final String spiritName = ChatUtils.humanize(definition.getType().name()) + " Spirit";
 

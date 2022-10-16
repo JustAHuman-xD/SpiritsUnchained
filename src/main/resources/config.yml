@@ -1,4 +1,5 @@
 options:
+  #Should spirits update itself on Start Up?
   auto-update: true
 
   #tick-rate controls how often the Spirit Entities will Tick
@@ -26,3 +27,7 @@ options:
 
   #Should Hostile and Aggressive Spirits Damage Players when in a Players Inventory
   aggressive-damage: true
+
+  #What Worlds should Spirits NOT Spawn In, Case Sensitive
+  disabled-worlds:
+    - example-name

@@ -84,7 +84,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
-        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, 5, true, true);
+        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, 5, "Spirit");
 
         for (Player player : allay.getWorld().getPlayers()) {
             if (player.canSee(allay)) {

@@ -88,7 +88,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
         final String state = PersistentDataAPI.getString(allay, Keys.spiritStateKey);
-        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, true, true);
+        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, "Spirit");
         SpiritUtils.spawnStateParticle(state, allay.getLocation());
 
         for (Player player : allay.getWorld().getPlayers()) {
@@ -131,18 +131,19 @@ public class Spirit extends AbstractCustomMob<Allay> {
                 ParticleUtils.catchAnimation(entity.getLocation());
                 entity.remove();
                 PlayerUtils.addOrDropItem(player, SpiritUtils.spiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
+                PlayerUtils.learnKnowledgePiece(player, type, 1);
             } else {
                 player.sendMessage("The Spirit Escaped the Net!");
             }
             item.subtract();
         } else if(slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_BOOK.getItemId())) {
             if (new Random().nextInt(1, 100) <= SpiritUtils.getTierChance(tier)) {
-                int currentKnowledge = PlayerUtils.getKnowledgeLevel(player, type);
-                if (currentKnowledge < 2) {
-                    PlayerUtils.addOrDropItem(player, SpiritUtils.getFilledSpiritBook(this.definition, currentKnowledge));
-                    PlayerUtils.setKnowledgeLevel(player, type, currentKnowledge + 1);
+                if (!PlayerUtils.hasKnowledgePiece(player, type, 2)) {
+                    PlayerUtils.addOrDropItem(player, SpiritUtils.getFilledSpiritBook(this.definition));
+                    PlayerUtils.learnKnowledgePiece(player, type, 2);
                 } else {
                     player.sendMessage("You can't gain anymore knowledge from a Book!");
+                    return;
                 }
             } else {
                 player.sendMessage("The Spirit rips the Book to Shreds!");

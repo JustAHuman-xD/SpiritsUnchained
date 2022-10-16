@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
+import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -144,7 +145,7 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
         final SpiritDefinition definition = SpiritUtils.getSpiritDefinition(spiritItem);
         final int maxTime = 3 * definition.getTier();
 
-        ParticleUtils.spawnParticleRadius(b.getLocation(), Particle.ENCHANTMENT_TABLE, 1.5, 10, true, false);
+        ParticleUtils.spawnParticleRadius(b.getLocation(), Particle.ENCHANTMENT_TABLE, 1.5, 10, "");
 
         if (currentProgress < maxTime) {
             progress.put(pos, ++currentProgress);
@@ -156,10 +157,14 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
         }
 
         inv.pushItem(spiritItem.clone(), getOutputSlots());
-        inv.pushItem(SpiritUtils.getFilledSpiritBook(definition, 2), getOutputSlots());
+        inv.pushItem(SpiritUtils.getFilledSpiritBook(definition), getOutputSlots());
 
         spiritItem.subtract();
         bookItem.subtract();
+
+        for (Player player : b.getWorld().getNearbyPlayers(b.getLocation(), 10)) {
+            PlayerUtils.learnKnowledgePiece(player, definition.getType(), 2);
+        }
 
         progress.put(pos, 0);
         ChestMenuUtils.updateProgressbar(inv, PROGRESS_SLOT, 1, 1, PROGRESS_ITEM);

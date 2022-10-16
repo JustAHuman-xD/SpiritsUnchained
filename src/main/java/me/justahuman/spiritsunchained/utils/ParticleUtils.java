@@ -2,6 +2,7 @@ package me.justahuman.spiritsunchained.utils;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -30,37 +31,29 @@ public class ParticleUtils {
         }
     }
 
-    public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, boolean stopMovements, boolean special, Object... other) {
+    public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, String type, Object... other) {
         for (int i = 0; i < amount; i++) {
             final double x = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
             final double y = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
             final double z = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
             final World world = location.getWorld();
-            if (!special) {
-                if (stopMovements) {
-                    if (particle == Particle.REDSTONE && other.length > 0) {
-                        world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0,(Particle.DustOptions) other[0]);
-                    } else {
-                        world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
-                    }
-                    continue;
-                }
-                world.spawnParticle(particle, location.clone().add(x, y, z), 1);
-            } else {
-                final Collection<Player> collection = getNearImbued(location);
-                for (Player player : collection) {
-                    if (stopMovements) {
+            switch (type) {
+                case "Colored" -> world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0,(Particle.DustOptions) other[0]);
+                case "Freeze" -> world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
+                case "Spirit" -> {
+                    final Collection<Player> collection = getNearImbued(location);
+                    for (Player player : collection) {
                         player.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
-                        continue;
                     }
-                    player.spawnParticle(particle, location.clone().add(x, y, z), 1);
                 }
+                default -> world.spawnParticle(particle, location.clone().add(x,y,z), 1);
             }
         }
     }
 
     public static void catchAnimation(Location location) {
         final World world = location.getWorld();
+        world.playSound(location, Sound.ENTITY_ENDER_EYE_DEATH, 1, 1);
         for (double[] offsets : sphere) {
             final Location particleLocation = location.clone().add(offsets[0], offsets[1], offsets[2]);
             final Vector direction = location.clone().subtract(particleLocation.clone()).toVector();

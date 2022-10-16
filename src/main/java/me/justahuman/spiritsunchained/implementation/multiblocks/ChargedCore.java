@@ -10,6 +10,7 @@ import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -38,16 +39,20 @@ public class ChargedCore {
                     ItemMeta itemMeta = spiritItem.getItemMeta();
 
                     final  SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(PersistentDataAPI.getString(itemMeta, Keys.spiritItemKey)));
-                    if (SpiritUtils.updateSpiritItemProgress(spiritItem, Multiplier / (double) definition.getTier())) {
-                        PlayerUtils.setKnowledgeLevel(player, definition.getType(), 3);
-                    }
+                    SpiritUtils.updateSpiritItemProgress(spiritItem, Multiplier / definition.getTier());
+
+                    Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
+                        if (PersistentDataAPI.getString(itemMeta, Keys.spiritStateKey).equals("Friendly")) {
+                            PlayerUtils.learnKnowledgePiece(player, definition.getType(), 3);
+                        }
+                    }, 1L);
                 }
             }
         }
     }
 
     private static void particle(Integer times, Location start) {
-        ParticleUtils.spawnParticleRadius(start.clone().add(0, 1.5, 0), Particle.END_ROD, 2, times, true, false);
+        ParticleUtils.spawnParticleRadius(start.clone().add(0, 1.5, 0), Particle.END_ROD, 2, times, "Freeze");
     }
 
     private static boolean isComplete(Block b) {

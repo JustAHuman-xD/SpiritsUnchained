@@ -111,7 +111,7 @@ public class SpiritTraits {
     }
     public static void Ink_Spray(Player player) {
         final Location location = player.getLocation();
-        ParticleUtils.spawnParticleRadius(location, Particle.SQUID_INK, 2, 20, true, false);
+        ParticleUtils.spawnParticleRadius(location, Particle.SQUID_INK, 2, 20, "");
         for(Player nearbyPlayer : player.getWorld().getNearbyPlayers(location, 5, 5, 5)) {
             if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
                 continue;
@@ -123,14 +123,14 @@ public class SpiritTraits {
     public static void Hops(Player player) {
         final Location location = player.getLocation();
         player.getWorld().playSound(location, Sound.ENTITY_RABBIT_JUMP, 3, 1);
-        ParticleUtils.spawnParticleRadius(location.add(0, 0.5, 0), Particle.COMPOSTER, 3, 20, true, false);
+        ParticleUtils.spawnParticleRadius(location.add(0, 0.5, 0), Particle.COMPOSTER, 3, 20, "");
         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 30*20, 1, true));
     }
     public static void Bee_Buddy(Player player) {
         final World world = player.getWorld();
         final Location location = player.getLocation();
         final ItemStack item = (Math.random() <= 0.5) ? new ItemStack(Material.HONEYCOMB) : new ItemStack(Material.HONEY_BOTTLE);
-        ParticleUtils.spawnParticleRadius(location.add(0, 0.5, 0), Particle.DRIPPING_HONEY, 3, 20, true, false);
+        ParticleUtils.spawnParticleRadius(location.add(0, 0.5, 0), Particle.DRIPPING_HONEY, 3, 20, "");
 
         item.setAmount(new Random().nextInt(1,6));
         world.playSound(location, Sound.BLOCK_BEEHIVE_SHEAR, 2, 1);
@@ -175,7 +175,7 @@ public class SpiritTraits {
         try{
             final Material newMaterial = Material.valueOf("infested_" + lookingAt.getType());
             lookingAt.setType(newMaterial);
-            ParticleUtils.spawnParticleRadius(lookingAt.getLocation(), Particle.ASH, 1.5, 40, false, false);
+            ParticleUtils.spawnParticleRadius(lookingAt.getLocation(), Particle.ASH, 1.5, 40, "");
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_SILVERFISH_AMBIENT, 1, 1);
         } catch (IllegalArgumentException | NullPointerException e) {
             e.printStackTrace();
@@ -213,7 +213,7 @@ public class SpiritTraits {
                 final Sign sign = (Sign) relative.getState();
                 sign.setGlowingText(true);
                 sign.update();
-                ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.GLOW_SQUID_INK, 1.5, 24, false, false);
+                ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.GLOW_SQUID_INK, 1.5, 24, "");
                 world.playSound(relative.getLocation(), Sound.ENTITY_GLOW_SQUID_SQUIRT, 1, 1);
             }
         }
@@ -226,7 +226,7 @@ public class SpiritTraits {
             final GlowItemFrame frame = world.spawn(frameLocation, GlowItemFrame.class);
             frame.setRotation(rotation);
             frame.setItem(item);
-            ParticleUtils.spawnParticleRadius(itemFrame.getLocation(), Particle.GLOW_SQUID_INK, 1.5, 24, false, false);
+            ParticleUtils.spawnParticleRadius(itemFrame.getLocation(), Particle.GLOW_SQUID_INK, 1.5, 24, "");
             world.playSound(itemFrame.getLocation(), Sound.ENTITY_GLOW_SQUID_SQUIRT, 1, 1);
         }
     }
@@ -244,7 +244,7 @@ public class SpiritTraits {
                 };
                 final Material newMaterial = chooseFrom[new Random().nextInt(3)];
                 relative.setType(newMaterial);
-                ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.END_ROD, 1.5, 24, true, false);
+                ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.END_ROD, 1.5, 24, "");
             }
         }
 
@@ -274,7 +274,7 @@ public class SpiritTraits {
     }
     public static void Poison_Spray(Player player) {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LLAMA_SPIT, 2, 1);
-        ParticleUtils.spawnParticleRadius(player.getLocation(), Particle.SCULK_CHARGE_POP, 5, 30, true, false);
+        ParticleUtils.spawnParticleRadius(player.getLocation(), Particle.SCULK_CHARGE_POP, 5, 100, "Freeze");
         for (Player nearbyPlayer : player.getWorld().getNearbyPlayers(player.getLocation(), 5)) {
             if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
                 continue;
@@ -408,7 +408,7 @@ public class SpiritTraits {
             nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 30*20, 4, true));
             nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30*20, 4, true));
             world.playSound(nearbyLocation, Sound.ENTITY_WARDEN_HEARTBEAT, 3, 1);
-            ParticleUtils.spawnParticleRadius(nearbyLocation, Particle.SCULK_SOUL, 2, 30, false, false);
+            ParticleUtils.spawnParticleRadius(nearbyLocation, Particle.SCULK_SOUL, 2, 30, "");
         }
         world.playSound(location, Sound.ENTITY_WARDEN_ROAR, 1, 1);
     }

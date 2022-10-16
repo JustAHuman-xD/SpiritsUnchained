@@ -17,23 +17,20 @@ public class PlayerUtils {
 
     static final ConfigManager configManager = SpiritsUnchained.getConfigManager();
 
-    //There are 3 levels of Knowledge about a Spirit (4 including Level: 0)
-    //At Level 1 you learn what it needs to Pass On, Unlocked with a Spirit Book
-    //At Level 2 you learn what its relations with other Spirits Area, Unlocked with a Spirit Book
-    //At Level 3 you learn what Effect it will have on You when in your Inventory, Unlocked by bringing its Friendship Level to the Max, Only After Being Level 2
+    //There are 3 pieces of Knowledge you can learn about a Spirit
+    //1: What it needs to Pass On, Unlocked by Catching the Spirit
+    //2: What its relations with other Spirits Area, Unlocked with a Spirit Book
+    //3: What Effect it will have on You when in your Inventory, Unlocked by bringing its Friendship Level to the Friendly
 
+    //Adds a Piece of Knowledge
     @ParametersAreNonnullByDefault
-    public static int getKnowledgeLevel(Player player, EntityType type) {
-        return configManager.getPlayerData().get(player.getUniqueId() + "." + type) instanceof Integer currentLevel ? currentLevel : 0;
-    }
-
-    //Sets the Players Knowledge Level
-    @ParametersAreNonnullByDefault
-    public static void setKnowledgeLevel(Player player, EntityType type, int setLevel) {
+    public static void learnKnowledgePiece(Player player, EntityType type, int knowledgeType) {
+        knowledgeType = knowledgeType - 1;
         final FileConfiguration playerData = configManager.getPlayerData();
-        final int currentLevel = playerData.getInt(player.getUniqueId()+"."+type);
-        playerData.set(player.getUniqueId()+"."+type, (currentLevel == (setLevel -1)) ? setLevel : currentLevel);
-        if (getKnowledgeLevel(player, type) > currentLevel) {
+        final String currentKnowledge = playerData.getString(player.getUniqueId()+"."+type, "ABC");
+        final String newKnowledge = currentKnowledge.replace(currentKnowledge.charAt(knowledgeType), 'Y');
+        playerData.set(player.getUniqueId()+"."+type, newKnowledge);
+        if (!currentKnowledge.equals(newKnowledge)) {
             player.sendMessage("You have gained new knowledge about your " + ChatUtils.humanize(type.name()) + " Spirit!");
         }
     }
@@ -41,8 +38,10 @@ public class PlayerUtils {
 
     //Checks if the current players Knowledge Level is higher or equal to the Provided
     @ParametersAreNonnullByDefault
-    public static boolean hasKnowledgeLevel(Player player, EntityType type, int checkLevel) {
-        return getKnowledgeLevel(player, type) >= checkLevel;
+    public static boolean hasKnowledgePiece(Player player, EntityType type, int knowledgeType) {
+        final FileConfiguration playerData = configManager.getPlayerData();
+        final String currentKnowledge = playerData.getString(player.getUniqueId()+"."+type, "NNN");
+        return currentKnowledge.charAt(knowledgeType) == 'Y';
     }
 
     @ParametersAreNonnullByDefault

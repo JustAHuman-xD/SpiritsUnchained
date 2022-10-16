@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
+import lombok.Getter;
 import me.justahuman.spiritsunchained.commands.AllCommands;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
@@ -22,16 +23,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
 
+    @Getter
     private static SpiritsUnchained instance;
-    private ListenerManager listenerManager;
-    private SpiritsManager spiritsManager;
-    private SpiritEntityManager spiritEntityManager;
-    private ConfigManager configManager;
-    private RunnableManager runnableManager;
-
-    public static PluginManager getPluginManager() {
-        return instance.getServer().getPluginManager();
-    }
+    @Getter
+    private static ListenerManager listenerManager;
+    @Getter
+    private static SpiritsManager spiritsManager;
+    @Getter
+    private static SpiritEntityManager spiritEntityManager;
+    @Getter
+    private static ConfigManager configManager;
+    @Getter
+    private static RunnableManager runnableManager;
 
     @Override
     public void onEnable() {
@@ -42,11 +45,11 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         getLogger().info("    SpiritsUnchained - By JustAHuman    ");
         getLogger().info("========================================");
 
-        this.configManager = new ConfigManager();
-        this.runnableManager = new RunnableManager();
-        this.listenerManager = new ListenerManager();
-        this.spiritsManager = new SpiritsManager();
-        this.spiritEntityManager = new SpiritEntityManager();
+        configManager = new ConfigManager();
+        runnableManager = new RunnableManager();
+        listenerManager = new ListenerManager();
+        spiritsManager = new SpiritsManager();
+        spiritEntityManager = new SpiritEntityManager();
 
         Setup.INSTANCE.init();
 
@@ -69,25 +72,6 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     @Override
     public String getBugTrackerURL() {
         return "https://github.com/JustAHuman-xD/SpiritsUnchained/issues";
-    }
-
-    public static SpiritsUnchained getInstance() {
-        return instance;
-    }
-    public static RunnableManager getRunnableManager() {
-        return instance.runnableManager;
-    }
-    public static ListenerManager getListenerManager() {
-        return instance.listenerManager;
-    }
-    public static SpiritsManager getSpiritsManager() {
-        return instance.spiritsManager;
-    }
-    public static ConfigManager getConfigManager() {
-        return instance.configManager;
-    }
-    public static SpiritEntityManager getSpiritEntityManager() {
-        return instance.spiritEntityManager;
     }
 
     @Nonnull

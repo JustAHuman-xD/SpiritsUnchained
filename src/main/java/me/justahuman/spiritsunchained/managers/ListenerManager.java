@@ -12,8 +12,8 @@ import org.bukkit.plugin.PluginManager;
 
 public class ListenerManager {
     public ListenerManager() {
-        final PluginManager manager = SpiritsUnchained.getPluginManager();
         final SpiritsUnchained instance = SpiritsUnchained.getInstance();
+        final PluginManager manager = instance.getServer().getPluginManager();
 
         manager.registerEvents(new IdentifyingGlassListener(), instance);
         manager.registerEvents(new PlayerClickListener(), instance);

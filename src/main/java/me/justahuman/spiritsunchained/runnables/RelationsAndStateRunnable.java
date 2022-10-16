@@ -63,7 +63,7 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
                 world.dropItemNaturally(location, scared.clone());
                 inventory.remove(scared);
                 world.playSound(location, Sound.ENTITY_ITEM_PICKUP, 2, 1);
-                ParticleUtils.spawnParticleRadius(location, Particle.REDSTONE, 3, 30, true, false, new Particle.DustOptions(Color.fromRGB(255,0,0), 1));
+                ParticleUtils.spawnParticleRadius(location, Particle.REDSTONE, 3, 30, "Colored", new Particle.DustOptions(Color.fromRGB(255,0,0), 1));
             }
 
             if (SpiritsUnchained.getInstance().getConfig().getBoolean("hostile-movement", true) && state.equals("Hostile")) {

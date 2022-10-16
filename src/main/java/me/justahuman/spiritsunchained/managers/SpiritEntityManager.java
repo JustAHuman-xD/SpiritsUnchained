@@ -38,13 +38,14 @@ public class SpiritEntityManager implements Listener {
     public final Collection<LivingEntity> entityCollection = new ArrayList<>();
 
     public SpiritEntityManager() {
-        final FileConfiguration config = SpiritsUnchained.getInstance().getConfig();
+        final SpiritsUnchained instance = SpiritsUnchained.getInstance();
+        final FileConfiguration config = instance.getConfig();
         final int tickRate = Math.min(config.getInt("tick-rate", 2), 20);
         final int spawnRate = config.getInt("spawn-rate", 10) * 20;
 
-        SpiritsUnchained.getPluginManager().registerEvents(this, SpiritsUnchained.getInstance());
-        Bukkit.getScheduler().runTaskTimer(SpiritsUnchained.getInstance(), this::tick, tickRate, Math.max(1, tickRate));
-        Bukkit.getScheduler().runTaskTimer(SpiritsUnchained.getInstance(), this::spawnTick, 1, spawnRate);
+        instance.getServer().getPluginManager().registerEvents(this, instance);
+        Bukkit.getScheduler().runTaskTimer(instance, this::tick, tickRate, Math.max(1, tickRate));
+        Bukkit.getScheduler().runTaskTimer(instance, this::spawnTick, 1, spawnRate);
     }
 
     public void register(AbstractCustomMob<?> customMob) {
@@ -76,6 +77,9 @@ public class SpiritEntityManager implements Listener {
 
     private void spawnTick() {
         for (World world : Bukkit.getWorlds()) {
+            if (SpiritsUnchained.getInstance().getConfig().getStringList("disabled-worlds").contains(world.getName())) {
+                continue;
+            }
             for (Player player : world.getPlayers()) {
                 final int chance = ThreadLocalRandom.current().nextInt(1, 100);
                 final int soulCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
