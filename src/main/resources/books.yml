@@ -1,0 +1,128 @@
+GUIDE_BOOK:
+  title: Spirit Guide Book
+  author: JustAHuman_xD
+  pages:
+    0:
+      - "   <u>Table of Contents:<reset>"
+      - ""
+      - "Finding Spirits: 2-5"
+      - ""
+      - "Catching Spirits: 6-8"
+      - ""
+      - "Taming Spirits: 9-14"
+      - ""
+      - "Passing on Spirits: 15-20"
+      - ""
+      - "Spirit Traits: 21-22"
+    1:
+      - " <u>Finding Spirits I<reset>"
+      - ""
+      - "#1. <u>Spirit Lenses<reset>, before you can start to Catch Spirits you need to be able to See them. Spirit Lenses will grant you that ability until you can make your own Spirit Rune and imbue a Helmet with it."
+    2:
+      - " <u>Finding Spirits II<reset>"
+      - ""
+      - "#2. <u>Identifying Glass<reset>,"
+      - "you will need to craft a Identifying Glass to Identify naturally Roaming Spirits. Otherwise when you catch them you will just get an Un-Identified Spirit."
+    3:
+      - " <u>Finding Spirits III<reset>"
+      - ""
+      - "#3. Spirit Spawning Mechanics<reset>, Spirits can spawn 2 ways."
+      - ""
+      - "#3.a, <u>Naturally Spawning<reset>,"
+      - "Each type of Spirit has specific conditions that need to be met for it to naturally spawn. Time, Dimension, Biome, etc."
+    4:
+      - " <u>Finding Spirits IV<reset>"
+      - ""
+      - "#3.b, <u>Released Spirits<reset>, whenever a Player kills a entity when wearing lenses, or an imbued helmet. There is a chance that the entity's spirit will be released. <b>It will always be hostile<reset>. "
+    5:
+      - " <u>Catching Spirits I<reset>"
+      - ""
+      - "#1. <u>Methods<reset>, there are 3 Methods to Catching Spirits."
+      - ""
+      - "#1.a, <u>Bottling<reset>, if you use a glass bottle on a Spirit you can Trap it in the Bottle and use it to make Ectoplasm. "
+    6:
+      - " <u>Catching Spirits II<reset>"
+      - ""
+      - "#1.b, <u>Spirit Nets<reset>, the second method to Catching a Spirit is to Use a Spirit Net on it. This method is not a guaranteed Capture. The higher Tier the Spirit the lower the Chance it works."
+    7:
+      - " <u>Catching Spirits III<reset>"
+      - ""
+      - "#1.c, <u>Automated Catching<reset>"
+      - "You can also craft a Electric Spirit Catcher. You input Nets and it will catch Spirits in a Radius around it. This is a guaranteed Capture."
+    8:
+      - " <u>Taming Spirits I<reset>"
+      - ""
+      - "#1, <u>What is 'Taming'?<reset> When you catch a Spirit it has a State. It can be either: <dark_red>Hostile<reset>, <red>Aggressive<reset>, <dark_grey>Passive<reset>, <green>Gentle<reset>, and <dark_green>Friendly<reset>."
+      - "Chances are, you are going to want your spirit to be one of those Last 2."
+    9:
+      - " <u>Taming Spirits II<reset>"
+      - ""
+      - "#1-Continued,  In order to rise a Spirits State a Level you need to increase the Progress Bar to 100%. There are 2 ways to increase a Spirits Progress Bar."
+      - ""
+      - "#1a. <u>Spiritual Altar<reset>, you can build any of the 3 tiers of Altars."
+    10:
+      - " <u>Taming Spirits III<reset>"
+      - ""
+      - "#1a (Cont). Here are Videos for Each Tier:"
+      - ""
+      - "Tier 1: /su altar 1"
+      - "Tier 2: /su altar 2"
+      - "Tier 3: /su altar 3"
+      - ""
+      - "Once you have constructed the Altar, just stand within it and watch the Spirit's progress increase."
+    11:
+      - " <u>Taming Spirits IV<reset>"
+      - ""
+      - "#1.a (Cont), depending"
+      - "on the Spirits Tier it will increase by a different amount."
+      - ""
+      - "#1.b, <st><u>Portable Altar<reset>, <st>Later game you can craft a Portable Altar. It will act as a Spiritual Altar but it's an Item in your Inventory.<reset>"
+    12:
+      - " <u>Taming Spirits V<reset>"
+      - ""
+      - "#2. <u>Relations<reset>, Spirits have relations with other Spirits. Weather its because of things that happened when the Spirits were alive, or other. If a Spirit is Afraid of another Spirit it cannot be in the Same Players Inventory."
+    13:
+      - " <u>Taming Spirits VI<reset>"
+      - ""
+      - "#2 (Cont), You can view these Relations in the Guide."
+    14:
+      - " <u>Passing On I<reset>"
+      - ""
+      - "#1. <u>Passing On<reset>, you can help a Spirit to Pass on. Each Spirit has different Requirements for it to Pass on. View them in Your Guide. When you help a Spirit to Pass On, it will leave you a Gift. "
+    15:
+      - " <u>Passing On II<reset>"
+      - ""
+      - "#1.a <u>Locking Spirits<reset>, if you do not want a Spirit to Pass On. Shift Right Click it in your Inventory to Lock it. (You can Unlock a Spirit by doing the Same)"
+    16:
+      - " <u>Passing On III<reset>"
+      - ""
+      - "#2. <u>Requirements<reset>, There are 4 types of Requirements a Spirit can Have."
+      - ""
+      - "#2.a <u>Item Requirement<reset>, this Spirit will want you to give it # of _ Item. Just click the Spirit Item in your Inventory with the Item it wants"
+    17:
+      - " <u>Passing On IV<reset>"
+      - ""
+      - "#2.b <u>Slimefun Item Requirement<reset>"
+      - "Similar to the Item Requirement this Spirit wants x amount of _ slimefun item. Click the Spirit item in your inventory with the Slimefun Item it wants"
+    18:
+      - " <u>Passing On V<reset>"
+      - ""
+      - "#2.c, <u>Killing Requirement<reset>,"
+      - "this spirit wants you to kill x amount of _ mob. To Complete this Requirement just kill the mobs with the Spirit in your Inventory."
+    19:
+      - " <u>Passing On VI<reset>"
+      - ""
+      - "#2.d, <u>Breeding Requirement<reset>,"
+      - "Similarly to the killing requirement this Spirit wants you to Breed x amount of _ mobs. Just breed the mobs with the Spirit in your Inventory."
+    20:
+      - " <u>Spirit Traits I<reset>"
+      - ""
+      - "#1. <u>Spirit Traits<reset>, each Spirit has a Trait. A Trait is the Effect a Spirit will have on you when it's In your Inventory."
+      - ""
+      - "#1a. <u>Types of Traits<reset>, there are 2 types of Traits. 1. Passive, it will happen constantly with no User Input."
+    21:
+      - " <u>Spirit Traits II<reset>"
+      - ""
+      - "#1.a (Cont), and 2. Ability Traits, these Traits require you the Player to Right Click when holding the Spirit, then Activating the Trait"
+      - ""
+      - "#1.b <u>Trait Activation<reset>, in order for a Trait to Activate, the Spirits state must be Gentle+"

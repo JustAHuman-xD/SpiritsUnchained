@@ -1,6 +1,7 @@
 package me.justahuman.spiritsunchained.utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.StringUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -16,6 +17,7 @@ import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import net.kyori.adventure.text.Component;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -491,7 +493,7 @@ public class SpiritUtils {
         return toReturn;
     }
 
-    public static ItemStack getFilledSpiritBook(SpiritDefinition definition) {
+    public static ItemStack getFilledBook(SpiritDefinition definition) {
         final ChatColor tierColor = tierColor(definition.getTier());
         final String spiritName = ChatUtils.humanize(definition.getType().name()) + " Spirit";
 
@@ -501,6 +503,24 @@ public class SpiritUtils {
         bookMeta.addPages(Component.text("Example Book Test (Left for Polishing Stage)"));
         bookMeta.setAuthor(ChatColors.color(tierColor + spiritName));
         bookMeta.setTitle(spiritName);
+        filledBook.setItemMeta(bookMeta);
+        return filledBook;
+    }
+
+    public static ItemStack getFilledBook(String bookId) {
+        final FileConfiguration books = configManager.getBooks();
+        final ConfigurationSection bookConfig = books.getConfigurationSection(bookId);
+        final ItemStack filledBook = new ItemStack(Material.WRITTEN_BOOK);
+        final BookMeta bookMeta = (BookMeta) filledBook.getItemMeta();
+        if (bookConfig == null || bookConfig.getConfigurationSection("pages") == null) {
+            return filledBook;
+        }
+        final ConfigurationSection pages = bookConfig.getConfigurationSection("pages");
+        for (String pageNum : pages.getKeys(false)) {
+            bookMeta.addPages(MiniMessage.miniMessage().deserialize(StringUtils.join(pages.getStringList(pageNum), "\n")));
+        }
+        bookMeta.setAuthor(bookConfig.getString("author", "JustAHuman_xD"));
+        bookMeta.setTitle(bookConfig.getString("title", "Written Book"));
         filledBook.setItemMeta(bookMeta);
         return filledBook;
     }

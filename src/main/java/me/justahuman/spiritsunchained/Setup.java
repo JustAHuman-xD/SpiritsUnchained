@@ -1,12 +1,16 @@
 package me.justahuman.spiritsunchained;
 
+import dev.sefiraat.sefilib.slimefun.itemgroup.MenuItem;
 import me.justahuman.spiritsunchained.implementation.mobs.Spirit;
 import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.slimefun.Groups;
+import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.slimefun.Items;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 public class Setup {
 
@@ -24,6 +28,10 @@ public class Setup {
         final SpiritEntityManager manager = SpiritsUnchained.getSpiritEntityManager();
 
         Groups.SU_MAIN_GROUP.register(plugin);
+        Groups.SU_MAIN_GROUP.addMenuItem(new MenuItem(ItemStacks.SU_SPIRIT_GUIDEBOOK, (player1, slot, itemStack, clickAction) -> {
+            player1.openBook(SpiritUtils.getFilledBook("GUIDE_BOOK"));
+            return false;
+        }));
         Groups.SU_MAIN_GROUP.addItemGroup(Groups.SU_RESOURCES);
         Groups.SU_MAIN_GROUP.addItemGroup(Groups.SU_TOOLS);
         Groups.SU_MAIN_GROUP.addItemGroup(Groups.SU_MACHINES);

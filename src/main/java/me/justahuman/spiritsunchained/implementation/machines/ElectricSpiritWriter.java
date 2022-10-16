@@ -157,7 +157,7 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
         }
 
         inv.pushItem(spiritItem.clone(), getOutputSlots());
-        inv.pushItem(SpiritUtils.getFilledSpiritBook(definition), getOutputSlots());
+        inv.pushItem(SpiritUtils.getFilledBook(definition), getOutputSlots());
 
         spiritItem.subtract();
         bookItem.subtract();

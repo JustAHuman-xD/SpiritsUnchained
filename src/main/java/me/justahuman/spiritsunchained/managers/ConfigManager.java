@@ -27,6 +27,7 @@ public class ConfigManager {
     private final FileConfiguration playerData;
     private final FileConfiguration biomeGroups;
     private final FileConfiguration rewards;
+    private final FileConfiguration books;
     private final Map<String, List<String>> biomeMap;
 
     public ConfigManager() {
@@ -35,6 +36,7 @@ public class ConfigManager {
         this.biomeGroups = loadConfig("biome-groups.yml", true);
         this.playerData = loadConfig("player-data.yml", false);
         this.rewards = loadConfig("rewards.yml",true);
+        this.books = loadConfig("books.yml", true);
 
         biomeMap = fillBiomeMap();
     }

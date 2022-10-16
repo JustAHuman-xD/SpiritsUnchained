@@ -104,6 +104,17 @@ public class ItemStacks {
             "&7Use it to get Ectoplasm"
     );
 
+    // Spirit Guide
+
+    public static final SlimefunItemStack SU_SPIRIT_GUIDEBOOK = new SlimefunItemStack(
+            "SU_SPIRIT_GUIDEBOOK",
+            Material.WRITTEN_BOOK, //Placeholder
+            "&dSpirit Guide Book",
+            "",
+            "A Comprehensive Guide to the Art",
+            "Of Spirit Hunting"
+    );
+
     // Tools
 
     public static final SlimefunItemStack SU_IDENTIFYING_GLASS = new SlimefunItemStack(
@@ -111,7 +122,7 @@ public class ItemStacks {
             Material.SPYGLASS,
             "&dIdentifying Glass",
             "",
-            "Indentifys Un-Identified Spirits"
+            "Identify Un-Identified Spirits"
     );
 
     public static final SlimefunItemStack SU_SPIRIT_LENSES = new SlimefunItemStack(

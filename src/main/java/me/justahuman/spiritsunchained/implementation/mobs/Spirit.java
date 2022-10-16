@@ -139,7 +139,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
         } else if(slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_BOOK.getItemId())) {
             if (new Random().nextInt(1, 100) <= SpiritUtils.getTierChance(tier)) {
                 if (!PlayerUtils.hasKnowledgePiece(player, type, 2)) {
-                    PlayerUtils.addOrDropItem(player, SpiritUtils.getFilledSpiritBook(this.definition));
+                    PlayerUtils.addOrDropItem(player, SpiritUtils.getFilledBook(this.definition));
                     PlayerUtils.learnKnowledgePiece(player, type, 2);
                 } else {
                     player.sendMessage("You can't gain anymore knowledge from a Book!");
