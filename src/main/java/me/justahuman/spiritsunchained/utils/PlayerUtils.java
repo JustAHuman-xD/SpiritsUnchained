@@ -39,6 +39,7 @@ public class PlayerUtils {
     //Checks if the current players Knowledge Level is higher or equal to the Provided
     @ParametersAreNonnullByDefault
     public static boolean hasKnowledgePiece(Player player, EntityType type, int knowledgeType) {
+        knowledgeType = knowledgeType - 1;
         final FileConfiguration playerData = configManager.getPlayerData();
         final String currentKnowledge = playerData.getString(player.getUniqueId()+"."+type, "NNN");
         return currentKnowledge.charAt(knowledgeType) == 'Y';

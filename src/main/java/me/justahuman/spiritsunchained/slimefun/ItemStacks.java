@@ -144,7 +144,7 @@ public class ItemStacks {
 
     public static final SlimefunItemStack SU_SPIRIT_BOOK = new SlimefunItemStack(
             "SU_SPIRIT_BOOK",
-            Material.WRITABLE_BOOK,
+            Material.BOOK,
             "&aSpirit Book",
             "",
             "&7A Book Spirits can Write in!"

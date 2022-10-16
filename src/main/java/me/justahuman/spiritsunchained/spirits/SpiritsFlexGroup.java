@@ -89,10 +89,11 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
     private static final ItemStack notEnoughKnowledge = new CustomItemStack(
             Material.WRITABLE_BOOK,
-            "&cNot Enough Knowledge!",
+            "&cMissing Knowledge Piece!",
             "&7Get &bKnowledge &7by:",
-            "&7   - Using a Spirit Book (Levels 1-2)",
-            "&7   - Getting the Spirit to the Friendly State! (Level 3)"
+            "&7   - Catch the Spirit (Piece 1)",
+            "&7   - Using a Spirit Book (Piece 2)",
+            "&7   - Getting the Spirit to the Friendly State! (Piece 3)"
     );
 
     private static final ItemStack afraidItemStack = new CustomItemStack(
