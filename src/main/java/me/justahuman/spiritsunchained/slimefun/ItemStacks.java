@@ -14,13 +14,15 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class ItemStacks {
 
     // Crafting Materials
 
     private static ItemStack getEnchanted(ItemStack itemStack) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
+        final ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
             itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1, false);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -30,8 +32,8 @@ public class ItemStacks {
     }
 
     private static ItemStack getPotionColor(int r, int g, int b) {
-        ItemStack itemStack = new ItemStack(Material.POTION);
-        ItemMeta itemMeta = itemStack.getItemMeta();
+        final ItemStack itemStack = new ItemStack(Material.POTION);
+        final ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
             itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
             PotionMeta potionMeta = (PotionMeta) itemMeta;
@@ -39,6 +41,14 @@ public class ItemStacks {
             itemStack.setItemMeta(potionMeta);
         }
         return  itemStack;
+    }
+
+    private static ItemStack addPotionEffect(PotionEffectType type, ItemStack itemStack) {
+        final ItemMeta itemMeta = itemStack.getItemMeta();
+        final PotionMeta potionMeta = (PotionMeta) itemMeta;
+        potionMeta.addCustomEffect(new PotionEffect(type, 10, 1), true);
+        itemStack.setItemMeta(potionMeta);
+        return itemStack;
     }
 
     // Crafting Materials
@@ -87,7 +97,7 @@ public class ItemStacks {
 
     public static final SlimefunItemStack SU_SPIRIT_BOTTLE = new SlimefunItemStack(
             "SU_SPIRIT_BOTTLE",
-            getPotionColor(150,150,150),
+            addPotionEffect(PotionEffectType.LEVITATION, getPotionColor(150,150,150)),
             "&fSpirit in a Bottle",
             "",
             "&7A Spirit in a Bottle",
