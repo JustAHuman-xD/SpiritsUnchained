@@ -43,10 +43,10 @@ public class ItemStacks {
         return  itemStack;
     }
 
-    private static ItemStack addPotionEffect(PotionEffectType type, ItemStack itemStack) {
+    private static ItemStack addPotionEffect(PotionEffectType type, ItemStack itemStack, int duration, int amplifier) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final PotionMeta potionMeta = (PotionMeta) itemMeta;
-        potionMeta.addCustomEffect(new PotionEffect(type, 10, 1), true);
+        potionMeta.addCustomEffect(new PotionEffect(type, duration * 20, amplifier), true);
         itemStack.setItemMeta(potionMeta);
         return itemStack;
     }
@@ -97,7 +97,7 @@ public class ItemStacks {
 
     public static final SlimefunItemStack SU_SPIRIT_BOTTLE = new SlimefunItemStack(
             "SU_SPIRIT_BOTTLE",
-            addPotionEffect(PotionEffectType.LEVITATION, getPotionColor(150,150,150)),
+            addPotionEffect(PotionEffectType.LEVITATION, getPotionColor(150,150,150), 5, 1),
             "&fSpirit in a Bottle",
             "",
             "&7A Spirit in a Bottle",

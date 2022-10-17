@@ -3,8 +3,8 @@ package me.justahuman.spiritsunchained.listeners;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
-
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
+
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

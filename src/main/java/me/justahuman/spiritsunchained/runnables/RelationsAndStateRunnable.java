@@ -57,9 +57,7 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
                     continue;
                 }
 
-                final ItemMeta scaredMeta = scared.getItemMeta();
-                PersistentDataAPI.setDouble(scaredMeta, Keys.spiritProgressKey, PersistentDataAPI.getDouble(scaredMeta, Keys.spiritProgressKey) - ((double) 1 / new Random().nextInt(1, 5)));
-                scared.setItemMeta(scaredMeta);
+                SpiritUtils.updateSpiritItemProgress(scared, (double) 1 / new Random().nextInt(1, 5));
                 world.dropItemNaturally(location, scared.clone());
                 inventory.remove(scared);
                 world.playSound(location, Sound.ENTITY_ITEM_PICKUP, 2, 1);

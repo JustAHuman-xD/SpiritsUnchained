@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import lombok.Getter;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -18,12 +19,17 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Tier1Altar extends SlimefunItem {
 
+    @Getter
+    private static final Map<Vector, Material> blocks = new LinkedHashMap<>();
     private static final String complete = "complete";
 
     public Tier1Altar() {
@@ -32,6 +38,16 @@ public class Tier1Altar extends SlimefunItem {
                 ItemStacks.SU_CHARGED_QUARTZ_I, null, ItemStacks.SU_CHARGED_QUARTZ_I,
                 null, ItemStacks.SU_CHARGED_QUARTZ_I, null
         });
+
+        blocks.put(new Vector(1,0,-1), Material.QUARTZ_BLOCK);
+        blocks.put (new Vector(1,0,0), Material.QUARTZ_STAIRS);
+        blocks.put(new Vector(1,0,1), Material.QUARTZ_BLOCK);
+        blocks.put(new Vector(0, 0, -1), Material.QUARTZ_STAIRS);
+        blocks.put(new Vector(0, 0, 0), Material.CHISELED_QUARTZ_BLOCK);
+        blocks.put(new Vector(0, 0, 1), Material.QUARTZ_STAIRS);
+        blocks.put(new Vector(-1,0,-1), Material.QUARTZ_BLOCK);
+        blocks.put(new Vector(-1, 0, 0), Material.QUARTZ_STAIRS);
+        blocks.put(new Vector(-1,0,1), Material.QUARTZ_BLOCK);
 
         addItemHandler(new BlockTicker() {
             @Override
@@ -100,18 +116,13 @@ public class Tier1Altar extends SlimefunItem {
 
     private boolean isComplete(@Nonnull Block b) {
 
-        if (b.getRelative(1, 0, 1).getType() != Material.QUARTZ_BLOCK || !isAltarPiece(b.getRelative(1, 0, 1)) ||
-                b.getRelative(-1, 0, 1).getType() != Material.QUARTZ_BLOCK || !isAltarPiece(b.getRelative(-1, 0, 1)) ||
-                b.getRelative(1, 0, -1).getType() != Material.QUARTZ_BLOCK || !isAltarPiece(b.getRelative(1, 0, -1)) ||
-                b.getRelative(-1, 0, -1).getType() != Material.QUARTZ_BLOCK || !isAltarPiece(b.getRelative(-1, 0, -1))) {
-            return false;
-        }
-
-        if (b.getRelative(0, 0, 1).getType() != Material.QUARTZ_STAIRS || !isAltarPiece(b.getRelative(0, 0, 1)) ||
-                b.getRelative(0, 0, -1).getType() != Material.QUARTZ_STAIRS || !isAltarPiece(b.getRelative(0, 0, -1)) ||
-                b.getRelative(1, 0, 0).getType() != Material.QUARTZ_STAIRS || !isAltarPiece(b.getRelative(1, 0, 0)) ||
-                b.getRelative(-1, 0, 0).getType() != Material.QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-1, 0, 0))) {
-            return false;
+        for (Map.Entry<Vector, Material> entry : blocks.entrySet()) {
+            final Vector relative = entry.getKey();
+            final Material relativeMaterial = entry.getValue();
+            final Block relativeBlock = b.getRelative(relative.getBlockX(), relative.getBlockY(), relative.getBlockZ());
+            if (relativeBlock.getType() != relativeMaterial || !isAltarPiece(relativeBlock)) {
+                return false;
+            }
         }
 
         return true;
@@ -123,7 +134,7 @@ public class Tier1Altar extends SlimefunItem {
         }
 
         return switch (BlockStorage.getLocationInfo(b.getLocation(), "id")) {
-            case "SU_CHARGED_QUARTZ_I", "SU_CHARGED_STAIRS_I" -> true;
+            case "SU_CHARGED_QUARTZ_I", "SU_CHARGED_STAIRS_I", "SU_CHARGED_CORE_I" -> true;
             default -> false;
         };
     }

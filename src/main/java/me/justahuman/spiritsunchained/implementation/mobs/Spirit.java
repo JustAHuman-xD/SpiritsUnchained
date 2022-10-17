@@ -150,7 +150,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
             }
             item.subtract();
         } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {
-            //ParticleUtils.bottleAnimation(entity.getLocation());
+            ParticleUtils.bottleAnimation(entity.getLocation());
             entity.remove();
             item.subtract();
             PlayerUtils.addOrDropItem(player, ItemStacks.SU_SPIRIT_BOTTLE);

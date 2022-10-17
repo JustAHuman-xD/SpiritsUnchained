@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static me.justahuman.spiritsunchained.utils.SpiritUtils.getNearImbued;
@@ -17,12 +18,12 @@ public class ParticleUtils {
     private static double[][] sphere;
 
     public static void setup() {
-        sphere = new double[11 * 10 * 2][];
+        sphere = new double[7 * 6 * 2][];
         int sphereLoc = 0;
-        for (double i = 0; i <= Math.PI; i += Math.PI / 10) {
+        for (double i = 0; i <= Math.PI; i += Math.PI / 6) {
             double radius = Math.sin(i);
             double y = Math.cos(i);
-            for (double a = 0; a < Math.PI * 2; a+= Math.PI / 10) {
+            for (double a = 0; a < Math.PI * 2; a+= Math.PI / 6) {
                 double x = Math.cos(a) * radius;
                 double z = Math.sin(a) * radius;
                 sphere[sphereLoc] = new double[] { x, y, z };
@@ -62,10 +63,22 @@ public class ParticleUtils {
     }
 
     public static void bottleAnimation(Location location) {
-        // TODO Polish and Add This
+        final World world = location.getWorld();
+        world.playSound(location, Sound.ENTITY_ENDER_EYE_DEATH, 1, 1);
+        double[] speeds = new double[] {0.1, 0.15, 0.2, 0.25,};
+        for (double[] offsets : sphere) {
+            world.spawnParticle(Particle.END_ROD, location.clone().add(offsets[0], offsets[1], offsets[2]), 0, 0, 5, 0, speeds[new Random().nextInt(0, speeds.length)]);
+        }
     }
 
     public static void passOnAnimation(Location location) {
-        // TODO Polish and Add This
+        final World world = location.getWorld();
+        location = location.clone().add(0, 0.5, 0);
+        world.playSound(location, Sound.ENTITY_ENDER_EYE_DEATH, 1, 1);
+        for (double[] offsets : sphere) {
+            final Location particleLocation = location.clone().add(offsets[0], offsets[1], offsets[2]);
+            final Vector direction = particleLocation.clone().subtract(location.clone()).toVector();
+            world.spawnParticle(Particle.END_ROD, particleLocation, 0, direction.getX(), direction.getY(), direction.getZ(), 0.25);
+        }
     }
 }

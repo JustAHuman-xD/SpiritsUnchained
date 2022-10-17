@@ -148,6 +148,7 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
         ParticleUtils.spawnParticleRadius(b.getLocation(), Particle.ENCHANTMENT_TABLE, 1.5, 10, "");
 
         if (currentProgress < maxTime) {
+
             progress.put(pos, ++currentProgress);
 
             ChestMenuUtils.updateProgressbar(inv, PROGRESS_SLOT, maxTime - currentProgress, maxTime, PROGRESS_ITEM);

@@ -2,8 +2,12 @@ package me.justahuman.spiritsunchained.commands;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
+import me.justahuman.spiritsunchained.implementation.multiblocks.Tier1Altar;
+import me.justahuman.spiritsunchained.implementation.multiblocks.Tier2Altar;
+import me.justahuman.spiritsunchained.implementation.multiblocks.Tier3Altar;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
@@ -12,18 +16,28 @@ import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,6 +67,9 @@ public class AllCommands implements TabExecutor {
         else if (useCommand("ResetCooldowns", player, 0, 1, args)) {
             return resetCooldown(player, args.length >= 2 ? args[1] : player.getName());
         }
+        else if (useCommand("Altar", player, 0, 2, args)) {
+            return visualizeAltar(player, args[1]);
+        }
         else {
             return false;
         }
@@ -60,10 +77,14 @@ public class AllCommands implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, Command command, @NotNull String alias, String[] args) {
+        if (! (sender instanceof Player player ) || args.length == 0) {
+            return new ArrayList<>();
+        }
         if (command.getName().equalsIgnoreCase("spirits")) {
             final List<String> l = new ArrayList<>();
             final Map<String, Integer> add = new HashMap<>();
             if (args.length == 1) {
+                add.put("Altar", 0);
                 add.put("TestParticles", 0);
                 add.put("GiveSpirit", 0);
                 add.put("SummonSpirit", 0);
@@ -74,6 +95,13 @@ public class AllCommands implements TabExecutor {
             else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("TestParticles")) {
                     add.put("Catch", 1);
+                    add.put("Bottle", 1);
+                    add.put("PassOn", 1);
+                }
+                else if (args[0].equalsIgnoreCase("Altar")) {
+                    add.put("1", 1);
+                    add.put("2", 1);
+                    add.put("3", 1);
                 }
                 else if (args[0].equalsIgnoreCase("SummonSpirit")) {
                     for (String string : spiritTypes) {
@@ -91,8 +119,8 @@ public class AllCommands implements TabExecutor {
                     add.put("Max", 1);
                 }
                 else if (args[0].equalsIgnoreCase("ResetCooldowns")) {
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        add.put(player.getName(), 1);
+                    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                        add.put(onlinePlayer.getName(), 1);
                     }
                 }
             }
@@ -118,11 +146,11 @@ public class AllCommands implements TabExecutor {
                 }
             }
 
-            //Change displays based on the current message
+            //Change displays based on the current message & Permissions
             for (Map.Entry<String, Integer> entry : add.entrySet()) {
                 final String toAdd = entry.getKey();
                 final Integer index = entry.getValue();
-                if (toAdd.toLowerCase().contains(args[index].toLowerCase())) {
+                if (toAdd.toLowerCase().contains(args[index].toLowerCase()) && (index != 0 || hasPerm(player, toAdd))) {
                     l.add(toAdd);
                 }
             }
@@ -133,23 +161,80 @@ public class AllCommands implements TabExecutor {
     }
 
     private boolean useCommand(String command, Player player, int index, int size, String[] args) {
-        return args[index].equalsIgnoreCase(command) && args.length >= size && hasPerm(player);
+        return args[index].equalsIgnoreCase(command) && args.length >= size && hasPerm(player, command);
     }
 
-    private boolean hasPerm(Player player) {
-        return player.isOp() || player.hasPermission("spiritsunchained.admin");
+    private boolean hasPerm(Player player, String command) {
+        return player.isOp() || player.hasPermission("spiritsunchained.*") || player.hasPermission("spiritsunchained." + command.toLowerCase());
+    }
+
+    private boolean visualizeAltar(Player player, String altar) {
+        final Location location = player.getLocation();
+        final World world = player.getWorld();
+
+        final Map<Vector, Material> altarMap = switch(altar) {
+            case "3" -> Tier3Altar.getBlocks();
+            case "2" -> Tier2Altar.getBlocks();
+            default -> Tier1Altar.getBlocks();
+        };
+
+        player.sendMessage(ChatColors.color("&6Visualizing &eTier " + altar + " Altar&6!"));
+        player.sendMessage(ChatColors.color("&6Required Materials: "));
+
+        final Set<Material> sent = new HashSet<>();
+        for (Material material : altarMap.values()) {
+            if (!sent.contains(material)) {
+                sent.add(material);
+                final String tier = switch(altar) {
+                    case "3" -> " III";
+                    case "2" -> " II";
+                    default -> " I";
+                };
+                final String slimefunVersion = ChatUtils.humanize(material.name()).replace("Chiseled Quartz", "Charged Core").replace("Quartz", "Charged Quartz").replace("Block", "") + tier;
+                player.sendMessage(ChatColors.color("&6" + Collections.frequency(altarMap.values(), material) + " &e" + slimefunVersion));
+            }
+        }
+
+        int entryIndex = 0;
+        for (Map.Entry<Vector, Material> entry : altarMap.entrySet()) {
+            final int finalEntryIndex = entryIndex;
+            Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
+                final Vector changes = entry.getKey();
+                final Location relativeLocation = new Location(location.getWorld(), location.getBlockX() + 0.5, location.getBlockY(), location.getBlockZ() + 0.5).add(changes);
+                final BlockData blockData = entry.getValue().createBlockData();
+                if (blockData instanceof Directional directional) {
+                    final BlockFace face;
+                    if ((Math.max(Math.abs(changes.getX()), Math.abs(changes.getZ()))) == Math.abs(changes.getX())) {
+                        face = changes.getX() > 0 ? BlockFace.WEST : BlockFace.EAST;
+                    } else {
+                        face = changes.getZ() > 0 ? BlockFace.NORTH : BlockFace.SOUTH;
+                    }
+                    directional.setFacing(face);
+                }
+                final FallingBlock fallingBlock = world.spawnFallingBlock(relativeLocation, blockData);
+                fallingBlock.setVelocity(new Vector(0, 0, 0));
+                fallingBlock.setGravity(false);
+                fallingBlock.setDropItem(false);
+                fallingBlock.setPersistent(true);
+                fallingBlock.setInvulnerable(true);
+                PersistentDataAPI.setString(fallingBlock, Keys.entityKey, "altar");
+                Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), fallingBlock::remove, (30 * 20) - (finalEntryIndex * 5L));
+            }, entryIndex * 5L);
+            entryIndex++;
+        }
+
+        return true;
     }
 
     private boolean testParticles(Player player, String test) {
+        final Location location = player.getLocation();
         switch (test.toLowerCase()) {
-            case "catch" -> {
-                ParticleUtils.catchAnimation(player.getLocation());
-                return true;
-            }
-            default -> {
-                return sendError(player, "Not a Proper Particle Test");
-            }
+            case "catch" -> ParticleUtils.catchAnimation(location);
+            case "bottle" -> ParticleUtils.bottleAnimation(location);
+            case "passon" -> ParticleUtils.passOnAnimation(location);
+            default -> sendError(player, "Not a Proper Particle Test");
         }
+        return true;
     }
 
     private boolean giveSpirit(Player player, String type, String state) {

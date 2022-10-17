@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import lombok.Getter;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -18,12 +19,17 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Tier3Altar extends SlimefunItem {
 
+    @Getter
+    private static final Map<Vector, Material> blocks = new LinkedHashMap<>();
     private static final String complete = "complete";
 
     public Tier3Altar() {
@@ -32,6 +38,51 @@ public class Tier3Altar extends SlimefunItem {
                 ItemStacks.SU_CHARGED_QUARTZ_III, null, ItemStacks.SU_CHARGED_QUARTZ_III,
                 null, ItemStacks.SU_CHARGED_QUARTZ_III, null
         });
+
+        blocks.put(new Vector(2, 0, -2), Material.QUARTZ_PILLAR);
+        blocks.put(new Vector(1,0,-1), Material.QUARTZ_BLOCK);
+        blocks.put (new Vector(1,0,0), Material.SMOOTH_QUARTZ);
+        blocks.put(new Vector(1,0,1), Material.QUARTZ_BLOCK);
+        blocks.put(new Vector(2, 0, 2), Material.QUARTZ_PILLAR);
+        blocks.put(new Vector(0, 0, -1), Material.SMOOTH_QUARTZ);
+        blocks.put(new Vector(0, 0, 0), Material.CHISELED_QUARTZ_BLOCK);
+        blocks.put(new Vector(0, 0, 1), Material.SMOOTH_QUARTZ);
+        blocks.put(new Vector(-2, 0, -2), Material.QUARTZ_PILLAR);
+        blocks.put(new Vector(-1,0,-1), Material.QUARTZ_BLOCK);
+        blocks.put(new Vector(-1, 0, 0), Material.SMOOTH_QUARTZ);
+        blocks.put(new Vector(-1,0,1), Material.QUARTZ_BLOCK);
+        blocks.put(new Vector(-2, 0, 2), Material.QUARTZ_PILLAR);
+
+        blocks.put(new Vector(2, 0, -1), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(2, 0, 0), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(2, 0, 1), Material.SMOOTH_QUARTZ_STAIRS);
+
+        blocks.put(new Vector(-1, 0, 2), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(0, 0, 2), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(1, 0, 2), Material.SMOOTH_QUARTZ_STAIRS);
+
+        blocks.put(new Vector(-2, 0, 1), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(-2, 0, 0), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(-2, 0, -1), Material.SMOOTH_QUARTZ_STAIRS);
+
+        blocks.put(new Vector(1, 0, -2), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(0, 0, -2), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(-1, 0, -2), Material.SMOOTH_QUARTZ_STAIRS);
+
+        blocks.put(new Vector(2, 1, -2), Material.QUARTZ_PILLAR);
+        blocks.put(new Vector(2, 1, 2), Material.QUARTZ_PILLAR);
+        blocks.put(new Vector(-2, 1, -2), Material.QUARTZ_PILLAR);
+        blocks.put(new Vector(-2, 1, 2), Material.QUARTZ_PILLAR);
+
+        blocks.put(new Vector(2, 2, -2), Material.QUARTZ_PILLAR);
+        blocks.put(new Vector(2, 2, 2), Material.QUARTZ_PILLAR);
+        blocks.put(new Vector(-2, 2, -2), Material.QUARTZ_PILLAR);
+        blocks.put(new Vector(-2, 2, 2), Material.QUARTZ_PILLAR);
+
+        blocks.put(new Vector(2, 3, -2), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(2, 3, 2), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(-2, 3, -2), Material.SMOOTH_QUARTZ_STAIRS);
+        blocks.put(new Vector(-2, 3, 2), Material.SMOOTH_QUARTZ_STAIRS);
 
         addItemHandler(new BlockTicker() {
             @Override
@@ -100,70 +151,13 @@ public class Tier3Altar extends SlimefunItem {
 
     private boolean isComplete(@Nonnull Block b) {
 
-        if (b.getRelative(1, 0, 1).getType() != Material.QUARTZ_BLOCK || !isAltarPiece(b.getRelative(1, 0, 1)) ||
-                b.getRelative(-1, 0, 1).getType() != Material.QUARTZ_BLOCK || !isAltarPiece(b.getRelative(-1, 0, 1)) ||
-                b.getRelative(1, 0, -1).getType() != Material.QUARTZ_BLOCK || !isAltarPiece(b.getRelative(1, 0, -1)) ||
-                b.getRelative(-1, 0, -1).getType() != Material.QUARTZ_BLOCK || !isAltarPiece(b.getRelative(-1, 0, -1))) {
-            return false;
-        }
-
-        if (b.getRelative(0, 0, 1).getType() != Material.SMOOTH_QUARTZ || !isAltarPiece(b.getRelative(0, 0, 1)) ||
-                b.getRelative(0, 0, -1).getType() != Material.SMOOTH_QUARTZ || !isAltarPiece(b.getRelative(0, 0, -1)) ||
-                b.getRelative(1, 0, 0).getType() != Material.SMOOTH_QUARTZ || !isAltarPiece(b.getRelative(1, 0, 0)) ||
-                b.getRelative(-1, 0, 0).getType() != Material.SMOOTH_QUARTZ || !isAltarPiece(b.getRelative(-1, 0, 0))) {
-            return false;
-        }
-
-        if (b.getRelative(2, 0, 2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(2, 0, 2)) ||
-                b.getRelative(-2, 0, 2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(-2, 0, 2)) ||
-                b.getRelative(2, 0, -2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(2, 0, -2)) ||
-                b.getRelative(-2, 0, -2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(-2, 0, -2))) {
-            return false;
-        }
-
-        if (b.getRelative(2, 0, -1).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 0, 2)) ||
-                b.getRelative(2, 0, 0).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 0, 2)) ||
-                b.getRelative(2, 0, 1).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 0, -2))) {
-            return false;
-        }
-
-        if (b.getRelative(1, 0, 2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 0, 2)) ||
-                b.getRelative(0, 0, 2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 0, 2)) ||
-                b.getRelative(-1, 0, 2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 0, -2))) {
-            return false;
-        }
-
-        if (b.getRelative(-2, 0, 1).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 0, 2)) ||
-                b.getRelative(-2, 0, 0).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 0, 2)) ||
-                b.getRelative(-2, 0, -1).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 0, -2))) {
-            return false;
-        }
-
-        if (b.getRelative(-1, 0, -2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 0, 2)) ||
-                b.getRelative(0, 0, -2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 0, 2)) ||
-                b.getRelative(1, 0, -2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 0, -2))) {
-            return false;
-        }
-
-        if (b.getRelative(2, 1, 2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(2, 1, 2)) ||
-                b.getRelative(-2, 1, 2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(-2, 1, 2)) ||
-                b.getRelative(2, 1, -2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(2, 1, -2)) ||
-                b.getRelative(-2, 1, -2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(-2, 1, -2))) {
-            return false;
-        }
-
-        if (b.getRelative(2, 2, 2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(2, 2, 2)) ||
-                b.getRelative(-2, 2, 2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(-2, 2, 2)) ||
-                b.getRelative(2, 2, -2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(2, 2, -2)) ||
-                b.getRelative(-2, 2, -2).getType() != Material.QUARTZ_PILLAR || !isAltarPiece(b.getRelative(-2, 2, -2))) {
-            return false;
-        }
-
-        if (b.getRelative(2, 3, 2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 3, 2)) ||
-                b.getRelative(-2, 3, 2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 3, 2)) ||
-                b.getRelative(2, 3, -2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(2, 3, -2)) ||
-                b.getRelative(-2, 3, -2).getType() != Material.SMOOTH_QUARTZ_STAIRS || !isAltarPiece(b.getRelative(-2, 3, -2))) {
-            return false;
+        for (Map.Entry<Vector, Material> entry : blocks.entrySet()) {
+            final Vector relative = entry.getKey();
+            final Material relativeMaterial = entry.getValue();
+            final Block relativeBlock = b.getRelative(relative.getBlockX(), relative.getBlockY(), relative.getBlockZ());
+            if (relativeBlock.getType() != relativeMaterial || !isAltarPiece(relativeBlock)) {
+                return false;
+            }
         }
 
         return true;
@@ -175,7 +169,7 @@ public class Tier3Altar extends SlimefunItem {
         }
 
         return switch (BlockStorage.getLocationInfo(b.getLocation(), "id")) {
-            case "SU_CHARGED_QUARTZ_III", "SU_SMOOTH_CHARGED_QUARTZ_III", "SU_CHARGED_PILLAR_III", "SU_SMOOTH_CHARGED_STAIRS_III" -> true;
+            case "SU_CHARGED_QUARTZ_III", "SU_SMOOTH_CHARGED_QUARTZ_III", "SU_CHARGED_PILLAR_III", "SU_SMOOTH_CHARGED_STAIRS_III", "SU_CHARGED_CORE_III" -> true;
             default -> false;
         };
     }
