@@ -503,6 +503,7 @@ public class SpiritUtils {
         final String name = ChatUtils.humanize(type);
         bookMeta.setAuthor(name + " Spirit");
         bookMeta.setTitle("A " + name + "'s Tale");
+        book.setItemMeta(bookMeta);
         return book;
     }
 
