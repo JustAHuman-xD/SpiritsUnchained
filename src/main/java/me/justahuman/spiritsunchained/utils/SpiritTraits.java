@@ -119,7 +119,7 @@ public class SpiritTraits {
             if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
                 continue;
             }
-            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10*20, 1, true));
+            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10*20, 0, true));
         }
         player.getWorld().playSound(location, Sound.ENTITY_SQUID_SQUIRT, 2, 1);
     }
@@ -160,7 +160,7 @@ public class SpiritTraits {
                 Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
                     block.setType(restoreType);
                     block.setBlockData(restoreData);
-                }, 30*20);
+                }, 5 * 20L);
 
                 count++;
             }
@@ -191,7 +191,7 @@ public class SpiritTraits {
             if (entity.getUniqueId() == player.getUniqueId()) {
                 continue;
             }
-            entity.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 32*20, 1, true));
+            entity.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 32*20, 0, true));
         }
     }
     public static void Stew_Maker(Player player) {
@@ -283,12 +283,12 @@ public class SpiritTraits {
             if (nearbyPlayer.getUniqueId() == player.getUniqueId()) {
                 continue;
             }
-            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 10*20, 1));
+            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 10*20, 0));
         }
     }
     public static void Crit_hit(Player player) {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_VINDICATOR_AMBIENT, 2, 1);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30*20, 2, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30*20, 1, true));
     }
     public static void Mini_Teleport(Player player) {
         if (player.getVehicle() != null) {
@@ -327,17 +327,17 @@ public class SpiritTraits {
         if (inventory.contains(Material.GLASS_BOTTLE)) {
             final ItemStack potion1 = new ItemStack(Material.SPLASH_POTION);
             final PotionMeta meta1 = ((PotionMeta) potion1.getItemMeta());
-            meta1.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, 40, 1), true); //<-- 40 ticks whereas you had 10 ticks
+            meta1.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 15, 1), true);
             potion1.setItemMeta(meta1);
 
             final ItemStack potion2 = new ItemStack(Material.POTION);
             final PotionMeta meta2 = ((PotionMeta) potion2.getItemMeta());
-            meta2.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1), true); //<-- 40 ticks whereas you had 10 ticks
+            meta2.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1), true);
             potion2.setItemMeta(meta2);
 
             final ItemStack potion3 = new ItemStack(Material.POTION);
             final PotionMeta meta3 = ((PotionMeta) potion3.getItemMeta());
-            meta2.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 60*20, 1), true); //<-- 40 ticks whereas you had 10 ticks
+            meta2.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 60*20, 1), true);
             potion3.setItemMeta(meta3);
 
             final ItemStack[] potions = new ItemStack[] {
@@ -371,8 +371,8 @@ public class SpiritTraits {
     }
     public static void Tank(Player player) {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_RAVAGER_ATTACK, 2, 1);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30*20, 2, true));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30*20, 2, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 15*20, 1, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 15*20, 2, true));
     }
     public static void Bullet_Swarm(Player player) {
         final World world = player.getWorld();
@@ -382,16 +382,7 @@ public class SpiritTraits {
             if (nearbyEntity.getUniqueId() == player.getUniqueId()) {
                 continue;
             }
-            if (targets.isEmpty()) {
-                targets.add(nearbyEntity);
-            } else {
-                for (LivingEntity target : targets) {
-                    if (location.distance(nearbyEntity.getLocation()) > location.distance(target.getLocation())) {
-                        //targets.remove(nearbyEntity);
-                        targets.add(targets.indexOf(target), nearbyEntity);
-                    }
-                }
-            }
+            targets.add(nearbyEntity);
         }
         for (int spawned = 0; spawned < 5; spawned++) {
             final ShulkerBullet bullet = (ShulkerBullet) world.spawnEntity(location.add(0,2,0), EntityType.SHULKER_BULLET);
@@ -414,8 +405,8 @@ public class SpiritTraits {
                 continue;
             }
             final Location nearbyLocation = nearbyPlayer.getLocation();
-            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 30*20, 4, true));
-            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30*20, 4, true));
+            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 30*20, 0, true));
+            nearbyPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30*20, 3, true));
             world.playSound(nearbyLocation, Sound.ENTITY_WARDEN_HEARTBEAT, 3, 1);
             ParticleUtils.spawnParticleRadius(nearbyLocation, Particle.SCULK_SOUL, 2, 30, "");
         }
