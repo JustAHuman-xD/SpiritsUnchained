@@ -500,9 +500,9 @@ public class SpiritUtils {
         final String type = definition.getType().name();
         final ItemStack book = getFilledBook(type);
         final BookMeta bookMeta = (BookMeta) book.getItemMeta();
-        final String name = ChatUtils.humanize(type);
-        bookMeta.setAuthor(name + " Spirit");
-        bookMeta.setTitle("A " + name + "'s Tale");
+        final String name = ChatUtils.humanize(type) + " Spirit";
+        bookMeta.setAuthor(name);
+        bookMeta.setTitle(name);
         book.setItemMeta(bookMeta);
         return book;
     }
