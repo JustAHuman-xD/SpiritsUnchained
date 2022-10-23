@@ -497,7 +497,13 @@ public class SpiritUtils {
     }
 
     public static ItemStack getFilledBook(SpiritDefinition definition) {
-        return getFilledBook(definition.getType().name());
+        final String type = definition.getType().name();
+        final ItemStack book = getFilledBook(type);
+        final BookMeta bookMeta = (BookMeta) book.getItemMeta();
+        final String name = ChatUtils.humanize(type);
+        bookMeta.setAuthor(name + " Spirit");
+        bookMeta.setTitle("A " + name + "'s Tale");
+        return book;
     }
 
     public static ItemStack getFilledBook(String bookId) {
@@ -512,7 +518,7 @@ public class SpiritUtils {
         for (String pageNum : pages.getKeys(false)) {
             bookMeta.addPages(MiniMessage.miniMessage().deserialize(StringUtils.join(pages.getStringList(pageNum), "\n")));
         }
-        bookMeta.setAuthor(bookConfig.getString("author", "JustAHuman_xD"));
+        bookMeta.setAuthor(bookConfig.getString("author", "Spirit"));
         bookMeta.setTitle(bookConfig.getString("title", "Written Book"));
         filledBook.setItemMeta(bookMeta);
         return filledBook;

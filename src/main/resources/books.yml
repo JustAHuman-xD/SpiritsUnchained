@@ -127,416 +127,278 @@ GUIDE_BOOK:
       - ""
       - "#1.b <u>Trait Activation<reset>, in order for a Trait to Activate, the Spirits state must be Gentle+"
 SHEEP:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - "A spirit often found grazing the fields of grass of the overworld."
+      - "An animal often found grazing the fields of grass of the overworld."
 COW:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "An animal known for its Milk, said to have magical purifying properties."
 CHICKEN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A slow falling, seed loving, spirit, just living as it wants."
 PIG:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A mob best known for it's love of carrots, to the point of being led by them."
 PARROT:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A rare colorful sight, known for its love of Music."
 COD:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A small fish known to swim in schools."
 SALMON:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A big fish easily distinguishable for its dark red scales."
 TROPICAL_FISH:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A bright and rare sight in the deep seas, a fisherman's treasure."
 SQUID:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A creature known for its ink, essential for writing."
 OCELOT:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A wild creature known for its equal rarity and speed."
 RABBIT:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A fast and jumpy creature, hunted for it's lucky feet."
 BEE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A flying creature sought after for its unique ability to utilize flowers for honey."
 SPIDER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "An eight legged and eight eyed creature, with a unique ability to climb walls."
 CREEPER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A deadly mob, equally valuable and dangerous for its explosive ability."
 SKELETON:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "An undead creature, known for its skilled use of the Bow."
 ZOMBIE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "An undead creature, simplistic in nature but powerful en masse."
 SLIME:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A unique mob, sought out for its precious slime balls with the innate ability to split it self upon death."
 ZOMBIFIED_PIGLIN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A undead version of the piglins found in the nether, these occur naturally there and normal piglins become them in the overworld."
 SILVERFISH:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A pesky mob found deep underground with a love of strongholds and stone."
 FOX:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A sneaky creature with a love for chickens."
 BAT:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A loud flying creature found deep underground in dark places."
 SNOWMAN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A unnatural occurrence, created by combining snow and carved pumpkins, with a funny face beneath its Hat."
 MUSHROOM_COW:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A rare phenomenon, only found on the mycelium islands, legends say it changes appearance when striken by lightning."
 STRIDER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A unique inhabitant of the nether, the only seen to be  living universally in lava."
 TURTLE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A passive mob with a love of sea grass, its fragile eggs crack under almost any pressure."
 VILLAGER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A intelligent mob, one of few, known to deal in terrible trades until saved from the zombie illness."
 WANDERING_TRADER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the villager, afraid of what lurks at night it has learned to brew invisibility potions."
 PUFFERFISH:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A poisonous swimmer with a temper."
 AXOLOTL:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A intelligent swimmer, one that plays dead when near death, with a love of fish."
 GLOW_SQUID:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A curiosity of the ocean, its special ink used to illuminate signs and item frames."
 FROG:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A rare tropical mob, changing in color based on its home, known for a love of slimes."
 HORSE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A true steed, ideal for overworld travel, with a high jump."
 DONKEY:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the horse, lacks the ability to wear armor, but can instead hold a chest."
 MULE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the horse, lacks the ability to wear armor, but can instead hold a chest."
 CAT:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the ocelot, found uniquely in villages, might even give you a gift after a good nights rest."
 WOLF:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A wild inhabitant of the forests, known for its love of bones it can be tamed."
 LLAMA:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A rare encounter, wearer of stylish carpet styles, these mobs spit on attackers."
 DOLPHIN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A excellent swimmer, one who loves to play with items and blocks, it might even grace you with it's ability."
 POLAR_BEAR:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cold fish loving animal, its as nice to you as you are to it."
 PANDA:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A unique inhabitant of the jungle forests, known for its love of bamboo and its ability to roll."
 GOAT:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A true mountain climber, with the ability to jump high, and a deadly habit to ram mobs."
 CAVE_SPIDER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A poisonous cousin of the Spider, with less health it relies on its ability."
 PIGLIN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A bargainer of the nether, fascinated by gold and holder of Strange Secrets."
 PILLAGER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the Villager, crossbow wielding and the most common of the Illagers."
 VINDICATOR:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "Another part of the Illager family, this axe wielding mob will pack a punch."
 ENDERMAN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A rare sight in the overworld, yet overflowing in the end. These unique mobs possess the ability of teleportation and love blocks."
 GUARDIAN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A thorn covered mob, protector of the ocean monuments."
 HUSK:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the Zombie, found only in the Deserts, told to have hungering effects."
 STRAY:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the Skeleton, found only in the coldest of biomes, its arrows inflict a slowing effect."
 PHANTOM:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A phantom of the night, one that appears only after you have not slept, its secrets are still unknown."
 BLAZE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A unique inhabitant of the Nether Fortress's, with its ability to shoot fireballs and fly."
 MAGMA_CUBE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the Slime, found only in the Nether it has adapted to its new landscape."
 ZOMBIE_VILLAGER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A zombified villager, the infection only curable with the use of weakness and the rare golden apple."
 DROWNED:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the Zombie, created by a Zombie who falls to the Deep Abyss."
 WITCH:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the villager, the witches have learned the art of potion brewing."
 HOGLIN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A heavy hitting creature, found in the forests of the nether, with a fear of warped fungi."
 ZOGLIN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A zombified hoglin, only found when a hoglin ventures to the overworld."
 ZOMBIE_HORSE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A zombified horse, the secrets of this mob are still unknown."
 SKELETON_HORSE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A skeletal horse, a rare sight and utilized by the Skeleton Horseman."
 IRON_GOLEM:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A heavy mob, found in villages and built by players, a true protector."
 ENDERMITE:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A unique mob, only found in the breaking of an ender pearl, hated by enderman."
 EVOKER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A magical mob, one who has discovered the secrets of life and death."
 RAVAGER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A special mob, only found in the ranks of the Pillagers, known to be a strong adversary."
 SHULKER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A rare inhabitant of the End, protector of its cities and the loot to be found inside."
 WITHER_SKELETON:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the Skeleton, most often found in Soul Sand Valleys, be wary of its Withering touch."
 ELDER_GUARDIAN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A cousin of the Guardian, possessing the ability to give mining fatigue, to protect the treasures of its temple."
 WITHER:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A terrifying creation by man, made by combining withered skulls and sand of souls, known to terrorize the mobs of the overworld."
 ENDER_DRAGON:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A lone mob, protected by magic in the end, defeated for its precious egg."
 WARDEN:
-  title: _ Spirit Book
-  author: A Freed Spirit
   pages:
     0:
-      - ""
+      - "A terrifying guard of the Ancient Cities, summoned by the Shrieks of lost Souls."
