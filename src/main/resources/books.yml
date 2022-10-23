@@ -126,3 +126,417 @@ GUIDE_BOOK:
       - "#1.a (Cont), and 2. Ability Traits, these Traits require you the Player to Right Click when holding the Spirit, then Activating the Trait"
       - ""
       - "#1.b <u>Trait Activation<reset>, in order for a Trait to Activate, the Spirits state must be Gentle+"
+SHEEP:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - "A spirit often found grazing the fields of grass of the overworld."
+COW:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+CHICKEN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+PIG:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+PARROT:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+COD:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+SALMON:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+TROPICAL_FISH:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+SQUID:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+OCELOT:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+RABBIT:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+BEE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+SPIDER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+CREEPER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+SKELETON:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+ZOMBIE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+SLIME:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+ZOMBIFIED_PIGLIN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+SILVERFISH:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+FOX:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+BAT:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+SNOWMAN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+MUSHROOM_COW:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+STRIDER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+TURTLE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+VILLAGER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+WANDERING_TRADER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+PUFFERFISH:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+AXOLOTL:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+GLOW_SQUID:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+FROG:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+HORSE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+DONKEY:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+MULE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+CAT:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+WOLF:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+LLAMA:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+DOLPHIN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+POLAR_BEAR:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+PANDA:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+GOAT:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+CAVE_SPIDER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+PIGLIN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+PILLAGER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+VINDICATOR:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+ENDERMAN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+GUARDIAN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+HUSK:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+STRAY:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+PHANTOM:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+BLAZE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+MAGMA_CUBE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+ZOMBIE_VILLAGER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+DROWNED:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+WITCH:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+HOGLIN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+ZOGLIN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+ZOMBIE_HORSE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+SKELETON_HORSE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+IRON_GOLEM:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+ENDERMITE:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+EVOKER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+RAVAGER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+SHULKER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+WITHER_SKELETON:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+ELDER_GUARDIAN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+WITHER:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+ENDER_DRAGON:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""
+WARDEN:
+  title: _ Spirit Book
+  author: A Freed Spirit
+  pages:
+    0:
+      - ""

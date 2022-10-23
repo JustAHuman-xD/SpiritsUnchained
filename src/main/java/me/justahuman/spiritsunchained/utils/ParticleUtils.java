@@ -14,9 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static me.justahuman.spiritsunchained.utils.SpiritUtils.getNearImbued;
 
 public class ParticleUtils {
-
     private static double[][] sphere;
-
     public static void setup() {
         sphere = new double[7 * 6 * 2][];
         int sphereLoc = 0;

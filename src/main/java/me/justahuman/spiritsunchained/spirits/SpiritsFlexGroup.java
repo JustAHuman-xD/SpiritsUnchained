@@ -125,7 +125,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         final ChestMenu menu = new ChestMenu("&aSpirits Unchained");
 
         for (int slot : HEADER) {
-
+            menu.addItem(slot, ChestMenuUtils.getBackground(), (player1, i1, itemStack, clickAction) -> false);
         }
         for (int slot : FOOTER) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), (player1, i1, itemStack, clickAction) -> false);

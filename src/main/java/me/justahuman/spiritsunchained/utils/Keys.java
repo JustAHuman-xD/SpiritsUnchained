@@ -25,4 +25,6 @@ public class Keys {
     public static final NamespacedKey speedyEscape = new NamespacedKey(instance, "speedy_escape");
     public static final NamespacedKey strongBones = new NamespacedKey(instance, "strong_bones");
     public static final NamespacedKey playDead = new NamespacedKey(instance, "play_dead");
+
+    public static final NamespacedKey visualizing = new NamespacedKey(instance, "visualizing");
 }

@@ -76,7 +76,7 @@ public class AllCommands implements TabExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, Command command, @NotNull String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (! (sender instanceof Player player ) || args.length == 0) {
             return new ArrayList<>();
         }
@@ -172,6 +172,16 @@ public class AllCommands implements TabExecutor {
         final Location location = player.getLocation();
         final World world = player.getWorld();
 
+        if (!(altar.equals("1") || altar.equals("2") || altar.equals("3"))) {
+            return sendError(player, "Not a Valid Altar Tier!");
+        }
+
+        if (PersistentDataAPI.hasBoolean(player, Keys.visualizing) && PersistentDataAPI.getBoolean(player, Keys.visualizing)) {
+            return sendError(player, "You can only Visualize 1 Altar at a Time!");
+        }
+
+        PersistentDataAPI.setBoolean(player, Keys.visualizing, true);
+
         final Map<Vector, Material> altarMap = switch(altar) {
             case "3" -> Tier3Altar.getBlocks();
             case "2" -> Tier2Altar.getBlocks();
@@ -218,7 +228,12 @@ public class AllCommands implements TabExecutor {
                 fallingBlock.setPersistent(true);
                 fallingBlock.setInvulnerable(true);
                 PersistentDataAPI.setString(fallingBlock, Keys.entityKey, "altar");
-                Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), fallingBlock::remove, (30 * 20) - (finalEntryIndex * 5L));
+                Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
+                    PersistentDataAPI.setBoolean(player, Keys.visualizing, false);
+                    if (fallingBlock != null) {
+                        fallingBlock.remove();
+                    }
+                }, (30 * 20) - (finalEntryIndex * 5L));
             }, entryIndex * 5L);
             entryIndex++;
         }
@@ -244,6 +259,8 @@ public class AllCommands implements TabExecutor {
         } catch (IllegalArgumentException | NullPointerException e) {
             return sendError(player, "Not a Valid Spirit Type!");
         }
+        final ItemStack spirit = SpiritUtils.spiritItem(state, SpiritsUnchained.getSpiritsManager().getSpiritMap().get(spiritType));
+        SpiritUtils.updateSpiritItemProgress(spirit, 100);
         PlayerUtils.addOrDropItem(player, SpiritUtils.spiritItem(state, SpiritsUnchained.getSpiritsManager().getSpiritMap().get(spiritType)));
         return true;
     }

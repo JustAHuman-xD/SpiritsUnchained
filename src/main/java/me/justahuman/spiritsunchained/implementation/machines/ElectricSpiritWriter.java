@@ -31,6 +31,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -50,7 +51,7 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
 
     private static final Map<BlockPosition, Integer> progress = new HashMap<>();
 
-    private static final ItemStack PROGRESS_ITEM = new CustomItemStack(Material.WRITABLE_BOOK, "&7Progress:");
+    private static final ItemStack PROGRESS_ITEM = new CustomItemStack(Material.BOOK, "&7Progress: 0%");
 
     @ParametersAreNonnullByDefault
     public ElectricSpiritWriter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -112,7 +113,7 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
 
             @Override
             public boolean isSynchronized() {
-                return false;
+                return true;
             }
         });
     }
@@ -143,6 +144,7 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
         final ItemStack spiritItem = SpiritUtils.isSpiritItem(inputSlot1) ? inputSlot1 : inputSlot2;
         final ItemStack bookItem = SpiritUtils.isSpiritItem(inputSlot1) ? inputSlot2 : inputSlot1;
         final SpiritDefinition definition = SpiritUtils.getSpiritDefinition(spiritItem);
+        final EntityType type = definition.getType();
         final int maxTime = 3 * definition.getTier();
 
         ParticleUtils.spawnParticleRadius(b.getLocation(), Particle.ENCHANTMENT_TABLE, 1.5, 10, "");
@@ -163,8 +165,8 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
         spiritItem.subtract();
         bookItem.subtract();
 
-        for (Player player : b.getWorld().getNearbyPlayers(b.getLocation(), 10)) {
-            PlayerUtils.learnKnowledgePiece(player, definition.getType(), 2);
+        for (Player player : b.getLocation().getNearbyPlayers(10)) {
+            PlayerUtils.learnKnowledgePiece(player, type, 2);
         }
 
         progress.put(pos, 0);

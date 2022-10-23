@@ -252,9 +252,13 @@ public class SpiritUtils {
         if (spiritItem != null) {
             final ItemMeta meta = spiritItem.getItemMeta();
             final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
-            final double progress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
+            if (getStates().indexOf(state) <= 1) {
+                return false;
+            }
+            final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
+            final double progress = state.equals("Gentle") ? singleProgress : 100.0 + singleProgress;
             final SpiritDefinition definition = spiritMap.get(type);
-            if (getStates().indexOf(state) > 2 && progress >= getTraitUsage(definition.getTrait())) {
+            if (progress >= getTraitUsage(definition.getTrait())) {
                 updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
                 return true;
             }
@@ -299,7 +303,6 @@ public class SpiritUtils {
         }
         return returnList;
     }
-
     @Nullable
     public static String getSpawnMob(Location location) {
         final List<List<EntityType>> tierMap = spiritsManager.getTierMaps();
@@ -471,8 +474,8 @@ public class SpiritUtils {
         final Location location = player.getLocation();
         final float yaw = location.getYaw();
         final double D = 1;
-        final double x = -D*Math.sin(yaw*Math.PI/180);
-        final double z = D*Math.cos(yaw*Math.PI/180);
+        final double x = -D * Math.sin(yaw * Math.PI/180);
+        final double z = D * Math.cos(yaw * Math.PI/180);
         final Entity projectile = player.getWorld().spawn(location.add(x, 1.162, z), entity);
         projectile.setVelocity(location.getDirection().multiply(2));
         PersistentDataAPI.setString(projectile, Keys.entityKey, reason);
@@ -494,17 +497,7 @@ public class SpiritUtils {
     }
 
     public static ItemStack getFilledBook(SpiritDefinition definition) {
-        final ChatColor tierColor = tierColor(definition.getTier());
-        final String spiritName = ChatUtils.humanize(definition.getType().name()) + " Spirit";
-
-        final ItemStack filledBook = new ItemStack(Material.WRITTEN_BOOK);
-        final BookMeta bookMeta = (BookMeta) filledBook.getItemMeta();
-
-        bookMeta.addPages(Component.text("Example Book Test (Left for Polishing Stage)"));
-        bookMeta.setAuthor(ChatColors.color(tierColor + spiritName));
-        bookMeta.setTitle(spiritName);
-        filledBook.setItemMeta(bookMeta);
-        return filledBook;
+        return getFilledBook(definition.getType().name());
     }
 
     public static ItemStack getFilledBook(String bookId) {

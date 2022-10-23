@@ -160,7 +160,7 @@ public class TraitListeners implements Listener {
         }
         //Slow Shot
         if (attacker instanceof AbstractArrow arrow && arrow.getShooter() instanceof Player attackingPlayer) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.HUSK)) {
+            if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.STRAY)) {
                 entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
             }
         }
@@ -170,7 +170,7 @@ public class TraitListeners implements Listener {
             newEvent.callEvent();
         }
         //Blazing Thorns
-        if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && new Random().nextInt(1,101) >= 75 && isUsed(player, EntityType.GUARDIAN)) {
+        if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && new Random().nextInt(1,101) >= 75 && isUsed(player, EntityType.BLAZE)) {
             attacker.setFireTicks(5*20);
         }
 

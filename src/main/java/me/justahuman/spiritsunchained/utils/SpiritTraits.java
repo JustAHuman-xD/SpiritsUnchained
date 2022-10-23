@@ -13,6 +13,7 @@ import org.bukkit.Sound;
 import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Egg;
@@ -26,6 +27,8 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ShulkerBullet;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.entity.WitherSkull;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -173,12 +176,11 @@ public class SpiritTraits {
     public static void Infest(Player player) {
         final Block lookingAt = player.getTargetBlock(null, 5);
         try{
-            final Material newMaterial = Material.valueOf("infested_" + lookingAt.getType());
+            final Material newMaterial = Material.valueOf("INFESTED_" + lookingAt.getType());
             lookingAt.setType(newMaterial);
             ParticleUtils.spawnParticleRadius(lookingAt.getLocation(), Particle.ASH, 1.5, 40, "");
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_SILVERFISH_AMBIENT, 1, 1);
         } catch (IllegalArgumentException | NullPointerException e) {
-            e.printStackTrace();
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_SILVERFISH_DEATH, 1, 1);
         }
     }
@@ -221,11 +223,13 @@ public class SpiritTraits {
         for (ItemFrame itemFrame : world.getNearbyEntitiesByType(ItemFrame.class, location, 5)) {
             final ItemStack item = itemFrame.getItem();
             final Rotation rotation = itemFrame.getRotation();
+            final BlockFace face = itemFrame.getAttachedFace();
             final Location frameLocation = itemFrame.getLocation();
             itemFrame.remove();
             final GlowItemFrame frame = world.spawn(frameLocation, GlowItemFrame.class);
-            frame.setRotation(rotation);
+            frame.setFacingDirection(face.getOppositeFace());
             frame.setItem(item);
+            frame.setRotation(rotation);
             ParticleUtils.spawnParticleRadius(itemFrame.getLocation(), Particle.GLOW_SQUID_INK, 1.5, 24, "");
             world.playSound(itemFrame.getLocation(), Sound.ENTITY_GLOW_SQUID_SQUIRT, 1, 1);
         }
@@ -244,7 +248,7 @@ public class SpiritTraits {
                 };
                 final Material newMaterial = chooseFrom[new Random().nextInt(3)];
                 relative.setType(newMaterial);
-                ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.END_ROD, 1.5, 24, "");
+                ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.END_ROD, 1.5, 24, "Freeze");
             }
         }
 
@@ -290,14 +294,19 @@ public class SpiritTraits {
         if (player.getVehicle() != null) {
             player.leaveVehicle();
         }
-        final World world = player.getWorld();
-        final Location location = player.getLocation();
 
-        final double x = location.getX() + (new Random().nextDouble() - 0.5D) * 16.0D;
-        final double y = Math.max(location.getY() + (new Random().nextInt(16) - 8), Math.min(world.getMinHeight(), (double) (world.getMinHeight() + world.getLogicalHeight() - 1)));
-        final double z = location.getZ() + (new Random().nextDouble() - 0.5D) * 16.0D;
+        final Location location = player.getLocation().clone();
 
-        player.teleport(player.getLocation().add(x, y, z));
+        for (int i = 0; i < 16; i++) {
+            final int x = location.clone().getBlockX() + new Random().nextInt(1, 33);
+            final int y = location.clone().getBlockY() + new Random().nextInt(1, 33);
+            final int z = location.clone().getBlockZ() + new Random().nextInt(1, 33);
+            final Location teleportTo = new Location(location.getWorld(), x, y ,z);
+             if (player.teleport(teleportTo, PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT)) {
+                 break;
+             }
+        }
+
         player.getWorld().playSound(player.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 2, 1);
     }
     public static void Sleep_No_More(Player player) {
@@ -417,7 +426,7 @@ public class SpiritTraits {
         if (inventory.contains(fill)) {
             int fillAmount = 0;
             for(ItemStack item : inventory.getContents()) {
-                if (item != null && item.getType() == Material.BOWL) {
+                if (item != null && item.getType() == fill) {
                     fillAmount = (item.getAmount() >= howMany ? new Random().nextInt(1,howMany + 1) : new Random().nextInt(0,item.getAmount()));
                     item.setAmount(item.getAmount() - fillAmount);
                 }
