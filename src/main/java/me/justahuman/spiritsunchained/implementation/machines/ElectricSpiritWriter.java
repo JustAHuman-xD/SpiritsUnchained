@@ -42,7 +42,7 @@ import java.util.Map;
 
 public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetComponent {
 
-    private static final int[] BACKGROUND_SLOTS = new int[]{0,1,2,3,4,5,6,7,8,13,31,36,37,38,39,40,41,42,43,44};
+    private static final int[] BACKGROUND_SLOTS = new int[]{0,1,2,3,4,5,6,7,8,13,22,31,36,37,38,39,40,41,42,43,44};
     private static final int[] BORDER_INPUT = new int[]{9,10,11,12,18,21,27,28,29,30};
     private static final int[] BORDER_OUTPUT = new int[]{14,15,16,17,23,26,32,33,34,35};
     private static final int[] INPUT_SLOTS = new int[]{19,20};
