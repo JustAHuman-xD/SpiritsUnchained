@@ -1,5 +1,6 @@
 package me.justahuman.spiritsunchained.listeners;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 
 import io.papermc.paper.event.entity.ElderGuardianAppearanceEvent;
@@ -9,8 +10,11 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
+import me.justahuman.spiritsunchained.utils.SpiritTraits;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -177,26 +181,24 @@ public class TraitListeners implements Listener {
         //Strong Bones
         if(finalHealthPercentage <= 0.5 && !onCooldown(entity, Keys.strongBones) && isUsed(player, EntityType.SKELETON)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 45*20, 1, true));
-            startCooldown(player, Keys.strongBones, 90);
+            startCooldown(player, Keys.strongBones, 90, "&fCooldown Started for Strong Bones! &7(1 1/2 Minutes)");
         }
         //Play Dead
         if(finalHealthPercentage <= 0.25 && !onCooldown(entity, Keys.playDead) && isUsed(player, EntityType.AXOLOTL)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 15*20, 1, true));
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 15*20, 1, true));
-            startCooldown(player, Keys.playDead, 60);
+            startCooldown(player, Keys.playDead, 60, "&fCooldown Started for &dPlay Dead&f! &7(1 Minute)");
         }
         //Speedy Escape
         if(finalHealthPercentage <= 0.1 && !onCooldown(entity, Keys.speedyEscape) && isUsed(player, EntityType.OCELOT)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 15*20, 5, true));
-            startCooldown(player, Keys.speedyEscape, 60);
+            startCooldown(player, Keys.speedyEscape, 60, "&fCooldown Started for &eSpeedy Escape&f! &7(1 Minute)");
         }
         //Another Chance
         if(event.getFinalDamage() >= entity.getHealth() && isUsed(player, EntityType.EVOKER)) {
             final ItemStack offHand = player.getInventory().getItemInOffHand().clone();
             player.getInventory().setItemInOffHand(new ItemStack(Material.TOTEM_OF_UNDYING));
-            Bukkit.getScheduler().runTaskLater(instance, () -> {
-                player.getInventory().setItemInOffHand(offHand);
-            }, 1);
+            Bukkit.getScheduler().runTaskLater(instance, () -> player.getInventory().setItemInOffHand(offHand), 1);
         }
         //Scute Shedding
         if (new Random().nextInt(1, 101) >= 90 && isUsed(player, EntityType.TURTLE)) {
@@ -353,10 +355,9 @@ public class TraitListeners implements Listener {
     private boolean onCooldown(LivingEntity entity, NamespacedKey key) {
         return PersistentDataAPI.getBoolean(entity, key);
     }
-    private void startCooldown(Player player, NamespacedKey key, int when) {
+    private void startCooldown(Player player, NamespacedKey key, int when, String say) {
+        player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(say)));
         PersistentDataAPI.setBoolean(player, key, true);
-        Bukkit.getScheduler().runTaskLater(instance, () -> {
-            PersistentDataAPI.setBoolean(player, key, false);
-        }, when* 20L);
+        Bukkit.getScheduler().runTaskLater(instance, () -> PersistentDataAPI.setBoolean(player, key, false), when* 20L);
     }
 }

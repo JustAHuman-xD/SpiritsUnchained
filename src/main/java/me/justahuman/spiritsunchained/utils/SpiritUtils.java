@@ -18,6 +18,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import net.kyori.adventure.text.Component;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -260,6 +262,8 @@ public class SpiritUtils {
             final SpiritDefinition definition = spiritMap.get(type);
             if (progress >= getTraitUsage(definition.getTrait())) {
                 updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
+                final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
                 return true;
             }
         }
@@ -340,9 +344,11 @@ public class SpiritUtils {
                 }
             }
             if (!definition.getBiomeGroup().isEmpty()) {
-                boolean inBiome = false;
-                for (String biomeId : definition.getBiomeGroup()) {
-                    inBiome = inBiome || configManager.getBiomeMap().get(biomeId).contains(biome.name());
+                boolean inBiome = biome.equals(Biome.CUSTOM);
+                if (!inBiome) {
+                    for (String biomeId : definition.getBiomeGroup()) {
+                        inBiome = inBiome || configManager.getBiomeMap().get(biomeId).contains(biome.name());
+                    }
                 }
                 if (!inBiome) {
                     continue;
