@@ -32,8 +32,10 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
@@ -296,6 +298,7 @@ public class SpiritTraits {
         }
 
         final Location location = player.getLocation().clone();
+        ParticleUtils.spawnParticleRadius(location, Particle.PORTAL, 1.5, 30, "");
 
         for (int i = 0; i < 16; i++) {
             final int x = location.clone().getBlockX() + new Random().nextInt(1, 33);
@@ -303,6 +306,7 @@ public class SpiritTraits {
             final int z = location.clone().getBlockZ() + new Random().nextInt(1, 33);
             final Location teleportTo = new Location(location.getWorld(), x, y ,z);
              if (player.teleport(teleportTo, PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT)) {
+                 ParticleUtils.spawnParticleRadius(teleportTo, Particle.PORTAL, 1.5, 30, "");
                  break;
              }
         }
@@ -327,23 +331,24 @@ public class SpiritTraits {
         if (inventory.contains(Material.GLASS_BOTTLE)) {
             final ItemStack potion1 = new ItemStack(Material.SPLASH_POTION);
             final PotionMeta meta1 = ((PotionMeta) potion1.getItemMeta());
-            meta1.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 15, 1), true);
+            meta1.setBasePotionData(new PotionData(PotionType.REGEN, true, true));
             potion1.setItemMeta(meta1);
 
             final ItemStack potion2 = new ItemStack(Material.POTION);
             final PotionMeta meta2 = ((PotionMeta) potion2.getItemMeta());
-            meta2.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60*20, 1), true);
+            meta2.setBasePotionData(new PotionData(PotionType.STRENGTH, true, true));
             potion2.setItemMeta(meta2);
 
             final ItemStack potion3 = new ItemStack(Material.POTION);
             final PotionMeta meta3 = ((PotionMeta) potion3.getItemMeta());
-            meta2.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 60*20, 1), true);
+            meta3.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL, true, true));
             potion3.setItemMeta(meta3);
 
             final ItemStack[] potions = new ItemStack[] {
                     potion1, potion2, potion3
             };
-            for (int current = 0; current < 4; current++) {
+            final int amount = new Random().nextInt(5);
+            for (int current = 0; current < amount; current++) {
                 fillItems(player, Material.GLASS_BOTTLE, potions[new Random().nextInt(4)], 1);
             }
         }
@@ -366,8 +371,10 @@ public class SpiritTraits {
         final Location targetLoc = rs.getHitBlock().getLocation().subtract(x, -1, z);
         targetLoc.setYaw(yaw);
         targetLoc.setPitch(pitch);
+        ParticleUtils.spawnParticleRadius(location, Particle.PORTAL, 1.5, 30, "");
         player.teleport(targetLoc);
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 2, 1);
+        ParticleUtils.spawnParticleRadius(targetLoc, Particle.PORTAL, 1.5, 30, "");
     }
     public static void Tank(Player player) {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_RAVAGER_ATTACK, 2, 1);
