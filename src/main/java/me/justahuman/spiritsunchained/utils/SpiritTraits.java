@@ -331,17 +331,17 @@ public class SpiritTraits {
         if (inventory.contains(Material.GLASS_BOTTLE)) {
             final ItemStack potion1 = new ItemStack(Material.SPLASH_POTION);
             final PotionMeta meta1 = ((PotionMeta) potion1.getItemMeta());
-            meta1.setBasePotionData(new PotionData(PotionType.REGEN, true, true));
+            meta1.setBasePotionData(new PotionData(PotionType.REGEN, false, true));
             potion1.setItemMeta(meta1);
 
             final ItemStack potion2 = new ItemStack(Material.POTION);
             final PotionMeta meta2 = ((PotionMeta) potion2.getItemMeta());
-            meta2.setBasePotionData(new PotionData(PotionType.STRENGTH, true, true));
+            meta2.setBasePotionData(new PotionData(PotionType.STRENGTH, false, true));
             potion2.setItemMeta(meta2);
 
             final ItemStack potion3 = new ItemStack(Material.POTION);
             final PotionMeta meta3 = ((PotionMeta) potion3.getItemMeta());
-            meta3.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL, true, true));
+            meta3.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL, false, true));
             potion3.setItemMeta(meta3);
 
             final ItemStack[] potions = new ItemStack[] {
