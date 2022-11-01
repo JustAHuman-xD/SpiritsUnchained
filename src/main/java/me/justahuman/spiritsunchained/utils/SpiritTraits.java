@@ -55,6 +55,7 @@ public class SpiritTraits {
     public static String useTrait(Player player, Map<String, Object> traitInfo, String state, String type) {
         final UUID uuid = player.getUniqueId();
         final String name = (String) traitInfo.get("name");
+        final String id = (String) traitInfo.get("id");
         final Method traitMethod;
 
         if (SpiritUtils.getStates().indexOf(state) <= 2) {
@@ -73,8 +74,8 @@ public class SpiritTraits {
         }
 
         //If the Trait is on Cooldown
-        if (Cooldown_Map.containsKey(uuid) && Cooldown_Map.get(uuid).containsKey(traitInfo.get("id")) && Cooldown_Map.get(uuid).get(traitInfo.get("id")) > System.currentTimeMillis()) {
-            final long cooldown = (Cooldown_Map.get(uuid).get(traitInfo.get("id")) - System.currentTimeMillis()) / 1000;
+        if (Cooldown_Map.containsKey(uuid) && Cooldown_Map.get(uuid).containsKey(id) && Cooldown_Map.get(uuid).get(id) > System.currentTimeMillis()) {
+            final long cooldown = (Cooldown_Map.get(uuid).get(id) - System.currentTimeMillis()) / 1000;
             return name + " on Cooldown! (" + cooldown + "s)";
         }
 

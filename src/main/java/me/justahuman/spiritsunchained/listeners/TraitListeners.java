@@ -353,11 +353,10 @@ public class TraitListeners implements Listener {
         return false;
     }
     private boolean onCooldown(LivingEntity entity, NamespacedKey key) {
-        return PersistentDataAPI.getBoolean(entity, key);
+        return PersistentDataAPI.hasLong(entity, key) && PersistentDataAPI.getLong(entity, key) > System.currentTimeMillis();
     }
     private void startCooldown(Player player, NamespacedKey key, int when, String say) {
         player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(say)));
-        PersistentDataAPI.setBoolean(player, key, true);
-        Bukkit.getScheduler().runTaskLater(instance, () -> PersistentDataAPI.setBoolean(player, key, false), when* 20L);
+        PersistentDataAPI.setLong(player, key, System.currentTimeMillis() + when * 1000L);
     }
 }
