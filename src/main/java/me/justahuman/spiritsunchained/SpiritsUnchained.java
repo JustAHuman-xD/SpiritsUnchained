@@ -7,7 +7,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import lombok.Getter;
-import me.justahuman.spiritsunchained.commands.AllCommands;
+import me.justahuman.spiritsunchained.managers.CommandManager;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
@@ -19,9 +19,7 @@ import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.FallingBlock;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
@@ -66,7 +64,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
             //updater.start(); Disabled for Now
         }
 
-        this.getCommand("spirits").setExecutor(new AllCommands());
+        this.getCommand("spirits").setExecutor(new CommandManager());
     }
 
     @Nonnull

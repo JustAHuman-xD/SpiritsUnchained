@@ -1,4 +1,4 @@
-package me.justahuman.spiritsunchained.commands;
+package me.justahuman.spiritsunchained.managers;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
@@ -25,7 +25,6 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
@@ -42,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AllCommands implements TabExecutor {
+public class CommandManager implements TabExecutor {
 
     final Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().entityMap.keySet();
     final List<String> entityTypes = SpiritUtils.getTypes();
