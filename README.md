@@ -5,7 +5,7 @@ I need to Fill this :D
 
 - Finish out the default Balancing of Various Spirits, Traits, and Passing On (High Priority)
 - ~~Add Tutorials for Everything (High Priority)~~
-- Nice Visuals: ~~Animations~~, Books, ~~etc~~ (Low Priority)
+- ~~Nice Visuals: ~~Animations~~, Books, ~~etc~~ (Low Priority)~~
 - ~~Add Passing On Functionality (High Priority)~~
 - ~~Add Functionality to Machines (High Priority)~~
 - ~~Make Spirit in a Bottle give Levitation (Low Priority)~~
