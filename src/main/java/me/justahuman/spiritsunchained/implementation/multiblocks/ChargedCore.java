@@ -27,7 +27,7 @@ import java.util.Collection;
 public class ChargedCore {
     public static void tick(@Nonnull Block b) {
         final Location l = b.getLocation();
-        final Collection<Player> players = b.getWorld().getNearbyEntitiesByType(Player.class, l, 2);
+        final Collection<Player> players = b.getWorld().getNearbyPlayers(l, 2);
 
         if (!players.isEmpty() && isComplete(b)) {
             final String Times = BlockStorage.getLocationInfo(b.getLocation(),"particle");

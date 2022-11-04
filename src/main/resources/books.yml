@@ -98,12 +98,12 @@ GUIDE_BOOK:
       - ""
       - "#2. <u>Requirements<reset>, There are 4 types of Requirements a Spirit can Have."
       - ""
-      - "#2.a <u>Item Requirement<reset>, this Spirit will want you to give it # of _ Item. Just click the Spirit Item in your Inventory with the Item it wants"
+      - "#2.a <u>Item Requirement<reset>, this Spirit will want you to give it # of _ Item. Just click the Spirit Item in your Inventory with the Item it wants in your cursor."
     17:
       - " <u>Passing On IV<reset>"
       - ""
       - "#2.b <u>Slimefun Item Requirement<reset>"
-      - "Similar to the Item Requirement this Spirit wants x amount of _ slimefun item. Click the Spirit item in your inventory with the Slimefun Item it wants"
+      - "Similar to the Item Requirement this Spirit wants x amount of _ slimefun item. Click the Spirit item in your inventory with the Slimefun Item it wants in your cursor."
     18:
       - " <u>Passing On V<reset>"
       - ""

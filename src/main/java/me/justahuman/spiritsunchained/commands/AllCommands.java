@@ -176,11 +176,11 @@ public class AllCommands implements TabExecutor {
             return sendError(player, "Not a Valid Altar Tier!");
         }
 
-        if (PersistentDataAPI.hasBoolean(player, Keys.visualizing) && PersistentDataAPI.getBoolean(player, Keys.visualizing)) {
+        if (PersistentDataAPI.hasLong(player, Keys.visualizing) && PersistentDataAPI.getLong(player, Keys.visualizing) > System.currentTimeMillis()) {
             return sendError(player, "You can only Visualize 1 Altar at a Time!");
         }
 
-        PersistentDataAPI.setBoolean(player, Keys.visualizing, true);
+        PersistentDataAPI.setLong(player, Keys.visualizing, System.currentTimeMillis() + 30 * 1000L);
 
         final Map<Vector, Material> altarMap = switch(altar) {
             case "3" -> Tier3Altar.getBlocks();
@@ -229,7 +229,6 @@ public class AllCommands implements TabExecutor {
                 fallingBlock.setInvulnerable(true);
                 PersistentDataAPI.setString(fallingBlock, Keys.entityKey, "altar");
                 Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
-                    PersistentDataAPI.setBoolean(player, Keys.visualizing, false);
                     if (fallingBlock != null) {
                         fallingBlock.remove();
                     }
