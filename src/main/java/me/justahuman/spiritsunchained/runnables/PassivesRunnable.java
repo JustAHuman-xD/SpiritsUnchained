@@ -16,8 +16,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Random;
-
 public class PassivesRunnable extends BukkitRunnable {
     @Override
     public void run() {
