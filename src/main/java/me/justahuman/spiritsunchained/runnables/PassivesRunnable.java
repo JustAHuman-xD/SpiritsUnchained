@@ -16,8 +16,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Random;
-
 public class PassivesRunnable extends BukkitRunnable {
     @Override
     public void run() {
@@ -31,11 +29,11 @@ public class PassivesRunnable extends BukkitRunnable {
     private void checkPassives(Player player) {
         //Winged Creature
         if (SpiritUtils.useSpiritItem(player, EntityType.PARROT)) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 61*20, 2, true));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 61*20, 0, true));
         }
         //Iron Defense
         if (SpiritUtils.useSpiritItem(player, EntityType.IRON_GOLEM)) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 61*20, 2, true));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 61*20, 0, true));
         }
         //Dolphin Swimmer
         final Block headBlock = player.getLocation().getBlock().getRelative(BlockFace.UP);
@@ -43,7 +41,7 @@ public class PassivesRunnable extends BukkitRunnable {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 61*20, 2, true));
         }
         //Natural Fisher
-        if (headBlock.isLiquid() && player.isSwimming() && new Random().nextInt(1,101) >= 80 && SpiritUtils.useSpiritItem(player, EntityType.POLAR_BEAR)) {
+        if (headBlock.isLiquid() && player.isSwimming() && SpiritUtils.useSpiritItem(player, EntityType.POLAR_BEAR)) {
             PlayerUtils.addOrDropItem(player, new ItemStack(Material.COD));
         }
         //Strange Secrets

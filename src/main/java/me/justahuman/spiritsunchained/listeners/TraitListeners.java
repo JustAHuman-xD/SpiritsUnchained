@@ -209,8 +209,9 @@ public class TraitListeners implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerSleep(PlayerDeepSleepEvent event) {
         final Player player = event.getPlayer();
-        if (isUsed(player, EntityType.CAT)) {
+        if (!onCooldown(player, Keys.morningGift) && isUsed(player, EntityType.CAT)) {
             PlayerUtils.addOrDropItem(player, ItemStacks.SU_ECTOPLASM);
+            startCooldown(player, Keys.morningGift, 20 * 60, "&fCooldown Started for &eMorning Gift&f! &7(20 Minutes)");
         }
     }
     //Group Protection
