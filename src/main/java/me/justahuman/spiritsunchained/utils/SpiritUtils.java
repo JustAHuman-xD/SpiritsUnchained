@@ -228,11 +228,6 @@ public class SpiritUtils {
         return spiritMap.get(EntityType.valueOf(PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey)));
     }
 
-    public static SpiritDefinition getSpiritDefinition(String type) {
-        return spiritMap.get(EntityType.valueOf(type));
-    }
-
-
     public static double getTraitUsage(String trait) {
         return switch(trait) {
             case "Multishoot", "Hunger_Hit", "Slow_Shot" -> 2;
@@ -314,21 +309,19 @@ public class SpiritUtils {
         final Biome biome = location.getBlock().getBiome();
         final World.Environment dimension = world.getEnvironment();
         final boolean isDay = world.isDayTime();
-        final int chance = ThreadLocalRandom.current().nextInt(1, 100);
+        final int chance = ThreadLocalRandom.current().nextInt(1, 101);
         String spirit = null;
         final int tier;
-        if (chance > 40) {
-            tier = 0;
-        } else if (chance > 10) {
-            tier = 1;
-        } else if (chance > 1) {
-            tier = 2;
-        } else if (chance > 0) {
+        if (chance == 100) { // 1% Chance
+            tier = 4;
+        } else if (chance >= 90) {// 10% Chance
             tier = 3;
-        } else {
-            tier = 0;
+        } else if (chance >= 70) {// 20% Chance
+            tier = 2;
+        } else { // 69% Chance
+            tier = 1;
         }
-        final List<EntityType> getFrom = tierMap.get(tier);
+        final List<EntityType> getFrom = tierMap.get(tier - 1);
         Collections.shuffle(getFrom);
         for (EntityType entityType : getFrom) {
             if (spirit != null) {
@@ -535,5 +528,9 @@ public class SpiritUtils {
         for (int slot : slots) {
             chestMenu.addItem(slot, itemStack, ChestMenuUtils.getEmptyClickHandler());
         }
+    }
+
+    public static boolean chance(final int chance) {
+        return ThreadLocalRandom.current().nextInt(1, 101) <= chance;
     }
 }

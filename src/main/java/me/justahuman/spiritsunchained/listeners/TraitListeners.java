@@ -10,7 +10,6 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
-import me.justahuman.spiritsunchained.utils.SpiritTraits;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import net.md_5.bungee.api.ChatMessageType;
@@ -58,7 +57,7 @@ import java.util.Random;
 public class TraitListeners implements Listener {
     SpiritsUnchained instance = SpiritsUnchained.getInstance();
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onProjectileHit(ProjectileHitEvent event) {
         final Projectile projectile = event.getEntity();
         final String key = PersistentDataAPI.hasString(projectile, Keys.entityKey) ? PersistentDataAPI.getString(projectile, Keys.entityKey) : "";
@@ -71,7 +70,7 @@ public class TraitListeners implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onTntExplode(EntityExplodeEvent event) {
         final Entity exploding = event.getEntity();
         if (!PersistentDataAPI.hasString(exploding, Keys.entityKey)) {
@@ -83,12 +82,12 @@ public class TraitListeners implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerShoot(EntityShootBowEvent event) {
         if (!(event.getEntity() instanceof Player player && event.getProjectile() instanceof Arrow arrow1)) {
             return;
         }
-        if (new Random().nextInt(1, 101) >= 65 && isUsed(player, EntityType.PILLAGER)) {
+        if (SpiritUtils.chance(35) && isUsed(player, EntityType.PILLAGER)) {
             final Arrow arrow2 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
             final Arrow arrow3 = (Arrow) SpiritUtils.spawnProjectile(player, Arrow.class, "Multishoot");
             arrow2.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
@@ -116,22 +115,23 @@ public class TraitListeners implements Listener {
             return;
         }
         final Player player = entity instanceof Player maybe ? maybe : null;
+        final EntityDamageEvent.DamageCause cause = event.getCause();
         //What Fall
-        if (event.getCause() == EntityDamageEvent.DamageCause.FALL && isUsed(player, EntityType.SLIME)) {
+        if (cause == EntityDamageEvent.DamageCause.FALL && isUsed(player, EntityType.SLIME)) {
             event.setDamage(event.getDamage() / 2);
         }
         //Sly Fox
-        if (event.getCause() == EntityDamageEvent.DamageCause.CONTACT && isUsed(player, EntityType.FOX)) {
+        if (cause == EntityDamageEvent.DamageCause.CONTACT && isUsed(player, EntityType.FOX)) {
             event.setDamage(0);
             return;
         }
         //Frosty
-        if (event.getCause() == EntityDamageEvent.DamageCause.FREEZE && isUsed(player, EntityType.SNOWMAN)) {
+        if (cause == EntityDamageEvent.DamageCause.FREEZE && isUsed(player, EntityType.SNOWMAN)) {
             event.setCancelled(true);
             return;
         }
         //Wither Resistance
-        if (event.getCause() == EntityDamageEvent.DamageCause.WITHER && isUsed(player, EntityType.WITHER_SKELETON)) {
+        if (cause == EntityDamageEvent.DamageCause.WITHER && isUsed(player, EntityType.WITHER_SKELETON)) {
             event.setCancelled(true);
             return;
         }
@@ -152,30 +152,34 @@ public class TraitListeners implements Listener {
         }
         //Poisonous Thorns
         if (attacker instanceof Player attackingPlayer) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.THORNS && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.PUFFERFISH)) {
+            if (event.getCause() == EntityDamageEvent.DamageCause.THORNS && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.PUFFERFISH)) {
                 entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 10*20, 1, true));
             }
         }
         //Hunger Hit
         if (attacker instanceof Player attackingPlayer) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.HUSK)) {
+            if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.HUSK)) {
                 entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
             }
         }
         //Slow Shot
         if (attacker instanceof AbstractArrow arrow && arrow.getShooter() instanceof Player attackingPlayer) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && new Random().nextInt(1,101) >= 75 && isUsed(attackingPlayer, EntityType.STRAY)) {
+            if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.STRAY)) {
                 entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
             }
         }
         //Natural Thorns
-        if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && new Random().nextInt(1,101) >= 50 && isUsed(player, EntityType.GUARDIAN)) {
+        if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && SpiritUtils.chance(50) && isUsed(player, EntityType.GUARDIAN)) {
             final EntityDamageByEntityEvent newEvent = new EntityDamageByEntityEvent(entity, attacker, EntityDamageEvent.DamageCause.THORNS, new Random().nextInt(1,5));
             newEvent.callEvent();
         }
         //Blazing Thorns
-        if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && new Random().nextInt(1,101) >= 75 && isUsed(player, EntityType.BLAZE)) {
+        if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && SpiritUtils.chance(25) && isUsed(player, EntityType.BLAZE)) {
             attacker.setFireTicks(5*20);
+        }
+        //Poisonous Thorns
+        if (attacker instanceof LivingEntity livingEntity && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && SpiritUtils.chance(25) && isUsed(player, EntityType.PUFFERFISH)) {
+            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 10*20, 1, true));
         }
 
         //Strong Bones
@@ -201,7 +205,7 @@ public class TraitListeners implements Listener {
             Bukkit.getScheduler().runTaskLater(instance, () -> player.getInventory().setItemInOffHand(offHand), 1);
         }
         //Scute Shedding
-        if (new Random().nextInt(1, 101) >= 90 && isUsed(player, EntityType.TURTLE)) {
+        if (SpiritUtils.chance(10) && isUsed(player, EntityType.TURTLE)) {
             player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.SCUTE));
         }
     }
@@ -266,12 +270,12 @@ public class TraitListeners implements Listener {
             return;
         }
 
-        if (new Random().nextInt(1,101) >= 70 && isUsed(player, EntityType.WOLF)) {
+        if (SpiritUtils.chance(30) && isUsed(player, EntityType.WOLF)) {
             event.setFoodLevel(event.getFoodLevel()*2);
         }
     }
     //Undead Protection
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onSplashPotion(PotionSplashEvent event) {
 
         final ThrownPotion potion = event.getPotion();
@@ -299,18 +303,18 @@ public class TraitListeners implements Listener {
         }
     }
     //Better Shears
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerShear(PlayerShearEntityEvent event) {
         final Entity entity = event.getEntity();
         final Player player = event.getPlayer();
         if (entity instanceof Sheep) {
-            if (new Random().nextInt(1,101) >= 25 && isUsed(player, EntityType.SHEEP)) {
+            if (SpiritUtils.chance(75) && isUsed(player, EntityType.SHEEP)) {
                 event.getItem().setAmount(event.getItem().getAmount()*2);
             }
         }
     }
     //Pig Rancher
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerEnter(EntityMountEvent event) {
         final Entity rider = event.getEntity();
         final Entity mount = event.getMount();
@@ -322,12 +326,12 @@ public class TraitListeners implements Listener {
             if (! isUsed(player, EntityType.PIG)) {
                 return;
             }
-            pig.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 10, true));
+            pig.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 9, true));
             PersistentDataAPI.setBoolean(pig, Keys.entityKey, true);
         }
     }
     //Pig Rancher
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerLeave(EntityDismountEvent event) {
         final Entity rider = event.getEntity();
         final Entity dismount = event.getDismounted();
