@@ -46,7 +46,7 @@ public class Items {
                 SlimefunItems.ENDER_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_3})
                 .register(instance);
 
-        new SlimefunItem(Groups.SU_TOOLS, ItemStacks.SU_UNIDENTIFIED_SPIRIT, spiritInteract, new ItemStack[]{
+        new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_UNIDENTIFIED_SPIRIT, spiritInteract, new ItemStack[]{
                 null, null, null,
                 null, ItemStacks.SU_SPIRIT_NET, null,
                 null, null, null
