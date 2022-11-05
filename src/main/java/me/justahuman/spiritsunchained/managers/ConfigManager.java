@@ -31,6 +31,15 @@ public class ConfigManager {
     private final Map<String, List<String>> biomeMap;
 
     public ConfigManager() {
+        // Add missing config entries
+        final SpiritsUnchained instance = SpiritsUnchained.getInstance();
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new InputStreamReader(instance.getResource("config.yml")));
+        for (Map.Entry<String, Object> entry : config.getValues(true).entrySet()) {
+            instance.getConfig().addDefault(entry.getKey(), entry.getValue());
+        }
+        instance.getConfig().options().copyDefaults(true);
+        instance.saveConfig();
+
         this.spirits = loadConfig("spirits.yml", true);
         this.traits = loadConfig("traits.yml", true);
         this.biomeGroups = loadConfig("biome-groups.yml", true);

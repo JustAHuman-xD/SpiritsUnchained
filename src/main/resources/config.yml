@@ -31,3 +31,6 @@ options:
   #What Worlds should Spirits NOT Spawn In, Case Sensitive
   disabled-worlds:
     - example-name
+
+  #Should the Guide Researches be enabled?
+  enable-researches: false

@@ -57,8 +57,8 @@ public class SpiritsManager {
             final List<String> listGoal = spirit.getStringList("Pass On");
             final List<String> biomeGroup = spirit.getStringList("Biomes");
             final List<String> times = spirit.getStringList("Time");
-            final String dimension = spirit.getString("Dimension");
-            final String trait = spirit.getString("Trait");
+            final String dimension = spirit.getString("Dimension", "NORMAL");
+            final String trait = spirit.getString("Trait", "Bee_Buddy");
             final Goal goal = new Goal(listGoal.get(0), listGoal.get(1), Integer.parseInt(listGoal.get(2)));
             final HashMap<String, List<EntityType>> relations = new HashMap<>();
             final List<EntityType> scare = new ArrayList<>();
@@ -104,7 +104,7 @@ public class SpiritsManager {
                     times
             );
             spiritMap.put(type, spiritDefinition);
-            tierMaps.get(tier-1).add(type);
+            tierMaps.get(tier).add(type);
         }
         LogUtils.logInfo("Loaded " + spiritMap.size() + " Spirits!");
     }

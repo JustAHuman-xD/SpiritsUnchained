@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritEntityManager implements Listener {
 
@@ -81,13 +80,12 @@ public class SpiritEntityManager implements Listener {
                 continue;
             }
             for (Player player : world.getPlayers()) {
-                final int chance = ThreadLocalRandom.current().nextInt(1, 100);
-                final int soulCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
+                final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
                 final ItemStack helmetItem = player.getInventory().getHelmet();
                 if (helmetItem == null || !SpiritUtils.imbuedCheck(helmetItem)) {
                     continue;
                 }
-                if (SpiritUtils.canSpawn() && soulCount < SpiritUtils.getPlayerCap() && chance <= 10) {
+                if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(10)) {
                     final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
                     final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());
                     if (maybeSpirit != null && this.entityMap.get("UNIDENTIFIED_SPIRIT") != null) {
