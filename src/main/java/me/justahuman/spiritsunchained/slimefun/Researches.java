@@ -7,7 +7,7 @@ import me.justahuman.spiritsunchained.utils.Keys;
 public class Researches {
 
     public static void init() {
-        addResearch("materials", "Spirit Materials", 0, 15,
+        addResearch("materials", "Spiritual Materials", 0, 15,
                 ItemStacks.SU_INFUSED_MEMBRANE,
                 ItemStacks.SU_INFUSED_FEATHER,
                 ItemStacks.SU_SOUL_STAINED_GLASS,
@@ -15,14 +15,14 @@ public class Researches {
                 ItemStacks.SU_UNIDENTIFIED_SPIRIT,
                 ItemStacks.SU_ECTOPLASM
         );
-        addResearch("tools", "Spirit Tools", 1, 20,
+        addResearch("tools", "Spiritual Tools", 1, 20,
                 ItemStacks.SU_SPIRIT_LENSES,
                 ItemStacks.SU_IDENTIFYING_GLASS,
                 ItemStacks.SU_SPIRIT_BOOK,
                 ItemStacks.SU_SPIRIT_NET,
                 ItemStacks.SU_SPIRIT_RUNE
         );
-        addResearch("machines", "Spirit Machines", 2, 30,
+        addResearch("machines", "Spiritual Machines", 2, 30,
                 ItemStacks.SU_ELECTRIC_SPIRIT_CATCHER,
                 ItemStacks.SU_ELECTRIC_SPIRIT_WRITER
         );
