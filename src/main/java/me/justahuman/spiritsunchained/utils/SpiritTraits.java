@@ -1,6 +1,9 @@
 package me.justahuman.spiritsunchained.utils;
 
+import io.github.bakedlibs.dough.protection.modules.GriefPreventionProtectionModule;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
@@ -52,14 +55,14 @@ public class SpiritTraits {
 
     static final Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
 
-    public static String useTrait(Player player, Map<String, Object> traitInfo, String state, String type) {
+    public static String useTrait(Player player, Map<String, Object> traitInfo, String type) {
         final UUID uuid = player.getUniqueId();
         final String name = (String) traitInfo.get("name");
         final String id = (String) traitInfo.get("id");
         final Method traitMethod;
 
-        if (SpiritUtils.getStates().indexOf(state) <= 2) {
-            return ChatUtils.humanize(type) + " Spirit needs to be to the Gentle State or Higher!";
+        if (!Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_BLOCK) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.PLACE_BLOCK) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.BREAK_BLOCK) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.ATTACK_ENTITY) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.ATTACK_PLAYER) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_ENTITY)) {
+            return "&cYou do not have the required permissions in this area!";
         }
 
         if (traitInfo.get("type").equals("Passive")) {
@@ -79,6 +82,10 @@ public class SpiritTraits {
             return name + " on Cooldown! (" + cooldown + "s)";
         }
 
+        if (!SpiritUtils.useSpiritItem(player, EntityType.valueOf(type))) {
+            return ChatUtils.humanize(type) + " Spirit does not have a high enough State or Progress!!";
+        }
+
         try {
             traitMethod.invoke(SpiritTraits.class, player);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
@@ -90,9 +97,6 @@ public class SpiritTraits {
         final Map<String, Long> cooldownMap = Cooldown_Map.containsKey(uuid) ? Cooldown_Map.get(uuid) : new HashMap<>();
         cooldownMap.put((String) traitInfo.get("id"), System.currentTimeMillis() + (int) traitInfo.get("cooldown") * 1000);
         Cooldown_Map.put(uuid, cooldownMap);
-
-        //Use 'Durability'
-        SpiritUtils.useSpiritItem(player, EntityType.valueOf(type));
 
         return name + " Used!";
     }

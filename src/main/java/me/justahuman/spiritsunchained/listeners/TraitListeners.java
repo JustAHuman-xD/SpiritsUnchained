@@ -78,7 +78,7 @@ public class TraitListeners implements Listener {
             return;
         }
 
-        if (PersistentDataAPI.getString(exploding, Keys.entityKey).equals("DullExplosion")) {
+        if (PersistentDataAPI.getString(exploding, Keys.entityKey).equals("DullExplosion") || PersistentDataAPI.getString(exploding, Keys.entityKey).equals("Skull_Fire")) {
             event.blockList().clear();
         }
     }

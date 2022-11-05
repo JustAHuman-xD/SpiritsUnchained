@@ -1,8 +1,10 @@
 package me.justahuman.spiritsunchained.listeners;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.utils.Keys;
@@ -59,9 +61,13 @@ public class PlayerClickListener implements Listener {
             for (Entity entity : lookingAt) {
                 final AbstractCustomMob<?> maybe = SpiritsUnchained.getSpiritEntityManager().getCustomClass(entity, null);
                 if (entity instanceof Allay && maybe != null && player.getLocation().distance(entity.getLocation()) < 4) {
+                    if (!Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_ENTITY)) {
+                        player.sendMessage(ChatColors.color("&cYou do not have Entity Interaction Permissions in this area!"));
+                        return;
+                    }
                     e.setCancelled(true);
                     maybe.onInteract(new PlayerInteractEntityEvent(player, entity, e.getHand()));
-                    break;
+                    return;
                 }
             }
         }
@@ -79,7 +85,7 @@ public class PlayerClickListener implements Listener {
                 }
                 final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
                 final Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(SpiritTraits.useTrait(player, traitInfo, PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritStateKey), PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey)))));
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(SpiritTraits.useTrait(player, traitInfo, PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey)))));
                 return true;
             }
         }
