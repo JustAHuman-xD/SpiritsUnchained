@@ -1,8 +1,10 @@
 package me.justahuman.spiritsunchained.listeners;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
@@ -34,7 +36,7 @@ public class IdentifyingGlassListener implements Listener {
     public void onSpyglassLook(PlayerStatisticIncrementEvent evt) {
         final Player player = evt.getPlayer();
 
-        if (evt.getStatistic() != Statistic.USE_ITEM || evt.getMaterial() != Material.SPYGLASS) {
+        if (evt.getStatistic() != Statistic.USE_ITEM || evt.getMaterial() != Material.SPYGLASS || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_ENTITY)) {
             return;
         }
 
