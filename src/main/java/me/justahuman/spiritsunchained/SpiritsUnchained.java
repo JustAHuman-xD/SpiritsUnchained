@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
 import lombok.Getter;
 import me.justahuman.spiritsunchained.managers.CommandManager;
+import me.justahuman.spiritsunchained.slimefun.Researches;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
@@ -50,6 +51,8 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         getLogger().info("    SpiritsUnchained - By JustAHuman    ");
         getLogger().info("========================================");
 
+        saveDefaultConfig();
+
         configManager = new ConfigManager();
         runnableManager = new RunnableManager();
         listenerManager = new ListenerManager();
@@ -58,11 +61,13 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
 
         Setup.INSTANCE.init();
 
-        saveDefaultConfig();
-
         if (getConfig().getBoolean("options.auto-update")) {
             GitHubBuildsUpdater updater = new GitHubBuildsUpdater(this, this.getFile(), "JustAHuman-xD/SpiritsUnchained/master");
             updater.start();
+        }
+
+        if (getConfig().getBoolean("options.enable-researches")) {
+            Researches.init();
         }
 
         this.getCommand("spirits").setExecutor(new CommandManager());

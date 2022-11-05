@@ -33,10 +33,10 @@ import org.bukkit.event.player.PlayerStatisticIncrementEvent;
 
 public class IdentifyingGlassListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onSpyglassLook(PlayerStatisticIncrementEvent evt) {
-        final Player player = evt.getPlayer();
+    public void onSpyglassLook(PlayerStatisticIncrementEvent event) {
+        final Player player = event.getPlayer();
 
-        if (evt.getStatistic() != Statistic.USE_ITEM || evt.getMaterial() != Material.SPYGLASS || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_ENTITY)) {
+        if (event.getStatistic() != Statistic.USE_ITEM || event.getMaterial() != Material.SPYGLASS || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_ENTITY)) {
             return;
         }
 
