@@ -19,6 +19,7 @@ import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.FallingBlock;
@@ -69,6 +70,8 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         if (getConfig().getBoolean("options.enable-researches")) {
             Researches.init();
         }
+
+        final Metrics metrics = new Metrics(this, 16817);
 
         this.getCommand("spirits").setExecutor(new CommandManager());
     }
