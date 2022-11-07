@@ -104,7 +104,7 @@ public class SpiritsManager {
                     times
             );
             spiritMap.put(type, spiritDefinition);
-            tierMaps.get(tier).add(type);
+            tierMaps.get(tier - 1).add(type);
         }
         LogUtils.logInfo("Loaded " + spiritMap.size() + " Spirits!");
     }
