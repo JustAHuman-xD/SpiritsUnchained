@@ -17,6 +17,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -150,6 +151,14 @@ public class TraitListeners implements Listener {
             Bukkit.getScheduler().runTaskLater(instance, () -> entity.setVelocity(new Vector(0, 1, 0)), 2);
             PersistentDataAPI.setBoolean(attacker, Keys.heavyHitKey, false);
         }
+        //Undead Protection
+        if (attacker instanceof ThrownPotion) {
+            if (isUsed(player, EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER)) {
+                event.setCancelled(true);
+                player.setHealth(Math.min(player.getHealth() + event.getFinalDamage(), player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
+                player.sendHealthUpdate();
+            }
+        }
         //Poisonous Thorns
         if (attacker instanceof Player attackingPlayer) {
             if (event.getCause() == EntityDamageEvent.DamageCause.THORNS && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.PUFFERFISH)) {
@@ -272,34 +281,6 @@ public class TraitListeners implements Listener {
 
         if (SpiritUtils.chance(30) && isUsed(player, EntityType.WOLF)) {
             event.setFoodLevel(event.getFoodLevel()*2);
-        }
-    }
-    //Undead Protection
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onSplashPotion(PotionSplashEvent event) {
-
-        final ThrownPotion potion = event.getPotion();
-        for (LivingEntity entity : event.getAffectedEntities()) {
-            if (! (entity instanceof Player player)) {
-                return;
-            }
-            if (! isUsed(player, EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER)) {
-                return;
-            }
-            final PotionMeta potionMeta = potion.getPotionMeta();
-            PotionData base = potionMeta.getBasePotionData();
-            for (PotionEffect effect : potionMeta.getCustomEffects()) {
-                if (effect.getType() == PotionEffectType.HARM) {
-                    effect = new PotionEffect(PotionEffectType.HEAL, effect.getDuration(), effect.getAmplifier(), effect.isAmbient());
-                    potionMeta.removeCustomEffect(PotionEffectType.HARM);
-                    potionMeta.addCustomEffect(effect, true);
-                }
-            }
-            if (base.getType() == PotionType.INSTANT_DAMAGE) {
-                base = new PotionData(PotionType.INSTANT_HEAL, base.isExtended(), base.isUpgraded());
-            }
-            potionMeta.setBasePotionData(base);
-            potion.setPotionMeta(potionMeta);
         }
     }
     //Better Shears
