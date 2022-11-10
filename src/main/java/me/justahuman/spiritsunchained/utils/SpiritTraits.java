@@ -55,8 +55,9 @@ public class SpiritTraits {
 
     static final Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
 
-    public static String useTrait(Player player, Map<String, Object> traitInfo, String type) {
+    public static String useTrait(Player player, Map<String, Object> traitInfo, ItemStack item) {
         final UUID uuid = player.getUniqueId();
+        final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
         final String name = (String) traitInfo.get("name");
         final String id = (String) traitInfo.get("id");
         final Method traitMethod;
@@ -82,7 +83,7 @@ public class SpiritTraits {
             return name + " on Cooldown! (" + cooldown + "s)";
         }
 
-        if (!SpiritUtils.useSpiritItem(player, EntityType.valueOf(type))) {
+        if (!SpiritUtils.useSpiritItem(player, EntityType.valueOf(type), item)) {
             return ChatUtils.humanize(type) + " Spirit does not have a high enough State or Progress!!";
         }
 

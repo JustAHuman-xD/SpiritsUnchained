@@ -11,6 +11,7 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
+import me.justahuman.spiritsunchained.runnables.RelationsAndStateRunnable;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 
@@ -52,9 +53,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritUtils {
@@ -206,22 +209,14 @@ public class SpiritUtils {
     }
 
     public static boolean isSpiritItem(ItemStack itemStack) {
-        if (itemStack != null && itemStack.getItemMeta() != null) {
+        if (itemStack != null && itemStack.getType() == Material.FIREWORK_STAR && itemStack.getItemMeta() != null) {
             return PersistentDataAPI.hasString(itemStack.getItemMeta(), Keys.spiritItemKey);
         }
         return false;
     }
 
-    public static ItemStack getSpiritItem(Player player, EntityType type) {
-        final Inventory inventory = player.getInventory();
-        if (inventory.contains(Material.FIREWORK_STAR)) {
-            for (ItemStack item : inventory.getContents()) {
-                if (item != null && item.getType() == Material.FIREWORK_STAR && isSpiritItem(item) && PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey).equals(String.valueOf(type)) ) {
-                    return item;
-                }
-            }
-        }
-        return null;
+    public static Set<ItemStack> getSpiritItems(Player player, EntityType type) {
+        return RelationsAndStateRunnable.getSpiritCache().containsKey(player) && RelationsAndStateRunnable.getSpiritCache().get(player).containsKey(type) ? RelationsAndStateRunnable.getSpiritCache().get(player).get(type) : new HashSet<>();
     }
 
     public static SpiritDefinition getSpiritDefinition(ItemStack item) {
@@ -241,13 +236,12 @@ public class SpiritUtils {
         };
     }
 
-    public static boolean useSpiritItem(Player player, EntityType type) {
+    public static boolean useSpiritItem(Player player, EntityType type, ItemStack override) {
         if (player == null) {
             return false;
         }
-        final ItemStack spiritItem = getSpiritItem(player, type);
-        if (spiritItem != null) {
-            final ItemMeta meta = spiritItem.getItemMeta();
+        if (override != null) {
+            final ItemMeta meta = override.getItemMeta();
             final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
             if (getStates().indexOf(state) <= 1) {
                 return false;
@@ -255,9 +249,25 @@ public class SpiritUtils {
             final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
             final double progress = state.equals("Gentle") ? singleProgress : 100.0 + singleProgress;
             final SpiritDefinition definition = spiritMap.get(type);
-            if (progress >= getTraitUsage(definition.getTrait())) {
-                updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
-                final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
+            final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
+            updateSpiritItemProgress(override, - getTraitUsage(definition.getTrait()));
+            if (progress >= getTraitUsage(definition.getTrait()) && traitInfo.get("type").equals("Passive")) {
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
+                return true;
+            }
+        }
+        for (ItemStack spiritItem : getSpiritItems(player, type)) {
+            final ItemMeta meta = spiritItem.getItemMeta();
+            final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
+            if (getStates().indexOf(state) <= 1) {
+                continue;
+            }
+            final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
+            final double progress = state.equals("Gentle") ? singleProgress : 100.0 + singleProgress;
+            final SpiritDefinition definition = spiritMap.get(type);
+            final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
+            updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
+            if (progress >= getTraitUsage(definition.getTrait()) && traitInfo.get("type").equals("Passive")) {
                 player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
                 return true;
             }
