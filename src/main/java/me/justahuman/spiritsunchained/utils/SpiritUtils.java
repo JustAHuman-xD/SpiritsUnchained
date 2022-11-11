@@ -251,8 +251,10 @@ public class SpiritUtils {
             final SpiritDefinition definition = spiritMap.get(type);
             final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
             updateSpiritItemProgress(override, - getTraitUsage(definition.getTrait()));
-            if (progress >= getTraitUsage(definition.getTrait()) && traitInfo.get("type").equals("Passive")) {
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
+            if (progress >= getTraitUsage(definition.getTrait())) {
+                if (traitInfo.get("type").equals("Passive")) {
+                    player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
+                }
                 return true;
             }
         }
@@ -267,8 +269,10 @@ public class SpiritUtils {
             final SpiritDefinition definition = spiritMap.get(type);
             final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
             updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
-            if (progress >= getTraitUsage(definition.getTrait()) && traitInfo.get("type").equals("Passive")) {
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
+            if (progress >= getTraitUsage(definition.getTrait())) {
+                if (traitInfo.get("type").equals("Passive")) {
+                    player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
+                }
                 return true;
             }
         }

@@ -27,6 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class PassOnListeners implements Listener {
 
@@ -87,24 +88,26 @@ public class PassOnListeners implements Listener {
 
     private void onSpecialInteract(Player player, LivingEntity entity, String type) {
         for (EntityType goalFor : SpiritsUnchained.getSpiritsManager().getGoalRequirements().get(entity.getType())) {
-            final ItemStack spiritItem = SpiritUtils.getSpiritItem(player, goalFor);
-            if (spiritItem != null && !SpiritUtils.isLocked(spiritItem)) {
-                SpiritDefinition definition = SpiritUtils.getSpiritDefinition(spiritItem);
-                if (!definition.getGoal().getGoalType().equals(type)) {
+            final Set<ItemStack> spiritItems = SpiritUtils.getSpiritItems(player, goalFor);
+            for (ItemStack spiritItem : spiritItems) {
+                if (spiritItem != null && !SpiritUtils.isLocked(spiritItem)) {
+                    SpiritDefinition definition = SpiritUtils.getSpiritDefinition(spiritItem);
+                    if (!definition.getGoal().getGoalType().equals(type)) {
+                        return;
+                    }
+                    final ItemMeta meta = spiritItem.getItemMeta();
+                    final int amount = definition.getGoal().getAmount();
+                    final int currentAmount = PersistentDataAPI.getInt(meta, Keys.spiritPassOnKey) + 1;
+                    if (amount > currentAmount) {
+                        PersistentDataAPI.setInt(meta, Keys.spiritPassOnKey, currentAmount);
+                        spiritItem.setItemMeta(meta);
+                        SpiritUtils.updateSpiritItemProgress(spiritItem, 0);
+                    } else {
+                        spiritItem.subtract();
+                        passOn(player, definition);
+                    }
                     return;
                 }
-                final ItemMeta meta = spiritItem.getItemMeta();
-                final int amount = definition.getGoal().getAmount();
-                final int currentAmount = PersistentDataAPI.getInt(meta, Keys.spiritPassOnKey) + 1;
-                if (amount > currentAmount) {
-                    PersistentDataAPI.setInt(meta, Keys.spiritPassOnKey, currentAmount);
-                    spiritItem.setItemMeta(meta);
-                    SpiritUtils.updateSpiritItemProgress(spiritItem, 0);
-                } else {
-                    spiritItem.subtract();
-                    passOn(player, definition);
-                }
-                return;
             }
         }
     }
