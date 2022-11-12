@@ -264,8 +264,8 @@ public class SpiritUtils {
         final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
         final double progress = state.equals("Gentle") ? singleProgress : 100.0 + singleProgress;
         final double usage = getTraitUsage(definition.getTrait());
-        updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
         if (progress >= usage) {
+            updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
             if (traitInfo.get("type").equals("Passive")) {
                 player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
             }
