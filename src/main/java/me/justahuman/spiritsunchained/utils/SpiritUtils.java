@@ -258,7 +258,7 @@ public class SpiritUtils {
         final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
         if (getStates().indexOf(state) <= 1) {
-            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &eMust be Passive or Higher!")));
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " Must be Passive or Higher!")));
             return false;
         }
         final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
@@ -267,11 +267,11 @@ public class SpiritUtils {
         if (progress >= usage) {
             updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
             if (traitInfo.get("type").equals("Passive")) {
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " Passive Activated!")));
             }
             return true;
         } else if (notif) {
-            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &eDoes not have high enough Progress! (" + progress + "/" + usage + ")")));
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " Does not have high enough Progress! (" + progress + "/" + usage + ")")));
         }
         return false;
     }
