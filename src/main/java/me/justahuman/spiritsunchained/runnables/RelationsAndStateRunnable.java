@@ -46,10 +46,6 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
     private void checkSpirits(Player player, Map<EntityType, SpiritDefinition> spiritMap) {
         final EnumMap<EntityType, Set<ItemStack>> cacheEntry = new EnumMap<>(EntityType.class);
         final Inventory inventory = player.getInventory();
-        
-        if (! inventory.contains(Material.FIREWORK_STAR)) {
-            return;
-        }
 
         final ItemStack[] contents = inventory.getContents();
         for (ItemStack item : contents) {
