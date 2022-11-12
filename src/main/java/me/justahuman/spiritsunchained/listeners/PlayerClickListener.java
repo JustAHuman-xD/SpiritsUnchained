@@ -86,7 +86,10 @@ public class PlayerClickListener implements Listener {
                 }
                 final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
                 final Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(SpiritTraits.useTrait(player, traitInfo, item))));
+                final String message = SpiritTraits.useTrait(player, traitInfo, item);
+                if (message != null) {
+                    player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(message)));
+                }
                 return true;
             }
         }

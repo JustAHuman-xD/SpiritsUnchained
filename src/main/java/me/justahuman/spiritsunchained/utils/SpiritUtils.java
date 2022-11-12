@@ -243,19 +243,24 @@ public class SpiritUtils {
         if (override != null) {
             final ItemMeta meta = override.getItemMeta();
             final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
+            final SpiritDefinition definition = spiritMap.get(type);
+            final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
             if (getStates().indexOf(state) <= 1) {
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &eMust be Passive or Higher!")));
                 return false;
             }
             final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
             final double progress = state.equals("Gentle") ? singleProgress : 100.0 + singleProgress;
-            final SpiritDefinition definition = spiritMap.get(type);
-            final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
+            final double usage = getTraitUsage(definition.getTrait());
             updateSpiritItemProgress(override, - getTraitUsage(definition.getTrait()));
-            if (progress >= getTraitUsage(definition.getTrait())) {
+            if (progress >= usage) {
                 if (traitInfo.get("type").equals("Passive")) {
                     player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
                 }
                 return true;
+            } else {
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &eDoes not have high enough Progress! (" + progress + "/" + usage + ")")));
+                return false;
             }
         }
         for (ItemStack spiritItem : getSpiritItems(player, type)) {

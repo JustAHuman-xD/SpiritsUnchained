@@ -74,7 +74,7 @@ public class SpiritTraits {
            traitMethod = SpiritTraits.class.getMethod((String) traitInfo.get("id"), Player.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            return "Error";
+            return name + "'s Trait encountered an Error! Please open a bug report on github!";
         }
 
         //If the Trait is on Cooldown
@@ -84,14 +84,14 @@ public class SpiritTraits {
         }
 
         if (!SpiritUtils.useSpiritItem(player, EntityType.valueOf(type), item)) {
-            return ChatUtils.humanize(type) + " Spirit does not have a high enough State or Progress!!";
+            return null;
         }
 
         try {
             traitMethod.invoke(SpiritTraits.class, player);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
-            return "Error";
+            return name + "'s Trait encountered an Error! Please open a bug report on github!";
         }
 
         //Add the cooldown to the Map
