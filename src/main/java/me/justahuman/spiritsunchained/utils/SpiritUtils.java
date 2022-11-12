@@ -230,7 +230,7 @@ public class SpiritUtils {
             case "Speedy_Escape", "Bee_Buddy", "Strong_Bones", "Stew_Maker", "Villager_Friend", "Glow_Up", "Undead_Protection", "Light_It_Up", "Poison_Spray", "Sleep_No_More" -> 10;
             case "Better_Brewer", "Targeted_Teleport", "Skull_Fire", "Dragons_Breath", "Dark_Aura" -> 15;
             case "Eggpult", "Webber", "Explode", "Lava_Walker", "Play_Dead", "Crit_hit", "Magma_Trap", "Tank", "Bullet_Swarm" -> 25;
-            case "Another_Chance" -> 80;
+            case "Another_Chance" -> 200;
             default -> 1;
         };
     }
