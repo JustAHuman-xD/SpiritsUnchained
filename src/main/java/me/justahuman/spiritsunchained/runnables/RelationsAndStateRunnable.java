@@ -28,10 +28,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 
 public class RelationsAndStateRunnable extends BukkitRunnable {
     @Getter
-    static final HashMap<Player, EnumMap<EntityType, Set<ItemStack>>> spiritCache = new HashMap<>();
+    static final HashMap<UUID, EnumMap<EntityType, Set<ItemStack>>> spiritCache = new HashMap<>();
     @Override
     public void run() {
         Map<EntityType, SpiritDefinition> spiritMap = SpiritsUnchained.getSpiritsManager().getSpiritMap();
@@ -87,6 +88,6 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
                 player.damage(new Random().nextInt(2));
             }
         }
-        spiritCache.put(player, cacheEntry);
+        spiritCache.put(player.getUniqueId(), cacheEntry);
     }
 }

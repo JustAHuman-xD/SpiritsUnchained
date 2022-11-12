@@ -37,7 +37,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -216,7 +215,7 @@ public class SpiritUtils {
     }
 
     public static Set<ItemStack> getSpiritItems(Player player, EntityType type) {
-        return RelationsAndStateRunnable.getSpiritCache().containsKey(player) && RelationsAndStateRunnable.getSpiritCache().get(player).containsKey(type) ? RelationsAndStateRunnable.getSpiritCache().get(player).get(type) : new HashSet<>();
+        return RelationsAndStateRunnable.getSpiritCache().containsKey(player.getUniqueId()) && RelationsAndStateRunnable.getSpiritCache().get(player.getUniqueId()).containsKey(type) ? RelationsAndStateRunnable.getSpiritCache().get(player.getUniqueId()).get(type) : new HashSet<>();
     }
 
     public static SpiritDefinition getSpiritDefinition(ItemStack item) {
