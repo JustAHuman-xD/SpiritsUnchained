@@ -81,15 +81,19 @@ public class PlayerClickListener implements Listener {
                     PersistentDataAPI.setBoolean(meta, Keys.spiritLocked, !PersistentDataAPI.getBoolean(meta, Keys.spiritLocked));
                     item.setItemMeta(meta);
                     SpiritUtils.updateSpiritItemProgress(item, 0);
+                    player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color((PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? "&4Locked" : "&aUnlocked") + " &eHeld Spirit!")));
                     return true;
                 }
                 final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
                 final Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(SpiritTraits.useTrait(player, traitInfo, PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey)))));
+                final String message = SpiritTraits.useTrait(player, traitInfo, item);
+                if (message != null) {
+                    player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(message)));
+                }
                 return true;
             }
         }
-        if (item.getType() == Material.BAMBOO && SpiritUtils.useSpiritItem(player, EntityType.PANDA)) {
+        if (item.getType() == Material.BAMBOO && SpiritUtils.useSpiritItem(player, EntityType.PANDA, null)) {
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
             item.subtract();
             player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 1, 1, false, false));

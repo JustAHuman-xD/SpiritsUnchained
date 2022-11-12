@@ -62,7 +62,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
 
         Setup.INSTANCE.init();
 
-        if (getConfig().getBoolean("options.auto-update")) {
+        if (getConfig().getBoolean("options.auto-update") && getDescription().getVersion().startsWith("DEV")) {
             GitHubBuildsUpdater updater = new GitHubBuildsUpdater(this, this.getFile(), "JustAHuman-xD/SpiritsUnchained/master");
             updater.start();
         }

@@ -19,6 +19,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.GlowItemFrame;
@@ -50,13 +51,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritTraits {
 
     static final Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
 
-    public static String useTrait(Player player, Map<String, Object> traitInfo, String type) {
+    public static String useTrait(Player player, Map<String, Object> traitInfo, ItemStack item) {
         final UUID uuid = player.getUniqueId();
+        final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
         final String name = (String) traitInfo.get("name");
         final String id = (String) traitInfo.get("id");
         final Method traitMethod;
@@ -73,7 +76,7 @@ public class SpiritTraits {
            traitMethod = SpiritTraits.class.getMethod((String) traitInfo.get("id"), Player.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            return "Error";
+            return name + "'s Trait encountered an Error! Please open a bug report on github!";
         }
 
         //If the Trait is on Cooldown
@@ -82,15 +85,15 @@ public class SpiritTraits {
             return name + " on Cooldown! (" + cooldown + "s)";
         }
 
-        if (!SpiritUtils.useSpiritItem(player, EntityType.valueOf(type))) {
-            return ChatUtils.humanize(type) + " Spirit does not have a high enough State or Progress!!";
+        if (!SpiritUtils.useSpiritItem(player, EntityType.valueOf(type), item)) {
+            return null;
         }
 
         try {
             traitMethod.invoke(SpiritTraits.class, player);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
-            return "Error";
+            return name + "'s Trait encountered an Error! Please open a bug report on github!";
         }
 
         //Add the cooldown to the Map
@@ -391,15 +394,22 @@ public class SpiritTraits {
         final Location location = player.getLocation();
         final List<LivingEntity> targets = new ArrayList<>();
         for (LivingEntity nearbyEntity : world.getNearbyLivingEntities(location, 20, 20, 20)) {
-            if (nearbyEntity.getUniqueId() == player.getUniqueId()) {
+            if (nearbyEntity.getUniqueId() == player.getUniqueId() || nearbyEntity instanceof ArmorStand) {
                 continue;
             }
             targets.add(nearbyEntity);
         }
         for (int spawned = 0; spawned < 5; spawned++) {
-            final ShulkerBullet bullet = (ShulkerBullet) world.spawnEntity(location.add(0,2,0), EntityType.SHULKER_BULLET);
+            final LivingEntity target = !targets.isEmpty() ? targets.get(new Random().nextInt(targets.size())) : null;
+            final int x = new Random().nextInt(0, 5) * (new Random().nextDouble() >= 0.5 ? -1 : 1);
+            final int z = new Random().nextInt(0, 5) * (new Random().nextDouble() >= 0.5 ? -1 : 1);
+            final ShulkerBullet bullet = (ShulkerBullet) world.spawnEntity(location.add(x,2,z), EntityType.SHULKER_BULLET);
+            PersistentDataAPI.setString(bullet, Keys.immuneKey, player.getUniqueId().toString());
             bullet.setShooter(player);
-            bullet.setTarget(targets.size() - 1 >= spawned ? targets.get(spawned) : targets.get(new Random().nextInt(targets.size())));
+            if (target != null) {
+                bullet.setTarget(target);
+                targets.remove(target);
+            }
         }
     }
     public static void Skull_Fire(Player player) {

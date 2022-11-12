@@ -11,6 +11,7 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
+import me.justahuman.spiritsunchained.runnables.RelationsAndStateRunnable;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 
@@ -36,7 +37,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -52,9 +52,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritUtils {
@@ -206,22 +208,14 @@ public class SpiritUtils {
     }
 
     public static boolean isSpiritItem(ItemStack itemStack) {
-        if (itemStack != null && itemStack.getItemMeta() != null) {
+        if (itemStack != null && itemStack.getType() == Material.FIREWORK_STAR && itemStack.getItemMeta() != null) {
             return PersistentDataAPI.hasString(itemStack.getItemMeta(), Keys.spiritItemKey);
         }
         return false;
     }
 
-    public static ItemStack getSpiritItem(Player player, EntityType type) {
-        final Inventory inventory = player.getInventory();
-        if (inventory.contains(Material.FIREWORK_STAR)) {
-            for (ItemStack item : inventory.getContents()) {
-                if (item != null && item.getType() == Material.FIREWORK_STAR && isSpiritItem(item) && PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey).equals(String.valueOf(type)) ) {
-                    return item;
-                }
-            }
-        }
-        return null;
+    public static Set<ItemStack> getSpiritItems(Player player, EntityType type) {
+        return RelationsAndStateRunnable.getSpiritCache().containsKey(player.getUniqueId()) && RelationsAndStateRunnable.getSpiritCache().get(player.getUniqueId()).containsKey(type) ? RelationsAndStateRunnable.getSpiritCache().get(player.getUniqueId()).get(type) : new HashSet<>();
     }
 
     public static SpiritDefinition getSpiritDefinition(ItemStack item) {
@@ -236,34 +230,53 @@ public class SpiritUtils {
             case "Speedy_Escape", "Bee_Buddy", "Strong_Bones", "Stew_Maker", "Villager_Friend", "Glow_Up", "Undead_Protection", "Light_It_Up", "Poison_Spray", "Sleep_No_More" -> 10;
             case "Better_Brewer", "Targeted_Teleport", "Skull_Fire", "Dragons_Breath", "Dark_Aura" -> 15;
             case "Eggpult", "Webber", "Explode", "Lava_Walker", "Play_Dead", "Crit_hit", "Magma_Trap", "Tank", "Bullet_Swarm" -> 25;
-            case "Another_Chance" -> 80;
+            case "Another_Chance" -> 200;
             default -> 1;
         };
     }
 
-    public static boolean useSpiritItem(Player player, EntityType type) {
+    public static boolean useSpiritItem(Player player, EntityType type, ItemStack override) {
+        final SpiritDefinition definition = spiritMap.get(type);
         if (player == null) {
             return false;
         }
-        final ItemStack spiritItem = getSpiritItem(player, type);
-        if (spiritItem != null) {
-            final ItemMeta meta = spiritItem.getItemMeta();
-            final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
-            if (getStates().indexOf(state) <= 1) {
-                return false;
+        if (override != null) {
+            return tryUseSpirit(player, override, definition, true);
+        }
+        for (ItemStack spiritItem : getSpiritItems(player, type)) {
+            final boolean result = tryUseSpirit(player, spiritItem, definition, false);
+            if (!result) {
+                continue;
             }
-            final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
-            final double progress = state.equals("Gentle") ? singleProgress : 100.0 + singleProgress;
-            final SpiritDefinition definition = spiritMap.get(type);
-            if (progress >= getTraitUsage(definition.getTrait())) {
-                updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
-                final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " &fPassive Activated!")));
-                return true;
-            }
+            return true;
         }
         return false;
     }
+
+    private static boolean tryUseSpirit(Player player, ItemStack spiritItem, SpiritDefinition definition, boolean notif) {
+        final String name = tierColor(definition.getTier()) + ChatUtils.humanize(definition.getType().name());
+        final ItemMeta meta = spiritItem.getItemMeta();
+        final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
+        final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
+        if (getStates().indexOf(state) <= 2 && notif) {
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(name + " Spirit Must be Gentle or Higher!")));
+            return false;
+        }
+        final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
+        final double progress = state.equals("Gentle") ? singleProgress : 100.0 + singleProgress;
+        final double usage = getTraitUsage(definition.getTrait());
+        if (progress >= usage) {
+            updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
+            if (traitInfo.get("type").equals("Passive")) {
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " Passive Activated!")));
+            }
+            return true;
+        } else if (notif) {
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color( name+ " Spirit Does not have high enough Progress! (" + progress + "/" + usage + ")")));
+        }
+        return false;
+    }
+
 
     public static void updateSpiritItemProgress(ItemStack item, double updateWith) {
         final ItemMeta meta = item.getItemMeta();

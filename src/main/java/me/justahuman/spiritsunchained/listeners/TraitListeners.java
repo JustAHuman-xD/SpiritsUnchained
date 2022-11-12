@@ -332,7 +332,7 @@ public class TraitListeners implements Listener {
 
     private boolean isUsed(Player player, EntityType... types) {
         for (EntityType type : types) {
-            if (SpiritUtils.useSpiritItem(player, type)) {
+            if (SpiritUtils.useSpiritItem(player, type, null)) {
                 return true;
             }
         }
