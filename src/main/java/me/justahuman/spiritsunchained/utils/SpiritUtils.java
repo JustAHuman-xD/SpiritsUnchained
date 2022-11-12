@@ -257,8 +257,8 @@ public class SpiritUtils {
         final ItemMeta meta = spiritItem.getItemMeta();
         final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
-        if (getStates().indexOf(state) <= 1) {
-            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " Must be Passive or Higher!")));
+        if (getStates().indexOf(state) <= 2 && notif) {
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " Must be Gentle or Higher!")));
             return false;
         }
         final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
