@@ -254,11 +254,12 @@ public class SpiritUtils {
     }
 
     private static boolean tryUseSpirit(Player player, ItemStack spiritItem, SpiritDefinition definition, boolean notif) {
+        final String name = tierColor(definition.getTier()) + ChatUtils.humanize(definition.getType().name());
         final ItemMeta meta = spiritItem.getItemMeta();
         final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
         if (getStates().indexOf(state) <= 2 && notif) {
-            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " Must be Gentle or Higher!")));
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(name + " Must be Gentle or Higher!")));
             return false;
         }
         final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
@@ -271,7 +272,7 @@ public class SpiritUtils {
             }
             return true;
         } else if (notif) {
-            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " Does not have high enough Progress! (" + progress + "/" + usage + ")")));
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color( name+ " Spirit Does not have high enough Progress! (" + progress + "/" + usage + ")")));
         }
         return false;
     }
