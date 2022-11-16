@@ -317,7 +317,7 @@ public class SpiritUtils {
     public static Collection<Entity> getNearbySpirits(Location location) {
         final Collection<Entity> returnList = new ArrayList<>();
         for (LivingEntity entity : spiritEntityManager.entityCollection) {
-            if (entity.getLocation().getWorld() == location.getWorld() && location.distance(entity.getLocation()) <= 48) {
+            if (entity.getLocation().isWorldLoaded() && location.isWorldLoaded() && entity.getLocation().getWorld() == location.getWorld() && location.distance(entity.getLocation()) <= 48) {
                 returnList.add(entity);
             }
         }
