@@ -133,7 +133,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
                 PlayerUtils.addOrDropItem(player, SpiritUtils.spiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
                 PlayerUtils.learnKnowledgePiece(player, type, 1);
             } else {
-                player.sendMessage("The Spirit Escaped the Net!");
+                player.sendMessage(SpiritUtils.getTranslation("messages.spirits.escape"));
             }
             item.subtract();
         } else if(slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_BOOK.getItemId())) {
@@ -142,11 +142,11 @@ public class Spirit extends AbstractCustomMob<Allay> {
                     PlayerUtils.addOrDropItem(player, SpiritUtils.getFilledBook(this.definition));
                     PlayerUtils.learnKnowledgePiece(player, type, 2);
                 } else {
-                    player.sendMessage("You can't gain anymore knowledge from a Book!");
+                    player.sendMessage(SpiritUtils.getTranslation("messages.spirits.max_knowledge"));
                     return;
                 }
             } else {
-                player.sendMessage("The Spirit rips the Book to Shreds!");
+                player.sendMessage(SpiritUtils.getTranslation("messages.spirits.rip_book"));
             }
             item.subtract();
         } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {

@@ -69,6 +69,14 @@ public class SpiritUtils {
     private static final Map<EntityType, SpiritDefinition> spiritMap = spiritsManager.getSpiritMap();
     private static final FileConfiguration config = SpiritsUnchained.getInstance().getConfig();
 
+    public static String getTranslation(String path) {
+        return configManager.getTranslation(path);
+    }
+
+    public static List<String> getTranslationList(String path) {
+        return configManager.getTranslationList(path);
+    }
+
     public static List<String> getStates() {
         final List<String> states = new ArrayList<>();
         states.add("Hostile");
@@ -259,7 +267,7 @@ public class SpiritUtils {
         final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
         if (getStates().indexOf(state) <= 2 && notif) {
-            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(name + " Spirit Must be Gentle or Higher!")));
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.incorrect_state").replace("{tier_color_and_mob_type}", name)));
             return false;
         }
         final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
@@ -268,11 +276,11 @@ public class SpiritUtils {
         if (progress >= usage) {
             updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
             if (traitInfo.get("type").equals("Passive")) {
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(traitInfo.get("name") + " Passive Activated!")));
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.used_passive").replace("{tier_color_and_mob_type}", (String) traitInfo.get("name"))));
             }
             return true;
         } else if (notif) {
-            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color( name+ " Spirit Does not have high enough Progress! (" + progress + "/" + usage + ")")));
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.not_enough_progress").replace("{tier_color_and_mob_type}", name).replace("{progress}", String.valueOf(progress)).replace("{required_progress}", String.valueOf(usage))));
         }
         return false;
     }
@@ -299,9 +307,9 @@ public class SpiritUtils {
         progress = BigDecimal.valueOf(progress).setScale(2, RoundingMode.HALF_UP).doubleValue();
         PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, progress);
         PersistentDataAPI.setString(meta, Keys.spiritStateKey, state);
-        lore.set(2, Component.text(ChatColors.color("&fCurrent State: " + stateColor(state) + state)));
-        lore.set(5, Component.text(ChatColors.color("&fProgress: " + getProgress(progress))));
-        lore.set(6, Component.text(ChatColors.color("&fPass On: " + ChatColor.RED + passOn + "/" + toPass + (PersistentDataAPI.hasBoolean(meta, Keys.spiritLocked) && PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? ChatColor.DARK_RED + " (LOCKED)" : ""))));
+        lore.set(2, Component.text(getTranslation("names.items.spirit_item.current_state_lore").replace("{state_color}", stateColor(state).toString()).replace("{state}", state)));
+        lore.set(5, Component.text(getTranslation("names.items.spirit_item.progress_lore").replace("{progress_bar}", getProgress(progress))));
+        lore.set(6, Component.text(getTranslation("names.items.spirit_item.pass_on_lore").replace("{pass_on_progress}", String.valueOf(passOn)).replace("{pass_on_requirement}", String.valueOf(toPass)).replace("{locked}", (PersistentDataAPI.hasBoolean(meta, Keys.spiritLocked) && PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? getTranslation("names.items.spirit_item.is_locked") : ""))));
         meta.lore(lore);
         item.setItemMeta(meta);
     }
@@ -415,15 +423,15 @@ public class SpiritUtils {
         PersistentDataAPI.setDouble(itemMeta, Keys.spiritProgressKey, 0);
         PersistentDataAPI.setInt(itemMeta, Keys.spiritPassOnKey, 0);
 
-        itemMeta.displayName(Component.text(tierColor + spiritType + " Spirit"));
+        itemMeta.displayName(Component.text(getTranslation("names.items.spirit_item.name").replace("{tier_color}", tierColor.toString()).replace("{mob_type}", spiritType)));
 
         itemLore.add(Component.text(""));
-        itemLore.add(Component.text(ChatColors.color("&fTier: " + tierColor + definition.getTier())));
-        itemLore.add(Component.text(ChatColors.color("&fCurrent State: " + stateColor + state)));
-        itemLore.add(Component.text(ChatColors.color("&fUse " + traitInfo.get("name") + "&f: " + traitInfo.get("type"))));
+        itemLore.add(Component.text(getTranslation("names.items.spirit_item.tier_lore").replace("{tier_color}", tierColor.toString()).replace("{tier}", String.valueOf(definition.getTier()))));
+        itemLore.add(Component.text(getTranslation("names.items.spirit_item.current_state_lore").replace("{state_color}", stateColor.toString()).replace("{state}", state)));
+        itemLore.add(Component.text(ChatColors.color(getTranslation("names.items.spirit_item.trait_lore").replace("{trait_name}", (String) traitInfo.get("name")).replace("{trait_type}", (String) traitInfo.get("type")))));
         itemLore.add(Component.text(""));
-        itemLore.add(Component.text(ChatColors.color("&fProgress: " + getProgress(0))));
-        itemLore.add(Component.text(ChatColors.color("&fPass On: " + ChatColor.RED + "0/" + definition.getGoal().getAmount())));
+        itemLore.add(Component.text(getTranslation("names.items.spirit_item.progress_lore").replace("{progress_bar}", getProgress(0))));
+        itemLore.add(Component.text(getTranslation("names.items.spirit_item.pass_on_lore").replace("{pass_on_progress}", "0").replace("{pass_on_requirement}", String.valueOf(definition.getGoal().getAmount())).replace("{locked}", "")));
 
         itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 

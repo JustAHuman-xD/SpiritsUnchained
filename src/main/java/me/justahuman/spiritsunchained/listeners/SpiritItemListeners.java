@@ -19,7 +19,7 @@ public class SpiritItemListeners implements Listener {
             if (item != null && item.getType() != Material.AIR && SpiritUtils.isSpiritItem(item)) {
                 e.setCancelled(true);
                 for (HumanEntity player : e.getInventory().getViewers()) {
-                    player.sendMessage(ChatColor.RED + "You can't craft with a Spirit!");
+                    player.sendMessage(SpiritUtils.getTranslation("messages.spirits.try_craft"));
                 }
                 return;
             }

@@ -51,11 +51,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritTraits {
 
     static final Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
+
+    private static String translate(String path) {
+        return SpiritUtils.getTranslation("messages.traits." + path);
+    }
 
     public static String useTrait(Player player, Map<String, Object> traitInfo, ItemStack item) {
         final UUID uuid = player.getUniqueId();
@@ -65,24 +68,24 @@ public class SpiritTraits {
         final Method traitMethod;
 
         if (!Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_BLOCK) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.PLACE_BLOCK) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.BREAK_BLOCK) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.ATTACK_ENTITY) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.ATTACK_PLAYER) || !Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_ENTITY)) {
-            return "&cYou do not have the required permissions in this area!";
+            return SpiritUtils.getTranslation("messages.general.no_permission");
         }
 
         if (traitInfo.get("type").equals("Passive")) {
-            return name + " is a Passive Trait!";
+            return translate("passive").replace("{trait_name}", name);
         }
 
         try {
            traitMethod = SpiritTraits.class.getMethod((String) traitInfo.get("id"), Player.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            return name + "'s Trait encountered an Error! Please open a bug report on github!";
+            return translate("error").replace("{trait_name}", name);
         }
 
         //If the Trait is on Cooldown
         if (Cooldown_Map.containsKey(uuid) && Cooldown_Map.get(uuid).containsKey(id) && Cooldown_Map.get(uuid).get(id) > System.currentTimeMillis()) {
             final long cooldown = (Cooldown_Map.get(uuid).get(id) - System.currentTimeMillis()) / 1000;
-            return name + " on Cooldown! (" + cooldown + "s)";
+            return translate("on_cooldown").replace("{trait_name}", name).replace("{cooldown}", String.valueOf(cooldown));
         }
 
         if (!SpiritUtils.useSpiritItem(player, EntityType.valueOf(type), item)) {
@@ -93,7 +96,7 @@ public class SpiritTraits {
             traitMethod.invoke(SpiritTraits.class, player);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
-            return name + "'s Trait encountered an Error! Please open a bug report on github!";
+            return translate("error").replace("{trait_name}", name);
         }
 
         //Add the cooldown to the Map
@@ -101,7 +104,7 @@ public class SpiritTraits {
         cooldownMap.put((String) traitInfo.get("id"), System.currentTimeMillis() + (int) traitInfo.get("cooldown") * 1000);
         Cooldown_Map.put(uuid, cooldownMap);
 
-        return name + " Used!";
+        return translate("used").replace("{trait_name}", name);
     }
 
     public static void resetCooldown(Player player) {

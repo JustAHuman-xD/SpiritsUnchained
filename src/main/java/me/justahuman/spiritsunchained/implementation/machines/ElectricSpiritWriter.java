@@ -62,7 +62,7 @@ public class ElectricSpiritWriter extends SlimefunItem implements EnergyNetCompo
     }
 
     private void buildPreset() {
-        new BlockMenuPreset(this.getId(), ChatColor.GREEN + "Electric Spirit Writer") {
+        new BlockMenuPreset(this.getId(), SpiritUtils.getTranslation("names.items.electric_spirit_writer.name")) {
             @Override
             public void init() {
                 ChestMenuUtils.drawBackground(this, BACKGROUND_SLOTS);

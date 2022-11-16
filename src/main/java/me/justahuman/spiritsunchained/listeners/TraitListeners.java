@@ -194,18 +194,18 @@ public class TraitListeners implements Listener {
         //Strong Bones
         if(finalHealthPercentage <= 0.5 && !onCooldown(entity, Keys.strongBones) && isUsed(player, EntityType.SKELETON)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 45*20, 1, true));
-            startCooldown(player, Keys.strongBones, 90, "&fCooldown Started for Strong Bones! &7(1 1/2 Minutes)");
+            startCooldown(player, Keys.strongBones, 90, "messages.traits.cooldown.strong_bones");
         }
         //Play Dead
         if(finalHealthPercentage <= 0.25 && !onCooldown(entity, Keys.playDead) && isUsed(player, EntityType.AXOLOTL)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 15*20, 1, true));
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 15*20, 1, true));
-            startCooldown(player, Keys.playDead, 60, "&fCooldown Started for &dPlay Dead&f! &7(1 Minute)");
+            startCooldown(player, Keys.playDead, 60, "messages.traits.cooldown.play_dead");
         }
         //Speedy Escape
         if(finalHealthPercentage <= 0.1 && !onCooldown(entity, Keys.speedyEscape) && isUsed(player, EntityType.OCELOT)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 15*20, 5, true));
-            startCooldown(player, Keys.speedyEscape, 60, "&fCooldown Started for &eSpeedy Escape&f! &7(1 Minute)");
+            startCooldown(player, Keys.speedyEscape, 60, "messages.traits.cooldown.speed_escape");
         }
         //Another Chance
         if(event.getFinalDamage() >= entity.getHealth() && isUsed(player, EntityType.EVOKER)) {
@@ -224,7 +224,7 @@ public class TraitListeners implements Listener {
         final Player player = event.getPlayer();
         if (!onCooldown(player, Keys.morningGift) && isUsed(player, EntityType.CAT)) {
             PlayerUtils.addOrDropItem(player, ItemStacks.SU_ECTOPLASM);
-            startCooldown(player, Keys.morningGift, 20 * 60, "&fCooldown Started for &eMorning Gift&f! &7(20 Minutes)");
+            startCooldown(player, Keys.morningGift, 20 * 60, "messages.traits.cooldown.morning_gift");
         }
     }
     //Group Protection
@@ -341,8 +341,8 @@ public class TraitListeners implements Listener {
     private boolean onCooldown(LivingEntity entity, NamespacedKey key) {
         return PersistentDataAPI.hasLong(entity, key) && PersistentDataAPI.getLong(entity, key) > System.currentTimeMillis();
     }
-    private void startCooldown(Player player, NamespacedKey key, int when, String say) {
-        player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(say)));
+    private void startCooldown(Player player, NamespacedKey key, int when, String path) {
+        player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(SpiritUtils.getTranslation(path)));
         PersistentDataAPI.setLong(player, key, System.currentTimeMillis() + when * 1000L);
     }
 }

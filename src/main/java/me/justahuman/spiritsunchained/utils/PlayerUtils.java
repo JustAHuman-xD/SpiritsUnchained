@@ -31,7 +31,7 @@ public class PlayerUtils {
         final String newKnowledge = currentKnowledge.replace(currentKnowledge.charAt(knowledgeType), 'Y');
         playerData.set(player.getUniqueId()+"."+type, newKnowledge);
         if (!currentKnowledge.equals(newKnowledge)) {
-            player.sendMessage("You have gained new knowledge about your " + ChatUtils.humanize(type.name()) + " Spirit!");
+            player.sendMessage(SpiritUtils.getTranslation("messages.general.learn_knowledge").replace("{mob_type}", ChatUtils.humanize(type.name())));
         }
     }
 

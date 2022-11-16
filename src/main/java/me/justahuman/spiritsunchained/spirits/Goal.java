@@ -1,7 +1,6 @@
 package me.justahuman.spiritsunchained.spirits;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
@@ -9,8 +8,8 @@ import lombok.Getter;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -34,23 +33,27 @@ public class Goal {
         this.displayStack = createDisplayStack();
     }
 
+    private static String translate(String path) {
+        return SpiritsUnchained.getConfigManager().getTranslation("names.spirit_group.goal." + path);
+    }
+
     private ItemStack createDisplayStack() {
         final String addition = amount > 1 ? "s" : "";
         final String loreEnd = amount + " " + ChatUtils.humanize(requiredType);
-        final String name = "&bPass on Task:";
+        final String name = translate("name");
         final ItemStack kill = new CustomItemStack(
                 Material.DIAMOND_SWORD,
                 name,
                 "",
-                "&bType: &7Kill Mob" + addition,
-                "&bTask: &7Kill " + loreEnd + addition
+                translate("kill.label") + addition,
+                translate("kill.value").replace("{amount_and_mob}", loreEnd)
         );
         final ItemStack item = new CustomItemStack(
                 Material.STICK,
                 name,
                 "",
-                "&bType: &7Give Item" + addition,
-                "&bTask: &7Give " + loreEnd
+                translate("item.label") + addition,
+                translate("item.value").replace("{amount_and_item}", loreEnd)
         );
         if (goalType.equals("Item")) {
             try {
@@ -63,16 +66,16 @@ public class Goal {
                 Material.SLIME_BALL,
                 name,
                 "",
-                "&bType: &7Give Slimefun Item" + addition,
-                "&bTask: &7Give " + loreEnd
+                translate("slimefun_item.label") + addition,
+                translate("slimefun_item.value").replace("{amount_and_item}", loreEnd)
         );
         if (goalType.equals("SlimefunItem")) {
             try {
                 final ItemStack properSlimefunItem = SpiritsUnchained.getSlimefunItem(requiredType).clone();
                 final List<Component> newLore = slimefunItem.lore();
                 final ItemMeta newMeta = properSlimefunItem.getItemMeta();
-                newLore.set(2, Component.text(ChatColors.color(ChatColor.AQUA + "Task: " + ChatColor.GRAY + "Give " + amount + " " + properSlimefunItem.getItemMeta().getDisplayName())));
-                newMeta.displayName(Component.text(ChatColors.color(ChatColor.AQUA + "Pass On Task:")));
+                newLore.set(2, Component.text(translate("slimefun_item.value").replace("{amount_and_item}", amount + " " + properSlimefunItem.getItemMeta().getDisplayName())));
+                newMeta.displayName(Component.text(name));
                 properSlimefunItem.setItemMeta(newMeta);
                 properSlimefunItem.lore(newLore);
                 slimefunItem = properSlimefunItem;
@@ -82,9 +85,10 @@ public class Goal {
         }
         final ItemStack breed = new CustomItemStack(
                 Material.WHEAT,
-                "&eBreed Mobs",
+                name,
                 "",
-                "&7Breed " + loreEnd + addition
+                translate("breed.label"),
+                translate("breed.value").replace("{amount_and_mob}", loreEnd)
         );
         return switch (goalType) {
             case "Item" -> item;

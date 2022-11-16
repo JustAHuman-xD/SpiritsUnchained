@@ -13,6 +13,7 @@ import me.justahuman.spiritsunchained.implementation.multiblocks.*;
 import me.justahuman.spiritsunchained.implementation.tools.*;
 
 import me.justahuman.spiritsunchained.utils.Keys;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -22,9 +23,8 @@ public class Items {
 
         final RecipeType spiritInteract = new RecipeType(Keys.spiritInteractKey,
                 new ColoredFireworkStar(Color.fromRGB(100, 100, 100),
-                        "&fUse On Spirit",
-                        "",
-                        "&7Use the Item on the Right on any Spirit"
+                        name("spirit_interact"),
+                        lore("spirit_interact")
                 ));
 
         // Crafting Materials
@@ -180,5 +180,17 @@ public class Items {
         }, 1).register(instance);
 
         new Tier3Altar().register(instance);
+    }
+
+    private static String translate(String path) {
+        return SpiritUtils.getTranslation("names.recipe_type." + path);
+    }
+
+    private static String name(String path) {
+        return translate(path + ".name");
+    }
+
+    private static String[] lore(String path) {
+        return SpiritUtils.getTranslationList("names.recipe_type." + path + ".lore").toArray(String[]::new);
     }
 }

@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import lombok.Getter;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -91,10 +92,10 @@ public class Tier2Altar extends SlimefunItem {
                 BlockStorage.addBlockInfo(b, "multiplier", "2.0");
                 if (isComplete(b)) {
                     BlockStorage.addBlockInfo(b, complete, "true");
-                    e.getPlayer().sendMessage(ChatColor.AQUA + "The Spiritual Altar (Tier 2) has been activated!");
+                    e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.completed.2"));
                 } else {
                     BlockStorage.addBlockInfo(b, complete, "false");
-                    e.getPlayer().sendMessage(ChatColor.AQUA + "Finish your Altar and click this block again to activate it!");
+                    e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.complete_prompt"));
                 }
             }
         };
@@ -106,10 +107,10 @@ public class Tier2Altar extends SlimefunItem {
             if (BlockStorage.getLocationInfo(b.getLocation(), complete).equals("false")) {
                 if (isComplete(b)) {
                     BlockStorage.addBlockInfo(b, complete, "true");
-                    e.getPlayer().sendMessage(ChatColor.AQUA + "The Spiritual Altar (Tier 2) has been activated!");
+                    e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.completed.2"));
                 } else {
                     BlockStorage.addBlockInfo(b, complete, "false");
-                    e.getPlayer().sendMessage(ChatColor.AQUA + "The Altar is not finished!");
+                    e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.not_completed"));
                 }
             }
 
@@ -123,7 +124,7 @@ public class Tier2Altar extends SlimefunItem {
             public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
                 BlockStorage.addBlockInfo(e.getBlock(), complete, null);
                 BlockStorage.clearBlockInfo(e.getBlock());
-                e.getPlayer().sendMessage(ChatColor.AQUA + "The Altar has been broken!");
+                e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.broken"));
             }
         };
     }

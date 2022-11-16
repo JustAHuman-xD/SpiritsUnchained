@@ -87,25 +87,51 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
     private static final String backLore = "&7" + Slimefun.getLocalization().getMessage("guide.back.guide");
 
+    private static String translate(String path) {
+        return SpiritUtils.getTranslation("names.spirit_group." + path);
+    }
+
+    public static String name(String path) {
+        return translate(path + ".name");
+    }
+
+    private static String[] lore(String path, String... replace) {
+        final String[] originalLore = SpiritUtils.getTranslationList("names.spirit_group." + path + ".lore").toArray(String[]::new);
+        final String[] lore = new String[originalLore.length];
+        int l = 0;
+        for (String line : originalLore) {
+            int i = 0;
+            for (String piece : replace) {
+                if (i % 2 == 0) {
+                    line = line.replace(piece, replace[i + 1]);
+                }
+                i++;
+            }
+            lore[l] = line;
+            l++;
+        }
+        return lore;
+    }
+
     private static final ItemStack notEnoughKnowledge = new CustomItemStack(
             Material.WRITABLE_BOOK,
-            "&cMissing Knowledge Piece!",
-            "&7Get &bKnowledge &7by:",
-            "&7   - Catch the Spirit (Piece 1)",
-            "&7   - Using a Spirit Book (Piece 2)",
-            "&7   - Getting the Spirit to the Friendly State! (Piece 3)"
+            name("missing_knowledge"),
+            lore("missing_knowledge")
+
     );
 
     private static final ItemStack afraidItemStack = new CustomItemStack(
             Material.BLACK_STAINED_GLASS_PANE,
-            "&fAfraid Of",
-            "&7This Spirit is afraid of the Spirits Shown Below"
+            name("afraid_item"),
+            lore("afraid_item")
+
     );
 
     private static final ItemStack scareItemStack = new CustomItemStack(
             Material.PURPLE_STAINED_GLASS_PANE,
-            "&5Scares",
-            "&7This Spirit Scares the Spirits Shown Below"
+            name("scare_item"),
+            lore("scare_item")
+
     );
 
     @ParametersAreNonnullByDefault
@@ -225,9 +251,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         if (PlayerUtils.hasKnowledgePiece(player, entityType, 2) || mode == SlimefunGuideMode.CHEAT_MODE) {
             menu.replaceExistingItem(RELATIONS_SLOT, new CustomItemStack(
                     Material.WRITTEN_BOOK,
-                    "&aRelations",
-                    "",
-                    "&7Click to Open"
+                    name("relation_book"),
+                    lore("relation_book")
             ));
             menu.addMenuClickHandler(RELATIONS_SLOT, (player1, slot, itemStack, clickAction) -> {
                 displayRelationsTree(player1, profile, mode, menu, returnPage, definition);
@@ -242,10 +267,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             final Map<String, Object> traitList = SpiritUtils.getTraitInfo(definition.getTrait());
             final CustomItemStack traitItemStack = new CustomItemStack(
                     Material.GLASS,
-                    "&aTrait",
-                    "",
-                    "&bTrait: " + traitList.get("name"),
-                    "&7(Click For Description)"
+                    name("trait_item"),
+                    lore("trait_item", "{trait_name}", (String) traitList.get("name"))
             );
             menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
             menu.addMenuClickHandler(TRAIT_SLOT, (player1, slot, itemStack, clickAction) -> {
@@ -260,7 +283,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                         currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + line)));
                     }
                     currentLore.add(Component.text(""));
-                    currentLore.add(Component.text(ChatColors.color(ChatColor.GRAY + "(Click To Close Description)")));
+                    currentLore.add(Component.text(translate("trait_item.open")));
                     descriptionItemStack.lore(currentLore);
                     menu.replaceExistingItem(TRAIT_SLOT, descriptionItemStack);
                 }
@@ -323,12 +346,13 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         final ChatColor chatColor = SpiritUtils.tierColor(definition.getTier());
         final String spiritType  = ChatUtils.humanize(definition.getType().name());
 
-        itemMeta.displayName(Component.text(chatColor + spiritType + " Spirit" ));
+        itemMeta.displayName(Component.text(name("spirit_item").replace("{tier_color}", chatColor.toString()).replace("{mob_type}", spiritType)));
         ((FireworkEffectMeta) itemMeta).setEffect(SpiritUtils.effectColor(definition.getType()));
 
         final List<Component> lore = new ArrayList<>();
-        lore.add(Component.text(ChatColors.color(ChatColor.WHITE + "The Captured Spirit of a " + spiritType)));
-        lore.add(Component.text(ChatColors.color(ChatColor.WHITE + "Tier: " + chatColor + definition.getTier())));
+        for (String line : lore("spirit_item", "{mob_type}", spiritType, "{tier_color}", chatColor.toString(), "{tier}", String.valueOf(definition.getTier()))) {
+            lore.add(Component.text(line));
+        }
         itemMeta.lore(lore);
         PersistentDataAPI.setString(itemMeta, new NamespacedKey(SpiritsUnchained.getInstance(), "spirit_type"), spiritType);
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
