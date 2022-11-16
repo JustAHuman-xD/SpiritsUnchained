@@ -1,0 +1,251 @@
+names:
+  spirit_group:
+    missing_knowledge:
+      name: "&cMissing Knowledge Piece!"
+      lore:
+        - "&7Get &bKnowledge &7by:"
+        - "&7   - Catch the Spirit (Piece 1)"
+        - "&7   - Using a Spirit Book (Piece 2)"
+        - "&7   - Getting the Spirit to the Friendly State! (Piece 3)"
+    afraid_item:
+      name: "&fAfraid Of"
+      lore:
+        - "&7This Spirit is afraid of the Spirits Shown Below"
+    scare_item:
+      name: "&5Scares"
+      lore:
+        - "&7This Spirit Scares the Spirits Shown Below"
+    relation_book:
+      name: "&aRelations"
+      lore:
+        - ""
+        - "&7Click to Open"
+    goal:
+      name: "&bPass on Task:"
+      kill:
+        label: "&bType: &7Kill Mob"
+        value: "&bTask: &7Kill {amount_and_mob}"
+      item:
+        label: "&bType: &7Give Item"
+        value: "&bTask: &7Give {amount_and_item}"
+      slimefun_item:
+        label: "&bType: &7Give Slimefun Item"
+        value: "&bTask: &7Give {amount_and_item}"
+      breed:
+        label: "&bType: &7Breed Mobs"
+        value: "&bTask: &7Breed {amount_and_mob}"
+    trait_item:
+      name: "&aTrait"
+      lore:
+        - ""
+        - "&bTrait: {trait_name}"
+        - "&7(Click For Description)"
+      open: "&7(Click To Close Description)"
+    spirit_item:
+      name: "{tier_color}{mob_type} Spirit"
+      lore:
+        - "&fThe Captured Spirit of a {mob_type}"
+        - "&fTier: {tier_color}{tier}"
+  groups:
+    main_group: "&aSpirits Unchained"
+    crafting_materials: "&aCrafting Materials"
+    tools: "&aTools"
+    machines: "&aMachines"
+    spirits: "&aSpirits"
+    altar_1: "&aTier 1 Altar"
+    altar_2: "&aTier 2 Altar"
+    altar_3: "&aTier 3 Altar"
+  researches:
+    materials: "Spiritual Materials"
+    tools: "Spiritual Tools"
+    machines: "Spiritual Machines"
+    altar_1: "Spiritual Altar I"
+    altar_2: "Spiritual Altar II"
+    altar_3: "Spiritual Altar III"
+  recipe_type:
+    spirit_interact:
+      name: "&fUse On Spirit"
+      lore:
+        - ""
+        - "&7Use the Item on the Right on any Spirit"
+  items:
+    infused_membrane:
+      name: "&5Infused Membrane"
+      lore:
+        - ""
+        - "&7A Membrane infused with Magic"
+    infused_feather:
+      name: "&5Infused Feather"
+      lore:
+        - ""
+        - "&7A Feather infused with Magic"
+    soul_stained_glass:
+      name: "&5Soul Stained Glass"
+      lore:
+        - ""
+        - "&7Peer into Another Plane"
+    ectoplasm:
+      name: "&aEctoplasm"
+      lore:
+        - ""
+        - "&7Attained from those Impassable"
+    unidentified_spirit:
+      name: "&fUnidentified Spirit"
+      lore:
+        - ""
+        - "&7A Captured Unidentified Spirit"
+        - "&7Useless on its Own"
+    spirit_bottle:
+      name: "&fSpirit in a Bottle"
+      lore:
+        - ""
+        - "&7A Spirit in a Bottle"
+        - "&7Use it to get Ectoplasm"
+    spirit_guide_book:
+      name: "&dSpirit Guide Book"
+      lore:
+        - ""
+        - "A Comprehensive Guide to the Art"
+        - "Of Spirit Hunting"
+    identifying_glass:
+      name: "&dIdentifying Glass"
+      lore:
+        - ""
+        - "Identify Un-Identified Spirits"
+    spirit_lenses:
+      name: "&dSpirit Lenses"
+      lore:
+        - ""
+        - "&7Unlock the Ability to See &dSpirits"
+        - "&7While Wearing these Lenses"
+    spirit_net:
+      name: "&aSpirit Net"
+      lore:
+        - ""
+        - "&7Use this to catch a Spirit!"
+    spirit_book:
+      name: "&aSpirit Book"
+      lore:
+        - ""
+        - "&7A Book Spirits can Write in!"
+    spirit_rune:
+      name: "&7Ancient Rune &8&l[&d&lSpirit&8&l]"
+      lore:
+        - ""
+        - "&eDrop this rune onto a dropped &dHelmet &eto"
+        - "&egrant the ability to &dsee &ea different realm"
+        - "&eShift Left Click on Helmet Once Added to Toggle Visibility"
+      tag: "&dImbued"
+    electric_spirit_catcher:
+      name: "&aElectric Spirit Catcher"
+      lore:
+        - ""
+        - "&7Automatically catch Spirits"
+        - ""
+    electric_spirit_writer:
+      name: "&aElectric Spirit Writer"
+      lore:
+        - ""
+        - "&7Automatically let Spirits Write to A Spirit Book"
+        - ""
+    altars:
+      lore:
+        - ""
+        - "&7Used to Build a Spiritual Altar"
+    charged_quartz_1:
+      name: "&eCharged Quartz I"
+    charged_stairs_1:
+      name: "&eCharged Stairs I"
+    charged_core_1:
+      name: "&eCharged Core I"
+    charged_quartz_2:
+      name: "&eCharged Quartz II"
+    charged_pillar_2:
+      name: "&eCharged Pillar II"
+    charged_stairs_2:
+      name: "&eCharged Stairs II"
+    charged_core_2:
+      name: "&eCharged Core II"
+    charged_quartz_3:
+      name: "&eCharged Quartz III"
+    charged_pillar_3:
+      name: "&eCharged Pillar III"
+    charged_stairs_3:
+      name: "&eCharged Stairs III"
+    charged_core_3:
+      name: "&eCharged Core III"
+    smooth_charged_quartz_3:
+      name: "&eSmooth Charged Quartz III"
+    smooth_charged_stairs_3:
+      name: "&eSmooth Charged Stairs III"
+    spirit_item:
+      name: "{tier_color}{mob_type} Spirit"
+      tier_lore: "&fTier: {tier_color}{tier}"
+      current_state_lore: "&fCurrent State: {state_color}{state}"
+      trait_lore: "&fUse: {trait_name}&f: {trait_type}"
+      progress_lore: "&fProgress: {progress_bar}"
+      pass_on_lore: "&fPass On: &c{pass_on_progress}/{pass_on_requirement} {locked}"
+      is_locked: "&4(LOCKED)"
+messages:
+  general:
+    learn_knowledge: "You have gained new knowledge about your {mob_type} Spirit!"
+    no_permission: "&cYou do not have the required permissions in this area!"
+    no_permission_entity_interact: "&cYou do not have Entity Interaction Permissions in this area!"
+  commands:
+    altar:
+      use: "&6Visualizing &eTier {altar_tier} Altar&6!"
+      materials: "&6Required Materials: "
+      error:
+        altar_tier: "&cNot a Valid Altar Tier!"
+        altar_multiple: "&cYou can only Visualize 1 Altar at a Time!"
+    particles:
+      error: "&cNot a Proper Particle Test"
+    give_spirit:
+      error: "&cNot a Valid Spirit Type!"
+    summon_spirit:
+      error: "&cNot a Valid Spirit Type!"
+    edit_item:
+      error:
+        not_holding: "&cYou are not holding a Spirit Item!"
+        wrong_state: "&cNot a valid Spirit State!"
+        wrong_progress: "&cNot a proper Progress Value!"
+    reset_cooldown:
+      error: "&cThat Player is not Online!"
+  spirits:
+    escape: "&cThe Spirit Escaped the Net!"
+    max_knowledge: "&cYou can't gain anymore knowledge from a Book!"
+    rip_book: "&cThe Spirit rips the Book to Shreds!"
+    pass_on: "{tier_color}{spirit_name} Spirit has Passed on!"
+    locked: "&cLocked &fHeld Spirit!"
+    unlocked: "&aUnlocked &fHeld Spirit!"
+    try_craft: "&cYou can't craft with a Spirit!"
+  altar:
+    broken: "&bPart of the altar has been broken, please repair it and reactivate it!"
+    complete_prompt: "&bFinish your Altar and click this block again to activate it!"
+    not_completed: "&bThe Altar is not finished!"
+    completed:
+      1: "&bThe Spiritual Altar (Tier 1) has been activated!"
+      2: "7bThe Spiritual Altar (Tier 2) has been activated!"
+      3: "&bThe Spiritual Altar (Tier 3) has been activated!"
+  spirit_rune:
+    not_helmet: "&dThe thrown Item is not a Helmet!"
+    imbued: "&dYour Helmet is now Imbued with the Ability to See Spirits!"
+    multiple_helmets: "&dYour Helmet could not be Imbued!"
+    multiple_runes: "&dOny use 1 Rune!"
+    toggled_on: "&dToggled On Visibility"
+    toggled_off: "&dToggled Off Visibility"
+  identifying_glass:
+    use: "&fSpirit Type: {tier_color}{spirit_name}   &fCurrent State: {state_color}{state_name}   &fTier: {tier_color}{tier}"
+  traits:
+    incorrect_state: "{tier_color_and_mob_type} Spirit Must be Gentle or Higher!"
+    passive: "{trait_name} is a Passive Trait!"
+    on_cooldown: "{trait_name} on Cooldown! ({cooldown}s)"
+    used: "{trait_name} Used!"
+    used_passive: "{tier_color_and_mob_type} Passive Activated!"
+    not_enough_progress: "{tier_color_and_mob_type} Spirit Does not have high enough Progress! ({progress}/{required_progress})"
+    error: "{mob_type}'s Trait encountered an Error! Please open a bug report on github!"
+    cooldown:
+      strong_bones: "&fCooldown Started for Strong Bones! &7(1 1/2 Minutes)"
+      play_dead: "&fCooldown Started for &dPlay Dead! &7(1 Minute)"
+      speedy_escape: "&fCooldown Started for &eSpeedy Escape! &7(1 Minute)"
+      morning_gift: "&fCooldown Started for &eMorning Gift! &7(20 Minutes)"

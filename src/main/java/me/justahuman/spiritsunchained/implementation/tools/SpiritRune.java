@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 
 import me.justahuman.spiritsunchained.utils.Keys;
 
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import net.kyori.adventure.text.Component;
 
 import org.bukkit.ChatColor;
@@ -34,7 +35,7 @@ import java.util.Optional;
 public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private static final double RANGE = 1.5;
-    private static final String IMBUED_LORE = ChatColor.LIGHT_PURPLE + "Imbued";
+    private static final String IMBUED_LORE = SpiritUtils.getTranslation("names.items.spirit_rune.tag");
 
     public SpiritRune(ItemGroup category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
         super(category, item, type, recipe);
@@ -78,7 +79,7 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
             final ItemStack itemStack = item.getItemStack();
             final ItemStack runeStack = rune.getItemStack();
             if (!itemStack.getType().name().endsWith("HELMET")) {
-                p.sendMessage(ChatColor.LIGHT_PURPLE + "The thrown Item is not a Helmet!");
+                p.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.not_helmet"));
                 return;
             }
 
@@ -99,13 +100,13 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
                         setImbued(itemStack,p);
                         l.getWorld().dropItemNaturally(l, itemStack);
 
-                        p.sendMessage(ChatColor.LIGHT_PURPLE + "Your Helmet is now Imbued with the Ability to See Spirits!");
+                        p.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.imbued"));
                     }
                 }, 10L);
             } else if (itemStack.getAmount() != 1) {
-                p.sendMessage(ChatColor.LIGHT_PURPLE + "Your Helmet could not be Imbued!");
+                p.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.multiple_helmets"));
             } else if (runeStack.getAmount() != 1) {
-                p.sendMessage(ChatColor.LIGHT_PURPLE + "Ony use 1 Rune!");
+                p.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.multiple_runes"));
             }
         }
     }

@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 import org.bukkit.ChatColor;
@@ -37,7 +38,7 @@ public class SpiritualAltarPiece extends SlimefunItem {
 
                 if (b != null && BlockStorage.getLocationInfo(b.getLocation(), "complete") != null && BlockStorage.getLocationInfo(b.getLocation(), "complete").equals("true")) {
                     BlockStorage.addBlockInfo(b, "complete", "false");
-                    e.getPlayer().sendMessage(ChatColor.AQUA + "Part of the altar has been broken, please repair it and reactivate it!");
+                    e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.broken"));
                 }
 
                 BlockStorage.clearBlockInfo(e.getBlock());

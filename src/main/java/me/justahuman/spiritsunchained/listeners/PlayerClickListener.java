@@ -44,7 +44,7 @@ public class PlayerClickListener implements Listener {
                 final ItemMeta mainMeta = mainHand.getItemMeta();
                 final String Message;
                 PersistentDataAPI.setByte(mainMeta, Keys.imbuedKey, PersistentDataAPI.getByte(mainMeta, Keys.imbuedKey) == (byte) 1 ? (byte) 2 : (byte) 1);
-                Message = PersistentDataAPI.getByte(mainMeta, Keys.imbuedKey) == (byte) 1 ? "Toggled Off Visibility" : "Toggled On Visibility";
+                Message = PersistentDataAPI.getByte(mainMeta, Keys.imbuedKey) == (byte) 1 ? SpiritUtils.getTranslation("messages.spirit_rune.toggled_off") : SpiritUtils.getTranslation("messages.spirit_rune.toggled_on");
                 mainHand.setItemMeta(mainMeta);
                 player.sendMessage(ChatColor.LIGHT_PURPLE + Message);
             }
@@ -62,7 +62,7 @@ public class PlayerClickListener implements Listener {
                 final AbstractCustomMob<?> maybe = SpiritsUnchained.getSpiritEntityManager().getCustomClass(entity, null);
                 if (entity instanceof Allay && maybe != null && player.getLocation().distance(entity.getLocation()) < 4) {
                     if (!Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_ENTITY)) {
-                        player.sendMessage(ChatColors.color("&cYou do not have Entity Interaction Permissions in this area!"));
+                        player.sendMessage(SpiritUtils.getTranslation("messages.general.no_permission_entity_interact"));
                         return;
                     }
                     e.setCancelled(true);
@@ -81,7 +81,7 @@ public class PlayerClickListener implements Listener {
                     PersistentDataAPI.setBoolean(meta, Keys.spiritLocked, !PersistentDataAPI.getBoolean(meta, Keys.spiritLocked));
                     item.setItemMeta(meta);
                     SpiritUtils.updateSpiritItemProgress(item, 0);
-                    player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color((PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? "&4Locked" : "&aUnlocked") + " &eHeld Spirit!")));
+                    player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent((PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? SpiritUtils.getTranslation("messages.spirits.locked") : SpiritUtils.getTranslation("messages.spirits.unlocked"))));
                     return true;
                 }
                 final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);

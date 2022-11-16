@@ -15,7 +15,6 @@ import me.justahuman.spiritsunchained.utils.SpiritTraits;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -172,11 +171,11 @@ public class CommandManager implements TabExecutor {
         final World world = player.getWorld();
 
         if (!(altar.equals("1") || altar.equals("2") || altar.equals("3"))) {
-            return sendError(player, "Not a Valid Altar Tier!");
+            return sendError(player, "altar.error.altar_tier");
         }
 
         if (PersistentDataAPI.hasLong(player, Keys.visualizing) && PersistentDataAPI.getLong(player, Keys.visualizing) > System.currentTimeMillis()) {
-            return sendError(player, "You can only Visualize 1 Altar at a Time!");
+            return sendError(player, "altar.error.altar_multiple");
         }
 
         PersistentDataAPI.setLong(player, Keys.visualizing, System.currentTimeMillis() + 30 * 1000L);
@@ -187,8 +186,8 @@ public class CommandManager implements TabExecutor {
             default -> Tier1Altar.getBlocks();
         };
 
-        player.sendMessage(ChatColors.color("&6Visualizing &eTier " + altar + " Altar&6!"));
-        player.sendMessage(ChatColors.color("&6Required Materials: "));
+        player.sendMessage(SpiritUtils.getTranslation("messages.commands.altar.use").replace("{altar_tier}", altar));
+        player.sendMessage(SpiritUtils.getTranslation("messages.commands.altar.materials"));
 
         final Set<Material> sent = new HashSet<>();
         for (Material material : altarMap.values()) {
@@ -245,7 +244,7 @@ public class CommandManager implements TabExecutor {
             case "catch" -> ParticleUtils.catchAnimation(location);
             case "bottle" -> ParticleUtils.bottleAnimation(location);
             case "passon" -> ParticleUtils.passOnAnimation(location);
-            default -> sendError(player, "Not a Proper Particle Test");
+            default -> sendError(player, "particles.error");
         }
         return true;
     }
@@ -255,7 +254,7 @@ public class CommandManager implements TabExecutor {
         try {
             spiritType = EntityType.valueOf(type);
         } catch (IllegalArgumentException | NullPointerException e) {
-            return sendError(player, "Not a Valid Spirit Type!");
+            return sendError(player, "give_spirit.error");
         }
         final ItemStack spirit = SpiritUtils.spiritItem(state, SpiritsUnchained.getSpiritsManager().getSpiritMap().get(spiritType));
         SpiritUtils.updateSpiritItemProgress(spirit, 100);
@@ -266,7 +265,7 @@ public class CommandManager implements TabExecutor {
     private boolean summonSpirit(String spiritId, Player player, String type) {
         final AbstractCustomMob<?> spirit = SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, spiritId);
         if (spirit == null || ! SpiritUtils.canSpawn()) {
-            return sendError(player, "Not a Valid Spirit Type!");
+            return sendError(player, "summon_spirit.error");
         }
         spirit.spawn(player.getLocation(), player.getWorld(), "Natural", type);
         return true;
@@ -275,19 +274,19 @@ public class CommandManager implements TabExecutor {
     private boolean editItem(Player player, String toChange, String changeValue) {
         final ItemStack item = player.getInventory().getItemInMainHand();
         if (!SpiritUtils.isSpiritItem(item)) {
-            return sendError(player, "You are not holding a Spirit Item!");
+            return sendError(player, "edit_item.error.not_holding");
         }
         final ItemMeta meta = item.getItemMeta();
         if (toChange.equalsIgnoreCase("state")) {
             if (!SpiritUtils.getStates().contains(changeValue)) {
-                return sendError(player, "Not a valid Spirit State!");
+                return sendError(player, "edit_item.error.wrong_state");
             }
             PersistentDataAPI.setString(meta, Keys.spiritStateKey, changeValue);
         } else if (toChange.equalsIgnoreCase("progress")) {
             try {
                 PersistentDataAPI.setDouble(meta, Keys.spiritProgressKey, Double.parseDouble(changeValue));
             } catch(NullPointerException | NumberFormatException e) {
-                return sendError(player, "Not a proper Progress Value!");
+                return sendError(player, "edit_item.error.wrong_progress");
             }
         } else if (toChange.equalsIgnoreCase("max")) {
             PersistentDataAPI.setString(meta, Keys.spiritStateKey, "Friendly");
@@ -301,14 +300,14 @@ public class CommandManager implements TabExecutor {
     private boolean resetCooldown(Player sender, String playerName) {
         final Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
-            return sendError(sender, playerName + " not Online!");
+            return sendError(sender, "reset_cooldown.error");
         }
         SpiritTraits.resetCooldown(player);
         return true;
     }
 
-    private boolean sendError(Player player, String message) {
-        player.sendMessage(ChatColors.color(ChatColor.RED + message));
+    private boolean sendError(Player player, String path) {
+        player.sendMessage(SpiritUtils.getTranslation("messages.commands." + path));
         return true;
     }
 }

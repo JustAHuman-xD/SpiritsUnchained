@@ -5,7 +5,6 @@ import lombok.Getter;
 import org.bukkit.entity.EntityType;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
