@@ -29,21 +29,21 @@ public class Items {
 
         // Crafting Materials
         new UnplaceableBlock(Groups.SU_RESOURCES, ItemStacks.SU_INFUSED_MEMBRANE, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
-                SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3,
+                SlimefunItems.ENDER_LUMP_1, null, SlimefunItems.ENDER_LUMP_1,
                 null, new ItemStack(Material.PHANTOM_MEMBRANE), null,
-                SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3})
+                SlimefunItems.ENDER_LUMP_1, null, SlimefunItems.ENDER_LUMP_1})
                 .register(instance);
 
         new UnplaceableBlock(Groups.SU_RESOURCES, ItemStacks.SU_INFUSED_FEATHER, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
-                SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3,
+                SlimefunItems.ENDER_LUMP_1, null, SlimefunItems.ENDER_LUMP_1,
                 null, new ItemStack(Material.FEATHER), null,
-                SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3})
+                SlimefunItems.ENDER_LUMP_1, null, SlimefunItems.ENDER_LUMP_1})
                 .register(instance);
 
         new UnplaceableBlock(Groups.SU_RESOURCES, ItemStacks.SU_SOUL_STAINED_GLASS, RecipeType.ANCIENT_ALTAR, new ItemStack[]{
-                SlimefunItems.ENDER_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_3,
+                SlimefunItems.ENDER_LUMP_1, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_1,
                 SlimefunItems.ENDER_RUNE, new ItemStack(Material.TINTED_GLASS), SlimefunItems.ENDER_RUNE,
-                SlimefunItems.ENDER_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_3})
+                SlimefunItems.ENDER_LUMP_1, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_1})
                 .register(instance);
 
         new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_UNIDENTIFIED_SPIRIT, spiritInteract, new ItemStack[]{
