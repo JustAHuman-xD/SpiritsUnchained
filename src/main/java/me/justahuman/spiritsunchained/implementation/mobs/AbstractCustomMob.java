@@ -7,7 +7,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import lombok.Getter;
 
-import lombok.Setter;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.utils.Keys;
@@ -30,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 
 
 @Getter
-abstract public class AbstractCustomMob<T extends LivingEntity> {
+public abstract class AbstractCustomMob<T extends LivingEntity> {
 
     private final Class<T> clazz;
     private final String id;
@@ -82,8 +81,6 @@ abstract public class AbstractCustomMob<T extends LivingEntity> {
     }
 
     public void onSpawn(@Nonnull T spawned) { }
-
-    public void onUniqueTick() { }
 
     public void onTick(@Nonnull T mob) { }
 

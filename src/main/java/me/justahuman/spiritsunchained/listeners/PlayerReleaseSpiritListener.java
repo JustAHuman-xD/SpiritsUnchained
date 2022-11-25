@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -43,7 +44,7 @@ public class PlayerReleaseSpiritListener implements Listener {
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
         final int chance = ThreadLocalRandom.current().nextInt(1, 100);
 
-        if (SpiritUtils.imbuedCheck(helmetItem) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap()) {
+        if (SpiritUtils.imbuedCheck(helmetItem) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap() && ! killedEntity.fromMobSpawner()) {
             spirit.spawn(killedEntity.getLocation(), killedEntity.getWorld(), "Hostile", null);
         }
     }

@@ -60,10 +60,6 @@ public class SpiritEntityManager implements Listener {
     }
 
     private void tick() {
-        for (AbstractCustomMob<?> customMob : this.entityMap.values()) {
-            customMob.onUniqueTick();
-        }
-
         for (World world : Bukkit.getWorlds()) {
             for (LivingEntity entity : world.getLivingEntities()) {
                 final AbstractCustomMob<?> customMob = getCustomClass(entity, null);
