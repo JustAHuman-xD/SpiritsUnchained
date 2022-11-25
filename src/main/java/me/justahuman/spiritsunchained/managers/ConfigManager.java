@@ -14,9 +14,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,8 +69,9 @@ public class ConfigManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        final FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+        FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
         try {
+            configuration = YamlConfiguration.loadConfiguration(new BufferedReader(new FileReader(file, StandardCharsets.UTF_8)));
             configuration.load(file);
             if (override) {
                 overrideConfiguration(configuration, file, name);
@@ -76,13 +79,13 @@ public class ConfigManager {
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
-        return YamlConfiguration.loadConfiguration(file);
+        return configuration;
     }
 
     @ParametersAreNonnullByDefault
     private void overrideConfiguration(FileConfiguration config, File file, String fileName) throws IOException {
         final InputStream inputStream = SpiritsUnchained.getInstance().getResource(fileName);
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         final YamlConfiguration defaults = YamlConfiguration.loadConfiguration(reader);
         config.addDefaults(defaults);
         config.options().copyDefaults(true);

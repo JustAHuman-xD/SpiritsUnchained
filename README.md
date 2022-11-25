@@ -1,7 +1,7 @@
 # Spirits Unchained
 Spirits Requires Paper Minecraft 1.19 or higher
 
-All of the config files *can* be edited, but the only ones I would recommend editing are the config.yml (naturally), traits.yml (for cooldowns), and the rewards.yml (for the passing on rewards)
+All of the config files *can* be edited, but the only ones I would recommend editing are the config.yml (naturally), traits.yml (for cooldowns), the rewards.yml (for the passing on rewards), and both language.yml & books.yml for translations.
 
 For anyone reading this to learn how to use Spirits Unchained, I would highly recommend reading the book inside the SpiritsUnchained category from the Slimefun Guide. Eventually I will fill this out with more information than contained in that guide, but that is a good place to start.
 # To-Do List:
