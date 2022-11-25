@@ -85,7 +85,7 @@ public class SpiritEntityManager implements Listener {
                 if (helmetItem == null || !SpiritUtils.imbuedCheck(helmetItem)) {
                     continue;
                 }
-                if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(10)) {
+                if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(20)) {
                     final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
                     final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());
                     if (maybeSpirit != null && this.entityMap.get("UNIDENTIFIED_SPIRIT") != null) {
