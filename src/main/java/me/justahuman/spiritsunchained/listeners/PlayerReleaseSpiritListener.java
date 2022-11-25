@@ -4,7 +4,7 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
-
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -12,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -21,8 +20,11 @@ public class PlayerReleaseSpiritListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void playerReleaseSpirit(EntityDeathEvent e) {
+        final SpiritsUnchained instance = SpiritsUnchained.getInstance();
+        final FileConfiguration config = instance.getConfig();
         final LivingEntity killedEntity = e.getEntity();
         final Player player = killedEntity.getKiller();
+        final boolean spawnerSpirits = config.getBoolean("options.spawner-spirits", false);
 
         if (player == null) {
             return;
@@ -43,8 +45,13 @@ public class PlayerReleaseSpiritListener implements Listener {
 
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
         final int chance = ThreadLocalRandom.current().nextInt(1, 100);
-
-        if (SpiritUtils.imbuedCheck(helmetItem) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap() && ! killedEntity.fromMobSpawner()) {
+        SpiritsUnchained.getInstance().getLogger().info("First Condition: " + (SpiritUtils.imbuedCheck(helmetItem)));
+        SpiritsUnchained.getInstance().getLogger().info("Second Condition: " + (chance <= 10/definition.getTier()));
+        SpiritsUnchained.getInstance().getLogger().info("Third Condition: " + (SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap()));
+        SpiritsUnchained.getInstance().getLogger().info("Fourth Condition (1): " + (spawnerSpirits));
+        SpiritsUnchained.getInstance().getLogger().info("Fourth Condition (2): " + (! killedEntity.fromMobSpawner()));
+        SpiritsUnchained.getInstance().getLogger().info("Fourth Condition: " + ((spawnerSpirits || ! killedEntity.fromMobSpawner())));
+        if (SpiritUtils.imbuedCheck(helmetItem) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap() && (spawnerSpirits || ! killedEntity.fromMobSpawner())) {
             spirit.spawn(killedEntity.getLocation(), killedEntity.getWorld(), "Hostile", null);
         }
     }

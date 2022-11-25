@@ -76,7 +76,7 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
                 }
             }
 
-            if (SpiritsUnchained.getInstance().getConfig().getBoolean("hostile-movement", true) && state.equals("Hostile")) {
+            if (SpiritsUnchained.getInstance().getConfig().getBoolean("options.hostile-movement", true) && state.equals("Hostile")) {
                 final int index = new Random().nextInt(contents.length);
                 final ItemStack toMove = inventory.getItem(index) != null ? inventory.getItem(index).clone() : null;
                 final int moveTo = new Random().nextInt(contents.length);
@@ -85,7 +85,7 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
                 inventory.setItem(moveTo, toMove);
             }
 
-            if (SpiritsUnchained.getInstance().getConfig().getBoolean("aggressive-damage", true) && (state.equals("Hostile") || state.equals("Aggressive"))) {
+            if (SpiritsUnchained.getInstance().getConfig().getBoolean("options.aggressive-damage", true) && (state.equals("Hostile") || state.equals("Aggressive"))) {
                 player.damage(new Random().nextInt(2));
             }
         }

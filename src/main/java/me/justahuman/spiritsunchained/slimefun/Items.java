@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
+import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritBottler;
 import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritCatcher;
 import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritWriter;
 import me.justahuman.spiritsunchained.implementation.multiblocks.*;
@@ -100,9 +101,15 @@ public class Items {
         //Machines
 
         new ElectricSpiritCatcher(Groups.SU_MACHINES, ItemStacks.SU_ELECTRIC_SPIRIT_CATCHER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
-                ItemStacks.SU_ECTOPLASM, SlimefunItems.COOLING_UNIT, ItemStacks.SU_ECTOPLASM,
+                ItemStacks.SU_ECTOPLASM, SlimefunItems.INFUSED_HOPPER, ItemStacks.SU_ECTOPLASM,
                 SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.SCULK_SHRIEKER), SlimefunItems.REINFORCED_PLATE,
-                ItemStacks.SU_ECTOPLASM, SlimefunItems.REINFORCED_PLATE, ItemStacks.SU_ECTOPLASM,
+                ItemStacks.SU_ECTOPLASM, SlimefunItems.COOLING_UNIT, ItemStacks.SU_ECTOPLASM,
+        }).register(instance);
+
+        new ElectricSpiritBottler(Groups.SU_MACHINES, ItemStacks.SU_ELECTRIC_SPIRIT_BOTTLER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+                ItemStacks.SU_ECTOPLASM, SlimefunItems.INFUSED_HOPPER, ItemStacks.SU_ECTOPLASM,
+                SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.BREWING_STAND), SlimefunItems.REINFORCED_PLATE,
+                ItemStacks.SU_ECTOPLASM, new ItemStack(Material.PISTON), ItemStacks.SU_ECTOPLASM,
         }).register(instance);
 
         new ElectricSpiritWriter(Groups.SU_MACHINES, ItemStacks.SU_ELECTRIC_SPIRIT_WRITER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{

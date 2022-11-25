@@ -377,7 +377,7 @@ public class SpiritUtils {
     }
 
     public static boolean canSpawn() {
-        return spiritIdMap.size() < config.getInt("max-spirits", 40);
+        return spiritIdMap.size() < config.getInt("options.max-spirits", 40);
     }
 
     public static boolean imbuedCheck(ItemStack helmetItem) {
@@ -404,7 +404,7 @@ public class SpiritUtils {
     }
 
     public static int getPlayerCap() {
-        return config.getInt("player-spirit-cap", 4);
+        return config.getInt("options.player-spirit-cap", 4);
     }
 
     public static ItemStack spiritItem(String state, SpiritDefinition definition) {

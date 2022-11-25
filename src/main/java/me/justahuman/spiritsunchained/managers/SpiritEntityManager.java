@@ -39,8 +39,8 @@ public class SpiritEntityManager implements Listener {
     public SpiritEntityManager() {
         final SpiritsUnchained instance = SpiritsUnchained.getInstance();
         final FileConfiguration config = instance.getConfig();
-        final int tickRate = Math.min(config.getInt("tick-rate", 2), 20);
-        final int spawnRate = config.getInt("spawn-rate", 10) * 20;
+        final int tickRate = Math.min(config.getInt("options.tick-rate", 2), 20);
+        final int spawnRate = config.getInt("options.spawn-rate", 10) * 20;
 
         instance.getServer().getPluginManager().registerEvents(this, instance);
         Bukkit.getScheduler().runTaskTimer(instance, this::tick, tickRate, Math.max(1, tickRate));
@@ -72,7 +72,7 @@ public class SpiritEntityManager implements Listener {
 
     private void spawnTick() {
         for (World world : Bukkit.getWorlds()) {
-            if (SpiritsUnchained.getInstance().getConfig().getStringList("disabled-worlds").contains(world.getName())) {
+            if (SpiritsUnchained.getInstance().getConfig().getStringList("options.disabled-worlds").contains(world.getName())) {
                 continue;
             }
             for (Player player : world.getPlayers()) {

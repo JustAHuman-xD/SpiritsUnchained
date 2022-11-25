@@ -142,6 +142,12 @@ names:
         - ""
         - "&7Automatically catch Spirits"
         - ""
+    electric_spirit_bottler:
+      name: "&aElectric Spirit Bottler"
+      lore:
+        - ""
+        - "&7Automatically bottle Spirits"
+        - ""
     electric_spirit_writer:
       name: "&aElectric Spirit Writer"
       lore:
