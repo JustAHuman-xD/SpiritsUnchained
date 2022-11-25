@@ -15,8 +15,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.implementation.mobs.Spirit;
-import me.justahuman.spiritsunchained.implementation.mobs.UnIdentifiedSpirit;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.utils.Keys;
@@ -32,7 +30,6 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.Vibration;
@@ -48,7 +45,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComponent {
+public class ElectricSpiritBottler extends SlimefunItem implements EnergyNetComponent {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{0,1,2,3,4,5,6,7,8,13, 22, 31,36,37,38,39,40,41,42,43,44};
     private static final int[] BORDER_INPUT = new int[]{9,10,11,12,18,21,27,28,29,30};
@@ -60,7 +57,7 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
     private static final Map<BlockPosition, Boolean> catching = new HashMap<>();
 
     @ParametersAreNonnullByDefault
-    public ElectricSpiritCatcher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public ElectricSpiritBottler(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         spiritEntityManager = SpiritsUnchained.getSpiritEntityManager();
 
@@ -119,7 +116,7 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                ElectricSpiritCatcher.this.tick(b);
+                ElectricSpiritBottler.this.tick(b);
             }
 
             @Override
@@ -139,10 +136,9 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
             return;
         }
 
-        final String id = ItemStacks.SU_SPIRIT_NET.getItemId();
-        final SlimefunItem input1 = SlimefunItem.getByItem(inv.getItemInSlot(19));
-        final SlimefunItem input2 = SlimefunItem.getByItem(inv.getItemInSlot(20));
-        if ((input1 == null && input2 == null) || (input1 != null && !input1.getId().equals(id) && input2 != null && !input2.getId().equals(id))) {
+        final ItemStack input1 = inv.getItemInSlot(19);
+        final ItemStack input2 = inv.getItemInSlot(20);
+        if ((input1 == null && input2 == null) || (input1 != null && SlimefunItem.getByItem(input1) != null && input2 != null && SlimefunItem.getByItem(input2) != null)) {
             return;
         }
 
@@ -150,7 +146,7 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
             return;
         }
 
-        final ItemStack spiritNet = input1 != null && input1.getId().equals(id) ? inv.getItemInSlot(19) : inv.getItemInSlot(20);
+        final ItemStack glassBottle = input1 != null && SlimefunItem.getByItem(input1) == null ? inv.getItemInSlot(19) : inv.getItemInSlot(20);
         final int outputSlot = inv.getItemInSlot(24) == null ? 24 : 25;
 
         LivingEntity target = null;
@@ -172,27 +168,19 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
         final Vector direction = location.clone().subtract(target.getLocation().clone()).toVector();
         target.setVelocity(direction.normalize().multiply(0.5));
 
-        ItemStack toReturn = new ItemStack(Material.AIR);
-        int tier = 1;
-        if (spiritEntityManager.getCustomClass(target, null) instanceof UnIdentifiedSpirit) {
-            toReturn = ItemStacks.SU_UNIDENTIFIED_SPIRIT.clone();
-        } else if (spiritEntityManager.getCustomClass(target, null) instanceof Spirit spirit) {
-            toReturn = SpiritUtils.spiritItem(PersistentDataAPI.getString(target, Keys.spiritStateKey), spirit.getDefinition());
-            tier = spirit.getDefinition().getTier();
-        }
+        final ItemStack toReturn = ItemStacks.SU_SPIRIT_BOTTLE.clone();
 
-        removeCharge(location, getEnergyConsumption() * tier);
+        removeCharge(location, getEnergyConsumption());
         catching.put(pos, true);
 
         final LivingEntity finalTarget = target;
-        final ItemStack finalToReturn = toReturn;
         Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
             ParticleUtils.spawnParticleRadius(location, Particle.SPELL_INSTANT, 1.5, 10, "");
             finalTarget.getWorld().playSound(finalTarget.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
             finalTarget.remove();
-            spiritNet.subtract();
+            glassBottle.subtract();
             catching.put(pos, false);
-            inv.replaceExistingItem(outputSlot, finalToReturn);
+            inv.replaceExistingItem(outputSlot, toReturn);
         }, 20L);
     }
 
@@ -208,7 +196,7 @@ public class ElectricSpiritCatcher extends SlimefunItem implements EnergyNetComp
     }
 
     public static int getEnergyConsumption() {
-        return 500;
+        return 100;
     }
 
     public int[] getInputSlots() {

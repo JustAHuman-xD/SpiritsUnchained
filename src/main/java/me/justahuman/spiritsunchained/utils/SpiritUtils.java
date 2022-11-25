@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
@@ -21,6 +22,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -67,7 +69,8 @@ public class SpiritUtils {
     private static final SpiritsManager spiritsManager = SpiritsUnchained.getSpiritsManager();
 
     private static final Map<EntityType, SpiritDefinition> spiritMap = spiritsManager.getSpiritMap();
-    private static final FileConfiguration config = SpiritsUnchained.getInstance().getConfig();
+    private static final SpiritsUnchained instance = SpiritsUnchained.getInstance();
+    private static final FileConfiguration config = instance.getConfig();
 
     public static String getTranslation(String path) {
         return configManager.getTranslation(path);
@@ -374,7 +377,7 @@ public class SpiritUtils {
     }
 
     public static boolean canSpawn() {
-        return spiritIdMap.size() < config.getInt("max-spirits", 40);
+        return spiritIdMap.size() < config.getInt("options.max-spirits", 40);
     }
 
     public static boolean imbuedCheck(ItemStack helmetItem) {
@@ -401,7 +404,7 @@ public class SpiritUtils {
     }
 
     public static int getPlayerCap() {
-        return config.getInt("player-spirit-cap", 4);
+        return config.getInt("options.player-spirit-cap", 4);
     }
 
     public static ItemStack spiritItem(String state, SpiritDefinition definition) {

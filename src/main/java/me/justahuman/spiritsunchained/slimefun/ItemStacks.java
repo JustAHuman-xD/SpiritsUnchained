@@ -1,5 +1,6 @@
 package me.justahuman.spiritsunchained.slimefun;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
@@ -172,6 +173,17 @@ public class ItemStacks {
     );
 
     // Machines
+
+    public static final SlimefunItemStack SU_ELECTRIC_SPIRIT_BOTTLER = new SlimefunItemStack(
+            "SU_ELECTRIC_SPIRIT_BOTTLER",
+            Material.BREWING_STAND,
+            name("electric_spirit_bottler"),
+            lore("electric_spirit_bottler",
+                    LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE),
+                    LoreBuilder.speed(1),
+                    LoreBuilder.powerBuffer(2000),
+                    LoreBuilder.powerPerSecond(250))
+    );
 
     public static final SlimefunItemStack SU_ELECTRIC_SPIRIT_CATCHER = new SlimefunItemStack(
             "SU_ELECTRIC_SPIRIT_CATCHER",

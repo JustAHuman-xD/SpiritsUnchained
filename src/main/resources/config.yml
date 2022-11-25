@@ -34,3 +34,6 @@ options:
 
   #Should the Guide Researches be enabled?
   enable-researches: false
+
+  # Should Mobs Spawned from Mob Spawners be able to release Spirits
+  spawner-spirits: true
