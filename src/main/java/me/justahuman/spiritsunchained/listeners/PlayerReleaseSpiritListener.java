@@ -45,13 +45,7 @@ public class PlayerReleaseSpiritListener implements Listener {
 
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
         final int chance = ThreadLocalRandom.current().nextInt(1, 100);
-        SpiritsUnchained.getInstance().getLogger().info("First Condition: " + (SpiritUtils.imbuedCheck(helmetItem)));
-        SpiritsUnchained.getInstance().getLogger().info("Second Condition: " + (chance <= 10/definition.getTier()));
-        SpiritsUnchained.getInstance().getLogger().info("Third Condition: " + (SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap()));
-        SpiritsUnchained.getInstance().getLogger().info("Fourth Condition (1): " + (spawnerSpirits));
-        SpiritsUnchained.getInstance().getLogger().info("Fourth Condition (2): " + (! killedEntity.fromMobSpawner()));
-        SpiritsUnchained.getInstance().getLogger().info("Fourth Condition: " + ((spawnerSpirits || ! killedEntity.fromMobSpawner())));
-        if (SpiritUtils.imbuedCheck(helmetItem) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap() && (spawnerSpirits || ! killedEntity.fromMobSpawner())) {
+        if (SpiritUtils.imbuedCheck(helmetItem) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap() && (spawnerSpirits || ! killedEntity.fromMobSpawner()) && ! config.getStringList("options.disabled-worlds").contains(killedEntity.getWorld().getName())) {
             spirit.spawn(killedEntity.getLocation(), killedEntity.getWorld(), "Hostile", null);
         }
     }
