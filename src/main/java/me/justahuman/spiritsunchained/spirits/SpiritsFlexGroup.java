@@ -148,7 +148,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     @Override
     @ParametersAreNonnullByDefault
     public void open(Player player, PlayerProfile profile, SlimefunGuideMode mode) {
-        final ChestMenu menu = new ChestMenu("&aSpirits Unchained");
+        final ChestMenu menu = new ChestMenu(SpiritUtils.getTranslation("names.groups.spirits"));
 
         for (int slot : HEADER) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), (player1, i1, itemStack, clickAction) -> false);

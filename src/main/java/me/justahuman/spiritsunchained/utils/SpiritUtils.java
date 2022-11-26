@@ -265,7 +265,7 @@ public class SpiritUtils {
     }
 
     private static boolean tryUseSpirit(Player player, ItemStack spiritItem, SpiritDefinition definition, boolean notif) {
-        final String name = tierColor(definition.getTier()) + ChatUtils.humanize(definition.getType().name());
+        final String name = ChatColors.color(tierColor(definition.getTier()) + ChatUtils.humanize(definition.getType().name()));
         final ItemMeta meta = spiritItem.getItemMeta();
         final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
@@ -279,7 +279,7 @@ public class SpiritUtils {
         if (progress >= usage) {
             updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
             if (traitInfo.get("type").equals("Passive")) {
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.used_passive").replace("{tier_color_and_mob_type}", (String) traitInfo.get("name"))));
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.used_passive").replace("{tier_color_and_mob_type}", name)));
             }
             return true;
         } else if (notif) {

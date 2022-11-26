@@ -4,6 +4,7 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
+import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -26,7 +27,7 @@ public class PlayerReleaseSpiritListener implements Listener {
         final Player player = killedEntity.getKiller();
         final boolean spawnerSpirits = config.getBoolean("options.spawner-spirits", false);
 
-        if (player == null) {
+        if (player == null || player.getGameMode() != GameMode.SURVIVAL) {
             return;
         }
 
