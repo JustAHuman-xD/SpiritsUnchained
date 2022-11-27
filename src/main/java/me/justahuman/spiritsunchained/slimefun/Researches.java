@@ -25,7 +25,8 @@ public class Researches {
         );
         addResearch("machines", "machines", 2, 30,
                 ItemStacks.SU_ELECTRIC_SPIRIT_CATCHER,
-                ItemStacks.SU_ELECTRIC_SPIRIT_WRITER
+                ItemStacks.SU_ELECTRIC_SPIRIT_WRITER,
+                ItemStacks.SU_ELECTRIC_SPIRIT_BOTTLER
         );
         addResearch("altar_1", "altar_1", 3, 10,
                 ItemStacks.SU_CHARGED_QUARTZ_I,

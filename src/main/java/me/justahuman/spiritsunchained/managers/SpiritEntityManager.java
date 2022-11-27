@@ -9,6 +9,7 @@ import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -77,6 +78,9 @@ public class SpiritEntityManager implements Listener {
                 continue;
             }
             for (Player player : world.getPlayers()) {
+                if (player.getGameMode() != GameMode.SURVIVAL) {
+                    continue;
+                }
                 final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
                 final ItemStack helmetItem = player.getInventory().getHelmet();
                 if (helmetItem == null || !SpiritUtils.imbuedCheck(helmetItem)) {

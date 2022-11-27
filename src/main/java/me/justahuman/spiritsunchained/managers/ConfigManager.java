@@ -61,6 +61,7 @@ public class ConfigManager {
     private FileConfiguration loadConfig(@Nonnull String name, boolean override) {
         final SpiritsUnchained plugin = SpiritsUnchained.getInstance();
         final File file = new File(plugin.getDataFolder(), name);
+
         try {
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
@@ -69,16 +70,20 @@ public class ConfigManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+
         try {
             configuration = YamlConfiguration.loadConfiguration(new BufferedReader(new FileReader(file, StandardCharsets.UTF_8)));
-            configuration.load(file);
+            configuration.load(new BufferedReader(new FileReader(file, StandardCharsets.UTF_8)));
             if (override) {
                 overrideConfiguration(configuration, file, name);
             }
+            configuration = YamlConfiguration.loadConfiguration(new BufferedReader(new FileReader(file, StandardCharsets.UTF_8)));
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
+
         return configuration;
     }
 
