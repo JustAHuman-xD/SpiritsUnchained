@@ -27,7 +27,7 @@ public class PlayerReleaseSpiritListener implements Listener {
         final Player player = killedEntity.getKiller();
         final boolean spawnerSpirits = config.getBoolean("options.spawner-spirits", false);
 
-        if (player == null || player.getGameMode() != GameMode.SURVIVAL) {
+        if (player == null || (player.getGameMode() != GameMode.SURVIVAL && config.getBoolean("options.require-survival", true))) {
             return;
         }
 

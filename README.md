@@ -1,4 +1,8 @@
-# Spirits Unchained
+## Download Spirits Unchained
+
+[![Build Status](https://thebusybiscuit.github.io/builds/JustAHuman-xD/SpiritsUnchained/master/badge.svg)](https://thebusybiscuit.github.io/builds/JustAHuman-xD/SpiritsUnchained/master/)
+
+# About Spirits Unchained
 Spirits Requires Paper Minecraft 1.19 or higher
 
 All of the config files *can* be edited, but the only ones I would recommend editing are the config.yml (naturally), traits.yml (for cooldowns), the rewards.yml (for the passing on rewards), and both language.yml & books.yml for translations.
