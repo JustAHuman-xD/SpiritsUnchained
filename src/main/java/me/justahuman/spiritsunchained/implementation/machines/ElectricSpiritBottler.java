@@ -66,7 +66,7 @@ public class ElectricSpiritBottler extends SlimefunItem implements EnergyNetComp
     }
 
     private void buildPreset() {
-        new BlockMenuPreset(this.getId(), SpiritUtils.getTranslation("names.items.electric_spirit_catcher.name")) {
+        new BlockMenuPreset(this.getId(), SpiritUtils.getTranslation("names.items.electric_spirit_bottler.name")) {
             @Override
             public void init() {
                 ChestMenuUtils.drawBackground(this, BACKGROUND_SLOTS);
