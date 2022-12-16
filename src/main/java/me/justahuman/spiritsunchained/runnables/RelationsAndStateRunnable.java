@@ -1,8 +1,10 @@
 package me.justahuman.spiritsunchained.runnables;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import lombok.Getter;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
+import me.justahuman.spiritsunchained.implementation.tools.PortableAltar;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
@@ -46,11 +48,10 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
     private void checkSpirits(Player player, Map<EntityType, SpiritDefinition> spiritMap) {
         final EnumMap<EntityType, Set<ItemStack>> cacheEntry = new EnumMap<>(EntityType.class);
         final Inventory inventory = player.getInventory();
-
         final ItemStack[] contents = inventory.getContents();
         for (ItemStack item : contents) {
             //If it's not a Spirit I don't want it
-            if (item == null || item.getType() != Material.FIREWORK_STAR || ! SpiritUtils.isSpiritItem(item)) {
+            if (! SpiritUtils.isSpiritItem(item)) {
                 continue;
             }
 
@@ -68,7 +69,7 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
             for (EntityType scareType : relations.get("Scare")) {
                 final Set<ItemStack> scared = cacheEntry.containsKey(scareType) ? cacheEntry.get(scareType) : new HashSet<>();
                 for (ItemStack scare : scared) {
-                    SpiritUtils.updateSpiritItemProgress(scare, (double) 1 / new Random().nextInt(1, 5));
+                    SpiritUtils.updateSpiritItemProgress(scare, (double) - 1 / new Random().nextInt(1, 5));
                     world.dropItemNaturally(location, scare.clone());
                     inventory.remove(scare);
                     world.playSound(location, Sound.ENTITY_ITEM_PICKUP, 2, 1);

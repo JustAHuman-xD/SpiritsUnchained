@@ -62,10 +62,11 @@ public class Items {
         ItemStack outputEctoplasm = ItemStacks.SU_ECTOPLASM.clone();
         outputEctoplasm.setAmount(2);
         new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_ECTOPLASM, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+                ItemStacks.SU_SPIRIT_BOTTLE, null, null,
                 null, null, null,
-                null, ItemStacks.SU_SPIRIT_BOTTLE, null,
                 null, null, null
         }, outputEctoplasm).register(instance);
+
 
         //Tools
         new SlimefunItem(Groups.SU_TOOLS, ItemStacks.SU_SPIRIT_LENSES, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
