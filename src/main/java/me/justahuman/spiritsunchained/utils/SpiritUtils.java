@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
+import me.justahuman.spiritsunchained.listeners.PlayerArmorListener;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
@@ -59,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritUtils {
@@ -320,7 +322,7 @@ public class SpiritUtils {
     public static Collection<Entity> getNearbySpirits(Location location) {
         final Collection<Entity> returnList = new ArrayList<>();
         for (LivingEntity entity : spiritEntityManager.entityCollection) {
-            if (entity.getLocation().isWorldLoaded() && location.isWorldLoaded() && entity.getLocation().getWorld() == location.getWorld() && location.distance(entity.getLocation()) <= 48) {
+            if (entity.getLocation().isWorldLoaded() && location.isWorldLoaded() && entity.getLocation().getWorld() == location.getWorld() && location.distanceSquared(entity.getLocation()) <= Math.pow(64, 2)) {
                 returnList.add(entity);
             }
         }
@@ -381,7 +383,7 @@ public class SpiritUtils {
     }
 
     public static boolean imbuedCheck(ItemStack helmetItem) {
-        return SlimefunItem.getByItem(helmetItem) != null && SlimefunItem.getByItem(helmetItem).getId().equals(ItemStacks.SU_SPIRIT_LENSES.getItemId()) || PersistentDataAPI.hasByte(helmetItem.getItemMeta(), Keys.imbuedKey) && PersistentDataAPI.getByte(helmetItem.getItemMeta(), Keys.imbuedKey) == 2;
+        return helmetItem != null && helmetItem.hasItemMeta() && SlimefunItem.getByItem(helmetItem) != null && SlimefunItem.getByItem(helmetItem).getId().equals(ItemStacks.SU_SPIRIT_LENSES.getItemId()) || helmetItem != null && helmetItem.hasItemMeta() && PersistentDataAPI.hasByte(helmetItem.getItemMeta(), Keys.imbuedKey) && PersistentDataAPI.getByte(helmetItem.getItemMeta(), Keys.imbuedKey) == 2;
     }
 
     public static boolean isLocked(ItemStack itemStack) {
@@ -389,15 +391,12 @@ public class SpiritUtils {
     }
 
     public static Collection<Player> getNearImbued(Location location) {
-        final Collection<Entity> collection = location.getWorld().getNearbyEntities(location, 48, 48, 48);
+        final Collection<UUID> collection = PlayerArmorListener.getCanSeeUUIDList();
         final Collection<Player> toReturn = new ArrayList<>();
-        for (Entity entity : collection) {
-            if (entity instanceof Player player) {
-                final ItemStack helmetItem = player.getInventory().getHelmet();
-                if (helmetItem == null) {continue;}
-                if (imbuedCheck(helmetItem)) {
-                    toReturn.add(player);
-                }
+        for (UUID uuid : collection) {
+            final Player player = Bukkit.getPlayer(uuid);
+            if (player != null && player.getWorld() == location.getWorld() && location.distanceSquared(player.getLocation()) <= Math.pow(64, 2)) {
+                toReturn.add(player);
             }
         }
         return toReturn;
@@ -553,8 +552,12 @@ public class SpiritUtils {
             chestMenu.addItem(slot, itemStack, ChestMenuUtils.getEmptyClickHandler());
         }
     }
+    
+    public static long random(final long origin, final long bound) {
+        return ThreadLocalRandom.current().nextLong(origin, bound);
+    }
 
     public static boolean chance(final int chance) {
-        return ThreadLocalRandom.current().nextInt(1, 101) <= chance;
+        return random(1, 101) <= chance;
     }
 }

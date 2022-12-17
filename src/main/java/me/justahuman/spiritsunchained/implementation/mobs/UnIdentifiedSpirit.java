@@ -18,6 +18,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -63,7 +64,8 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
         PersistentDataAPI.setString(mob, Keys.spiritTypeKey, type);
         PersistentDataAPI.setBoolean(mob, Keys.spiritIdentified, false);
-
+        PersistentDataAPI.setLong(mob, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((long) (definition.getTier() * 60L * 0.75), definition.getTier() * 60L * SpiritUtils.random(1, 3)) * 1000);
+    
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.getMaxHealth());
         mob.setHealth(this.getMaxHealth());
         mob.setRemoveWhenFarAway(true);
@@ -76,6 +78,11 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onSpawn(Allay allay) {
+        for (Player player : allay.getWorld().getPlayers()) {
+            if (player.canSee(allay)) {
+                player.hideEntity(SpiritsUnchained.getInstance(), allay);
+            }
+        }
         allay.setCollidable(false);
         allay.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 1000000 * 20, 1, true, false));
         allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000*20, 1, true, false));
@@ -84,12 +91,12 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
-        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, 5, "Spirit");
-
-        for (Player player : allay.getWorld().getPlayers()) {
-            if (player.canSee(allay)) {
-                player.hideEntity(SpiritsUnchained.getInstance(), allay);
-            }
+        final Location location = allay.getLocation();
+        ParticleUtils.spawnParticleRadius(location, Particle.SPELL_INSTANT, 0.1, 5, "Spirit");
+        if (PersistentDataAPI.hasLong(allay, Keys.despawnKey) && System.currentTimeMillis() >= PersistentDataAPI.getLong(allay, Keys.despawnKey)) {
+            ParticleUtils.passOnAnimation(location);
+            getSpiritEntityManager().entityCollection.remove(allay);
+            allay.remove();
         }
     }
 
@@ -102,6 +109,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
             return;
         }
         event.setShouldPlayDeathSound(false);
+        getSpiritEntityManager().entityCollection.remove(allay);
     }
 
     @Override
@@ -118,11 +126,13 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
 
         SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
         if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_NET.getItemId())) {
+            getSpiritEntityManager().entityCollection.remove((LivingEntity) entity);
             ParticleUtils.catchAnimation(entity.getLocation());
             entity.remove();
             item.setAmount(item.getAmount() - 1);
             player.getInventory().addItem(ItemStacks.SU_UNIDENTIFIED_SPIRIT);
         } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {
+            getSpiritEntityManager().entityCollection.remove((LivingEntity) entity);
             ParticleUtils.bottleAnimation(entity.getLocation());
             entity.remove();
             item.setAmount(item.getAmount() - 1);
@@ -140,6 +150,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @ParametersAreNonnullByDefault
     public void reveal(Allay allay, Player player) {
         SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, PersistentDataAPI.getString(allay, Keys.spiritTypeKey)).spawn(allay.getLocation(), allay.getWorld(), "Reveal", PersistentDataAPI.getString(allay, Keys.spiritStateKey));
+        getSpiritEntityManager().entityCollection.remove(allay);
         allay.remove();
     }
 }

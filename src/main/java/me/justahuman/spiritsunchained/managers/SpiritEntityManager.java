@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
+import me.justahuman.spiritsunchained.listeners.PlayerArmorListener;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class SpiritEntityManager implements Listener {
 
@@ -76,15 +78,13 @@ public class SpiritEntityManager implements Listener {
             if (SpiritsUnchained.getInstance().getConfig().getStringList("options.disabled-worlds").contains(world.getName())) {
                 continue;
             }
-            for (Player player : world.getPlayers()) {
-                if (player.getGameMode() != GameMode.SURVIVAL) {
+            for (UUID uuid : PlayerArmorListener.getCanSeeUUIDList()) {
+                final Player player = Bukkit.getPlayer(uuid);
+                if (player == null || player.getGameMode() != GameMode.SURVIVAL) {
                     continue;
                 }
                 final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
-                final ItemStack helmetItem = player.getInventory().getHelmet();
-                if (helmetItem == null || !SpiritUtils.imbuedCheck(helmetItem)) {
-                    continue;
-                }
+                
                 if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(10)) {
                     final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
                     final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());

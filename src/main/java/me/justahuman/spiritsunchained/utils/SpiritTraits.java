@@ -198,7 +198,7 @@ public class SpiritTraits {
         }
     }
     public static void Echolocation(Player player) {
-        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1*20, 0, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 0, true));
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BAT_AMBIENT, 1, 1);
         for(LivingEntity entity: player.getWorld().getNearbyLivingEntities(player.getLocation(), 100, 100, 100)) {
             if (entity.getUniqueId() == player.getUniqueId()) {

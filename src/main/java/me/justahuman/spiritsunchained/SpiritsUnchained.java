@@ -24,6 +24,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
@@ -43,6 +44,8 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     private static ConfigManager configManager;
     @Getter
     private static RunnableManager runnableManager;
+    @Getter
+    private static CommandManager commandManager;
 
     @Override
     public void onEnable() {
@@ -54,12 +57,13 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         getLogger().info("========================================");
 
         saveDefaultConfig();
-
+        
         configManager = new ConfigManager();
         runnableManager = new RunnableManager();
         listenerManager = new ListenerManager();
         spiritsManager = new SpiritsManager();
         spiritEntityManager = new SpiritEntityManager();
+        commandManager = new CommandManager();
 
         Setup.INSTANCE.init();
 
@@ -74,7 +78,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
 
         final Metrics metrics = new Metrics(this, 16817);
 
-        this.getCommand("spirits").setExecutor(new CommandManager());
+        this.getCommand("spirits").setExecutor(commandManager);
     }
 
     @Nonnull
@@ -103,12 +107,11 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onDisable() {
         configManager.save();
-        for (World world : Bukkit.getWorlds()) {
-            for (FallingBlock fallingBlock : world.getEntitiesByClass(FallingBlock.class)) {
-                if (PersistentDataAPI.hasString(fallingBlock, Keys.entityKey)) {
-                    fallingBlock.remove();
-                }
-            }
+        for (LivingEntity livingEntity : getSpiritEntityManager().entityCollection) {
+            livingEntity.remove();
+        }
+        for (FallingBlock fallingBlock : getCommandManager().ghostBlocks) {
+            fallingBlock.remove();
         }
     }
 }

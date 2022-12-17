@@ -11,6 +11,7 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.utils.Keys;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -56,7 +57,7 @@ public abstract class AbstractCustomMob<T extends LivingEntity> {
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.maxHealth);
         mob.setHealth(this.maxHealth);
-        mob.setCustomName(this.name);
+        mob.customName(Component.text(this.name));
         mob.setCustomNameVisible(true);
         mob.setRemoveWhenFarAway(true);
 

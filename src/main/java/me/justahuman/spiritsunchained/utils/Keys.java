@@ -8,6 +8,7 @@ public class Keys {
 
     private static final SpiritsUnchained instance = SpiritsUnchained.getInstance();
 
+    public static final NamespacedKey despawnKey = new NamespacedKey(instance, "despawn");
     public static final NamespacedKey immuneKey = new NamespacedKey(instance, "immune");
     public static final NamespacedKey imbuedKey = new NamespacedKey(instance, "imbued");
     public static final NamespacedKey spiritIdentified = new NamespacedKey(instance, "identified");
