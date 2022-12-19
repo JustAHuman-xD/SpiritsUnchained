@@ -365,7 +365,7 @@ public class SpiritUtils {
                 boolean inBiome = biome.equals(Biome.CUSTOM);
                 if (!inBiome) {
                     for (String biomeId : definition.getBiomeGroup()) {
-                        inBiome = inBiome || configManager.getBiomeMap().get(biomeId).contains(biome.name());
+                        inBiome = inBiome || configManager.getBiomeMap().get(biomeId).contains(biome.name().toLowerCase());
                     }
                 }
                 if (!inBiome) {

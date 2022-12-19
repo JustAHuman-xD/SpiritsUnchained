@@ -1,5 +1,6 @@
 package me.justahuman.spiritsunchained.managers;
 
+import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
@@ -132,6 +133,14 @@ public class SpiritEntityManager implements Listener {
         final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
         if (customMob != null) {
             customMob.onDamage(e);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    private void onEntityRemove(@Nonnull EntityRemoveFromWorldEvent e) {
+        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+        if (customMob != null) {
+            this.entityCollection.remove((LivingEntity) e.getEntity());
         }
     }
 }
