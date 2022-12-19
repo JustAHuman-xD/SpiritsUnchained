@@ -1,28 +1,20 @@
 package me.justahuman.spiritsunchained;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
-import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
 import lombok.Getter;
 import me.justahuman.spiritsunchained.managers.CommandManager;
-import me.justahuman.spiritsunchained.slimefun.Researches;
-import me.justahuman.spiritsunchained.utils.Keys;
-import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.ListenerManager;
 import me.justahuman.spiritsunchained.managers.RunnableManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
-
-import me.justahuman.spiritsunchained.utils.SpiritUtils;
+import me.justahuman.spiritsunchained.slimefun.Researches;
+import me.justahuman.spiritsunchained.utils.LogUtils;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.java.JavaPlugin;

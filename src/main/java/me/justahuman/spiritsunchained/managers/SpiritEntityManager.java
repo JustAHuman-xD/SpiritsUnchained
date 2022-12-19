@@ -10,7 +10,6 @@ import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -25,7 +24,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -63,34 +61,27 @@ public class SpiritEntityManager implements Listener {
     }
 
     private void tick() {
-        for (World world : Bukkit.getWorlds()) {
-            for (LivingEntity entity : world.getLivingEntities()) {
-                final AbstractCustomMob<?> customMob = getCustomClass(entity, null);
-                if (customMob != null) {
-                    customMob.onEntityTick(entity);
-                }
+        for (LivingEntity entity : entityCollection) {
+            final AbstractCustomMob<?> customMob = getCustomClass(entity, null);
+            if (customMob != null) {
+                customMob.onEntityTick(entity);
             }
         }
     }
 
     private void spawnTick() {
-        for (World world : Bukkit.getWorlds()) {
-            if (SpiritsUnchained.getInstance().getConfig().getStringList("options.disabled-worlds").contains(world.getName())) {
+        for (UUID uuid : PlayerArmorListener.getCanSeeUUIDList()) {
+            final Player player = Bukkit.getPlayer(uuid);
+            if (player == null || player.getGameMode() != GameMode.SURVIVAL || SpiritsUnchained.getInstance().getConfig().getStringList("options.disabled-worlds").contains(player.getWorld().getName())) {
                 continue;
             }
-            for (UUID uuid : PlayerArmorListener.getCanSeeUUIDList()) {
-                final Player player = Bukkit.getPlayer(uuid);
-                if (player == null || player.getGameMode() != GameMode.SURVIVAL) {
-                    continue;
-                }
-                final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
-                
-                if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(10)) {
-                    final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
-                    final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());
-                    if (maybeSpirit != null && this.entityMap.get("UNIDENTIFIED_SPIRIT") != null) {
-                        this.entityMap.get("UNIDENTIFIED_SPIRIT").spawn(b.getLocation(), player.getWorld(), "Natural", maybeSpirit);
-                    }
+            
+            final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
+            if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(10)) {
+                final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
+                final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());
+                if (maybeSpirit != null && this.entityMap.get("UNIDENTIFIED_SPIRIT") != null) {
+                    this.entityMap.get("UNIDENTIFIED_SPIRIT").spawn(b.getLocation(), player.getWorld(), "Natural", maybeSpirit);
                 }
             }
         }

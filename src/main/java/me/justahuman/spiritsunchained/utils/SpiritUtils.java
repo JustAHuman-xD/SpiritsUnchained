@@ -8,7 +8,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.listeners.PlayerArmorListener;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
