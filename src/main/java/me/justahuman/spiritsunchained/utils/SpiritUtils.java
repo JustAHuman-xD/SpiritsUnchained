@@ -318,11 +318,11 @@ public class SpiritUtils {
         item.setItemMeta(meta);
     }
     @ParametersAreNonnullByDefault
-    public static Collection<Entity> getNearbySpirits(Location location) {
-        final Collection<Entity> returnList = new ArrayList<>();
-        for (LivingEntity entity : spiritEntityManager.entityCollection) {
-            if (entity.getLocation().isWorldLoaded() && location.isWorldLoaded() && entity.getLocation().getWorld() == location.getWorld() && location.distanceSquared(entity.getLocation()) <= Math.pow(64, 2)) {
-                returnList.add(entity);
+    public static Collection<LivingEntity> getNearbySpirits(Location location, int distance) {
+        final Collection<LivingEntity> returnList = new ArrayList<>();
+        for (LivingEntity livingEntity : spiritEntityManager.getCustomLivingEntities()) {
+            if (livingEntity.getLocation().isWorldLoaded() && location.isWorldLoaded() && livingEntity.getLocation().getWorld() == location.getWorld() && location.distanceSquared(livingEntity.getLocation()) <= Math.pow(distance, 2)) {
+                returnList.add(livingEntity);
             }
         }
         return returnList;

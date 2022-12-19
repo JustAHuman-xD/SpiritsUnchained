@@ -15,12 +15,15 @@ import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.slimefun.Researches;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.UUID;
 
 public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
 
@@ -99,11 +102,14 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onDisable() {
         configManager.save();
-        for (LivingEntity livingEntity : getSpiritEntityManager().entityCollection) {
+        for (LivingEntity livingEntity : getSpiritEntityManager().getCustomLivingEntities()) {
             livingEntity.remove();
         }
-        for (FallingBlock fallingBlock : getCommandManager().ghostBlocks) {
-            fallingBlock.remove();
+        for (UUID uuid : getCommandManager().ghostBlocks) {
+            final Entity fallingBlock = Bukkit.getEntity(uuid);
+            if (fallingBlock != null) {
+                fallingBlock.remove();
+            }
         }
     }
 }

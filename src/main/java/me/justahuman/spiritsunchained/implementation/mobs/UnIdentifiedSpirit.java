@@ -44,7 +44,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     public Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
         final Allay mob = world.spawn(loc, this.getClazz());
         SpiritUtils.spiritIdMap.put(mob.getEntityId(), mob);
-        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob);
+        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob.getUniqueId());
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
         final String state;
 

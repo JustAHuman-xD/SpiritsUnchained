@@ -51,7 +51,7 @@ public abstract class AbstractCustomMob<T extends LivingEntity> {
     @Nonnull
     public T spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
         final T mob = world.spawn(loc, this.clazz);
-        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob);
+        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob.getUniqueId());
 
         PersistentDataAPI.setString(mob, Keys.entityKey, this.id);
 

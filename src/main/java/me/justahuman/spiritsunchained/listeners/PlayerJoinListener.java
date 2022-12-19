@@ -11,7 +11,7 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        for (LivingEntity entity : SpiritsUnchained.getSpiritEntityManager().entityCollection) {
+        for (LivingEntity entity : SpiritsUnchained.getSpiritEntityManager().getCustomLivingEntities()) {
             if (player.canSee(entity)) {
                 player.hideEntity(SpiritsUnchained.getInstance(), entity);
             }

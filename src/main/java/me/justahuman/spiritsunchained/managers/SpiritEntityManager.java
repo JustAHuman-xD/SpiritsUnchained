@@ -36,7 +36,7 @@ import java.util.UUID;
 public class SpiritEntityManager implements Listener {
 
     public final Map<String, AbstractCustomMob<?>> entityMap = new HashMap<>();
-    public final Collection<LivingEntity> entityCollection = new ArrayList<>();
+    public final Collection<UUID> entityCollection = new ArrayList<>();
 
     public SpiritEntityManager() {
         final SpiritsUnchained instance = SpiritsUnchained.getInstance();
@@ -60,12 +60,23 @@ public class SpiritEntityManager implements Listener {
         String getKey = entity != null && PersistentDataAPI.hasString(entity, Keys.entityKey) ? PersistentDataAPI.getString(entity, Keys.entityKey) : key;
         return getKey == null ? null : this.entityMap.get(getKey);
     }
+    
+    public Collection<LivingEntity> getCustomLivingEntities() {
+        final Collection<LivingEntity> toReturn = new ArrayList<>();
+        for (UUID uuid : entityCollection) {
+            final Entity entity = Bukkit.getEntity(uuid);
+            if (entity instanceof LivingEntity livingEntity) {
+                toReturn.add(livingEntity);
+            }
+        }
+        return toReturn;
+    }
 
     private void tick() {
-        for (LivingEntity entity : entityCollection) {
-            final AbstractCustomMob<?> customMob = getCustomClass(entity, null);
+        for (LivingEntity livingEntity : getCustomLivingEntities()) {
+            final AbstractCustomMob<?> customMob = getCustomClass(livingEntity, null);
             if (customMob != null) {
-                customMob.onEntityTick(entity);
+                customMob.onEntityTick(livingEntity);
             }
         }
     }
@@ -77,7 +88,7 @@ public class SpiritEntityManager implements Listener {
                 continue;
             }
             
-            final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
+            final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation(), 64).size();
             if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(25)) {
                 final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
                 final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());

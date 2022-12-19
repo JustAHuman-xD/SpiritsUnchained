@@ -41,7 +41,7 @@ public class PlayerReleaseSpiritListener implements Listener {
 
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(type);
         final int chance = ThreadLocalRandom.current().nextInt(1, 100);
-        if (PlayerArmorListener.getCanSeeUUIDList().contains(player.getUniqueId()) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation()).size() < SpiritUtils.getPlayerCap() && (spawnerSpirits || ! killedEntity.fromMobSpawner()) && ! config.getStringList("options.disabled-worlds").contains(killedEntity.getWorld().getName())) {
+        if (PlayerArmorListener.getCanSeeUUIDList().contains(player.getUniqueId()) && chance <= 10/definition.getTier() && SpiritUtils.getNearbySpirits(killedEntity.getLocation(), 64).size() < SpiritUtils.getPlayerCap() && (spawnerSpirits || ! killedEntity.fromMobSpawner()) && ! config.getStringList("options.disabled-worlds").contains(killedEntity.getWorld().getName())) {
             spirit.spawn(killedEntity.getLocation(), killedEntity.getWorld(), "Hostile", null);
         }
     }

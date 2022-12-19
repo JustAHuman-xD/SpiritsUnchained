@@ -150,8 +150,8 @@ public class ElectricSpiritBottler extends SlimefunItem implements EnergyNetComp
         final int outputSlot = inv.getItemInSlot(24) == null ? 24 : 25;
 
         LivingEntity target = null;
-        for (LivingEntity livingEntity : spiritEntityManager.entityCollection) {
-            if (!PersistentDataAPI.hasBoolean(livingEntity, Keys.spiritLocked) && livingEntity.getLocation().isWorldLoaded() && location.isWorldLoaded() && livingEntity.getLocation().getWorld() == location.getWorld() && location.distanceSquared(livingEntity.getLocation()) <= Math.pow(16, 2)) {
+        for (LivingEntity livingEntity : SpiritUtils.getNearbySpirits(location, 16)) {
+            if (!PersistentDataAPI.hasBoolean(livingEntity, Keys.spiritLocked)) {
                 target = livingEntity;
                 break;
             }

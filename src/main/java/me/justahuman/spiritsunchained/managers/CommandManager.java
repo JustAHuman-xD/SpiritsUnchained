@@ -40,12 +40,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 public class CommandManager implements TabExecutor {
 
-    final Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().entityMap.keySet();
-    final List<String> entityTypes = SpiritUtils.getTypes();
-    public final Collection<FallingBlock> ghostBlocks = new ArrayList<>();
+    public final Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().entityMap.keySet();
+    public final List<String> entityTypes = SpiritUtils.getTypes();
+    public final Collection<UUID> ghostBlocks = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
@@ -222,7 +223,7 @@ public class CommandManager implements TabExecutor {
                     directional.setFacing(face);
                 }
                 final FallingBlock fallingBlock = world.spawnFallingBlock(relativeLocation, blockData);
-                ghostBlocks.add(fallingBlock);
+                ghostBlocks.add(fallingBlock.getUniqueId());
                 fallingBlock.setVelocity(new Vector(0, 0, 0));
                 fallingBlock.setGravity(false);
                 fallingBlock.setDropItem(false);
@@ -231,7 +232,7 @@ public class CommandManager implements TabExecutor {
                 PersistentDataAPI.setString(fallingBlock, Keys.entityKey, "altar");
                 Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
                     if (fallingBlock != null) {
-                        ghostBlocks.remove(fallingBlock);
+                        ghostBlocks.remove(fallingBlock.getUniqueId());
                         fallingBlock.remove();
                     }
                 }, (30 * 20) - (finalEntryIndex * 5L));

@@ -62,7 +62,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
         }
 
         final Allay mob = world.spawn(loc, this.getClazz());
-        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob);
+        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob.getUniqueId());
         SpiritUtils.spiritIdMap.put(mob.getEntityId(), mob);
         PersistentDataAPI.setString(mob, Keys.entityKey, this.getId());
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
