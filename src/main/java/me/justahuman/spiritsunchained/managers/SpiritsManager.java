@@ -1,7 +1,6 @@
 package me.justahuman.spiritsunchained.managers;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.listeners.PassOnListeners;
 import me.justahuman.spiritsunchained.utils.LogUtils;
 import me.justahuman.spiritsunchained.spirits.Goal;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
@@ -13,6 +12,7 @@ import org.bukkit.entity.EntityType;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +20,11 @@ import java.util.Map;
 public class SpiritsManager {
 
     @Getter
-    private final Map<EntityType, SpiritDefinition> spiritMap = new HashMap<>();
+    private final Map<EntityType, SpiritDefinition> spiritMap = new EnumMap<>(EntityType.class);
     @Getter
     private final List<List<EntityType>> tierMaps = new ArrayList<>();
     @Getter
-    private final Map<EntityType, List<EntityType>> goalRequirements = new HashMap<>();
+    private final Map<EntityType, List<EntityType>> goalRequirements = new EnumMap<>(EntityType.class);
 
     public SpiritsManager() {
         tierMaps.add(new ArrayList<>());
@@ -83,13 +83,15 @@ public class SpiritsManager {
             relations.put("Afraid", afraid);
 
             if (listGoal.get(0).equals("Kill") || listGoal.get(0).equals("Breed")) {
-                EntityType requirementType = null;
+                EntityType requirementType;
                 try {
                     requirementType = EntityType.valueOf(listGoal.get(1));
                     final List<EntityType> requiredFor = goalRequirements.containsKey(requirementType) ? goalRequirements.get(requirementType) : new ArrayList<>();
                     requiredFor.add(type);
                     goalRequirements.put(requirementType, requiredFor);
-                } catch(IllegalArgumentException | NullPointerException ignored) {}
+                } catch(IllegalArgumentException | NullPointerException ignored) {
+                    // Someone Messed Something Up
+                }
             }
 
             final SpiritDefinition spiritDefinition = new SpiritDefinition(

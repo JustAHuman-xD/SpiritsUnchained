@@ -8,7 +8,6 @@ import lombok.Getter;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
-import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +23,10 @@ public class Goal {
     private final String requiredType;
     private final ItemStack requiredStack;
     private final int amount;
+    private static final ItemStack INVALID_ITEM = new CustomItemStack(
+            Material.BARRIER,
+            "&aInvalid Item! Check Config"
+    );
 
     public Goal(String goalType, String requiredType, int amount) {
         this.goalType = goalType;
@@ -103,7 +106,7 @@ public class Goal {
         if (goalType.equals("Item")) {
             toReturn = new ItemStack(Material.valueOf(requiredType));
         } else if (goalType.equals("SlimefunItem")) {
-            toReturn = SlimefunItem.getById(requiredType).getItem().clone();
+            toReturn = SlimefunItem.getById(requiredType) != null ? SlimefunItem.getById(requiredType).getItem().clone() : INVALID_ITEM;
         }
         return toReturn;
     }

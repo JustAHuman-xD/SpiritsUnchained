@@ -1,6 +1,5 @@
 package me.justahuman.spiritsunchained.listeners;
 
-import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 
 import io.papermc.paper.event.entity.ElderGuardianAppearanceEvent;
@@ -39,7 +38,6 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PigZombieAngerEvent;
-import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
@@ -139,7 +137,7 @@ public class TraitListeners implements Listener {
 
         final Entity attacker = event instanceof EntityDamageByEntityEvent otherEvent ? otherEvent.getDamager() : null;
         final double finalHealth = entity.getHealth() - event.getFinalDamage();
-        final double finalHealthPercentage = finalHealth / entity.getMaxHealth();
+        final double finalHealthPercentage = finalHealth / (entity.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null ? entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() : 1);
 
         //Explosion Traits
         if (attacker != null && PersistentDataAPI.hasString(attacker, Keys.immuneKey) && PersistentDataAPI.getString(attacker, Keys.immuneKey).equals(entity.getUniqueId().toString())) {

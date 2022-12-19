@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Getter
 public class ConfigManager {
@@ -38,7 +39,7 @@ public class ConfigManager {
     public ConfigManager() {
         // Add missing config entries
         final SpiritsUnchained instance = SpiritsUnchained.getInstance();
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(new InputStreamReader(instance.getResource("config.yml")));
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(instance.getResource("config.yml"))));
         for (Map.Entry<String, Object> entry : config.getValues(true).entrySet()) {
             instance.getConfig().addDefault(entry.getKey(), entry.getValue());
         }
@@ -90,6 +91,11 @@ public class ConfigManager {
     @ParametersAreNonnullByDefault
     private void overrideConfiguration(FileConfiguration config, File file, String fileName) throws IOException {
         final InputStream inputStream = SpiritsUnchained.getInstance().getResource(fileName);
+        
+        if (inputStream == null) {
+            return;
+        }
+        
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         final YamlConfiguration defaults = YamlConfiguration.loadConfiguration(reader);
         config.addDefaults(defaults);

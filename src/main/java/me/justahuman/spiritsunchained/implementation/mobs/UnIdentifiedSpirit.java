@@ -18,7 +18,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -43,7 +42,6 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     public Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
         final Allay mob = world.spawn(loc, this.getClazz());
-        SpiritUtils.spiritIdMap.put(mob.getEntityId(), mob);
         SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob.getUniqueId());
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
         final String state;
@@ -95,7 +93,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         ParticleUtils.spawnParticleRadius(location, Particle.SPELL_INSTANT, 0.1, 5, "Spirit");
         if (PersistentDataAPI.hasLong(allay, Keys.despawnKey) && System.currentTimeMillis() >= PersistentDataAPI.getLong(allay, Keys.despawnKey)) {
             ParticleUtils.passOnAnimation(location);
-            getSpiritEntityManager().entityCollection.remove(allay);
+            getSpiritEntityManager().entityCollection.remove(allay.getUniqueId());
             allay.remove();
         }
     }
@@ -109,7 +107,6 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
             return;
         }
         event.setShouldPlayDeathSound(false);
-        getSpiritEntityManager().entityCollection.remove(allay);
     }
 
     @Override
@@ -126,13 +123,11 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
 
         SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
         if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_NET.getItemId())) {
-            getSpiritEntityManager().entityCollection.remove((LivingEntity) entity);
             ParticleUtils.catchAnimation(entity.getLocation());
             entity.remove();
             item.setAmount(item.getAmount() - 1);
             player.getInventory().addItem(ItemStacks.SU_UNIDENTIFIED_SPIRIT);
         } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {
-            getSpiritEntityManager().entityCollection.remove((LivingEntity) entity);
             ParticleUtils.bottleAnimation(entity.getLocation());
             entity.remove();
             item.setAmount(item.getAmount() - 1);
@@ -150,7 +145,6 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @ParametersAreNonnullByDefault
     public void reveal(Allay allay, Player player) {
         SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, PersistentDataAPI.getString(allay, Keys.spiritTypeKey)).spawn(allay.getLocation(), allay.getWorld(), "Reveal", PersistentDataAPI.getString(allay, Keys.spiritStateKey));
-        getSpiritEntityManager().entityCollection.remove(allay);
         allay.remove();
     }
 }

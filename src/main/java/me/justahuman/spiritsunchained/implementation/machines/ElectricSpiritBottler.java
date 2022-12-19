@@ -15,7 +15,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
@@ -52,14 +51,11 @@ public class ElectricSpiritBottler extends SlimefunItem implements EnergyNetComp
     private static final int[] BORDER_OUTPUT = new int[]{14,15,16,17,23,26,32,33,34,35};
     private static final int[] INPUT_SLOTS = new int[]{19,20};
     private static final int[] OUTPUT_SLOTS = new int[]{24,25};
-    private final SpiritEntityManager spiritEntityManager;
-
     private static final Map<BlockPosition, Boolean> catching = new HashMap<>();
 
     @ParametersAreNonnullByDefault
     public ElectricSpiritBottler(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        spiritEntityManager = SpiritsUnchained.getSpiritEntityManager();
 
         buildPreset();
         addItemHandler(onBreak());
@@ -194,7 +190,7 @@ public class ElectricSpiritBottler extends SlimefunItem implements EnergyNetComp
     public int getCapacity() {
         return 2000;
     }
-
+    
     public static int getEnergyConsumption() {
         return 100;
     }

@@ -2,7 +2,6 @@ package me.justahuman.spiritsunchained.listeners;
 
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;

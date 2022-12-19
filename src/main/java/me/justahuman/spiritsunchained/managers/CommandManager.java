@@ -53,22 +53,22 @@ public class CommandManager implements TabExecutor {
         if (! (sender instanceof Player player ) || args.length == 0) {
             return false;
         }
-        if (useCommand("TestParticles", player, 0, 2, args)) {
+        if (useCommand("TestParticles", player, 2, args)) {
             return testParticles(player, args[1]);
         }
-        else if (useCommand("SummonSpirit", player, 0, 2, args)) {
+        else if (useCommand("SummonSpirit", player, 2, args)) {
             return summonSpirit(args[1], player, args.length >= 3 ? args[2] : "COW");
         }
-        else if (useCommand("GiveSpirit", player, 0, 2, args)) {
+        else if (useCommand("GiveSpirit", player, 2, args)) {
             return giveSpirit(player, args[1], args.length >= 3 ? args[2] : "Friendly");
         }
-        else if (useCommand("EditItem", player, 0, 2, args)) {
+        else if (useCommand("EditItem", player, 2, args)) {
             return editItem(player, args[1], args.length >= 3 ? args[2] : "Blank");
         }
-        else if (useCommand("ResetCooldowns", player, 0, 1, args)) {
+        else if (useCommand("ResetCooldowns", player, 1, args)) {
             return resetCooldown(player, args.length >= 2 ? args[1] : player.getName());
         }
-        else if (useCommand("Altar", player, 0, 2, args)) {
+        else if (useCommand("Altar", player, 2, args)) {
             return visualizeAltar(player, args[1]);
         }
         else {
@@ -161,8 +161,8 @@ public class CommandManager implements TabExecutor {
         return Collections.emptyList();
     }
 
-    private boolean useCommand(String command, Player player, int index, int size, String[] args) {
-        return args[index].equalsIgnoreCase(command) && args.length >= size && hasPerm(player, command);
+    private boolean useCommand(String command, Player player, int size, String[] args) {
+        return args[0].equalsIgnoreCase(command) && args.length >= size && hasPerm(player, command);
     }
 
     private boolean hasPerm(Player player, String command) {

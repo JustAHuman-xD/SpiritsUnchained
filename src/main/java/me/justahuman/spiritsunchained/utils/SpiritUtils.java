@@ -63,8 +63,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritUtils {
-
-    public static final Map<Integer, Entity> spiritIdMap = new HashMap<>();
+    
     private static final ConfigManager configManager = SpiritsUnchained.getConfigManager();
     private static final SpiritEntityManager spiritEntityManager = SpiritsUnchained.getSpiritEntityManager();
     private static final SpiritsManager spiritsManager = SpiritsUnchained.getSpiritsManager();
@@ -265,12 +264,12 @@ public class SpiritUtils {
         return false;
     }
 
-    private static boolean tryUseSpirit(Player player, ItemStack spiritItem, SpiritDefinition definition, boolean notif) {
+    private static boolean tryUseSpirit(Player player, ItemStack spiritItem, SpiritDefinition definition, boolean notify) {
         final String name = ChatColors.color(tierColor(definition.getTier()) + ChatUtils.humanize(definition.getType().name()));
         final ItemMeta meta = spiritItem.getItemMeta();
         final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
-        if (getStates().indexOf(state) <= 2 && notif) {
+        if (getStates().indexOf(state) <= 2 && notify) {
             player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.incorrect_state").replace("{tier_color_and_mob_type}", name)));
             return false;
         }
@@ -283,7 +282,7 @@ public class SpiritUtils {
                 player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.used_passive").replace("{tier_color_and_mob_type}", name)));
             }
             return true;
-        } else if (notif) {
+        } else if (notify) {
             player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.not_enough_progress").replace("{tier_color_and_mob_type}", name).replace("{progress}", String.valueOf(progress)).replace("{required_progress}", String.valueOf(usage))));
         }
         return false;
@@ -378,7 +377,7 @@ public class SpiritUtils {
     }
 
     public static boolean canSpawn() {
-        return spiritIdMap.size() < config.getInt("options.max-spirits", 40);
+        return spiritEntityManager.entityCollection.size() < config.getInt("options.max-spirits", 40);
     }
 
     public static boolean imbuedCheck(ItemStack helmetItem) {

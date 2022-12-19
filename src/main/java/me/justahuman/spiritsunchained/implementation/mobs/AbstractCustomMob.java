@@ -85,15 +85,15 @@ public abstract class AbstractCustomMob<T extends LivingEntity> {
 
     public void onTick(@Nonnull T mob) { }
 
-    public void onInteract(@Nonnull PlayerInteractEntityEvent e) { }
+    public void onInteract(@Nonnull PlayerInteractEntityEvent event) { }
 
-    public void onHit(@Nonnull EntityDamageByEntityEvent e) { }
+    public void onHit(@Nonnull EntityDamageByEntityEvent event) { }
 
-    public void onTarget(@Nonnull EntityTargetEvent e) { }
+    public void onTarget(@Nonnull EntityTargetEvent event) { }
 
-    public void onDeath(@Nonnull EntityDeathEvent e) { }
+    public void onDeath(@Nonnull EntityDeathEvent event) { }
 
-    public void onDamage(@Nonnull EntityDamageEvent e) { }
+    public void onDamage(@Nonnull EntityDamageEvent event) { }
 
     @ParametersAreNonnullByDefault
     public void reveal(Allay currentEntity, Player player) {}

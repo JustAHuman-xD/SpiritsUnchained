@@ -60,7 +60,7 @@ public class PlayerClickListener implements Listener {
             final List<Entity> lookingAt = SpiritUtils.getLookingList(player);
             for (Entity entity : lookingAt) {
                 final AbstractCustomMob<?> maybe = SpiritsUnchained.getSpiritEntityManager().getCustomClass(entity, null);
-                if (entity instanceof Allay && maybe != null && player.getLocation().distanceSquared(entity.getLocation()) < Math.pow(4, 2)) {
+                if (entity instanceof Allay && maybe != null && player.getLocation().distanceSquared(entity.getLocation()) < Math.pow(4, 2) && e.getHand() != null) {
                     if (!Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_ENTITY)) {
                         player.sendMessage(SpiritUtils.getTranslation("messages.general.no_permission_entity_interact"));
                         return;

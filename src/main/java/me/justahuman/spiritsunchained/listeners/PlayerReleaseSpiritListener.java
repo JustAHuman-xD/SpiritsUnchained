@@ -16,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerReleaseSpiritListener implements Listener {
@@ -49,7 +50,7 @@ public class PlayerReleaseSpiritListener implements Listener {
     @EventHandler
     public void onEntityRemove(EntityRemoveFromWorldEvent event) {
         final Entity entity = event.getEntity();
-        final Integer id = entity.getEntityId();
-        SpiritUtils.spiritIdMap.remove(id);
+        final UUID uuid = entity.getUniqueId();
+        SpiritsUnchained.getSpiritEntityManager().entityCollection.remove(uuid);
     }
 }

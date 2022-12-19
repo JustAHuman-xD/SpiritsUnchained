@@ -100,58 +100,57 @@ public class SpiritEntityManager implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityTarget(@Nonnull EntityTargetEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityTarget(@Nonnull EntityTargetEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            customMob.onTarget(e);
+            customMob.onTarget(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
-    private void onEntityInteract(@Nonnull PlayerInteractEntityEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getRightClicked(), null);
+    private void onEntityInteract(@Nonnull PlayerInteractEntityEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getRightClicked(), null);
         if (customMob != null) {
-            customMob.onInteract(e);
+            customMob.onInteract(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityHit(@Nonnull EntityDamageByEntityEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityHit(@Nonnull EntityDamageByEntityEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            customMob.onHit(e);
+            customMob.onHit(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityDie(@Nonnull EntityDeathEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityDie(@Nonnull EntityDeathEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            customMob.onDeath(e);
+            customMob.onDeath(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityCombust(@Nonnull EntityCombustEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityCombust(@Nonnull EntityCombustEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            e.setCancelled(true);
+            event.setCancelled(true);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityDamage(@Nonnull EntityDamageEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityDamage(@Nonnull EntityDamageEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            customMob.onDamage(e);
+            customMob.onDamage(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityRemove(@Nonnull EntityRemoveFromWorldEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
-        if (customMob != null) {
-            this.entityCollection.remove((LivingEntity) e.getEntity());
-        }
+    private void onEntityRemove(@Nonnull EntityRemoveFromWorldEvent event) {
+        final Entity entity = event.getEntity();
+        final UUID uuid = entity.getUniqueId();
+        SpiritsUnchained.getSpiritEntityManager().entityCollection.remove(uuid);
     }
 }
