@@ -42,7 +42,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     public Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
         final Allay mob = world.spawn(loc, this.getClazz());
-        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob.getUniqueId());
+        SpiritsUnchained.getSpiritEntityManager().entitySet.add(mob.getUniqueId());
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
         final String state;
 
@@ -93,7 +93,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         ParticleUtils.spawnParticleRadius(location, Particle.SPELL_INSTANT, 0.1, 5, "Spirit");
         if (PersistentDataAPI.hasLong(allay, Keys.despawnKey) && System.currentTimeMillis() >= PersistentDataAPI.getLong(allay, Keys.despawnKey)) {
             ParticleUtils.passOnAnimation(location);
-            getSpiritEntityManager().entityCollection.remove(allay.getUniqueId());
+            getSpiritEntityManager().entitySet.remove(allay.getUniqueId());
             allay.remove();
         }
     }

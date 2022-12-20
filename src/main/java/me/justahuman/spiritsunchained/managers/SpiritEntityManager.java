@@ -27,16 +27,16 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class SpiritEntityManager implements Listener {
 
     public final Map<String, AbstractCustomMob<?>> entityMap = new HashMap<>();
-    public final Collection<UUID> entityCollection = new ArrayList<>();
+    public final Set<UUID> entitySet = new HashSet<>();
 
     public SpiritEntityManager() {
         final SpiritsUnchained instance = SpiritsUnchained.getInstance();
@@ -61,9 +61,9 @@ public class SpiritEntityManager implements Listener {
         return getKey == null ? null : this.entityMap.get(getKey);
     }
     
-    public Collection<LivingEntity> getCustomLivingEntities() {
-        final Collection<LivingEntity> toReturn = new ArrayList<>();
-        for (UUID uuid : entityCollection) {
+    public Set<LivingEntity> getCustomLivingEntities() {
+        final Set<LivingEntity> toReturn = new HashSet<>();
+        for (UUID uuid : entitySet) {
             final Entity entity = Bukkit.getEntity(uuid);
             if (entity instanceof LivingEntity livingEntity) {
                 toReturn.add(livingEntity);
@@ -151,6 +151,6 @@ public class SpiritEntityManager implements Listener {
     private void onEntityRemove(@Nonnull EntityRemoveFromWorldEvent event) {
         final Entity entity = event.getEntity();
         final UUID uuid = entity.getUniqueId();
-        SpiritsUnchained.getSpiritEntityManager().entityCollection.remove(uuid);
+        SpiritsUnchained.getSpiritEntityManager().entitySet.remove(uuid);
     }
 }

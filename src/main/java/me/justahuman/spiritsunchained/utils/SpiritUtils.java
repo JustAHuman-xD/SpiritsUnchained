@@ -377,7 +377,7 @@ public class SpiritUtils {
     }
 
     public static boolean canSpawn() {
-        return spiritEntityManager.entityCollection.size() < config.getInt("options.max-spirits", 40);
+        return spiritEntityManager.entitySet.size() < config.getInt("options.max-spirits", 40);
     }
 
     public static boolean imbuedCheck(ItemStack helmetItem) {

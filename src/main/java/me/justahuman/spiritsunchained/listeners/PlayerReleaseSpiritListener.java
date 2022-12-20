@@ -51,6 +51,6 @@ public class PlayerReleaseSpiritListener implements Listener {
     public void onEntityRemove(EntityRemoveFromWorldEvent event) {
         final Entity entity = event.getEntity();
         final UUID uuid = entity.getUniqueId();
-        SpiritsUnchained.getSpiritEntityManager().entityCollection.remove(uuid);
+        SpiritsUnchained.getSpiritEntityManager().entitySet.remove(uuid);
     }
 }

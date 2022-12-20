@@ -33,7 +33,6 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,7 +45,7 @@ public class CommandManager implements TabExecutor {
 
     public final Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().entityMap.keySet();
     public final List<String> entityTypes = SpiritUtils.getTypes();
-    public final Collection<UUID> ghostBlocks = new ArrayList<>();
+    public final Set<UUID> ghostBlocks = new HashSet<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
