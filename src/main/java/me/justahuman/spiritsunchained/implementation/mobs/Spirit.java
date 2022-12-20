@@ -61,10 +61,10 @@ public class Spirit extends AbstractCustomMob<Allay> {
         }
 
         final Allay mob = world.spawn(loc, this.getClazz());
-        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob);
-        SpiritUtils.spiritIdMap.put(mob.getEntityId(), mob);
+        SpiritsUnchained.getSpiritEntityManager().entitySet.add(mob.getUniqueId());
         PersistentDataAPI.setString(mob, Keys.entityKey, this.getId());
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
+        PersistentDataAPI.setLong(mob, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((long) (definition.getTier() * 60L * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000);
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
         mob.setHealth(health);
@@ -78,7 +78,11 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onSpawn(Allay allay) {
-
+        for (Player player : allay.getWorld().getPlayers()) {
+            if (player.canSee(allay)) {
+                player.hideEntity(SpiritsUnchained.getInstance(), allay);
+            }
+        }
         allay.setCollidable(false);
         allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000 * 20, 1, true, false));
         allay.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 1000000 * 20, 1, true, false));
@@ -87,14 +91,14 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
+        final Location location = allay.getLocation();
         final String state = PersistentDataAPI.getString(allay, Keys.spiritStateKey);
-        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, particleCount, "Spirit");
-        SpiritUtils.spawnStateParticle(state, allay.getLocation());
-
-        for (Player player : allay.getWorld().getPlayers()) {
-            if (player.canSee(allay)) {
-                player.hideEntity(SpiritsUnchained.getInstance(), allay);
-            }
+        ParticleUtils.spawnParticleRadius(location, Particle.SPELL_INSTANT, 0.1, particleCount, "Spirit");
+        SpiritUtils.spawnStateParticle(state, location);
+        
+        if (PersistentDataAPI.hasLong(allay, Keys.despawnKey) && System.currentTimeMillis() >= PersistentDataAPI.getLong(allay, Keys.despawnKey)) {
+            ParticleUtils.passOnAnimation(location);
+            allay.remove();
         }
     }
 

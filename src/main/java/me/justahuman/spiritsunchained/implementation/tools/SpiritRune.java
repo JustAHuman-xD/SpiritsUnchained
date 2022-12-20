@@ -1,6 +1,5 @@
 package me.justahuman.spiritsunchained.implementation.tools;
 
-
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -14,7 +13,6 @@ import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import net.kyori.adventure.text.Component;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -44,12 +42,12 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
     @Nonnull
     @Override
     public ItemDropHandler getItemHandler() {
-        return (e, p, item) -> {
+        return (event, player, item) -> {
             if (isItem(item.getItemStack())) {
-                if (canUse(p, true)) {
+                if (canUse(player, true)) {
                     Slimefun.runSync(() -> {
                         try {
-                            addSpiritTag(p, item);
+                            addSpiritTag(player, item);
                         } catch (Exception x) {
                             error("An Exception occurred while trying to apply an Spirit Rune", x);
                         }
@@ -64,14 +62,14 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
     }
 
 
-    private void addSpiritTag(@Nonnull Player p, @Nonnull Item rune) {
+    private void addSpiritTag(@Nonnull Player player, @Nonnull Item rune) {
         // Being sure the entity is still valid and not picked up or whatsoever.
         if (!rune.isValid()) {
             return;
         }
 
-        final Location l = rune.getLocation();
-        final Collection<Entity> entities = l.getWorld().getNearbyEntities(l, RANGE, RANGE, RANGE, this::findCompatibleItem);
+        final Location location = rune.getLocation();
+        final Collection<Entity> entities = location.getWorld().getNearbyEntities(location, RANGE, RANGE, RANGE, this::findCompatibleItem);
         final Optional<Entity> optional = entities.stream().findFirst();
 
         if (optional.isPresent()) {
@@ -79,39 +77,39 @@ public class SpiritRune extends SimpleSlimefunItem<ItemDropHandler> {
             final ItemStack itemStack = item.getItemStack();
             final ItemStack runeStack = rune.getItemStack();
             if (!itemStack.getType().name().endsWith("HELMET")) {
-                p.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.not_helmet"));
+                player.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.not_helmet"));
                 return;
             }
 
             if (itemStack.getAmount() == 1 && runeStack.getAmount() == 1) {
                 // This lightning is just an effect, it deals no damage.
-                l.getWorld().strikeLightningEffect(l);
+                location.getWorld().strikeLightningEffect(location);
 
                 Slimefun.runSync(() -> {
                     // Being sure entities are still valid and not picked up or whatsoever.
                     if (rune.isValid() && runeStack.getAmount() == 1 && item.isValid() && itemStack.getAmount() == 1 && !PersistentDataAPI.hasByte(itemStack.getItemMeta(), Keys.imbuedKey)) {
 
-                        l.getWorld().spawnParticle(Particle.CRIT_MAGIC, l, 1);
-                        l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
+                        location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 1);
+                        location.getWorld().playSound(location, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 
                         item.remove();
                         rune.remove();
 
-                        setImbued(itemStack,p);
-                        l.getWorld().dropItemNaturally(l, itemStack);
+                        setImbued(itemStack);
+                        location.getWorld().dropItemNaturally(location, itemStack);
 
-                        p.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.imbued"));
+                        player.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.imbued"));
                     }
                 }, 10L);
             } else if (itemStack.getAmount() != 1) {
-                p.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.multiple_helmets"));
+                player.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.multiple_helmets"));
             } else if (runeStack.getAmount() != 1) {
-                p.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.multiple_runes"));
+                player.sendMessage(SpiritUtils.getTranslation("messages.spirit_rune.multiple_runes"));
             }
         }
     }
 
-    public static void setImbued(@Nullable ItemStack item, Player p) {
+    public static void setImbued(@Nullable ItemStack item) {
         if (item != null && item.getType() != Material.AIR && !PersistentDataAPI.hasByte(item.getItemMeta(), Keys.imbuedKey)) {
             final ItemMeta meta = item.getItemMeta();
             PersistentDataAPI.setByte(meta, Keys.imbuedKey, (byte) 2);

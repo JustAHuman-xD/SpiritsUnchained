@@ -42,8 +42,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     public Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
         final Allay mob = world.spawn(loc, this.getClazz());
-        SpiritUtils.spiritIdMap.put(mob.getEntityId(), mob);
-        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob);
+        SpiritsUnchained.getSpiritEntityManager().entitySet.add(mob.getUniqueId());
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
         final String state;
 
@@ -63,7 +62,8 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
         PersistentDataAPI.setString(mob, Keys.spiritTypeKey, type);
         PersistentDataAPI.setBoolean(mob, Keys.spiritIdentified, false);
-
+        PersistentDataAPI.setLong(mob, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((long) (definition.getTier() * 60L * 0.75), definition.getTier() * 60L * SpiritUtils.random(1, 3)) * 1000);
+    
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.getMaxHealth());
         mob.setHealth(this.getMaxHealth());
         mob.setRemoveWhenFarAway(true);
@@ -76,6 +76,11 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onSpawn(Allay allay) {
+        for (Player player : allay.getWorld().getPlayers()) {
+            if (player.canSee(allay)) {
+                player.hideEntity(SpiritsUnchained.getInstance(), allay);
+            }
+        }
         allay.setCollidable(false);
         allay.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 1000000 * 20, 1, true, false));
         allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000*20, 1, true, false));
@@ -84,12 +89,12 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onTick(Allay allay) {
-        ParticleUtils.spawnParticleRadius(allay.getLocation(), Particle.SPELL_INSTANT, 0.1, 5, "Spirit");
-
-        for (Player player : allay.getWorld().getPlayers()) {
-            if (player.canSee(allay)) {
-                player.hideEntity(SpiritsUnchained.getInstance(), allay);
-            }
+        final Location location = allay.getLocation();
+        ParticleUtils.spawnParticleRadius(location, Particle.SPELL_INSTANT, 0.1, 5, "Spirit");
+        if (PersistentDataAPI.hasLong(allay, Keys.despawnKey) && System.currentTimeMillis() >= PersistentDataAPI.getLong(allay, Keys.despawnKey)) {
+            ParticleUtils.passOnAnimation(location);
+            getSpiritEntityManager().entitySet.remove(allay.getUniqueId());
+            allay.remove();
         }
     }
 

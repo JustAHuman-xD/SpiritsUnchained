@@ -24,8 +24,8 @@ public class Items {
 
         final RecipeType spiritInteract = new RecipeType(Keys.spiritInteractKey,
                 new ColoredFireworkStar(Color.fromRGB(100, 100, 100),
-                        name("spirit_interact"),
-                        lore("spirit_interact")
+                        name(),
+                        lore()
                 ));
 
         // Crafting Materials
@@ -62,10 +62,11 @@ public class Items {
         ItemStack outputEctoplasm = ItemStacks.SU_ECTOPLASM.clone();
         outputEctoplasm.setAmount(2);
         new SlimefunItem(Groups.SU_RESOURCES, ItemStacks.SU_ECTOPLASM, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+                ItemStacks.SU_SPIRIT_BOTTLE, null, null,
                 null, null, null,
-                null, ItemStacks.SU_SPIRIT_BOTTLE, null,
                 null, null, null
         }, outputEctoplasm).register(instance);
+
 
         //Tools
         new SlimefunItem(Groups.SU_TOOLS, ItemStacks.SU_SPIRIT_LENSES, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
@@ -189,15 +190,15 @@ public class Items {
         new Tier3Altar().register(instance);
     }
 
-    private static String translate(String path) {
-        return SpiritUtils.getTranslation("names.recipe_type." + path);
+    private static String translate() {
+        return SpiritUtils.getTranslation("names.recipe_type." + "spirit_interact.name");
     }
 
-    private static String name(String path) {
-        return translate(path + ".name");
+    private static String name() {
+        return translate();
     }
 
-    private static String[] lore(String path) {
-        return SpiritUtils.getTranslationList("names.recipe_type." + path + ".lore").toArray(String[]::new);
+    private static String[] lore() {
+        return SpiritUtils.getTranslationList("names.recipe_type." + "spirit_interact" + ".lore").toArray(String[]::new);
     }
 }

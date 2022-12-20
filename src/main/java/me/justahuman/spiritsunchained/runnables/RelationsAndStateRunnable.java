@@ -10,7 +10,6 @@ import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -46,11 +45,10 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
     private void checkSpirits(Player player, Map<EntityType, SpiritDefinition> spiritMap) {
         final EnumMap<EntityType, Set<ItemStack>> cacheEntry = new EnumMap<>(EntityType.class);
         final Inventory inventory = player.getInventory();
-
         final ItemStack[] contents = inventory.getContents();
         for (ItemStack item : contents) {
             //If it's not a Spirit I don't want it
-            if (item == null || item.getType() != Material.FIREWORK_STAR || ! SpiritUtils.isSpiritItem(item)) {
+            if (! SpiritUtils.isSpiritItem(item)) {
                 continue;
             }
 
@@ -68,7 +66,7 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
             for (EntityType scareType : relations.get("Scare")) {
                 final Set<ItemStack> scared = cacheEntry.containsKey(scareType) ? cacheEntry.get(scareType) : new HashSet<>();
                 for (ItemStack scare : scared) {
-                    SpiritUtils.updateSpiritItemProgress(scare, (double) 1 / new Random().nextInt(1, 5));
+                    SpiritUtils.updateSpiritItemProgress(scare, (double) - 1 / new Random().nextInt(1, 5));
                     world.dropItemNaturally(location, scare.clone());
                     inventory.remove(scare);
                     world.playSound(location, Sound.ENTITY_ITEM_PICKUP, 2, 1);

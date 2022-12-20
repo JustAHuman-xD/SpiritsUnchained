@@ -37,3 +37,6 @@ options:
 
   # Should Mobs Spawned from Mob Spawners be able to release Spirits
   spawner-spirits: true
+
+  # Should spirits only spawn for Survival Players
+  require-survival: true

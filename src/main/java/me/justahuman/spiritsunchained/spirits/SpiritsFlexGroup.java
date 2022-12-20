@@ -165,7 +165,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
     @ParametersAreNonnullByDefault
     private void prepare(Player player, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int page) {
         final List<SpiritDefinition> spiritList = new ArrayList<>(SpiritsUnchained.getSpiritsManager().getSpiritMap().values());
-        final int spiritCount = SpiritsUnchained.getSpiritsManager().getSpiritMap().size();
+        final int spiritCount = spiritList.size();
         final int totalPages = (int) Math.ceil(spiritCount / (double) PAGE_SIZE);
         final int start = (page - 1) * PAGE_SIZE;
         final int end = Math.min(start + PAGE_SIZE, spiritCount);

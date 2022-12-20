@@ -10,7 +10,6 @@ import me.justahuman.spiritsunchained.slimefun.Items;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 public class Setup {
 

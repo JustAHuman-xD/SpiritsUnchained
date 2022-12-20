@@ -1,10 +1,8 @@
 package me.justahuman.spiritsunchained.utils;
 
-import io.github.bakedlibs.dough.protection.modules.GriefPreventionProtectionModule;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
 import org.bukkit.Bukkit;
@@ -31,7 +29,6 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ShulkerBullet;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.entity.WitherSkull;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -198,7 +195,7 @@ public class SpiritTraits {
         }
     }
     public static void Echolocation(Player player) {
-        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1*20, 0, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 0, true));
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BAT_AMBIENT, 1, 1);
         for(LivingEntity entity: player.getWorld().getNearbyLivingEntities(player.getLocation(), 100, 100, 100)) {
             if (entity.getUniqueId() == player.getUniqueId()) {

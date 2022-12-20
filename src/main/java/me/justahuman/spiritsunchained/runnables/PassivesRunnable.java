@@ -1,6 +1,6 @@
 package me.justahuman.spiritsunchained.runnables;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
@@ -50,7 +50,7 @@ public class PassivesRunnable extends BukkitRunnable {
             for (ItemStack item : inventory.getContents()) {
                 if (item != null && item.getType() == Material.GOLD_INGOT) {
                     item.subtract();
-                    PlayerUtils.addOrDropItem(player, SlimefunItem.getById("STRANGE_NETHER_GOO").getItem().clone());
+                    PlayerUtils.addOrDropItem(player, SlimefunItems.STRANGE_NETHER_GOO.clone());
                 }
             }
         }
