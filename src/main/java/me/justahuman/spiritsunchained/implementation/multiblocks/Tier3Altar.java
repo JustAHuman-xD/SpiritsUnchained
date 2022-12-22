@@ -14,7 +14,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.justahuman.spiritsunchained.slimefun.Groups;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -107,55 +106,55 @@ public class Tier3Altar extends SlimefunItem {
         return new BlockPlaceHandler(false) {
 
             @Override
-            public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
-                final Block b = e.getBlockPlaced();
-                BlockStorage.addBlockInfo(b, "particle", "8");
-                BlockStorage.addBlockInfo(b, "multiplier", "4.0");
-                if (isComplete(b)) {
-                    BlockStorage.addBlockInfo(b, complete, "true");
-                    e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.completed.3"));
+            public void onPlayerPlace(@Nonnull BlockPlaceEvent event) {
+                final Block block = event.getBlockPlaced();
+                BlockStorage.addBlockInfo(block, "particle", "8");
+                BlockStorage.addBlockInfo(block, "multiplier", "4.0");
+                if (isComplete(block)) {
+                    BlockStorage.addBlockInfo(block, complete, "true");
+                    event.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.completed.3"));
                 } else {
-                    BlockStorage.addBlockInfo(b, complete, "false");
-                    e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.complete_prompt"));
+                    BlockStorage.addBlockInfo(block, complete, "false");
+                    event.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.complete_prompt"));
                 }
             }
         };
     }
 
     private BlockUseHandler onUse() {
-        return e -> {
-            final Block b = e.getClickedBlock().get();
-            if (BlockStorage.getLocationInfo(b.getLocation(), complete).equals("false")) {
-                if (isComplete(b)) {
-                    BlockStorage.addBlockInfo(b, complete, "true");
-                    e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.completed.3"));
+        return event -> {
+            final Block block = event.getClickedBlock().isPresent() ? event.getClickedBlock().get() : null;
+            if (block != null && BlockStorage.getLocationInfo(block.getLocation(), complete).equals("false")) {
+                if (isComplete(block)) {
+                    BlockStorage.addBlockInfo(block, complete, "true");
+                    event.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.completed.3"));
                 } else {
-                    BlockStorage.addBlockInfo(b, complete, "false");
-                    e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.not_completed"));
+                    BlockStorage.addBlockInfo(block, complete, "false");
+                    event.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.not_completed"));
                 }
             }
-
-            e.cancel();
+        
+            event.cancel();
         };
     }
 
     private BlockBreakHandler onBreak() {
         return new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
-                BlockStorage.addBlockInfo(e.getBlock(), complete, null);
-                BlockStorage.clearBlockInfo(e.getBlock());
-                e.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.broken"));
+            public void onPlayerBreak(@Nonnull BlockBreakEvent event, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+                BlockStorage.addBlockInfo(event.getBlock(), complete, null);
+                BlockStorage.clearBlockInfo(event.getBlock());
+                event.getPlayer().sendMessage(SpiritUtils.getTranslation("messages.altar.broken"));
             }
         };
     }
 
-    private boolean isComplete(@Nonnull Block b) {
+    private boolean isComplete(@Nonnull Block block) {
 
         for (Map.Entry<Vector, Material> entry : blocks.entrySet()) {
             final Vector relative = entry.getKey();
             final Material relativeMaterial = entry.getValue();
-            final Block relativeBlock = b.getRelative(relative.getBlockX(), relative.getBlockY(), relative.getBlockZ());
+            final Block relativeBlock = block.getRelative(relative.getBlockX(), relative.getBlockY(), relative.getBlockZ());
             if (relativeBlock.getType() != relativeMaterial || !isAltarPiece(relativeBlock)) {
                 return false;
             }
@@ -164,12 +163,12 @@ public class Tier3Altar extends SlimefunItem {
         return true;
     }
 
-    private boolean isAltarPiece(@Nonnull Block b) {
-        if (BlockStorage.getLocationInfo(b.getLocation(), "id") == null) {
+    private boolean isAltarPiece(@Nonnull Block block) {
+        if (BlockStorage.getLocationInfo(block.getLocation(), "id") == null) {
             return false;
         }
 
-        return switch (BlockStorage.getLocationInfo(b.getLocation(), "id")) {
+        return switch (BlockStorage.getLocationInfo(block.getLocation(), "id")) {
             case "SU_CHARGED_QUARTZ_III", "SU_SMOOTH_CHARGED_QUARTZ_III", "SU_CHARGED_PILLAR_III", "SU_SMOOTH_CHARGED_STAIRS_III", "SU_CHARGED_CORE_III" -> true;
             default -> false;
         };

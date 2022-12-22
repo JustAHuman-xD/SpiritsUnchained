@@ -1,12 +1,9 @@
 package me.justahuman.spiritsunchained.utils;
 
-import io.github.bakedlibs.dough.protection.modules.GriefPreventionProtectionModule;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -31,7 +28,6 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.ShulkerBullet;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.entity.WitherSkull;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -49,9 +45,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
+@SuppressWarnings("unused")
 public class SpiritTraits {
 
     static final Map<UUID, Map<String, Long>> Cooldown_Map = new HashMap<>();
@@ -145,10 +141,10 @@ public class SpiritTraits {
     public static void Bee_Buddy(Player player) {
         final World world = player.getWorld();
         final Location location = player.getLocation();
-        final ItemStack item = (Math.random() <= 0.5) ? new ItemStack(Material.HONEYCOMB) : new ItemStack(Material.HONEY_BOTTLE);
+        final ItemStack item = (SpiritUtils.random(0.0, 1.0) <= 0.5) ? new ItemStack(Material.HONEYCOMB) : new ItemStack(Material.HONEY_BOTTLE);
         ParticleUtils.spawnParticleRadius(location.add(0, 0.5, 0), Particle.DRIPPING_HONEY, 3, 20, "");
 
-        item.setAmount(new Random().nextInt(1,6));
+        item.setAmount(SpiritUtils.random(1,6));
         world.playSound(location, Sound.BLOCK_BEEHIVE_SHEAR, 2, 1);
         PlayerUtils.addOrDropItem(player, item);
     }
@@ -198,7 +194,7 @@ public class SpiritTraits {
         }
     }
     public static void Echolocation(Player player) {
-        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1*20, 0, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 0, true));
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BAT_AMBIENT, 1, 1);
         for(LivingEntity entity: player.getWorld().getNearbyLivingEntities(player.getLocation(), 100, 100, 100)) {
             if (entity.getUniqueId() == player.getUniqueId()) {
@@ -208,7 +204,7 @@ public class SpiritTraits {
         }
     }
     public static void Stew_Maker(Player player) {
-        fillItems(player, Material.BOWL, new ItemStack(Material.MUSHROOM_STEW), 4);
+        fillItems(player, Material.BOWL, new ItemStack(Material.MUSHROOM_STEW), 5);
     }
     public static void Lava_Walker(Player player) {
         player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 60*20, 0, true));
@@ -259,7 +255,7 @@ public class SpiritTraits {
                         Material.VERDANT_FROGLIGHT,
                         Material.PEARLESCENT_FROGLIGHT
                 };
-                final Material newMaterial = chooseFrom[new Random().nextInt(3)];
+                final Material newMaterial = chooseFrom[SpiritUtils.random(0,3)];
                 relative.setType(newMaterial);
                 ParticleUtils.spawnParticleRadius(relative.getLocation(), Particle.END_ROD, 1.5, 24, "Freeze");
             }
@@ -287,7 +283,7 @@ public class SpiritTraits {
                 Sound.ITEM_GOAT_HORN_SOUND_6,
                 Sound.ITEM_GOAT_HORN_SOUND_7
         };
-        player.getWorld().playSound(player.getLocation(), playFrom[new Random().nextInt(0,8)], 2, 1);
+        player.getWorld().playSound(player.getLocation(), playFrom[SpiritUtils.random(0,8)], 2, 1);
     }
     public static void Poison_Spray(Player player) {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LLAMA_SPIT, 2, 1);
@@ -312,9 +308,9 @@ public class SpiritTraits {
         ParticleUtils.spawnParticleRadius(location, Particle.PORTAL, 1.5, 30, "");
 
         for (int i = 0; i < 16; i++) {
-            final int x = location.clone().getBlockX() + new Random().nextInt(1, 33);
-            final int y = location.clone().getBlockY() + new Random().nextInt(1, 33);
-            final int z = location.clone().getBlockZ() + new Random().nextInt(1, 33);
+            final int x = location.clone().getBlockX() + SpiritUtils.random(1, 33);
+            final int y = location.clone().getBlockY() + SpiritUtils.random(1, 33);
+            final int z = location.clone().getBlockZ() + SpiritUtils.random(1, 33);
             final Location teleportTo = new Location(location.getWorld(), x, y ,z);
              if (player.teleport(teleportTo, PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT)) {
                  ParticleUtils.spawnParticleRadius(teleportTo, Particle.PORTAL, 1.5, 30, "");
@@ -358,9 +354,9 @@ public class SpiritTraits {
             final ItemStack[] potions = new ItemStack[] {
                     potion1, potion2, potion3
             };
-            final int amount = new Random().nextInt(5);
+            final int amount = SpiritUtils.random(0, 5);
             for (int current = 0; current < amount; current++) {
-                fillItems(player, Material.GLASS_BOTTLE, potions[new Random().nextInt(3)], 1);
+                fillItems(player, Material.GLASS_BOTTLE, potions[SpiritUtils.random(0, 4)], 1);
             }
         }
     }
@@ -370,7 +366,7 @@ public class SpiritTraits {
     }
     public static void Targeted_Teleport(Player player) {
         final RayTraceResult rs = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 64);
-        if (rs == null) {
+        if (rs == null || rs.getHitBlock() == null) {
             return;
         }
         final Location location = player.getLocation();
@@ -403,9 +399,9 @@ public class SpiritTraits {
             targets.add(nearbyEntity);
         }
         for (int spawned = 0; spawned < 5; spawned++) {
-            final LivingEntity target = !targets.isEmpty() ? targets.get(new Random().nextInt(targets.size())) : null;
-            final int x = new Random().nextInt(0, 5) * (new Random().nextDouble() >= 0.5 ? -1 : 1);
-            final int z = new Random().nextInt(0, 5) * (new Random().nextDouble() >= 0.5 ? -1 : 1);
+            final LivingEntity target = !targets.isEmpty() ? targets.get(SpiritUtils.random(0, targets.size())) : null;
+            final int x = SpiritUtils.random(0, 5) * (SpiritUtils.random(0.0, 1.0) >= 0.5 ? -1 : 1);
+            final int z = SpiritUtils.random(0, 5) * (SpiritUtils.random(0.0, 1.0) >= 0.5 ? -1 : 1);
             final ShulkerBullet bullet = (ShulkerBullet) world.spawnEntity(location.add(x,2,z), EntityType.SHULKER_BULLET);
             PersistentDataAPI.setString(bullet, Keys.immuneKey, player.getUniqueId().toString());
             bullet.setShooter(player);
@@ -420,7 +416,7 @@ public class SpiritTraits {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 2, 1);
     }
     public static void Dragons_Breath(Player player) {
-        fillItems(player, Material.GLASS_BOTTLE, new ItemStack(Material.DRAGON_BREATH), 8);
+        fillItems(player, Material.GLASS_BOTTLE, new ItemStack(Material.DRAGON_BREATH), 9);
     }
     public static void Dark_Aura(Player player) {
         final World world = player.getWorld();
@@ -443,7 +439,7 @@ public class SpiritTraits {
             int fillAmount = 0;
             for(ItemStack item : inventory.getContents()) {
                 if (item != null && item.getType() == fill) {
-                    fillAmount = (item.getAmount() >= howMany ? new Random().nextInt(1,howMany + 1) : new Random().nextInt(0,item.getAmount()));
+                    fillAmount = (item.getAmount() >= howMany ? SpiritUtils.random(1, howMany) : SpiritUtils.random(0, item.getAmount()));
                     item.setAmount(item.getAmount() - fillAmount);
                 }
             }

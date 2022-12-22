@@ -11,6 +11,7 @@ import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.utils.Keys;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -50,13 +51,13 @@ public abstract class AbstractCustomMob<T extends LivingEntity> {
     @Nonnull
     public T spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
         final T mob = world.spawn(loc, this.clazz);
-        SpiritsUnchained.getSpiritEntityManager().entityCollection.add(mob);
+        SpiritsUnchained.getSpiritEntityManager().entitySet.add(mob.getUniqueId());
 
         PersistentDataAPI.setString(mob, Keys.entityKey, this.id);
 
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.maxHealth);
         mob.setHealth(this.maxHealth);
-        mob.setCustomName(this.name);
+        mob.customName(Component.text(this.name));
         mob.setCustomNameVisible(true);
         mob.setRemoveWhenFarAway(true);
 
@@ -84,15 +85,15 @@ public abstract class AbstractCustomMob<T extends LivingEntity> {
 
     public void onTick(@Nonnull T mob) { }
 
-    public void onInteract(@Nonnull PlayerInteractEntityEvent e) { }
+    public void onInteract(@Nonnull PlayerInteractEntityEvent event) { }
 
-    public void onHit(@Nonnull EntityDamageByEntityEvent e) { }
+    public void onHit(@Nonnull EntityDamageByEntityEvent event) { }
 
-    public void onTarget(@Nonnull EntityTargetEvent e) { }
+    public void onTarget(@Nonnull EntityTargetEvent event) { }
 
-    public void onDeath(@Nonnull EntityDeathEvent e) { }
+    public void onDeath(@Nonnull EntityDeathEvent event) { }
 
-    public void onDamage(@Nonnull EntityDamageEvent e) { }
+    public void onDamage(@Nonnull EntityDamageEvent event) { }
 
     @ParametersAreNonnullByDefault
     public void reveal(Allay currentEntity, Player player) {}

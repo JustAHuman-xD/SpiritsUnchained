@@ -8,7 +8,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
+import me.justahuman.spiritsunchained.listeners.PlayerArmorListener;
 import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.managers.SpiritsManager;
@@ -57,13 +57,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SpiritUtils {
-
-    public static final Map<Integer, Entity> spiritIdMap = new HashMap<>();
+    
     private static final ConfigManager configManager = SpiritsUnchained.getConfigManager();
     private static final SpiritEntityManager spiritEntityManager = SpiritsUnchained.getSpiritEntityManager();
     private static final SpiritsManager spiritsManager = SpiritsUnchained.getSpiritsManager();
@@ -71,6 +70,7 @@ public class SpiritUtils {
     private static final Map<EntityType, SpiritDefinition> spiritMap = spiritsManager.getSpiritMap();
     private static final SpiritsUnchained instance = SpiritsUnchained.getInstance();
     private static final FileConfiguration config = instance.getConfig();
+    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public static String getTranslation(String path) {
         return configManager.getTranslation(path);
@@ -264,12 +264,12 @@ public class SpiritUtils {
         return false;
     }
 
-    private static boolean tryUseSpirit(Player player, ItemStack spiritItem, SpiritDefinition definition, boolean notif) {
+    private static boolean tryUseSpirit(Player player, ItemStack spiritItem, SpiritDefinition definition, boolean notify) {
         final String name = ChatColors.color(tierColor(definition.getTier()) + ChatUtils.humanize(definition.getType().name()));
         final ItemMeta meta = spiritItem.getItemMeta();
         final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
-        if (getStates().indexOf(state) <= 2 && notif) {
+        if (getStates().indexOf(state) <= 2 && notify) {
             player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.incorrect_state").replace("{tier_color_and_mob_type}", name)));
             return false;
         }
@@ -282,7 +282,7 @@ public class SpiritUtils {
                 player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.used_passive").replace("{tier_color_and_mob_type}", name)));
             }
             return true;
-        } else if (notif) {
+        } else if (notify) {
             player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.not_enough_progress").replace("{tier_color_and_mob_type}", name).replace("{progress}", String.valueOf(progress)).replace("{required_progress}", String.valueOf(usage))));
         }
         return false;
@@ -317,11 +317,11 @@ public class SpiritUtils {
         item.setItemMeta(meta);
     }
     @ParametersAreNonnullByDefault
-    public static Collection<Entity> getNearbySpirits(Location location) {
-        final Collection<Entity> returnList = new ArrayList<>();
-        for (LivingEntity entity : spiritEntityManager.entityCollection) {
-            if (entity.getLocation().isWorldLoaded() && location.isWorldLoaded() && entity.getLocation().getWorld() == location.getWorld() && location.distance(entity.getLocation()) <= 48) {
-                returnList.add(entity);
+    public static Collection<LivingEntity> getNearbySpirits(Location location, int distance) {
+        final Collection<LivingEntity> returnList = new ArrayList<>();
+        for (LivingEntity livingEntity : spiritEntityManager.getCustomLivingEntities()) {
+            if (livingEntity.getLocation().isWorldLoaded() && location.isWorldLoaded() && livingEntity.getLocation().getWorld() == location.getWorld() && location.distanceSquared(livingEntity.getLocation()) <= Math.pow(distance, 2)) {
+                returnList.add(livingEntity);
             }
         }
         return returnList;
@@ -333,7 +333,7 @@ public class SpiritUtils {
         final Biome biome = location.getBlock().getBiome();
         final World.Environment dimension = world.getEnvironment();
         final boolean isDay = world.isDayTime();
-        final int chance = ThreadLocalRandom.current().nextInt(1, 101);
+        final int chance = random(1, 101);
         String spirit = null;
         final int tier;
         if (chance == 100) { // 1% Chance
@@ -377,27 +377,24 @@ public class SpiritUtils {
     }
 
     public static boolean canSpawn() {
-        return spiritIdMap.size() < config.getInt("options.max-spirits", 40);
+        return spiritEntityManager.entitySet.size() < config.getInt("options.max-spirits", 40);
     }
 
     public static boolean imbuedCheck(ItemStack helmetItem) {
-        return SlimefunItem.getByItem(helmetItem) != null && SlimefunItem.getByItem(helmetItem).getId().equals(ItemStacks.SU_SPIRIT_LENSES.getItemId()) || PersistentDataAPI.hasByte(helmetItem.getItemMeta(), Keys.imbuedKey) && PersistentDataAPI.getByte(helmetItem.getItemMeta(), Keys.imbuedKey) == 2;
+        return helmetItem != null && helmetItem.hasItemMeta() && SlimefunItem.getByItem(helmetItem) != null && SlimefunItem.getByItem(helmetItem).getId().equals(ItemStacks.SU_SPIRIT_LENSES.getItemId()) || helmetItem != null && helmetItem.hasItemMeta() && PersistentDataAPI.hasByte(helmetItem.getItemMeta(), Keys.imbuedKey) && PersistentDataAPI.getByte(helmetItem.getItemMeta(), Keys.imbuedKey) == 2;
     }
 
     public static boolean isLocked(ItemStack itemStack) {
         return PersistentDataAPI.hasBoolean(itemStack.getItemMeta(), Keys.spiritLocked) && PersistentDataAPI.getBoolean(itemStack.getItemMeta(), Keys.spiritLocked);
     }
 
-    public static Collection<Player> getNearImbued(Location location) {
-        final Collection<Entity> collection = location.getWorld().getNearbyEntities(location, 48, 48, 48);
-        final Collection<Player> toReturn = new ArrayList<>();
-        for (Entity entity : collection) {
-            if (entity instanceof Player player) {
-                final ItemStack helmetItem = player.getInventory().getHelmet();
-                if (helmetItem == null) {continue;}
-                if (imbuedCheck(helmetItem)) {
-                    toReturn.add(player);
-                }
+    public static Set<Player> getNearImbued(Location location) {
+        final Set<UUID> set = PlayerArmorListener.getCanSeeUUIDList();
+        final Set<Player> toReturn = new HashSet<>();
+        for (UUID uuid : set) {
+            final Player player = Bukkit.getPlayer(uuid);
+            if (player != null && player.getWorld() == location.getWorld() && location.distanceSquared(player.getLocation()) <= Math.pow(64, 2)) {
+                toReturn.add(player);
             }
         }
         return toReturn;
@@ -460,8 +457,8 @@ public class SpiritUtils {
 
     public static Block getSpawnBlock(Location location) {
         final World world = location.getWorld();
-        final int x = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockX();
-        final int z = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockZ();
+        final int x = random(0,17) * (random() ? 1 : -1) + location.getBlockX();
+        final int z = random(0, 17) * (random() ? 1 : -1) + location.getBlockZ();
         int y = location.getBlockY();
         if (world.getBlockAt(x,y,z).getType() != Material.AIR) {
             boolean foundAir = false;
@@ -553,8 +550,20 @@ public class SpiritUtils {
             chestMenu.addItem(slot, itemStack, ChestMenuUtils.getEmptyClickHandler());
         }
     }
+    
+    public static int random(int origin, int bound) {
+        return random.nextInt(origin, bound);
+    }
+    
+    public static double random(double origin, double bound) {
+         return random.nextDouble(origin, bound);
+    }
+    
+    public static boolean random() {
+        return random.nextBoolean();
+    }
 
-    public static boolean chance(final int chance) {
-        return ThreadLocalRandom.current().nextInt(1, 101) <= chance;
+    public static boolean chance(int chance) {
+        return random(1, 101) <= chance;
     }
 }

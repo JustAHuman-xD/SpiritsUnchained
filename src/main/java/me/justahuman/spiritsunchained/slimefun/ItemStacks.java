@@ -1,6 +1,5 @@
 package me.justahuman.spiritsunchained.slimefun;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
@@ -8,8 +7,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 
-import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.managers.ConfigManager;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -20,8 +17,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.util.List;
 
 public class ItemStacks {
 
@@ -37,13 +32,13 @@ public class ItemStacks {
         return itemStack;
     }
 
-    private static ItemStack getPotionColor(Material material, int r, int g, int b) {
-        final ItemStack itemStack = new ItemStack(material);
+    private static ItemStack getPotionColor() {
+        final ItemStack itemStack = new ItemStack(Material.SPLASH_POTION);
         final ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
             itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
             PotionMeta potionMeta = (PotionMeta) itemMeta;
-            potionMeta.setColor(Color.fromRGB(r, g, b));
+            potionMeta.setColor(Color.fromRGB(150, 150, 150));
             itemStack.setItemMeta(potionMeta);
         }
         return  itemStack;
@@ -72,10 +67,10 @@ public class ItemStacks {
         return lore;
     }
 
-    private static ItemStack addPotionEffect(PotionEffectType type, ItemStack itemStack, int duration, int amplifier) {
+    private static ItemStack addPotionEffect(ItemStack itemStack) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final PotionMeta potionMeta = (PotionMeta) itemMeta;
-        potionMeta.addCustomEffect(new PotionEffect(type, duration * 20, amplifier), true);
+        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, 5 * 20, 1), true);
         itemStack.setItemMeta(potionMeta);
         return itemStack;
     }
@@ -120,7 +115,7 @@ public class ItemStacks {
 
     public static final SlimefunItemStack SU_SPIRIT_BOTTLE = new SlimefunItemStack(
             "SU_SPIRIT_BOTTLE",
-            addPotionEffect(PotionEffectType.LEVITATION, getPotionColor(Material.SPLASH_POTION, 150,150,150), 5, 1),
+            addPotionEffect(getPotionColor()),
             name("spirit_bottle"),
             lore("spirit_bottle")
     );
@@ -209,7 +204,7 @@ public class ItemStacks {
 
     // Altar Building Blocks
 
-    public static final String[] altarLore = lore("altars");
+    private static final String[] altarLore = lore("altars");
 
     public static final SlimefunItemStack SU_CHARGED_QUARTZ_I = new SlimefunItemStack(
             "SU_CHARGED_QUARTZ_I",

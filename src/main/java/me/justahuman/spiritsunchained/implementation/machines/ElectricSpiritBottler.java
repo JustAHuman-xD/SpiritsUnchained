@@ -15,7 +15,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 
 import me.justahuman.spiritsunchained.SpiritsUnchained;
-import me.justahuman.spiritsunchained.managers.SpiritEntityManager;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
@@ -52,21 +51,18 @@ public class ElectricSpiritBottler extends SlimefunItem implements EnergyNetComp
     private static final int[] BORDER_OUTPUT = new int[]{14,15,16,17,23,26,32,33,34,35};
     private static final int[] INPUT_SLOTS = new int[]{19,20};
     private static final int[] OUTPUT_SLOTS = new int[]{24,25};
-    private final SpiritEntityManager spiritEntityManager;
-
     private static final Map<BlockPosition, Boolean> catching = new HashMap<>();
 
     @ParametersAreNonnullByDefault
     public ElectricSpiritBottler(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        spiritEntityManager = SpiritsUnchained.getSpiritEntityManager();
 
         buildPreset();
         addItemHandler(onBreak());
     }
 
     private void buildPreset() {
-        new BlockMenuPreset(this.getId(), SpiritUtils.getTranslation("names.items.electric_spirit_catcher.name")) {
+        new BlockMenuPreset(this.getId(), SpiritUtils.getTranslation("names.items.electric_spirit_bottler.name")) {
             @Override
             public void init() {
                 ChestMenuUtils.drawBackground(this, BACKGROUND_SLOTS);
@@ -150,8 +146,8 @@ public class ElectricSpiritBottler extends SlimefunItem implements EnergyNetComp
         final int outputSlot = inv.getItemInSlot(24) == null ? 24 : 25;
 
         LivingEntity target = null;
-        for (LivingEntity livingEntity : spiritEntityManager.entityCollection) {
-            if (livingEntity.getLocation().isWorldLoaded() && location.isWorldLoaded() && livingEntity.getLocation().getWorld() == location.getWorld() && location.distance(livingEntity.getLocation()) <= 10 && !PersistentDataAPI.hasBoolean(livingEntity, Keys.spiritLocked)) {
+        for (LivingEntity livingEntity : SpiritUtils.getNearbySpirits(location, 16)) {
+            if (!PersistentDataAPI.hasBoolean(livingEntity, Keys.spiritLocked)) {
                 target = livingEntity;
                 break;
             }
@@ -194,7 +190,7 @@ public class ElectricSpiritBottler extends SlimefunItem implements EnergyNetComp
     public int getCapacity() {
         return 2000;
     }
-
+    
     public static int getEnergyConsumption() {
         return 100;
     }

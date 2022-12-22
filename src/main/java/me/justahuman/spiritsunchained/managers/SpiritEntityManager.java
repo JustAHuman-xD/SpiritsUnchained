@@ -6,11 +6,11 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
+import me.justahuman.spiritsunchained.listeners.PlayerArmorListener;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -25,18 +25,18 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class SpiritEntityManager implements Listener {
 
     public final Map<String, AbstractCustomMob<?>> entityMap = new HashMap<>();
-    public final Collection<LivingEntity> entityCollection = new ArrayList<>();
+    public final Set<UUID> entitySet = new HashSet<>();
 
     public SpiritEntityManager() {
         final SpiritsUnchained instance = SpiritsUnchained.getInstance();
@@ -60,96 +60,97 @@ public class SpiritEntityManager implements Listener {
         String getKey = entity != null && PersistentDataAPI.hasString(entity, Keys.entityKey) ? PersistentDataAPI.getString(entity, Keys.entityKey) : key;
         return getKey == null ? null : this.entityMap.get(getKey);
     }
+    
+    public Set<LivingEntity> getCustomLivingEntities() {
+        final Set<LivingEntity> toReturn = new HashSet<>();
+        for (UUID uuid : entitySet) {
+            final Entity entity = Bukkit.getEntity(uuid);
+            if (entity instanceof LivingEntity livingEntity) {
+                toReturn.add(livingEntity);
+            }
+        }
+        return toReturn;
+    }
 
     private void tick() {
-        for (World world : Bukkit.getWorlds()) {
-            for (LivingEntity entity : world.getLivingEntities()) {
-                final AbstractCustomMob<?> customMob = getCustomClass(entity, null);
-                if (customMob != null) {
-                    customMob.onEntityTick(entity);
-                }
+        for (LivingEntity livingEntity : getCustomLivingEntities()) {
+            final AbstractCustomMob<?> customMob = getCustomClass(livingEntity, null);
+            if (customMob != null) {
+                customMob.onEntityTick(livingEntity);
             }
         }
     }
 
     private void spawnTick() {
-        for (World world : Bukkit.getWorlds()) {
-            if (SpiritsUnchained.getInstance().getConfig().getStringList("options.disabled-worlds").contains(world.getName())) {
+        for (UUID uuid : PlayerArmorListener.getCanSeeUUIDList()) {
+            final Player player = Bukkit.getPlayer(uuid);
+            if (player == null || player.getGameMode() != GameMode.SURVIVAL || SpiritsUnchained.getInstance().getConfig().getStringList("options.disabled-worlds").contains(player.getWorld().getName())) {
                 continue;
             }
-            for (Player player : world.getPlayers()) {
-                if (player.getGameMode() != GameMode.SURVIVAL) {
-                    continue;
-                }
-                final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation()).size();
-                final ItemStack helmetItem = player.getInventory().getHelmet();
-                if (helmetItem == null || !SpiritUtils.imbuedCheck(helmetItem)) {
-                    continue;
-                }
-                if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(20)) {
-                    final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
-                    final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());
-                    if (maybeSpirit != null && this.entityMap.get("UNIDENTIFIED_SPIRIT") != null) {
-                        this.entityMap.get("UNIDENTIFIED_SPIRIT").spawn(b.getLocation(), player.getWorld(), "Natural", maybeSpirit);
-                    }
+            
+            final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation(), 64).size();
+            if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(10)) {
+                final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
+                final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());
+                if (maybeSpirit != null && this.entityMap.get("UNIDENTIFIED_SPIRIT") != null) {
+                    this.entityMap.get("UNIDENTIFIED_SPIRIT").spawn(b.getLocation(), player.getWorld(), "Natural", maybeSpirit);
                 }
             }
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityTarget(@Nonnull EntityTargetEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityTarget(@Nonnull EntityTargetEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            customMob.onTarget(e);
+            customMob.onTarget(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
-    private void onEntityInteract(@Nonnull PlayerInteractEntityEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getRightClicked(), null);
+    private void onEntityInteract(@Nonnull PlayerInteractEntityEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getRightClicked(), null);
         if (customMob != null) {
-            customMob.onInteract(e);
+            customMob.onInteract(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityHit(@Nonnull EntityDamageByEntityEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityHit(@Nonnull EntityDamageByEntityEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            customMob.onHit(e);
+            customMob.onHit(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityDie(@Nonnull EntityDeathEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityDie(@Nonnull EntityDeathEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            customMob.onDeath(e);
+            customMob.onDeath(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityCombust(@Nonnull EntityCombustEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityCombust(@Nonnull EntityCombustEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            e.setCancelled(true);
+            event.setCancelled(true);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityDamage(@Nonnull EntityDamageEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
+    private void onEntityDamage(@Nonnull EntityDamageEvent event) {
+        final AbstractCustomMob<?> customMob = getCustomClass(event.getEntity(), null);
         if (customMob != null) {
-            customMob.onDamage(e);
+            customMob.onDamage(event);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onEntityRemove(@Nonnull EntityRemoveFromWorldEvent e) {
-        final AbstractCustomMob<?> customMob = getCustomClass(e.getEntity(), null);
-        if (customMob != null) {
-            this.entityCollection.remove((LivingEntity) e.getEntity());
-        }
+    private void onEntityRemove(@Nonnull EntityRemoveFromWorldEvent event) {
+        final Entity entity = event.getEntity();
+        final UUID uuid = entity.getUniqueId();
+        SpiritsUnchained.getSpiritEntityManager().entitySet.remove(uuid);
     }
 }

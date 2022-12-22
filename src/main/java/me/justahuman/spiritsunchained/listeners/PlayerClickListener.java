@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerClickListener implements Listener {
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerClick(PlayerInteractEvent e) {
         final Player player = e.getPlayer();
         if (e.getAction() == Action.LEFT_CLICK_AIR && player.isSneaking()) {
@@ -60,7 +60,7 @@ public class PlayerClickListener implements Listener {
             final List<Entity> lookingAt = SpiritUtils.getLookingList(player);
             for (Entity entity : lookingAt) {
                 final AbstractCustomMob<?> maybe = SpiritsUnchained.getSpiritEntityManager().getCustomClass(entity, null);
-                if (entity instanceof Allay && maybe != null && player.getLocation().distance(entity.getLocation()) < 4) {
+                if (entity instanceof Allay && maybe != null && player.getLocation().distanceSquared(entity.getLocation()) < Math.pow(4, 2) && e.getHand() != null) {
                     if (!Slimefun.getProtectionManager().hasPermission(player, player.getLocation(), Interaction.INTERACT_ENTITY)) {
                         player.sendMessage(SpiritUtils.getTranslation("messages.general.no_permission_entity_interact"));
                         return;
@@ -74,24 +74,22 @@ public class PlayerClickListener implements Listener {
     }
 
     private boolean rightClick(Player player, ItemStack item) {
-        if (item.getType() == Material.FIREWORK_STAR) {
-            if (SpiritUtils.isSpiritItem(item)) {
-                if (player.isSneaking()) {
-                    ItemMeta meta = item.getItemMeta();
-                    PersistentDataAPI.setBoolean(meta, Keys.spiritLocked, !PersistentDataAPI.getBoolean(meta, Keys.spiritLocked));
-                    item.setItemMeta(meta);
-                    SpiritUtils.updateSpiritItemProgress(item, 0);
-                    player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent((PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? SpiritUtils.getTranslation("messages.spirits.locked") : SpiritUtils.getTranslation("messages.spirits.unlocked"))));
-                    return true;
-                }
-                final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
-                final Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
-                final String message = SpiritTraits.useTrait(player, traitInfo, item);
-                if (message != null) {
-                    player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(message)));
-                }
+        if (item.getType() == Material.FIREWORK_STAR && SpiritUtils.isSpiritItem(item)) {
+            if (player.isSneaking()) {
+                ItemMeta meta = item.getItemMeta();
+                PersistentDataAPI.setBoolean(meta, Keys.spiritLocked, !PersistentDataAPI.getBoolean(meta, Keys.spiritLocked));
+                item.setItemMeta(meta);
+                SpiritUtils.updateSpiritItemProgress(item, 0);
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent((PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? SpiritUtils.getTranslation("messages.spirits.locked") : SpiritUtils.getTranslation("messages.spirits.unlocked"))));
                 return true;
             }
+            final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
+            final Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
+            final String message = SpiritTraits.useTrait(player, traitInfo, item);
+            if (message != null) {
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(message)));
+            }
+            return true;
         }
         if (item.getType() == Material.BAMBOO && SpiritUtils.useSpiritItem(player, EntityType.PANDA, null)) {
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);

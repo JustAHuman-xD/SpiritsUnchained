@@ -39,33 +39,35 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 public class CommandManager implements TabExecutor {
 
-    final Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().entityMap.keySet();
-    final List<String> entityTypes = SpiritUtils.getTypes();
+    public final Set<String> spiritTypes = SpiritsUnchained.getSpiritEntityManager().entityMap.keySet();
+    public final List<String> entityTypes = SpiritUtils.getTypes();
+    public final Set<UUID> ghostBlocks = new HashSet<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (! (sender instanceof Player player ) || args.length == 0) {
             return false;
         }
-        if (useCommand("TestParticles", player, 0, 2, args)) {
+        if (useCommand("TestParticles", player, 2, args)) {
             return testParticles(player, args[1]);
         }
-        else if (useCommand("SummonSpirit", player, 0, 2, args)) {
+        else if (useCommand("SummonSpirit", player, 2, args)) {
             return summonSpirit(args[1], player, args.length >= 3 ? args[2] : "COW");
         }
-        else if (useCommand("GiveSpirit", player, 0, 2, args)) {
+        else if (useCommand("GiveSpirit", player, 2, args)) {
             return giveSpirit(player, args[1], args.length >= 3 ? args[2] : "Friendly");
         }
-        else if (useCommand("EditItem", player, 0, 2, args)) {
+        else if (useCommand("EditItem", player, 2, args)) {
             return editItem(player, args[1], args.length >= 3 ? args[2] : "Blank");
         }
-        else if (useCommand("ResetCooldowns", player, 0, 1, args)) {
+        else if (useCommand("ResetCooldowns", player, 1, args)) {
             return resetCooldown(player, args.length >= 2 ? args[1] : player.getName());
         }
-        else if (useCommand("Altar", player, 0, 2, args)) {
+        else if (useCommand("Altar", player, 2, args)) {
             return visualizeAltar(player, args[1]);
         }
         else {
@@ -158,8 +160,8 @@ public class CommandManager implements TabExecutor {
         return Collections.emptyList();
     }
 
-    private boolean useCommand(String command, Player player, int index, int size, String[] args) {
-        return args[index].equalsIgnoreCase(command) && args.length >= size && hasPerm(player, command);
+    private boolean useCommand(String command, Player player, int size, String[] args) {
+        return args[0].equalsIgnoreCase(command) && args.length >= size && hasPerm(player, command);
     }
 
     private boolean hasPerm(Player player, String command) {
@@ -220,6 +222,7 @@ public class CommandManager implements TabExecutor {
                     directional.setFacing(face);
                 }
                 final FallingBlock fallingBlock = world.spawnFallingBlock(relativeLocation, blockData);
+                ghostBlocks.add(fallingBlock.getUniqueId());
                 fallingBlock.setVelocity(new Vector(0, 0, 0));
                 fallingBlock.setGravity(false);
                 fallingBlock.setDropItem(false);
@@ -228,6 +231,7 @@ public class CommandManager implements TabExecutor {
                 PersistentDataAPI.setString(fallingBlock, Keys.entityKey, "altar");
                 Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
                     if (fallingBlock != null) {
+                        ghostBlocks.remove(fallingBlock.getUniqueId());
                         fallingBlock.remove();
                     }
                 }, (30 * 20) - (finalEntryIndex * 5L));

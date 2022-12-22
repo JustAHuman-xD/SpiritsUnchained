@@ -8,8 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Set;
 
 import static me.justahuman.spiritsunchained.utils.SpiritUtils.getNearImbued;
 
@@ -32,16 +31,16 @@ public class ParticleUtils {
 
     public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, String type, Object... other) {
         for (int i = 0; i < amount; i++) {
-            final double x = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
-            final double y = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
-            final double z = ThreadLocalRandom.current().nextDouble(- radius, radius + 0.1);
+            final double x = SpiritUtils.random(- radius, radius + 0.1);
+            final double y = SpiritUtils.random(- radius, radius + 0.1);
+            final double z = SpiritUtils.random(- radius, radius + 0.1);
             final World world = location.getWorld();
             switch (type) {
                 case "Colored" -> world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0,(Particle.DustOptions) other[0]);
                 case "Freeze" -> world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
                 case "Spirit" -> {
-                    final Collection<Player> collection = getNearImbued(location);
-                    for (Player player : collection) {
+                    final Set<Player> set = getNearImbued(location);
+                    for (Player player : set) {
                         player.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
                     }
                 }
@@ -65,7 +64,7 @@ public class ParticleUtils {
         world.playSound(location, Sound.ENTITY_ENDER_EYE_DEATH, 1, 1);
         double[] speeds = new double[] {0.1, 0.15, 0.2, 0.25,};
         for (double[] offsets : sphere) {
-            world.spawnParticle(Particle.END_ROD, location.clone().add(offsets[0], offsets[1], offsets[2]), 0, 0, 5, 0, speeds[new Random().nextInt(0, speeds.length)]);
+            world.spawnParticle(Particle.END_ROD, location.clone().add(offsets[0], offsets[1], offsets[2]), 0, 0, 5, 0, speeds[SpiritUtils.random(0, speeds.length)]);
         }
     }
 
