@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.Set;
 
 import static me.justahuman.spiritsunchained.utils.SpiritUtils.getNearImbued;
 
@@ -38,8 +39,8 @@ public class ParticleUtils {
                 case "Colored" -> world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0,(Particle.DustOptions) other[0]);
                 case "Freeze" -> world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
                 case "Spirit" -> {
-                    final Collection<Player> collection = getNearImbued(location);
-                    for (Player player : collection) {
+                    final Set<Player> set = getNearImbued(location);
+                    for (Player player : set) {
                         player.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
                     }
                 }

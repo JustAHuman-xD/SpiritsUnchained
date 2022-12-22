@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerClickListener implements Listener {
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerClick(PlayerInteractEvent e) {
         final Player player = e.getPlayer();
         if (e.getAction() == Action.LEFT_CLICK_AIR && player.isSneaking()) {

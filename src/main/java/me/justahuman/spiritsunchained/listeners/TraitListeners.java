@@ -54,7 +54,7 @@ import org.spigotmc.event.entity.EntityMountEvent;
 public class TraitListeners implements Listener {
     SpiritsUnchained instance = SpiritsUnchained.getInstance();
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onProjectileHit(ProjectileHitEvent event) {
         final Projectile projectile = event.getEntity();
         final String key = PersistentDataAPI.hasString(projectile, Keys.entityKey) ? PersistentDataAPI.getString(projectile, Keys.entityKey) : "";
@@ -67,7 +67,7 @@ public class TraitListeners implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onTntExplode(EntityExplodeEvent event) {
         final Entity exploding = event.getEntity();
         if (!PersistentDataAPI.hasString(exploding, Keys.entityKey)) {
@@ -79,7 +79,7 @@ public class TraitListeners implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerShoot(EntityShootBowEvent event) {
         if (!(event.getEntity() instanceof Player player && event.getProjectile() instanceof Arrow arrow1)) {
             return;
@@ -106,7 +106,7 @@ public class TraitListeners implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof LivingEntity entity)) {
             return;
@@ -215,7 +215,7 @@ public class TraitListeners implements Listener {
         }
     }
     //Morning Gift
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerSleep(PlayerDeepSleepEvent event) {
         final Player player = event.getPlayer();
         if (!onCooldown(player, Keys.morningGift) && isUsed(player, EntityType.CAT)) {
@@ -224,7 +224,7 @@ public class TraitListeners implements Listener {
         }
     }
     //Group Protection
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onAngerPigman(PigZombieAngerEvent event) {
         final Entity entity = event.getTarget();
         if (entity instanceof Player player && isUsed(player, EntityType.ZOMBIFIED_PIGLIN)) {
@@ -232,14 +232,14 @@ public class TraitListeners implements Listener {
         }
     }
     //No Fatigue
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerGetFatigue(ElderGuardianAppearanceEvent event) {
         if (isUsed(event.getAffectedPlayer(), EntityType.ELDER_GUARDIAN)) {
             event.setCancelled(true);
         }
     }
     //Undead Protection
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onConsumeItem(PlayerItemConsumeEvent event) {
         final Player player = event.getPlayer();
         final ItemStack item = event.getItem();
@@ -268,7 +268,7 @@ public class TraitListeners implements Listener {
         event.setItem(item);
     }
     //Better Foods
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onHungerChange(FoodLevelChangeEvent event) {
         final HumanEntity entity = event.getEntity();
         if (!(entity instanceof Player player)) {
@@ -280,7 +280,7 @@ public class TraitListeners implements Listener {
         }
     }
     //Better Shears
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerShear(PlayerShearEntityEvent event) {
         final Entity entity = event.getEntity();
         final Player player = event.getPlayer();
@@ -291,7 +291,7 @@ public class TraitListeners implements Listener {
         }
     }
     //Pig Rancher
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerEnter(EntityMountEvent event) {
         final Entity rider = event.getEntity();
         final Entity mount = event.getMount();
@@ -308,7 +308,7 @@ public class TraitListeners implements Listener {
         }
     }
     //Pig Rancher
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerLeave(EntityDismountEvent event) {
         final Entity rider = event.getEntity();
         final Entity dismount = event.getDismounted();

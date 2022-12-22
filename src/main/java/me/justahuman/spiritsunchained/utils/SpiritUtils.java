@@ -388,10 +388,10 @@ public class SpiritUtils {
         return PersistentDataAPI.hasBoolean(itemStack.getItemMeta(), Keys.spiritLocked) && PersistentDataAPI.getBoolean(itemStack.getItemMeta(), Keys.spiritLocked);
     }
 
-    public static Collection<Player> getNearImbued(Location location) {
-        final Collection<UUID> collection = PlayerArmorListener.getCanSeeUUIDList();
-        final Collection<Player> toReturn = new ArrayList<>();
-        for (UUID uuid : collection) {
+    public static Set<Player> getNearImbued(Location location) {
+        final Set<UUID> set = PlayerArmorListener.getCanSeeUUIDList();
+        final Set<Player> toReturn = new HashSet<>();
+        for (UUID uuid : set) {
             final Player player = Bukkit.getPlayer(uuid);
             if (player != null && player.getWorld() == location.getWorld() && location.distanceSquared(player.getLocation()) <= Math.pow(64, 2)) {
                 toReturn.add(player);

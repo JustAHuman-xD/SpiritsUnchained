@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -28,7 +29,7 @@ import java.util.Set;
 
 public class PassOnListeners implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onItemClick(InventoryClickEvent clickEvent) {
         final ItemStack clickingWith = clickEvent.getCursor();
         final ItemStack clicking = clickEvent.getCurrentItem();
@@ -62,7 +63,7 @@ public class PassOnListeners implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBreedEntity(EntityBreedEvent event) {
         final LivingEntity bredEntity = event.getEntity();
         if (!(event.getBreeder() instanceof Player player) || !SpiritsUnchained.getSpiritsManager().getGoalRequirements().containsKey(bredEntity.getType())) {
@@ -72,7 +73,7 @@ public class PassOnListeners implements Listener {
         onSpecialInteract(player, bredEntity, "Breed");
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityKill(EntityDeathEvent event) {
         final LivingEntity killedEntity = event.getEntity();
         final Player player = killedEntity.getKiller();

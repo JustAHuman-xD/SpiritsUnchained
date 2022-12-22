@@ -20,7 +20,7 @@ import java.util.UUID;
 
 public class PlayerReleaseSpiritListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void playerReleaseSpirit(EntityDeathEvent e) {
         final SpiritsUnchained instance = SpiritsUnchained.getInstance();
         final FileConfiguration config = instance.getConfig();
@@ -45,7 +45,7 @@ public class PlayerReleaseSpiritListener implements Listener {
         }
     }
     
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityRemove(EntityRemoveFromWorldEvent event) {
         final Entity entity = event.getEntity();
         final UUID uuid = entity.getUniqueId();
