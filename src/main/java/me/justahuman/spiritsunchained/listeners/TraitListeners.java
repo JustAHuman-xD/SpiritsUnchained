@@ -51,8 +51,6 @@ import org.bukkit.util.Vector;
 import org.spigotmc.event.entity.EntityDismountEvent;
 import org.spigotmc.event.entity.EntityMountEvent;
 
-import java.util.Random;
-
 public class TraitListeners implements Listener {
     SpiritsUnchained instance = SpiritsUnchained.getInstance();
 
@@ -177,7 +175,7 @@ public class TraitListeners implements Listener {
         }
         //Natural Thorns
         if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && SpiritUtils.chance(50) && isUsed(player, EntityType.GUARDIAN)) {
-            final EntityDamageByEntityEvent newEvent = new EntityDamageByEntityEvent(entity, attacker, EntityDamageEvent.DamageCause.THORNS, new Random().nextInt(1,5));
+            final EntityDamageByEntityEvent newEvent = new EntityDamageByEntityEvent(entity, attacker, EntityDamageEvent.DamageCause.THORNS, SpiritUtils.random(1,5));
             newEvent.callEvent();
         }
         //Blazing Thorns

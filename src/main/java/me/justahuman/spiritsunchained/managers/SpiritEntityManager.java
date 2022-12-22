@@ -89,7 +89,7 @@ public class SpiritEntityManager implements Listener {
             }
             
             final int spiritCount = SpiritUtils.getNearbySpirits(player.getLocation(), 64).size();
-            if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(25)) {
+            if (SpiritUtils.canSpawn() && spiritCount < SpiritUtils.getPlayerCap() && SpiritUtils.chance(10)) {
                 final Block b = SpiritUtils.getSpawnBlock(player.getLocation());
                 final String maybeSpirit = SpiritUtils.getSpawnMob(b.getLocation());
                 if (maybeSpirit != null && this.entityMap.get("UNIDENTIFIED_SPIRIT") != null) {

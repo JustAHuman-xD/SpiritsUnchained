@@ -3,7 +3,6 @@ package me.justahuman.spiritsunchained.listeners;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.spirits.Goal;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
@@ -11,7 +10,6 @@ import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
-
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
@@ -26,7 +24,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 public class PassOnListeners implements Listener {
@@ -121,12 +118,12 @@ public class PassOnListeners implements Listener {
         final String tierPath = "tiered." + tier;
         final boolean override = rewards.contains(overridePath);
         final List<String> drops = override ? rewards.getStringList(overridePath + ".rewards") : rewards.getStringList(tierPath + ".rewards");
-        final String drop = drops.get(new Random().nextInt(drops.size()));
+        final String drop = drops.get(SpiritUtils.random(0, drops.size()));
         final SlimefunItem sfDrop = SlimefunItem.getById(drop);
         final int min = override ? rewards.getInt(overridePath + ".min") : rewards.getInt(tierPath + ".min");
-        final int max = override ? rewards.getInt(overridePath + ".max") : rewards.getInt(tierPath + ".max");
+        final int max = (override ? rewards.getInt(overridePath + ".max"): rewards.getInt(tierPath + ".max")) + 1;
         toDrop = sfDrop == null ? new ItemStack(Material.valueOf(drop)) : sfDrop.getItem().clone();
-        toDrop.setAmount(new Random().nextInt(min, max + 1));
+        toDrop.setAmount(SpiritUtils.random(min, max));
         PlayerUtils.addOrDropItem(player, toDrop);
         ParticleUtils.passOnAnimation(player.getLocation());
         player.sendMessage(SpiritUtils.getTranslation("messages.spirits.pass_on").replace("{tier_color}", String.valueOf(SpiritUtils.tierColor(tier))).replace("{spirit_name}", ChatUtils.humanize(type.name())));

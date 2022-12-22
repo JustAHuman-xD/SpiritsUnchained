@@ -2,9 +2,7 @@ package me.justahuman.spiritsunchained.implementation.mobs;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-
 import lombok.Getter;
-
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
@@ -12,12 +10,10 @@ import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -32,8 +28,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Objects;
-import java.util.Random;
 
 public class Spirit extends AbstractCustomMob<Allay> {
 
@@ -50,10 +44,9 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @Nonnull
     public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String revealState) {
-        final double health = this.getMaxHealth()*definition.getTier();
         final String state;
         if (reason.equals("Natural")) {
-            state = definition.getStates().get(new Random().nextInt(definition.getStates().size()));
+            state = definition.getStates().get(SpiritUtils.random(0, definition.getStates().size()));
         } else if (reason.equals("Reveal")) {
             state = revealState;
         } else {
@@ -64,10 +57,8 @@ public class Spirit extends AbstractCustomMob<Allay> {
         SpiritsUnchained.getSpiritEntityManager().entitySet.add(mob.getUniqueId());
         PersistentDataAPI.setString(mob, Keys.entityKey, this.getId());
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
-        PersistentDataAPI.setLong(mob, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((long) (definition.getTier() * 60L * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000);
-
-        Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
-        mob.setHealth(health);
+        PersistentDataAPI.setLong(mob, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (definition.getTier() * 60 * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
+        
         mob.setRemoveWhenFarAway(true);
         mob.setCanPickupItems(false);
 
@@ -131,7 +122,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
         }
         SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
         if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_NET.getItemId())) {
-            if (new Random().nextInt(1,100) <= SpiritUtils.getTierChance(tier)) {
+            if (SpiritUtils.chance(SpiritUtils.getTierChance(tier))) {
                 ParticleUtils.catchAnimation(entity.getLocation());
                 entity.remove();
                 PlayerUtils.addOrDropItem(player, SpiritUtils.spiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
@@ -141,7 +132,7 @@ public class Spirit extends AbstractCustomMob<Allay> {
             }
             item.subtract();
         } else if(slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_BOOK.getItemId())) {
-            if (new Random().nextInt(1, 100) <= SpiritUtils.getTierChance(tier)) {
+            if (SpiritUtils.chance(SpiritUtils.getTierChance(tier))) {
                 if (!PlayerUtils.hasKnowledgePiece(player, type, 2)) {
                     PlayerUtils.addOrDropItem(player, SpiritUtils.getFilledBook(this.definition));
                     PlayerUtils.learnKnowledgePiece(player, type, 2);

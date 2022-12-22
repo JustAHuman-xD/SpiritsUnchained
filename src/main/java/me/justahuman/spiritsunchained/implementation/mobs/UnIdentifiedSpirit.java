@@ -2,19 +2,16 @@ package me.justahuman.spiritsunchained.implementation.mobs;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
 import me.justahuman.spiritsunchained.utils.Keys;
-
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -29,8 +26,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Objects;
-import java.util.Random;
 
 public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
 
@@ -47,7 +42,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         final String state;
 
         if (reason.equals("Natural")) {
-            state = definition.getStates().get(new Random().nextInt(definition.getStates().size()));
+            state = definition.getStates().get(SpiritUtils.random(0, definition.getStates().size()));
         } else {
             state = reason;
         }
@@ -62,10 +57,8 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
         PersistentDataAPI.setString(mob, Keys.spiritTypeKey, type);
         PersistentDataAPI.setBoolean(mob, Keys.spiritIdentified, false);
-        PersistentDataAPI.setLong(mob, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((long) (definition.getTier() * 60L * 0.75), definition.getTier() * 60L * SpiritUtils.random(1, 3)) * 1000);
-    
-        Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(this.getMaxHealth());
-        mob.setHealth(this.getMaxHealth());
+        PersistentDataAPI.setLong(mob, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (definition.getTier() * 60L * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
+        
         mob.setRemoveWhenFarAway(true);
         mob.setCanPickupItems(false);
 

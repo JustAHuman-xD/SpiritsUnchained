@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -66,7 +65,7 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
             for (EntityType scareType : relations.get("Scare")) {
                 final Set<ItemStack> scared = cacheEntry.containsKey(scareType) ? cacheEntry.get(scareType) : new HashSet<>();
                 for (ItemStack scare : scared) {
-                    SpiritUtils.updateSpiritItemProgress(scare, (double) - 1 / new Random().nextInt(1, 5));
+                    SpiritUtils.updateSpiritItemProgress(scare, (double) - 1 / SpiritUtils.random(1, 5));
                     world.dropItemNaturally(location, scare.clone());
                     inventory.remove(scare);
                     world.playSound(location, Sound.ENTITY_ITEM_PICKUP, 2, 1);
@@ -75,16 +74,16 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
             }
 
             if (SpiritsUnchained.getInstance().getConfig().getBoolean("options.hostile-movement", true) && state.equals("Hostile")) {
-                final int index = new Random().nextInt(contents.length);
+                final int index = SpiritUtils.random(0, contents.length);
                 final ItemStack toMove = inventory.getItem(index) != null ? inventory.getItem(index).clone() : null;
-                final int moveTo = new Random().nextInt(contents.length);
+                final int moveTo = SpiritUtils.random(0, contents.length);
                 final ItemStack toSwitch = inventory.getItem(moveTo) != null ? inventory.getItem(moveTo).clone() : null;
                 inventory.setItem(index, toSwitch);
                 inventory.setItem(moveTo, toMove);
             }
 
             if (SpiritsUnchained.getInstance().getConfig().getBoolean("options.aggressive-damage", true) && (state.equals("Hostile") || state.equals("Aggressive"))) {
-                player.damage(new Random().nextInt(2));
+                player.damage(SpiritUtils.random(0, 2));
             }
         }
         spiritCache.put(player.getUniqueId(), cacheEntry);

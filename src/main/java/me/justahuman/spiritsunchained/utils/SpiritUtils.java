@@ -57,7 +57,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -71,6 +70,7 @@ public class SpiritUtils {
     private static final Map<EntityType, SpiritDefinition> spiritMap = spiritsManager.getSpiritMap();
     private static final SpiritsUnchained instance = SpiritsUnchained.getInstance();
     private static final FileConfiguration config = instance.getConfig();
+    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public static String getTranslation(String path) {
         return configManager.getTranslation(path);
@@ -333,7 +333,7 @@ public class SpiritUtils {
         final Biome biome = location.getBlock().getBiome();
         final World.Environment dimension = world.getEnvironment();
         final boolean isDay = world.isDayTime();
-        final int chance = ThreadLocalRandom.current().nextInt(1, 101);
+        final int chance = random(1, 101);
         String spirit = null;
         final int tier;
         if (chance == 100) { // 1% Chance
@@ -457,8 +457,8 @@ public class SpiritUtils {
 
     public static Block getSpawnBlock(Location location) {
         final World world = location.getWorld();
-        final int x = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockX();
-        final int z = new Random().nextInt(17) * (new Random().nextBoolean() ? 1 : -1) + location.getBlockZ();
+        final int x = random(0,17) * (random() ? 1 : -1) + location.getBlockX();
+        final int z = random(0, 17) * (random() ? 1 : -1) + location.getBlockZ();
         int y = location.getBlockY();
         if (world.getBlockAt(x,y,z).getType() != Material.AIR) {
             boolean foundAir = false;
@@ -551,11 +551,19 @@ public class SpiritUtils {
         }
     }
     
-    public static long random(final long origin, final long bound) {
-        return ThreadLocalRandom.current().nextLong(origin, bound);
+    public static int random(int origin, int bound) {
+        return random.nextInt(origin, bound);
+    }
+    
+    public static double random(double origin, double bound) {
+         return random.nextDouble(origin, bound);
+    }
+    
+    public static boolean random() {
+        return random.nextBoolean();
     }
 
-    public static boolean chance(final int chance) {
+    public static boolean chance(int chance) {
         return random(1, 101) <= chance;
     }
 }
