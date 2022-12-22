@@ -46,44 +46,52 @@ public class RelationsAndStateRunnable extends BukkitRunnable {
         final Inventory inventory = player.getInventory();
         final ItemStack[] contents = inventory.getContents();
         for (ItemStack item : contents) {
-            //If it's not a Spirit I don't want it
-            if (! SpiritUtils.isSpiritItem(item)) {
-                continue;
+            // Cache all spirits
+            if (SpiritUtils.isSpiritItem(item)) {
+                final ItemMeta meta = item.getItemMeta();
+                final EntityType type = EntityType.valueOf(PersistentDataAPI.getString(meta, Keys.spiritItemKey));
+                final Set<ItemStack> spirits = cacheEntry.getOrDefault(type, new HashSet<>());
+                spirits.add(item);
+                cacheEntry.put(type, spirits);
             }
-
-            final Location location = player.getLocation();
-            final World world = player.getWorld();
-            final ItemMeta meta = item.getItemMeta();
-            final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
-            final EntityType type = EntityType.valueOf(PersistentDataAPI.getString(meta, Keys.spiritItemKey));
-            final SpiritDefinition definition = spiritMap.get(type);
-            final Map<String, List<EntityType>> relations = definition.getRelations();
-            final Set<ItemStack> spirits = cacheEntry.containsKey(type) ? cacheEntry.get(type) : new HashSet<>();
-            spirits.add(item);
-            cacheEntry.put(type, spirits);
-
-            for (EntityType scareType : relations.get("Scare")) {
-                final Set<ItemStack> scared = cacheEntry.containsKey(scareType) ? cacheEntry.get(scareType) : new HashSet<>();
-                for (ItemStack scare : scared) {
-                    SpiritUtils.updateSpiritItemProgress(scare, (double) - 1 / SpiritUtils.random(1, 5));
-                    world.dropItemNaturally(location, scare.clone());
-                    inventory.remove(scare);
-                    world.playSound(location, Sound.ENTITY_ITEM_PICKUP, 2, 1);
-                    ParticleUtils.spawnParticleRadius(location, Particle.REDSTONE, 3, 30, "Colored", new Particle.DustOptions(Color.fromRGB(255,0,0), 1));
+        }
+        for (Map.Entry<EntityType, Set<ItemStack>> entry : cacheEntry.entrySet()) {
+            final EntityType type = entry.getKey();
+            final Set<ItemStack> spirits = entry.getValue();
+            
+            for (ItemStack itemStack : new HashSet<>(spirits)) {
+                final ItemMeta itemMeta = itemStack.getItemMeta();
+                final Location location = player.getLocation();
+                final World world = player.getWorld();
+                final String state = PersistentDataAPI.getString(itemMeta, Keys.spiritStateKey);
+                final SpiritDefinition definition = spiritMap.get(type);
+                final Map<String, List<EntityType>> relations = definition.getRelations();
+    
+                for (EntityType scareType : relations.get("Scare")) {
+                    final Set<ItemStack> scared = cacheEntry.getOrDefault(scareType, new HashSet<>());
+                    for (ItemStack scare : new HashSet<>(scared)) {
+                        scared.remove(scare);
+                        cacheEntry.put(scareType, scared);
+                        SpiritUtils.updateSpiritItemProgress(scare, (double) - 1 / SpiritUtils.random(1, 5));
+                        world.dropItemNaturally(location, scare.clone());
+                        inventory.remove(scare);
+                        world.playSound(location, Sound.ENTITY_ITEM_PICKUP, 2, 1);
+                        ParticleUtils.spawnParticleRadius(location, Particle.REDSTONE, 3, 30, "Colored", new Particle.DustOptions(Color.fromRGB(255,0,0), 1));
+                    }
                 }
-            }
-
-            if (SpiritsUnchained.getInstance().getConfig().getBoolean("options.hostile-movement", true) && state.equals("Hostile")) {
-                final int index = SpiritUtils.random(0, contents.length);
-                final ItemStack toMove = inventory.getItem(index) != null ? inventory.getItem(index).clone() : null;
-                final int moveTo = SpiritUtils.random(0, contents.length);
-                final ItemStack toSwitch = inventory.getItem(moveTo) != null ? inventory.getItem(moveTo).clone() : null;
-                inventory.setItem(index, toSwitch);
-                inventory.setItem(moveTo, toMove);
-            }
-
-            if (SpiritsUnchained.getInstance().getConfig().getBoolean("options.aggressive-damage", true) && (state.equals("Hostile") || state.equals("Aggressive"))) {
-                player.damage(SpiritUtils.random(0, 2));
+    
+                if (SpiritsUnchained.getInstance().getConfig().getBoolean("options.hostile-movement", true) && state.equals("Hostile")) {
+                    final int index = SpiritUtils.random(0, contents.length);
+                    final ItemStack toMove = inventory.getItem(index);
+                    final int moveTo = SpiritUtils.random(0, contents.length);
+                    final ItemStack toSwitch = inventory.getItem(moveTo);
+                    inventory.setItem(index, toSwitch);
+                    inventory.setItem(moveTo, toMove);
+                }
+    
+                if (SpiritsUnchained.getInstance().getConfig().getBoolean("options.aggressive-damage", true) && (state.equals("Hostile") || state.equals("Aggressive"))) {
+                    player.damage(SpiritUtils.random(0, 2));
+                }
             }
         }
         spiritCache.put(player.getUniqueId(), cacheEntry);
