@@ -10,6 +10,7 @@ All of the config files *can* be edited, but the only ones I would recommend edi
 For anyone reading this to learn how to use Spirits Unchained, I would highly recommend reading the book inside the SpiritsUnchained category from the Slimefun Guide. Eventually I will fill this out with more information than contained in that guide, but that is a good place to start.
 # To-Do List:
 
+- Portable Ancient Altar (Maybe)
 - Fill out this ReadMe
 - Finish out the default Balancing of Various Spirits, Traits, and Passing On (High Priority)
 - ~~Add translation support (Medium Priority) THIS WAS A PAIN~~
