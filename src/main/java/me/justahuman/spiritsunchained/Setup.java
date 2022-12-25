@@ -42,11 +42,11 @@ public class Setup {
         Items.setup(plugin);
         ParticleUtils.setup();
 
-        UnIdentifiedSpirit unIdentifiedSpirit = new UnIdentifiedSpirit();
+        final UnIdentifiedSpirit unIdentifiedSpirit = new UnIdentifiedSpirit();
         unIdentifiedSpirit.register(manager);
 
         for (SpiritDefinition definition : SpiritsUnchained.getSpiritsManager().getSpiritMap().values()) {
-            Spirit spiritEntity = new Spirit(definition.getType().name() + "_SPIRIT", "Spirit", definition.getType());
+            Spirit spiritEntity = new Spirit(definition.getType().name() + "_SPIRIT", definition.getType());
             spiritEntity.register(SpiritsUnchained.getSpiritEntityManager());
         }
     }

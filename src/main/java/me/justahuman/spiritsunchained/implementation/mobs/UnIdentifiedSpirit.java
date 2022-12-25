@@ -11,7 +11,6 @@ import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -24,56 +23,38 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
 
     public UnIdentifiedSpirit() {
-        super(Allay.class, "UNIDENTIFIED_SPIRIT", "&7Unidentified Spirit", 10);
+        super(Allay.class, "UNIDENTIFIED_SPIRIT");
     }
 
-    @Nonnull
     @Override
-    public Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String type) {
-        final Allay mob = world.spawn(loc, this.getClazz());
-        SpiritsUnchained.getSpiritEntityManager().entitySet.add(mob.getUniqueId());
+    @ParametersAreNonnullByDefault
+    public void onSpawn(Allay allay, String reason, String type) {
         final SpiritDefinition definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type));
         final String state;
-
+    
         if (reason.equals("Natural")) {
             state = definition.getStates().get(SpiritUtils.random(0, definition.getStates().size()));
         } else {
             state = reason;
         }
-
-        if (type == null) {
-            type = "COW_SPIRIT";
-        } else {
-            type = type + "_SPIRIT";
-        }
-
-        PersistentDataAPI.setString(mob, Keys.entityKey, this.getId());
-        PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
-        PersistentDataAPI.setString(mob, Keys.spiritTypeKey, type);
-        PersistentDataAPI.setBoolean(mob, Keys.spiritIdentified, false);
-        PersistentDataAPI.setLong(mob, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (definition.getTier() * 60L * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
+        type += "_SPIRIT";
+    
+        PersistentDataAPI.setString(allay, Keys.spiritStateKey, state);
+        PersistentDataAPI.setString(allay, Keys.spiritTypeKey, type);
+        PersistentDataAPI.setBoolean(allay, Keys.spiritIdentified, false);
+        PersistentDataAPI.setLong(allay, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (definition.getTier() * 60L * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
         
-        mob.setRemoveWhenFarAway(true);
-        mob.setCanPickupItems(false);
-
-        onSpawn(mob);
-        return mob;
-    }
-
-    @Override
-    @ParametersAreNonnullByDefault
-    public void onSpawn(Allay allay) {
         for (Player player : allay.getWorld().getPlayers()) {
             if (player.canSee(allay)) {
                 player.hideEntity(SpiritsUnchained.getInstance(), allay);
             }
         }
+        
         allay.setCollidable(false);
         allay.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 1000000 * 20, 1, true, false));
         allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000*20, 1, true, false));
@@ -86,20 +67,8 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
         ParticleUtils.spawnParticleRadius(location, Particle.SPELL_INSTANT, 0.1, 5, "Spirit");
         if (PersistentDataAPI.hasLong(allay, Keys.despawnKey) && System.currentTimeMillis() >= PersistentDataAPI.getLong(allay, Keys.despawnKey)) {
             ParticleUtils.passOnAnimation(location);
-            getSpiritEntityManager().entitySet.remove(allay.getUniqueId());
             allay.remove();
         }
-    }
-
-    @Override
-    @ParametersAreNonnullByDefault
-    public void onDeath(EntityDeathEvent event) {
-        final Allay allay = (Allay) event.getEntity();
-        if (allay.getKiller() != null) {
-            event.getDrops().add(ItemStacks.SU_ECTOPLASM);
-            return;
-        }
-        event.setShouldPlayDeathSound(false);
     }
 
     @Override
@@ -137,7 +106,7 @@ public class UnIdentifiedSpirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void reveal(Allay allay, Player player) {
-        SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, PersistentDataAPI.getString(allay, Keys.spiritTypeKey)).spawn(allay.getLocation(), allay.getWorld(), "Reveal", PersistentDataAPI.getString(allay, Keys.spiritStateKey));
+        SpiritsUnchained.getSpiritEntityManager().getCustomClass(null, PersistentDataAPI.getString(allay, Keys.spiritTypeKey)).spawn(allay.getLocation(), allay.getWorld(), PersistentDataAPI.getString(allay, Keys.spiritStateKey), null);
         allay.remove();
     }
 }

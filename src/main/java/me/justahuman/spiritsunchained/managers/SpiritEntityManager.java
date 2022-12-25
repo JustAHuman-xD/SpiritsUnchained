@@ -151,6 +151,6 @@ public class SpiritEntityManager implements Listener {
     private void onEntityRemove(@Nonnull EntityRemoveFromWorldEvent event) {
         final Entity entity = event.getEntity();
         final UUID uuid = entity.getUniqueId();
-        SpiritsUnchained.getSpiritEntityManager().entitySet.remove(uuid);
+        this.entitySet.remove(uuid);
     }
 }

@@ -27,6 +27,4 @@ public class RunnableManager {
         this.relationsAndStateRunnable = new RelationsAndStateRunnable();
         this.relationsAndStateRunnable.runTaskTimer(spiritsUnchained, 1, 20L);
     }
-
-
 }

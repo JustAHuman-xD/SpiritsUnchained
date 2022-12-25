@@ -234,7 +234,7 @@ messages:
     not_completed: "&bThe Altar is not finished!"
     completed:
       1: "&bThe Spiritual Altar (Tier 1) has been activated!"
-      2: "7bThe Spiritual Altar (Tier 2) has been activated!"
+      2: "&bThe Spiritual Altar (Tier 2) has been activated!"
       3: "&bThe Spiritual Altar (Tier 3) has been activated!"
   spirit_rune:
     not_helmet: "&dThe thrown Item is not a Helmet!"

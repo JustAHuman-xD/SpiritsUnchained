@@ -1,13 +1,11 @@
 package me.justahuman.spiritsunchained.managers;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
-import me.justahuman.spiritsunchained.implementation.multiblocks.Tier1Altar;
-import me.justahuman.spiritsunchained.implementation.multiblocks.Tier2Altar;
-import me.justahuman.spiritsunchained.implementation.multiblocks.Tier3Altar;
+import me.justahuman.spiritsunchained.slimefun.Items;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.ParticleUtils;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
@@ -16,7 +14,6 @@ import me.justahuman.spiritsunchained.utils.SpiritUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -182,36 +179,30 @@ public class CommandManager implements TabExecutor {
 
         PersistentDataAPI.setLong(player, Keys.visualizing, System.currentTimeMillis() + 30 * 1000L);
 
-        final Map<Vector, Material> altarMap = switch(altar) {
-            case "3" -> Tier3Altar.getBlocks();
-            case "2" -> Tier2Altar.getBlocks();
-            default -> Tier1Altar.getBlocks();
+        final Map<Vector, SlimefunItemStack> altarMap = switch(altar) {
+            case "3" -> Items.getAltar3();
+            case "2" -> Items.getAltar2();
+            default -> Items.getAltar1();
         };
 
         player.sendMessage(SpiritUtils.getTranslation("messages.commands.altar.use").replace("{altar_tier}", altar));
         player.sendMessage(SpiritUtils.getTranslation("messages.commands.altar.materials"));
 
-        final Set<Material> sent = new HashSet<>();
-        for (Material material : altarMap.values()) {
-            if (!sent.contains(material)) {
-                sent.add(material);
-                final String tier = switch(altar) {
-                    case "3" -> " III";
-                    case "2" -> " II";
-                    default -> " I";
-                };
-                final String slimefunVersion = ChatUtils.humanize(material.name()).replace("Chiseled Quartz", "Charged Core").replace("Quartz", "Charged Quartz").replace("Block", "") + tier;
-                player.sendMessage(ChatColors.color("&6" + Collections.frequency(altarMap.values(), material) + " &e" + slimefunVersion));
+        final Set<SlimefunItemStack> sent = new HashSet<>();
+        for (SlimefunItemStack itemStack : altarMap.values()) {
+            if (!sent.contains(itemStack)) {
+                sent.add(itemStack);
+                player.sendMessage(ChatColors.color("&6" + Collections.frequency(altarMap.values(), itemStack) + " &e" + itemStack.getDisplayName()));
             }
         }
 
         int entryIndex = 0;
-        for (Map.Entry<Vector, Material> entry : altarMap.entrySet()) {
+        for (Map.Entry<Vector, SlimefunItemStack> entry : altarMap.entrySet()) {
             final int finalEntryIndex = entryIndex;
             Bukkit.getScheduler().runTaskLater(SpiritsUnchained.getInstance(), () -> {
                 final Vector changes = entry.getKey();
                 final Location relativeLocation = new Location(location.getWorld(), location.getBlockX() + 0.5, location.getBlockY(), location.getBlockZ() + 0.5).add(changes);
-                final BlockData blockData = entry.getValue().createBlockData();
+                final BlockData blockData = entry.getValue().getType().createBlockData();
                 if (blockData instanceof Directional directional) {
                     final BlockFace face;
                     if ((Math.max(Math.abs(changes.getX()), Math.abs(changes.getZ()))) == Math.abs(changes.getX())) {

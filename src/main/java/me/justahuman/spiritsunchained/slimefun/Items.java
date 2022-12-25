@@ -2,11 +2,13 @@ package me.justahuman.spiritsunchained.slimefun;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
+import lombok.Getter;
 import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritBottler;
 import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritCatcher;
 import me.justahuman.spiritsunchained.implementation.machines.ElectricSpiritWriter;
@@ -18,8 +20,19 @@ import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Items {
+    @Getter
+    private static final Map<Vector, SlimefunItemStack> altar1 = new LinkedHashMap<>();
+    @Getter
+    private static final Map<Vector, SlimefunItemStack> altar2 = new LinkedHashMap<>();
+    @Getter
+    private static final Map<Vector, SlimefunItemStack> altar3 = new LinkedHashMap<>();
+    
     public static void setup(SlimefunAddon instance) {
 
         final RecipeType spiritInteract = new RecipeType(Keys.spiritInteractKey,
@@ -100,7 +113,6 @@ public class Items {
         }).register(instance);
 
         //Machines
-
         new ElectricSpiritCatcher(Groups.SU_MACHINES, ItemStacks.SU_ELECTRIC_SPIRIT_CATCHER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
                 ItemStacks.SU_ECTOPLASM, SlimefunItems.INFUSED_HOPPER, ItemStacks.SU_ECTOPLASM,
                 SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.SCULK_SHRIEKER), SlimefunItems.REINFORCED_PLATE,
@@ -118,9 +130,19 @@ public class Items {
                 SlimefunItems.COOLING_UNIT, new ItemStack(Material.LECTERN), SlimefunItems.COOLING_UNIT,
                 ItemStacks.SU_ECTOPLASM, SlimefunItems.POWER_CRYSTAL, ItemStacks.SU_INFUSED_FEATHER,
         }).register(instance);
-
+        
         //Altar Blocks
         //Tier 1
+        altar1.put(new Vector(1,0,-1), ItemStacks.SU_CHARGED_QUARTZ_I);
+        altar1.put (new Vector(1,0,0), ItemStacks.SU_CHARGED_STAIRS_I);
+        altar1.put(new Vector(1,0,1), ItemStacks.SU_CHARGED_QUARTZ_I);
+        altar1.put(new Vector(0, 0, -1), ItemStacks.SU_CHARGED_STAIRS_I);
+        altar1.put(new Vector(0, 0, 0), ItemStacks.SU_CHARGED_CORE_I);
+        altar1.put(new Vector(0, 0, 1), ItemStacks.SU_CHARGED_STAIRS_I);
+        altar1.put(new Vector(-1,0,-1), ItemStacks.SU_CHARGED_QUARTZ_I);
+        altar1.put(new Vector(-1, 0, 0), ItemStacks.SU_CHARGED_STAIRS_I);
+        altar1.put(new Vector(-1,0,1), ItemStacks.SU_CHARGED_QUARTZ_I);
+        
         new SpiritualAltarPiece(Groups.SU_ALTAR_1,ItemStacks.SU_CHARGED_QUARTZ_I, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM, new ItemStack(Material.QUARTZ_BLOCK),
                 ItemStacks.SU_ECTOPLASM, ItemStacks.SU_UNIDENTIFIED_SPIRIT, ItemStacks.SU_ECTOPLASM,
@@ -133,9 +155,37 @@ public class Items {
                 ItemStacks.SU_CHARGED_QUARTZ_I, ItemStacks.SU_CHARGED_QUARTZ_I, ItemStacks.SU_CHARGED_QUARTZ_I
         }, 4).register(instance);
 
-        new Tier1Altar().register(instance);
+        new SpiritualAltar(Groups.SU_ALTAR_1, ItemStacks.SU_CHARGED_CORE_I, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                null, ItemStacks.SU_CHARGED_QUARTZ_I, null,
+                ItemStacks.SU_CHARGED_QUARTZ_I, null, ItemStacks.SU_CHARGED_QUARTZ_I,
+                null, ItemStacks.SU_CHARGED_QUARTZ_I, null
+        }, altar1, 1, 1).register(instance);
 
         //Tier 2
+        altar2.put(new Vector(2, 0, -2), ItemStacks.SU_CHARGED_PILLAR_II);
+        altar2.put(new Vector(1,0,-1), ItemStacks.SU_CHARGED_QUARTZ_II);
+        altar2.put (new Vector(1,0,0), ItemStacks.SU_CHARGED_STAIRS_II);
+        altar2.put(new Vector(1,0,1), ItemStacks.SU_CHARGED_QUARTZ_II);
+        altar2.put(new Vector(2, 0, 2), ItemStacks.SU_CHARGED_PILLAR_II);
+        altar2.put(new Vector(0, 0, -1), ItemStacks.SU_CHARGED_STAIRS_II);
+        altar2.put(new Vector(0, 0, 0), ItemStacks.SU_CHARGED_CORE_II);
+        altar2.put(new Vector(0, 0, 1), ItemStacks.SU_CHARGED_STAIRS_II);
+        altar2.put(new Vector(-2, 0, -2), ItemStacks.SU_CHARGED_PILLAR_II);
+        altar2.put(new Vector(-1,0,-1), ItemStacks.SU_CHARGED_QUARTZ_II);
+        altar2.put(new Vector(-1, 0, 0), ItemStacks.SU_CHARGED_STAIRS_II);
+        altar2.put(new Vector(-1,0,1), ItemStacks.SU_CHARGED_QUARTZ_II);
+        altar2.put(new Vector(-2, 0, 2), ItemStacks.SU_CHARGED_PILLAR_II);
+    
+        altar2.put(new Vector(2, 1, -2), ItemStacks.SU_CHARGED_PILLAR_II);
+        altar2.put(new Vector(2, 1, 2), ItemStacks.SU_CHARGED_PILLAR_II);
+        altar2.put(new Vector(-2, 1, -2), ItemStacks.SU_CHARGED_PILLAR_II);
+        altar2.put(new Vector(-2, 1, 2), ItemStacks.SU_CHARGED_PILLAR_II);
+    
+        altar2.put(new Vector(2, 2, -2), ItemStacks.SU_CHARGED_STAIRS_II);
+        altar2.put(new Vector(2, 2, 2), ItemStacks.SU_CHARGED_STAIRS_II);
+        altar2.put(new Vector(-2, 2, -2), ItemStacks.SU_CHARGED_STAIRS_II);
+        altar2.put(new Vector(-2, 2, 2), ItemStacks.SU_CHARGED_STAIRS_II);
+        
         new SpiritualAltarPiece(Groups.SU_ALTAR_2,ItemStacks.SU_CHARGED_QUARTZ_II, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM, ItemStacks.SU_CHARGED_QUARTZ_I,
                 ItemStacks.SU_ECTOPLASM, ItemStacks.SU_UNIDENTIFIED_SPIRIT, ItemStacks.SU_ECTOPLASM,
@@ -153,10 +203,59 @@ public class Items {
                 null, ItemStacks.SU_CHARGED_QUARTZ_II, null,
                 ItemStacks.SU_CHARGED_QUARTZ_II, ItemStacks.SU_CHARGED_QUARTZ_II, ItemStacks.SU_CHARGED_QUARTZ_II
         }, 4).register(instance);
-
-        new Tier2Altar().register(instance);
+    
+        new SpiritualAltar(Groups.SU_ALTAR_2, ItemStacks.SU_CHARGED_CORE_II, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                null, ItemStacks.SU_CHARGED_QUARTZ_II, null,
+                ItemStacks.SU_CHARGED_QUARTZ_II, null, ItemStacks.SU_CHARGED_QUARTZ_II,
+                null, ItemStacks.SU_CHARGED_QUARTZ_II, null
+        }, altar2, 2, 2).register(instance);
 
         //Tier 3
+        altar3.put(new Vector(2, 0, -2), ItemStacks.SU_CHARGED_PILLAR_III);
+        altar3.put(new Vector(1,0,-1), ItemStacks.SU_CHARGED_QUARTZ_III);
+        altar3.put (new Vector(1,0,0), ItemStacks.SU_SMOOTH_CHARGED_QUARTZ_III);
+        altar3.put(new Vector(1,0,1), ItemStacks.SU_CHARGED_QUARTZ_III);
+        altar3.put(new Vector(2, 0, 2), ItemStacks.SU_CHARGED_PILLAR_III);
+        altar3.put(new Vector(0, 0, -1), ItemStacks.SU_SMOOTH_CHARGED_QUARTZ_III);
+        altar3.put(new Vector(0, 0, 0), ItemStacks.SU_CHARGED_CORE_III);
+        altar3.put(new Vector(0, 0, 1), ItemStacks.SU_SMOOTH_CHARGED_QUARTZ_III);
+        altar3.put(new Vector(-2, 0, -2), ItemStacks.SU_CHARGED_PILLAR_III);
+        altar3.put(new Vector(-1,0,-1), ItemStacks.SU_CHARGED_QUARTZ_III);
+        altar3.put(new Vector(-1, 0, 0), ItemStacks.SU_SMOOTH_CHARGED_QUARTZ_III);
+        altar3.put(new Vector(-1,0,1), ItemStacks.SU_CHARGED_QUARTZ_III);
+        altar3.put(new Vector(-2, 0, 2), ItemStacks.SU_CHARGED_PILLAR_III);
+    
+        altar3.put(new Vector(2, 0, -1), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(2, 0, 0), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(2, 0, 1), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+    
+        altar3.put(new Vector(-1, 0, 2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(0, 0, 2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(1, 0, 2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+    
+        altar3.put(new Vector(-2, 0, 1), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(-2, 0, 0), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(-2, 0, -1), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+    
+        altar3.put(new Vector(1, 0, -2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(0, 0, -2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(-1, 0, -2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+    
+        altar3.put(new Vector(2, 1, -2), ItemStacks.SU_CHARGED_PILLAR_III);
+        altar3.put(new Vector(2, 1, 2), ItemStacks.SU_CHARGED_PILLAR_III);
+        altar3.put(new Vector(-2, 1, -2), ItemStacks.SU_CHARGED_PILLAR_III);
+        altar3.put(new Vector(-2, 1, 2), ItemStacks.SU_CHARGED_PILLAR_III);
+    
+        altar3.put(new Vector(2, 2, -2), ItemStacks.SU_CHARGED_PILLAR_III);
+        altar3.put(new Vector(2, 2, 2), ItemStacks.SU_CHARGED_PILLAR_III);
+        altar3.put(new Vector(-2, 2, -2), ItemStacks.SU_CHARGED_PILLAR_III);
+        altar3.put(new Vector(-2, 2, 2), ItemStacks.SU_CHARGED_PILLAR_III);
+    
+        altar3.put(new Vector(2, 3, -2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(2, 3, 2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(-2, 3, -2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        altar3.put(new Vector(-2, 3, 2), ItemStacks.SU_SMOOTH_CHARGED_STAIRS_III);
+        
         new SpiritualAltarPiece(Groups.SU_ALTAR_3,ItemStacks.SU_CHARGED_QUARTZ_III, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 ItemStacks.SU_INFUSED_MEMBRANE, ItemStacks.SU_ECTOPLASM, ItemStacks.SU_CHARGED_QUARTZ_II,
                 ItemStacks.SU_ECTOPLASM, ItemStacks.SU_UNIDENTIFIED_SPIRIT, ItemStacks.SU_ECTOPLASM,
@@ -186,8 +285,12 @@ public class Items {
                 null, null, null,
                 null, null, null
         }, 1).register(instance);
-
-        new Tier3Altar().register(instance);
+    
+        new SpiritualAltar(Groups.SU_ALTAR_3, ItemStacks.SU_CHARGED_CORE_III, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                null, ItemStacks.SU_CHARGED_QUARTZ_III, null,
+                ItemStacks.SU_CHARGED_QUARTZ_III, null, ItemStacks.SU_CHARGED_QUARTZ_III,
+                null, ItemStacks.SU_CHARGED_QUARTZ_III, null
+        }, altar3, 3, 4).register(instance);
     }
 
     private static String translate() {

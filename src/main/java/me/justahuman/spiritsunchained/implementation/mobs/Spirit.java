@@ -13,7 +13,6 @@ import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.entity.Allay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -26,7 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class Spirit extends AbstractCustomMob<Allay> {
@@ -36,44 +34,23 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Getter
     private final SpiritDefinition definition;
 
-    public Spirit(String id, String name, EntityType soulType) {
-        super(Allay.class, id, name, 10);
-        this.definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(soulType);
-    }
-
-    @Override
-    @Nonnull
-    public final Allay spawn(@Nonnull Location loc, @Nonnull World world, String reason, String revealState) {
-        final String state;
-        if (reason.equals("Natural")) {
-            state = definition.getStates().get(SpiritUtils.random(0, definition.getStates().size()));
-        } else if (reason.equals("Reveal")) {
-            state = revealState;
-        } else {
-            state = reason;
-        }
-
-        final Allay mob = world.spawn(loc, this.getClazz());
-        SpiritsUnchained.getSpiritEntityManager().entitySet.add(mob.getUniqueId());
-        PersistentDataAPI.setString(mob, Keys.entityKey, this.getId());
-        PersistentDataAPI.setString(mob, Keys.spiritStateKey, state);
-        PersistentDataAPI.setLong(mob, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (definition.getTier() * 60 * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
-        
-        mob.setRemoveWhenFarAway(true);
-        mob.setCanPickupItems(false);
-
-        onSpawn(mob);
-        return mob;
+    public Spirit(String id, EntityType entityType) {
+        super(Allay.class, id);
+        this.definition = SpiritsUnchained.getSpiritsManager().getSpiritMap().get(entityType);
     }
 
     @Override
     @ParametersAreNonnullByDefault
-    public void onSpawn(Allay allay) {
+    public void onSpawn(Allay allay, String state, String unused) {
+        PersistentDataAPI.setLong(allay, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (definition.getTier() * 60 * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
+        PersistentDataAPI.setString(allay, Keys.spiritStateKey, state);
+        
         for (Player player : allay.getWorld().getPlayers()) {
             if (player.canSee(allay)) {
                 player.hideEntity(SpiritsUnchained.getInstance(), allay);
             }
         }
+        
         allay.setCollidable(false);
         allay.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000 * 20, 1, true, false));
         allay.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 1000000 * 20, 1, true, false));
@@ -91,14 +68,6 @@ public class Spirit extends AbstractCustomMob<Allay> {
             ParticleUtils.passOnAnimation(location);
             allay.remove();
         }
-    }
-
-    @Override
-    @ParametersAreNonnullByDefault
-    public void onDeath(EntityDeathEvent event) {
-        final ItemStack toDrop = ItemStacks.SU_ECTOPLASM.clone();
-        toDrop.setAmount(definition.getTier() + 1);
-        event.getDrops().add(toDrop);
     }
 
     @Override
