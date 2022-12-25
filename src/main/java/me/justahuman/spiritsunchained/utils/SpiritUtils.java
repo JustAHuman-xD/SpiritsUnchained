@@ -270,7 +270,7 @@ public class SpiritUtils {
         final String state = PersistentDataAPI.getString(meta, Keys.spiritStateKey);
         final Map<String, Object> traitInfo = getTraitInfo(definition.getTrait());
         if (getStates().indexOf(state) <= 2 && notify) {
-            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.incorrect_state").replace("{tier_color_and_mob_type}", name)));
+            player.sendActionBar(Component.text(getTranslation("messages.traits.incorrect_state").replace("{tier_color_and_mob_type}", name)));
             return false;
         }
         final double singleProgress = PersistentDataAPI.getDouble(meta, Keys.spiritProgressKey);
@@ -279,11 +279,11 @@ public class SpiritUtils {
         if (progress >= usage) {
             updateSpiritItemProgress(spiritItem, - getTraitUsage(definition.getTrait()));
             if (traitInfo.get("type").equals("Passive")) {
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.used_passive").replace("{tier_color_and_mob_type}", name)));
+                player.sendActionBar(Component.text(getTranslation("messages.traits.used_passive").replace("{tier_color_and_mob_type}", name)));
             }
             return true;
         } else if (notify) {
-            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getTranslation("messages.traits.not_enough_progress").replace("{tier_color_and_mob_type}", name).replace("{progress}", String.valueOf(progress)).replace("{required_progress}", String.valueOf(usage))));
+            player.sendActionBar(Component.text(getTranslation("messages.traits.not_enough_progress").replace("{tier_color_and_mob_type}", name).replace("{progress}", String.valueOf(progress)).replace("{required_progress}", String.valueOf(usage))));
         }
         return false;
     }

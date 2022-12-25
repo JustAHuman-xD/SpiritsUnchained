@@ -1,22 +1,19 @@
 package me.justahuman.spiritsunchained.listeners;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-
 import io.papermc.paper.event.entity.ElderGuardianAppearanceEvent;
 import io.papermc.paper.event.player.PlayerDeepSleepEvent;
-
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.PlayerUtils;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
-
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -134,8 +131,10 @@ public class TraitListeners implements Listener {
         }
 
         final Entity attacker = event instanceof EntityDamageByEntityEvent otherEvent ? otherEvent.getDamager() : null;
+        final AttributeInstance attributeInstance = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         final double finalHealth = entity.getHealth() - event.getFinalDamage();
-        final double finalHealthPercentage = finalHealth / (entity.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null ? entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() : 1);
+        final double maxHealth = attributeInstance != null ? attributeInstance.getValue() : 1;
+        final double finalHealthPercentage = finalHealth / maxHealth;
 
         //Explosion Traits
         if (attacker != null && PersistentDataAPI.hasString(attacker, Keys.immuneKey) && PersistentDataAPI.getString(attacker, Keys.immuneKey).equals(entity.getUniqueId().toString())) {
@@ -148,30 +147,22 @@ public class TraitListeners implements Listener {
             PersistentDataAPI.setBoolean(attacker, Keys.heavyHitKey, false);
         }
         //Undead Protection
-        if (attacker instanceof ThrownPotion) {
-            if (isUsed(player, EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER)) {
-                event.setCancelled(true);
-                player.setHealth(Math.min(player.getHealth() + event.getFinalDamage(), player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
-                player.sendHealthUpdate();
-            }
+        if (attacker instanceof ThrownPotion && isUsed(player, EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER)) {
+            event.setCancelled(true);
+            player.setHealth(Math.min(player.getHealth() + event.getFinalDamage(), maxHealth));
+            player.sendHealthUpdate();
         }
         //Poisonous Thorns
-        if (attacker instanceof Player attackingPlayer) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.THORNS && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.PUFFERFISH)) {
-                entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 10*20, 1, true));
-            }
+        if (attacker instanceof Player attackingPlayer && event.getCause() == EntityDamageEvent.DamageCause.THORNS && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.PUFFERFISH)) {
+            entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 10*20, 1, true));
         }
         //Hunger Hit
-        if (attacker instanceof Player attackingPlayer) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.HUSK)) {
-                entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
-            }
+        if (attacker instanceof Player attackingPlayer && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.HUSK)) {
+            entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
         }
         //Slow Shot
-        if (attacker instanceof AbstractArrow arrow && arrow.getShooter() instanceof Player attackingPlayer) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.STRAY)) {
-                entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
-            }
+        if (attacker instanceof AbstractArrow arrow && arrow.getShooter() instanceof Player attackingPlayer && event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && SpiritUtils.chance(25) && isUsed(attackingPlayer, EntityType.STRAY)) {
+            entity.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30*20, 1, true));
         }
         //Natural Thorns
         if (attacker != null && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK && SpiritUtils.chance(50) && isUsed(player, EntityType.GUARDIAN)) {
@@ -188,18 +179,18 @@ public class TraitListeners implements Listener {
         }
 
         //Strong Bones
-        if(finalHealthPercentage <= 0.5 && !onCooldown(entity, Keys.strongBones) && isUsed(player, EntityType.SKELETON)) {
+        if(finalHealthPercentage <= 0.5 && notOnCooldown(entity, Keys.strongBones) && isUsed(player, EntityType.SKELETON)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 45*20, 1, true));
             startCooldown(player, Keys.strongBones, 90, "messages.traits.cooldown.strong_bones");
         }
         //Play Dead
-        if(finalHealthPercentage <= 0.25 && !onCooldown(entity, Keys.playDead) && isUsed(player, EntityType.AXOLOTL)) {
+        if(finalHealthPercentage <= 0.25 && notOnCooldown(entity, Keys.playDead) && isUsed(player, EntityType.AXOLOTL)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 15*20, 1, true));
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 15*20, 1, true));
             startCooldown(player, Keys.playDead, 60, "messages.traits.cooldown.play_dead");
         }
         //Speedy Escape
-        if(finalHealthPercentage <= 0.1 && !onCooldown(entity, Keys.speedyEscape) && isUsed(player, EntityType.OCELOT)) {
+        if(finalHealthPercentage <= 0.1 && notOnCooldown(entity, Keys.speedyEscape) && isUsed(player, EntityType.OCELOT)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 15*20, 5, true));
             startCooldown(player, Keys.speedyEscape, 60, "messages.traits.cooldown.speed_escape");
         }
@@ -218,14 +209,14 @@ public class TraitListeners implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerSleep(PlayerDeepSleepEvent event) {
         final Player player = event.getPlayer();
-        if (!onCooldown(player, Keys.morningGift) && isUsed(player, EntityType.CAT)) {
+        if (notOnCooldown(player, Keys.morningGift) && isUsed(player, EntityType.CAT)) {
             PlayerUtils.addOrDropItem(player, ItemStacks.SU_ECTOPLASM);
             startCooldown(player, Keys.morningGift, 20 * 60, "messages.traits.cooldown.morning_gift");
         }
     }
     //Group Protection
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onAngerPigman(PigZombieAngerEvent event) {
+    public void onAngerPigZombie(PigZombieAngerEvent event) {
         final Entity entity = event.getTarget();
         if (entity instanceof Player player && isUsed(player, EntityType.ZOMBIFIED_PIGLIN)) {
             event.setCancelled(true);
@@ -284,10 +275,8 @@ public class TraitListeners implements Listener {
     public void onPlayerShear(PlayerShearEntityEvent event) {
         final Entity entity = event.getEntity();
         final Player player = event.getPlayer();
-        if (entity instanceof Sheep) {
-            if (SpiritUtils.chance(75) && isUsed(player, EntityType.SHEEP)) {
-                event.getItem().setAmount(event.getItem().getAmount()*2);
-            }
+        if (entity instanceof Sheep && SpiritUtils.chance(75) && isUsed(player, EntityType.SHEEP)) {
+            event.getItem().setAmount(event.getItem().getAmount()*2);
         }
     }
     //Pig Rancher
@@ -327,18 +316,23 @@ public class TraitListeners implements Listener {
     }
 
     private boolean isUsed(Player player, EntityType... types) {
+        if (player == null) {
+            return false;
+        }
+        
         for (EntityType type : types) {
             if (SpiritUtils.useSpiritItem(player, type, null)) {
                 return true;
             }
         }
+        
         return false;
     }
-    private boolean onCooldown(LivingEntity entity, NamespacedKey key) {
-        return PersistentDataAPI.hasLong(entity, key) && PersistentDataAPI.getLong(entity, key) > System.currentTimeMillis();
+    private boolean notOnCooldown(LivingEntity entity, NamespacedKey key) {
+        return ! PersistentDataAPI.hasLong(entity, key) || PersistentDataAPI.getLong(entity, key) <= System.currentTimeMillis();
     }
     private void startCooldown(Player player, NamespacedKey key, int when, String path) {
-        player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(SpiritUtils.getTranslation(path)));
+        player.sendActionBar(Component.text(SpiritUtils.getTranslation(path)));
         PersistentDataAPI.setLong(player, key, System.currentTimeMillis() + when * 1000L);
     }
 }

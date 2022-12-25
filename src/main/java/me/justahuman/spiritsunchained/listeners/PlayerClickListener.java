@@ -3,16 +3,13 @@ package me.justahuman.spiritsunchained.listeners;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.implementation.mobs.AbstractCustomMob;
 import me.justahuman.spiritsunchained.utils.Keys;
 import me.justahuman.spiritsunchained.utils.SpiritTraits;
 import me.justahuman.spiritsunchained.utils.SpiritUtils;
-
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -35,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerClickListener implements Listener {
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerClick(PlayerInteractEvent e) {
         final Player player = e.getPlayer();
         if (e.getAction() == Action.LEFT_CLICK_AIR && player.isSneaking()) {
@@ -76,19 +73,21 @@ public class PlayerClickListener implements Listener {
     private boolean rightClick(Player player, ItemStack item) {
         if (item.getType() == Material.FIREWORK_STAR && SpiritUtils.isSpiritItem(item)) {
             if (player.isSneaking()) {
-                ItemMeta meta = item.getItemMeta();
+                final ItemMeta meta = item.getItemMeta();
                 PersistentDataAPI.setBoolean(meta, Keys.spiritLocked, !PersistentDataAPI.getBoolean(meta, Keys.spiritLocked));
                 item.setItemMeta(meta);
                 SpiritUtils.updateSpiritItemProgress(item, 0);
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent((PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? SpiritUtils.getTranslation("messages.spirits.locked") : SpiritUtils.getTranslation("messages.spirits.unlocked"))));
+                player.sendActionBar(Component.text((PersistentDataAPI.getBoolean(meta, Keys.spiritLocked) ? SpiritUtils.getTranslation("messages.spirits.locked") : SpiritUtils.getTranslation("messages.spirits.unlocked"))));
                 return true;
             }
+            
             final String type = PersistentDataAPI.getString(item.getItemMeta(), Keys.spiritItemKey);
             final Map<String, Object> traitInfo = SpiritUtils.getTraitInfo(SpiritsUnchained.getSpiritsManager().getSpiritMap().get(EntityType.valueOf(type)).getTrait());
             final String message = SpiritTraits.useTrait(player, traitInfo, item);
             if (message != null) {
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColors.color(message)));
+                player.sendActionBar(Component.text(ChatColors.color(message)));
             }
+            
             return true;
         }
         if (item.getType() == Material.BAMBOO && SpiritUtils.useSpiritItem(player, EntityType.PANDA, null)) {

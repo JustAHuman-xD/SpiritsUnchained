@@ -106,7 +106,8 @@ public class Goal {
         if (goalType.equals("Item")) {
             toReturn = new ItemStack(Material.valueOf(requiredType));
         } else if (goalType.equals("SlimefunItem")) {
-            toReturn = SlimefunItem.getById(requiredType) != null ? SlimefunItem.getById(requiredType).getItem().clone() : INVALID_ITEM;
+            final SlimefunItem slimefunItem = SlimefunItem.getById(requiredType);
+            toReturn = slimefunItem != null ? slimefunItem.getItem().clone() : INVALID_ITEM;
         }
         return toReturn;
     }
