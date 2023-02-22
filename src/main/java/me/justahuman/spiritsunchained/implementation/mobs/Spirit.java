@@ -42,7 +42,10 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onSpawn(Allay allay, String state, String unused) {
-        PersistentDataAPI.setLong(allay, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (definition.getTier() * 60 * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
+        PersistentDataAPI.setLong(allay, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (this.definition.getTier() * 60 * 0.75), this.definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
+        if (state.equals("Natural")) {
+            state = this.definition.getStates().get(SpiritUtils.random(0, this.definition.getStates().size()));
+        }
         PersistentDataAPI.setString(allay, Keys.spiritStateKey, state);
         
         for (Player player : allay.getWorld().getPlayers()) {
@@ -89,18 +92,20 @@ public class Spirit extends AbstractCustomMob<Allay> {
         if (item.getType() == Material.AIR) {
             return;
         }
-        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+        
+        final SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
         if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_NET.getItemId())) {
             if (SpiritUtils.chance(SpiritUtils.getTierChance(tier))) {
-                ParticleUtils.catchAnimation(entity.getLocation());
                 entity.remove();
+                ParticleUtils.catchAnimation(entity.getLocation());
                 PlayerUtils.addOrDropItem(player, SpiritUtils.spiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
                 PlayerUtils.learnKnowledgePiece(player, type, 1);
             } else {
                 player.sendMessage(SpiritUtils.getTranslation("messages.spirits.escape"));
+                ParticleUtils.breakParticles(entity.getLocation(), item.clone());
             }
             item.subtract();
-        } else if(slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_BOOK.getItemId())) {
+        } else if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_BOOK.getItemId())) {
             if (SpiritUtils.chance(SpiritUtils.getTierChance(tier))) {
                 if (!PlayerUtils.hasKnowledgePiece(player, type, 2)) {
                     PlayerUtils.addOrDropItem(player, SpiritUtils.getFilledBook(this.definition));
@@ -111,12 +116,13 @@ public class Spirit extends AbstractCustomMob<Allay> {
                 }
             } else {
                 player.sendMessage(SpiritUtils.getTranslation("messages.spirits.rip_book"));
+                ParticleUtils.breakParticles(entity.getLocation(), item.clone());
             }
             item.subtract();
         } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {
-            ParticleUtils.bottleAnimation(entity.getLocation());
-            entity.remove();
             item.subtract();
+            entity.remove();
+            ParticleUtils.bottleAnimation(entity.getLocation());
             PlayerUtils.addOrDropItem(player, ItemStacks.SU_SPIRIT_BOTTLE);
         }
     }

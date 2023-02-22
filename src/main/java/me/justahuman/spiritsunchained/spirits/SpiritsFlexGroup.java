@@ -20,6 +20,7 @@ import me.justahuman.spiritsunchained.utils.SpiritUtils;
 import net.kyori.adventure.text.Component;
 
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
@@ -145,6 +146,10 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         return true;
     }
 
+    public void playSound(Player player) {
+        player.playSound(player.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
+    }
+    
     @Override
     @ParametersAreNonnullByDefault
     public void open(Player player, PlayerProfile profile, SlimefunGuideMode mode) {
@@ -173,7 +178,8 @@ public class SpiritsFlexGroup extends FlexItemGroup {
         spiritList.sort(Comparator.comparing(definition -> definition.getType().name()));
         spiritList.sort(Comparator.comparing(SpiritDefinition::getTier));
         final List<SpiritDefinition> spiritSubList = spiritList.subList(start, end);
-
+    
+        playSound(player);
         pageControls(player, profile, mode, menu, page, totalPages);
 
         menu.replaceExistingItem(GUIDE_BACK, ChestMenuUtils.getBackButton(player, backLore));
@@ -194,7 +200,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                 });
             } else {
                 menu.replaceExistingItem(slot, null);
-                menu.addMenuClickHandler(slot, (player1, i1, itemStack1, clickAction) -> false);
+                menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
             }
         }
     }
@@ -226,6 +232,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
 
     @ParametersAreNonnullByDefault
     private void displayDefinition(Player player, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int returnPage, SpiritDefinition definition) {
+        playSound(player);
         final EntityType entityType = definition.getType();
 
         // Back Button
@@ -272,6 +279,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             );
             menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
             menu.addMenuClickHandler(TRAIT_SLOT, (player1, slot, itemStack, clickAction) -> {
+                playSound(player);
                 final boolean showingDescription = itemStack.getItemMeta().hasLore() && itemStack.lore().size() != 3;
                 if (showingDescription) {
                     menu.replaceExistingItem(TRAIT_SLOT, traitItemStack);
@@ -303,17 +311,21 @@ public class SpiritsFlexGroup extends FlexItemGroup {
             displayDefinition(player1, profile, mode, menu, returnPage, definition);
             return false;
         });
-
+    
+        playSound(player);
         clearDisplay(menu);
 
         for (int SLOT : DIVIDER) {
             menu.replaceExistingItem(SLOT, ChestMenuUtils.getBackground());
+            menu.addMenuClickHandler(SLOT, ChestMenuUtils.getEmptyClickHandler());
         }
         for (int SLOT : AFRAID) {
             menu.replaceExistingItem(SLOT, afraidItemStack);
+            menu.addMenuClickHandler(SLOT, ChestMenuUtils.getEmptyClickHandler());
         }
         for (int SLOT : SCARE) {
             menu.replaceExistingItem(SLOT, scareItemStack);
+            menu.addMenuClickHandler(SLOT, ChestMenuUtils.getEmptyClickHandler());
         }
 
         int currentA = 0;
@@ -326,6 +338,7 @@ public class SpiritsFlexGroup extends FlexItemGroup {
                 currentA = relation.equals("Afraid") ? currentA + 1 : currentA;
                 currentS = relation.equals("Scare") ? currentS + 1 : currentS;
                 menu.replaceExistingItem(slot, getSpiritMenuItem(currentRelator));
+                menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
             }
         }
     }

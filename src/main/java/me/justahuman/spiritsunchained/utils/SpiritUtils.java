@@ -5,7 +5,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.StringUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.justahuman.spiritsunchained.SpiritsUnchained;
 import me.justahuman.spiritsunchained.listeners.PlayerArmorListener;
@@ -15,13 +14,9 @@ import me.justahuman.spiritsunchained.managers.SpiritsManager;
 import me.justahuman.spiritsunchained.runnables.RelationsAndStateRunnable;
 import me.justahuman.spiritsunchained.slimefun.ItemStacks;
 import me.justahuman.spiritsunchained.spirits.SpiritDefinition;
-
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import net.kyori.adventure.text.Component;
-
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -456,20 +451,27 @@ public class SpiritUtils {
     }
 
     public static Block getSpawnBlock(Location location) {
+        Block spawnBlock = null;
+        for (int i = 0; i < 16; i++) {
+            final Block potentialSpawnBlock = findAirBlock(location);
+            if (potentialSpawnBlock != null) {
+                spawnBlock = potentialSpawnBlock;
+                break;
+            }
+        }
+        return spawnBlock;
+    }
+    
+    public static Block findAirBlock(Location location) {
         final World world = location.getWorld();
         final int x = random(0,17) * (random() ? 1 : -1) + location.getBlockX();
         final int z = random(0, 17) * (random() ? 1 : -1) + location.getBlockZ();
-        int y = location.getBlockY();
-        if (world.getBlockAt(x,y,z).getType() != Material.AIR) {
-            boolean foundAir = false;
-            while (!foundAir) {
-                y++;
-                if (world.getBlockAt(x,y,z).getType() == Material.AIR) {
-                    foundAir = true;
-                }
+        for (int y = location.getBlockY(); y < location.getBlockY() + 16; y++) {
+            if (world.getBlockAt(x, y, z).isEmpty()) {
+                return world.getBlockAt(x, y, z);
             }
         }
-        return world.getBlockAt(x,y,z);
+        return null;
     }
 
     public static List<Entity> getLookingList(Player player){

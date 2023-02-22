@@ -1,13 +1,13 @@
 package me.justahuman.spiritsunchained.utils;
 
+import com.destroystokyo.paper.ParticleBuilder;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-
-import java.util.Set;
 
 public class ParticleUtils {
     private static double[][] sphere;
@@ -25,27 +25,23 @@ public class ParticleUtils {
             }
         }
     }
-
+    
     public static void spawnParticleRadius(Location location, Particle particle, double radius, int amount, String type, Object... other) {
         for (int i = 0; i < amount; i++) {
             final double x = SpiritUtils.random(- radius, radius + 0.1);
             final double y = SpiritUtils.random(- radius, radius + 0.1);
             final double z = SpiritUtils.random(- radius, radius + 0.1);
-            final World world = location.getWorld();
+            final Location particleLocation = location.clone().add(x, y, z);
+            final ParticleBuilder builder = new ParticleBuilder(particle).location(particleLocation).allPlayers().count(1);
             switch (type) {
-                case "Colored" -> world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0,(Particle.DustOptions) other[0]);
-                case "Freeze" -> world.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
-                case "Spirit" -> {
-                    final Set<Player> set = SpiritUtils.getNearImbued(location);
-                    for (Player player : set) {
-                        player.spawnParticle(particle, location.clone().add(x, y, z), 1, 0, 0, 0, 0);
-                    }
-                }
-                default -> world.spawnParticle(particle, location.clone().add(x,y,z), 1);
+                case "Colored" -> builder.extra(0).color((Color) other[0]).spawn().data(null);
+                case "Freeze" -> builder.offset(0, 0, 0).extra(0).data(null).spawn();
+                case "Spirit" -> builder.receivers(SpiritUtils.getNearImbued(location)).extra(0).data(null).spawn();
+                default -> builder.spawn();
             }
         }
     }
-
+    
     public static void catchAnimation(Location location) {
         final World world = location.getWorld();
         world.playSound(location, Sound.ENTITY_ENDER_EYE_DEATH, 1, 1);
@@ -55,16 +51,16 @@ public class ParticleUtils {
             world.spawnParticle(Particle.END_ROD, particleLocation, 0, direction.getX(), direction.getY(), direction.getZ(), 0.1);
         }
     }
-
+    
     public static void bottleAnimation(Location location) {
         final World world = location.getWorld();
+        final double[] speeds = new double[] {0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.225, 0.25};
         world.playSound(location, Sound.ENTITY_ENDER_EYE_DEATH, 1, 1);
-        double[] speeds = new double[] {0.1, 0.15, 0.2, 0.25,};
         for (double[] offsets : sphere) {
             world.spawnParticle(Particle.END_ROD, location.clone().add(offsets[0], offsets[1], offsets[2]), 0, 0, 5, 0, speeds[SpiritUtils.random(0, speeds.length)]);
         }
     }
-
+    
     public static void passOnAnimation(Location location) {
         final World world = location.getWorld();
         location = location.clone().add(0, 0.5, 0);
@@ -74,5 +70,11 @@ public class ParticleUtils {
             final Vector direction = particleLocation.clone().subtract(location.clone()).toVector();
             world.spawnParticle(Particle.END_ROD, particleLocation, 0, direction.getX(), direction.getY(), direction.getZ(), 0.25);
         }
+    }
+    
+    public static void breakParticles(Location location, ItemStack itemStack) {
+        final World world = location.getWorld();
+        world.playSound(location, Sound.ENTITY_ITEM_BREAK, 0.5F, 1);
+        new ParticleBuilder(Particle.ITEM_CRACK).offset(0.2, 0.2, 0.2).extra(0).count(8).location(location).data(itemStack).allPlayers().spawn();
     }
 }
