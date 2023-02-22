@@ -42,7 +42,10 @@ public class Spirit extends AbstractCustomMob<Allay> {
     @Override
     @ParametersAreNonnullByDefault
     public void onSpawn(Allay allay, String state, String unused) {
-        PersistentDataAPI.setLong(allay, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (definition.getTier() * 60 * 0.75), definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
+        PersistentDataAPI.setLong(allay, Keys.despawnKey, System.currentTimeMillis() + SpiritUtils.random((int) (this.definition.getTier() * 60 * 0.75), this.definition.getTier() * 60 * SpiritUtils.random(1, 3)) * 1000L);
+        if (state.equals("Natural")) {
+            state = this.definition.getStates().get(SpiritUtils.random(0, this.definition.getStates().size()));
+        }
         PersistentDataAPI.setString(allay, Keys.spiritStateKey, state);
         
         for (Player player : allay.getWorld().getPlayers()) {
