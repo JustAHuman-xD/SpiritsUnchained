@@ -89,18 +89,20 @@ public class Spirit extends AbstractCustomMob<Allay> {
         if (item.getType() == Material.AIR) {
             return;
         }
-        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+        
+        final SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
         if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_NET.getItemId())) {
             if (SpiritUtils.chance(SpiritUtils.getTierChance(tier))) {
-                ParticleUtils.catchAnimation(entity.getLocation());
                 entity.remove();
+                ParticleUtils.catchAnimation(entity.getLocation());
                 PlayerUtils.addOrDropItem(player, SpiritUtils.spiritItem(PersistentDataAPI.getString(entity, Keys.spiritStateKey), this.definition));
                 PlayerUtils.learnKnowledgePiece(player, type, 1);
             } else {
                 player.sendMessage(SpiritUtils.getTranslation("messages.spirits.escape"));
+                ParticleUtils.breakParticles(entity.getLocation(), item.clone());
             }
             item.subtract();
-        } else if(slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_BOOK.getItemId())) {
+        } else if (slimefunItem != null && slimefunItem.getId().equals(ItemStacks.SU_SPIRIT_BOOK.getItemId())) {
             if (SpiritUtils.chance(SpiritUtils.getTierChance(tier))) {
                 if (!PlayerUtils.hasKnowledgePiece(player, type, 2)) {
                     PlayerUtils.addOrDropItem(player, SpiritUtils.getFilledBook(this.definition));
@@ -111,12 +113,13 @@ public class Spirit extends AbstractCustomMob<Allay> {
                 }
             } else {
                 player.sendMessage(SpiritUtils.getTranslation("messages.spirits.rip_book"));
+                ParticleUtils.breakParticles(entity.getLocation(), item.clone());
             }
             item.subtract();
         } else if (item.getType() == Material.GLASS_BOTTLE && item.getItemMeta().getPersistentDataContainer().isEmpty()) {
-            ParticleUtils.bottleAnimation(entity.getLocation());
-            entity.remove();
             item.subtract();
+            entity.remove();
+            ParticleUtils.bottleAnimation(entity.getLocation());
             PlayerUtils.addOrDropItem(player, ItemStacks.SU_SPIRIT_BOTTLE);
         }
     }
