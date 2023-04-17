@@ -20,3 +20,10 @@ For anyone reading this to learn how to use Spirits Unchained, I would highly re
 - ~~Add Functionality to Machines (High Priority)~~
 - ~~Make Spirit in a Bottle give Levitation (Low Priority)~~
 - ~~Use final more in Variables (Jeff)~~
+
+# Thanks
+Spirits Unchained uses a Minecraft Head from minecraft-heads!
+please support them
+
+
+[![](https://minecraft-heads.com/images/banners/minecraft-heads_fullbanner_468x60.png)](https://minecraft-heads.com/)
