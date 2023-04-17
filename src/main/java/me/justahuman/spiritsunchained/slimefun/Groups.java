@@ -17,6 +17,10 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 
 public class Groups {
+
+    /**
+     * This player head is from <a href="https://minecraft-heads.com/custom-heads/humanoid/58178-ghost">minecraft-heads!</a>
+     */
     public static final SimpleFlexGroup SU_MAIN_GROUP = new SimpleFlexGroup(
             SpiritsUnchained.getInstance(),
             translate("main_group"),
