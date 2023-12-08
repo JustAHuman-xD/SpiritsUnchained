@@ -25,6 +25,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.world.EntitiesLoadEvent;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -156,5 +157,14 @@ public class SpiritEntityManager implements Listener {
         final Entity entity = event.getEntity();
         final UUID uuid = entity.getUniqueId();
         this.entitySet.remove(uuid);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntitiesLoad(@Nonnull EntitiesLoadEvent event) {
+        for (Entity entity : event.getEntities()) {
+            if (!this.entitySet.contains(entity.getUniqueId()) && entity.getPersistentDataContainer().getKeys().contains(Keys.entityKey)) {
+                entity.remove();
+            }
+        }
     }
 }
