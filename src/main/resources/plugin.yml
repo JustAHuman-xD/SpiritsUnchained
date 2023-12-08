@@ -1,52 +1,12 @@
 name: SpiritsUnchained
 author: JustAHuman-xD
 description: Spirits Unchained is a Slimefun Addon that introduces Spirits and more to Slimefun4!
+
 main: me.justahuman.spiritsunchained.SpiritsUnchained
 website: https://github.com/JustAHuman-xD/SpiritsUnchained
 version: ${project.version}
+
 api-version: 1.19
 
 depend:
 - Slimefun
-
-commands:
-  spirits:
-    description: /spirits
-    usage: /spirits <sub>
-    aliases: [ su, unchained, spiritsunchained ]
-
-permissions:
-  spiritsunchained.*:
-    default: op
-    description: Grants access to all Commands
-    children:
-      spiritsunchained.testparticles: true
-      spiritsunchained.givespirit: true
-      spiritsunchained.summonspirit: true
-      spiritsunchained.edititem: true
-      spiritsunchained.resetcooldowns: true
-      spiritsunchained.altar: true
-
-  spiritsunchained.testparticles:
-    default: op
-    description: Test various Particle Animations (Mainly for Development)
-
-  spiritsunchained.givespirit:
-    default: op
-    description: Grants access to the Give Spirit Command
-
-  spiritsunchained.summonspirit:
-    default: op
-    description: Grants access to the Summon Spirit Command
-
-  spiritsunchained.edititem:
-    default: op
-    description: Grants access to the Edit Item Command
-
-  spiritsunchained.resetcooldowns:
-    default: op
-    description: Grants access to the Reset Cooldowns Command
-
-  spiritsunchained.altar:
-    default: not op
-    description: Grants access to the Preview Altar Commands

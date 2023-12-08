@@ -13,28 +13,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>paper-repo</id>
-            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
-        </repository>
-
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-
-        <repository>
-            <id>dmulloy2-repo</id>
-            <url>https://repo.dmulloy2.net/repository/public/</url>
-        </repository>
-    </repositories>
-
     <build>
         <finalName>${project.name}_v${project.version}</finalName>
         <plugins>
@@ -54,12 +32,12 @@
                 <configuration>
                     <relocations>
                         <relocation>
-                            <pattern>dev.sefiraat.sefilib</pattern>
-                            <shadedPattern>me.justahuman.spiritsunchained.sefilib</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>me.justahuman.spiritsunchained.bstats</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.metamechanists.metalib</pattern>
+                            <shadedPattern>me.justahuman.spiritsunchained.metalib</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>
@@ -95,13 +73,51 @@
         </resources>
     </build>
 
+    <repositories>
+        <!-- Server Software -->
+
+        <repository>
+            <name>paper</name>
+            <id>paper-repo</id>
+            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
+        </repository>
+
+        <!-- Dependencies -->
+
+        <repository>
+            <name>b-stats</name>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/repository/public/</url>
+        </repository>
+
+        <!-- Libraries -->
+
+        <repository>
+            <name>meta-lib</name>
+            <id>org.metamechanists</id>
+            <url>https://repo.metamechanists.org/releases/</url>
+        </repository>
+
+        <!-- Other/Multiple -->
+
+        <repository>
+            <name>slimefun</name>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <!-- Server Software -->
+
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Depends -->
 
         <dependency>
             <groupId>com.github.Slimefun</groupId>
@@ -110,6 +126,8 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Libraries -->
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -117,10 +135,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Shaded Libraries -->
+
         <dependency>
-            <groupId>dev.sefiraat</groupId>
-            <artifactId>SefiLib</artifactId>
-            <version>0.1.4.5</version>
+            <groupId>org.metamechanists</groupId>
+            <artifactId>MetaLib</artifactId>
+            <version>62</version>
             <scope>compile</scope>
         </dependency>
 
