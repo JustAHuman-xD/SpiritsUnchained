@@ -63,7 +63,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
 
         Setup.INSTANCE.init();
 
-        if (getConfig().getBoolean("options.auto-update") && getDescription().getVersion().startsWith("DEV")) {
+        if (getConfig().getBoolean("options.auto-update") && getDescription().getVersion().startsWith("Dev - ")) {
             BlobBuildUpdater updater = new BlobBuildUpdater(this, this.getFile(), "SpiritsUnchained", "Dev");
             updater.start();
         }
