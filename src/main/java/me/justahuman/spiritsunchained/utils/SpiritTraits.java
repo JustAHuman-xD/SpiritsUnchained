@@ -356,7 +356,7 @@ public class SpiritTraits {
             };
             final int amount = SpiritUtils.random(0, 5);
             for (int current = 0; current < amount; current++) {
-                fillItems(player, Material.GLASS_BOTTLE, potions[SpiritUtils.random(0, 4)], 1);
+                fillItems(player, Material.GLASS_BOTTLE, potions[SpiritUtils.random(0, 3)], 1);
             }
         }
     }

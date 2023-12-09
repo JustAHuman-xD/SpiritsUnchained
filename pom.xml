@@ -7,6 +7,8 @@
     <artifactId>SpiritsUnchained</artifactId>
     <version>UNOFFICIAL</version>
 
+    <name>SpiritsUnchained</name>
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -36,7 +38,6 @@
     </repositories>
 
     <build>
-        <finalName>${project.name}_v${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -106,7 +107,7 @@
         <dependency>
             <groupId>com.github.Slimefun</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>2c4f886</version>
+            <version>dc82173</version>
             <scope>provided</scope>
         </dependency>
 
