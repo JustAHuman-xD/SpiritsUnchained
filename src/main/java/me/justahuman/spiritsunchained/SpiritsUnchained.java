@@ -76,7 +76,8 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         final PluginCommand pluginCommand = this.getCommand("spirits");
         if (pluginCommand != null) {
             pluginCommand.setExecutor(commandManager);
-        }}
+        }
+    }
 
     @Nonnull
     @Override
