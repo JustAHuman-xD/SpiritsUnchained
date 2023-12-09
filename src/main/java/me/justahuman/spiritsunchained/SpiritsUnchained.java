@@ -3,6 +3,7 @@ package me.justahuman.spiritsunchained;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.BlobBuildUpdater;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
 import lombok.Getter;
 import me.justahuman.spiritsunchained.managers.CommandManager;
@@ -63,7 +64,7 @@ public class SpiritsUnchained extends JavaPlugin implements SlimefunAddon {
         Setup.INSTANCE.init();
 
         if (getConfig().getBoolean("options.auto-update") && getDescription().getVersion().startsWith("DEV")) {
-            GitHubBuildsUpdater updater = new GitHubBuildsUpdater(this, this.getFile(), "JustAHuman-xD/SpiritsUnchained/master");
+            BlobBuildUpdater updater = new BlobBuildUpdater(this, this.getFile(), "SpiritsUnchained", "Dev");
             updater.start();
         }
 
